@@ -1,0 +1,289 @@
+/* Color Palette Custom Variables Setup */
+:root {
+  --nav-text-dark: #1f2937;
+  --nav-text-muted: #6b7280;
+  --nav-purple: #9333ea;
+  --nav-bg: #ffffff;
+  --nav-border: #f3f4f6;
+  --sidebar-coral: #eb6e4b;
+}
+
+/* --- Core Structure --- */
+.navbar {
+  width: 100%;
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 8px 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.navbar-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 64px;
+}
+
+/* --- Logo Fit Adjustment --- */
+.navbar-logo-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.navbar-logo-image {
+  max-height: 48px; /* Normalized perfect size boundary */
+  width: auto;
+  object-fit: contain;
+}
+
+/* --- Center Link Menu Elements --- */
+.navbar-links-list {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-anchor {
+  text-decoration: none;
+  color: var(--nav-text-dark);
+  font-weight: 600;
+  font-size: 15px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 0;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth sliding underline hover animation */
+.navbar-anchor::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--nav-purple);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-anchor:hover {
+  color: var(--nav-purple);
+}
+
+.navbar-anchor:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.navbar-anchor.active {
+  color: var(--nav-purple);
+}
+
+.navbar-anchor.active::after {
+  transform: scaleX(1);
+}
+
+/* --- Right Side Toggle Group --- */
+.navbar-actions-group {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 26px; /* Clearly visible, cleanly sized toggle element */
+  color: var(--nav-text-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.navbar-toggle-btn:hover {
+  color: var(--nav-purple);
+  transform: scale(1.05);
+}
+
+/* --- Smooth Side Panel Drawer & Backdrop Animation Layout --- */
+.navbar-sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.navbar-sidebar-backdrop.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.navbar-sidebar-drawer {
+  position: fixed;
+  top: 0;
+  right: -380px; /* Stays off-screen to start */
+  width: 350px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  /* Ultra-smooth open/close sliding animation curves */
+  transition: right 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  overflow-y: auto;
+}
+
+.navbar-sidebar-drawer.open {
+  right: 0; /* Slides out into layout frame perfectly */
+}
+
+.navbar-sidebar-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: var(--sidebar-coral);
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.navbar-sidebar-close-btn:hover {
+  background-color: #d65935;
+  transform: scale(1.05);
+}
+
+.navbar-sidebar-content {
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.navbar-sidebar-logo-container {
+  width: 140px;
+  margin-bottom: 25px;
+}
+
+.navbar-sidebar-logo {
+  width: 100%;
+  height: auto;
+}
+
+.navbar-sidebar-description {
+  color: var(--nav-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.navbar-sidebar-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 35px;
+  width: 100%;
+}
+
+.navbar-sidebar-gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.navbar-sidebar-gallery img:hover {
+  transform: scale(1.04);
+}
+
+.navbar-sidebar-section {
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.navbar-sidebar-section h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nav-text-dark);
+  margin-bottom: 10px;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 5px;
+}
+
+.navbar-sidebar-section p {
+  color: var(--nav-text-muted);
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.navbar-sidebar-socials {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.navbar-sidebar-socials a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  text-decoration: none;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.navbar-sidebar-socials a:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.95);
+}
+
+.navbar-sidebar-socials .facebook-link { background-color: var(--sidebar-coral); }
+.navbar-sidebar-socials .twitter-link { background-color: var(--sidebar-coral); }
+.navbar-sidebar-socials .youtube-link { background-color: var(--sidebar-coral); }
+
+/* --- Mobile Breakpoints Responsive Rules --- */
+@media (max-width: 768px) {
+  .navbar-links-list {
+    display: none; /* Collapse desktop titles lists to rely cleanly on sidebar toggle popup */
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-sidebar-drawer {
+    width: 100%; /* Spans mobile viewport layout fully */
+  }
+}
