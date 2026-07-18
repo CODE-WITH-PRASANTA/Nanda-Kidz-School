@@ -1,0 +1,155 @@
+/* Color Palette & Base Variables */
+:root {
+  --topbar-dark-blue: #3d5268;
+  --topbar-mustard: #e2a74f;
+  --topbar-white: #ffffff;
+}
+
+.topbar-container {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  overflow: hidden;
+}
+
+/* --- Left Side Styling (Dark Blue) --- */
+.topbar-left-section {
+  background-color: var(--topbar-dark-blue);
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  color: var(--topbar-white);
+  /* Creates the dynamic angled cut looking toward the right */
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+  z-index: 2;
+}
+
+.topbar-info-wrapper {
+  display: flex;
+  gap: 40px;
+}
+
+.topbar-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* --- Right Side Styling (Mustard Gold) --- */
+.topbar-right-section {
+  background-color: var(--topbar-mustard);
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 40px;
+  margin-left: -8%; /* Pulls right block underneath the clip-path angle */
+  z-index: 1;
+}
+
+.topbar-contact-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.topbar-phone-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--topbar-white);
+}
+
+.topbar-phone-icon {
+  transform: scaleX(-1); /* Flips phone icon slightly to mimic layout orientation */
+}
+
+/* --- Social Icons Custom Styling --- */
+.topbar-social-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.topbar-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--topbar-dark-blue);
+  color: var(--topbar-white);
+  width: 32px;
+  height: 32px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.topbar-social-link:hover {
+  opacity: 0.9;
+}
+
+/* --- Media Queries for Responsive Design --- */
+
+/* Tablet viewports */
+@media (max-width: 992px) {
+  .topbar-left-section {
+    flex: 1.5;
+    padding-left: 20px;
+    clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  }
+  .topbar-info-wrapper {
+    gap: 20px;
+  }
+  .topbar-right-section {
+    padding-right: 20px;
+  }
+  .topbar-contact-wrapper {
+    gap: 15px;
+  }
+}
+
+/* Smaller laptops/large phones: hide text strings but keep structural core */
+@media (max-width: 768px) {
+  .topbar-info-item:first-child {
+    display: none; /* Hides location address string to prevent overlay text errors */
+  }
+  .topbar-left-section {
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 576px) {
+  .topbar-container {
+    height: auto;
+    flex-direction: column;
+  }
+  
+  .topbar-left-section, 
+  .topbar-right-section {
+    flex: none;
+    width: 100%;
+    padding: 10px 15px;
+    justify-content: center;
+    clip-path: none; /* Removes structural clip polygon formatting for raw stacking layout stack */
+    margin-left: 0;
+  }
+  
+  .topbar-info-wrapper {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .topbar-contact-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
