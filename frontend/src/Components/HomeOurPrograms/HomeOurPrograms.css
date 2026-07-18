@@ -1,0 +1,317 @@
+/* Container Background Colors & Typography setup */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+
+.HomeOurPrograms {
+  background-color: #fdfaf2; /* Soft beige base canvas match */
+  padding: 60px 20px;
+  font-family: 'Fredoka', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.HomeOurPrograms-container {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+}
+
+/* Header Elements styling */
+.HomeOurPrograms-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.HomeOurPrograms-subtitle {
+  color: #73cd1f;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.HomeOurPrograms-title {
+  color: #0d1317;
+  font-size: 38px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+/* Decorative absolute elements positioning matching standard layouts */
+.HomeOurPrograms-pencil-wrapper {
+  position: absolute;
+  right: 6%;
+  top: -20px;
+  display: flex;
+  align-items: center;
+}
+
+.HomeOurPrograms-pencil-scribble {
+  width: 80px;
+  height: auto;
+  opacity: 0.7;
+}
+
+.HomeOurPrograms-pencil-emoji {
+  font-size: 36px;
+  transform: rotate(-45px);
+  margin-left: -10px;
+}
+
+/* Base structural layout for table listings */
+.HomeOurPrograms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Component Row Layout Styles & Interactions */
+.HomeOurPrograms-card {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 24px;
+  padding: 30px 40px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.5fr 1fr;
+  align-items: center;
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+/* Divider lines inside the white static row versions */
+.HomeOurPrograms-card-section:not(:last-child) {
+  border-right: 1.5px solid #e1e3e6;
+  padding-right: 20px;
+}
+
+.HomeOurPrograms-card-section {
+  padding-left: 20px;
+}
+
+.HomeOurPrograms-title-col {
+  padding-left: 0;
+}
+
+/* Text Element rules matching standard UI snapshots */
+.HomeOurPrograms-title-col h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0d1317;
+  line-height: 1.2;
+}
+
+.HomeOurPrograms-price-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.HomeOurPrograms-price-amount {
+  font-size: 44px;
+  font-weight: 700;
+  color: #0d1317;
+}
+
+.HomeOurPrograms-price-duration {
+  font-size: 13px;
+  color: #b900e0;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Lists styling matching items checks layout */
+.HomeOurPrograms-features-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.HomeOurPrograms-features-col li {
+  font-size: 14px;
+  color: #3c4852;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.HomeOurPrograms-features-col li:last-child {
+  margin-bottom: 0;
+}
+
+.HomeOurPrograms-check-icon {
+  background-color: #bc0df2;
+  color: #fff;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Interactive Action Buttons styling rules */
+.HomeOurPrograms-btn-col {
+  display: flex;
+  justify-content: flex-end;
+  border-right: none !important;
+}
+
+.HomeOurPrograms-btn {
+  border: none;
+  padding: 14px 32px;
+  border-radius: 30px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.HomeOurPrograms-btn.purple {
+  background-color: #a100ff;
+}
+
+.HomeOurPrograms-btn.green {
+  background-color: #73cd1f;
+}
+
+.HomeOurPrograms-btn:hover {
+  transform: scale(1.04);
+  opacity: 0.95;
+}
+
+/* Pink Dynamic Hover & Focus State Implementations */
+.HomeOurPrograms-card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(rgba(244, 75, 162, 0.88), rgba(244, 75, 162, 0.88)), 
+                    url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1;
+}
+
+/* Base styles configuration adjustments on hover/active rules context */
+.HomeOurPrograms-card.initial-active,
+.HomeOurPrograms-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(244, 75, 162, 0.2);
+}
+
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-card-overlay,
+.HomeOurPrograms-card:hover .HomeOurPrograms-card-overlay {
+  opacity: 1;
+}
+
+/* Bringing data visual segments forward over dynamic custom overlay */
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-card-section,
+.HomeOurPrograms-card:hover .HomeOurPrograms-card-section {
+  z-index: 2;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Turning component item typography clean white on active layers status */
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-title-col h3,
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-price-amount,
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-price-duration,
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-features-col li,
+.HomeOurPrograms:hover .HomeOurPrograms-card:hover .HomeOurPrograms-title-col h3,
+.HomeOurPrograms:hover .HomeOurPrograms-card:hover .HomeOurPrograms-price-amount,
+.HomeOurPrograms:hover .HomeOurPrograms-card:hover .HomeOurPrograms-price-duration,
+.HomeOurPrograms:hover .HomeOurPrograms-card:hover .HomeOurPrograms-features-col li {
+  color: #ffffff !important;
+}
+
+.HomeOurPrograms-card.initial-active .HomeOurPrograms-check-icon,
+.HomeOurPrograms:hover .HomeOurPrograms-card:hover .HomeOurPrograms-check-icon {
+  background-color: #ffffff;
+  color: #f44ba2;
+}
+
+/* Keep items static styling cleanly reset if other items get explicitly mouse-hovered */
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-card-overlay {
+  opacity: 0;
+}
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-title-col h3,
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-price-amount {
+  color: #0d1317 !important;
+}
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-price-duration {
+  color: #b900e0 !important;
+}
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-features-col li {
+  color: #3c4852 !important;
+}
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-check-icon {
+  background-color: #bc0df2;
+  color: #fff;
+}
+.HomeOurPrograms-list:hover .HomeOurPrograms-card.initial-active:not(:hover) .HomeOurPrograms-card-section {
+  border-color: #e1e3e6;
+}
+
+/* Responsive Breakpoints & Device Adaptability */
+@media (max-width: 992px) {
+  .HomeOurPrograms-card {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 30px;
+  }
+  .HomeOurPrograms-card-section:nth-child(2) {
+    border-right: none;
+  }
+  .HomeOurPrograms-card-section {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .HomeOurPrograms-btn-col {
+    justify-content: flex-start;
+  }
+  .HomeOurPrograms-pencil-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .HomeOurPrograms-card {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    text-align: center;
+  }
+  .HomeOurPrograms-card-section {
+    border-right: none !important;
+    border-bottom: 1.5px solid #e1e3e6;
+    padding: 0 0 16px 0 !important;
+  }
+  .HomeOurPrograms-card.initial-active .HomeOurPrograms-card-section,
+  .HomeOurPrograms-card:hover .HomeOurPrograms-card-section {
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+  }
+  .HomeOurPrograms-btn-col {
+    border-bottom: none !important;
+    justify-content: center;
+    padding-bottom: 0 !important;
+  }
+  .HomeOurPrograms-features-col ul {
+    display: inline-block;
+    text-align: left;
+  }
+  .HomeOurPrograms-title {
+    font-size: 28px;
+  }
+}
