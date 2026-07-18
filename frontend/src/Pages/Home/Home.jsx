@@ -4,6 +4,7 @@ import HomeTailoredClasses from '../../Components/HomeTailoredClasses/HomeTailor
 import HomeQualityEducation from '../../Components/HomeQualityEducation/HomeQualityEducation'
 import HomeOurPrograms from '../../Components/HomeOurPrograms/HomeOurPrograms'
 
+import HeroSection from '../../Components/HeroSection/HeroSection'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <HomeQualityEducation/>
       <HomeOurPrograms/>
 
+      <HeroSection />
     </div>
   )
 }
