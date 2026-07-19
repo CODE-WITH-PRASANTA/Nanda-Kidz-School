@@ -1,0 +1,554 @@
+/* ===========================
+   ABOUT SECTION
+=========================== */
+
+.aboutUs{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
+    padding:110px 8%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:70px;
+    position:relative;
+    overflow:hidden;
+    background:#fff;
+}
+
+/* ===========================
+LEFT SIDE
+=========================== */
+
+.aboutLeft{
+    flex:1;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Blob Shape */
+
+.aboutImageShape{
+
+    width:480px;
+    height:390px;
+
+    background:#ec69ad;
+
+    border-radius:
+    42% 58% 56% 44% /
+    40% 35% 65% 60%;
+
+    padding:18px;
+
+    position:relative;
+
+    transition:.5s;
+}
+
+.aboutImageShape:hover{
+
+    transform:translateY(-6px);
+
+}
+
+/* Image */
+
+.aboutImage{
+
+    width:100%;
+    height:100%;
+    object-fit:cover;
+
+    border-radius:
+    42% 58% 56% 44% /
+    40% 35% 65% 60%;
+
+    transition:.6s;
+}
+
+.aboutImageShape:hover .aboutImage{
+
+    transform:scale(1.05);
+
+}
+
+/* ===========================
+FLOATING BALLS
+=========================== */
+
+.aboutCircleOne{
+
+    width:68px;
+    height:68px;
+
+    background:#ec69ad;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:-18px;
+    left:53%;
+
+    animation:ballUpDown 3s ease-in-out infinite;
+}
+
+.aboutCircleTwo{
+
+    width:34px;
+    height:34px;
+
+    background:#ec69ad;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    right:20px;
+    bottom:40px;
+
+    animation:ballUpDown 2.8s ease-in-out infinite;
+}
+
+/* ===========================
+RIGHT SIDE
+=========================== */
+
+.aboutRight{
+
+    flex:1;
+}
+
+.aboutHeading{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    margin-bottom:20px;
+}
+
+.smallCap{
+
+    color:#c7c7c7;
+    font-size:28px;
+}
+
+.aboutHeading span{
+
+    color:#8c42ec;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:1px;
+}
+
+.aboutRight h2{
+
+    font-size:60px;
+    line-height:1.18;
+    color:#111;
+    font-weight:800;
+    margin-bottom:25px;
+}
+
+.aboutRight p{
+
+    color:#555;
+    font-size:18px;
+    line-height:1.9;
+    margin-bottom:45px;
+}
+
+/* ===========================
+BUTTON
+=========================== */
+
+.aboutBtn{
+
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+
+    padding:18px 42px;
+
+    border:none;
+
+    cursor:pointer;
+
+    border-radius:60px;
+
+    background:#ec69ad;
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    transition:.45s;
+
+    overflow:hidden;
+
+    position:relative;
+}
+
+.aboutBtn:hover{
+
+    background:#8c42ec;
+
+    transform:translateY(-5px);
+
+    box-shadow:0 15px 35px rgba(140,66,236,.35);
+}
+
+.aboutBtn svg{
+
+    transition:.4s;
+}
+
+.aboutBtn:hover svg{
+
+    transform:translateX(8px);
+}
+
+/* ==========================
+FLOATING STAR
+========================== */
+
+.aboutStar{
+    position:absolute;
+    left:7%;
+    top:140px;
+    font-size:95px;
+    color:#c5dde5;
+    animation:starFloat 4s ease-in-out infinite;
+    z-index:5;
+}
+
+.aboutStar svg{
+    filter:drop-shadow(0 8px 20px rgba(0,0,0,.08));
+}
+
+/* ==========================
+ROCKET
+========================== */
+
+.aboutRocket{
+    position:absolute;
+    top:70px;
+    right:10%;
+    font-size:120px;
+    color:#ff986e;
+    animation:rocketFloat 5s ease-in-out infinite;
+}
+
+.aboutRocket svg{
+    transform:rotate(2deg);
+}
+
+/* ==========================
+GRADUATION CAP
+========================== */
+
+.aboutCap{
+    position:absolute;
+    top:180px;
+    left:52%;
+    transform:translateX(-50%);
+    font-size:42px;
+    color:#d6d6d6;
+    animation:capFloat 3.5s ease-in-out infinite;
+}
+
+/* ==========================
+ANIMATIONS
+========================== */
+
+@keyframes ballUpDown{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-18px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+@keyframes starFloat{
+
+    0%{
+        transform:translateY(0) rotate(0deg);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(8deg);
+    }
+
+    100%{
+        transform:translateY(0) rotate(0deg);
+    }
+
+}
+
+@keyframes rocketFloat{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-22px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+
+}
+
+@keyframes capFloat{
+
+    0%{
+        transform:translate(-50%,0);
+    }
+
+    50%{
+        transform:translate(-50%,-10px);
+    }
+
+    100%{
+        transform:translate(-50%,0);
+    }
+
+}
+
+/* ==========================
+RESPONSIVE
+========================== */
+
+@media(max-width:1200px){
+
+.aboutUs{
+
+gap:45px;
+padding:90px 6%;
+
+}
+
+.aboutImageShape{
+
+width:420px;
+height:340px;
+
+}
+
+.aboutRight h2{
+
+font-size:48px;
+
+}
+
+.aboutRocket{
+
+font-size:95px;
+
+}
+
+}
+
+@media(max-width:992px){
+
+.aboutUs{
+
+flex-direction:column;
+text-align:center;
+padding:80px 5%;
+
+}
+
+.aboutLeft{
+
+margin-bottom:40px;
+
+}
+
+.aboutHeading{
+
+justify-content:center;
+
+}
+
+.aboutImageShape{
+
+width:400px;
+height:320px;
+
+}
+
+.aboutRight h2{
+
+font-size:42px;
+
+}
+
+.aboutRight p{
+
+max-width:650px;
+margin:auto;
+margin-bottom:35px;
+
+}
+
+.aboutCircleOne{
+
+left:50%;
+
+}
+
+.aboutRocket{
+
+right:5%;
+top:20px;
+
+}
+
+.aboutStar{
+
+left:3%;
+top:120px;
+
+}
+
+.aboutCap{
+
+top:120px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.aboutImageShape{
+
+width:320px;
+height:270px;
+
+}
+
+.aboutRight h2{
+
+font-size:34px;
+line-height:1.3;
+
+}
+
+.aboutRight p{
+
+font-size:16px;
+
+}
+
+.aboutBtn{
+
+padding:16px 34px;
+font-size:17px;
+
+}
+
+.aboutCircleOne{
+
+width:52px;
+height:52px;
+
+}
+
+.aboutCircleTwo{
+
+width:26px;
+height:26px;
+
+}
+
+.aboutRocket{
+
+font-size:72px;
+
+}
+
+.aboutStar{
+
+font-size:65px;
+
+}
+
+.aboutCap{
+
+font-size:32px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.aboutUs{
+
+padding:70px 20px;
+
+}
+
+.aboutImageShape{
+
+width:280px;
+height:235px;
+
+}
+
+.aboutRight h2{
+
+font-size:28px;
+
+}
+
+.aboutHeading span{
+
+font-size:16px;
+
+}
+
+.aboutBtn{
+
+width:100%;
+justify-content:center;
+
+}
+
+.aboutRocket{
+
+display:none;
+
+}
+
+.aboutCap{
+
+display:none;
+
+}
+
+.aboutStar{
+
+font-size:55px;
+
+}
+
+}
