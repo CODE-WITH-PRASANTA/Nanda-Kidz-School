@@ -1,0 +1,327 @@
+/* Color System and Standard Reset Variables */
+:root {
+  --bg-cream: #fbf7ed;
+  --text-dark: #000000;
+  --text-muted: #4b5563;
+  --brand-green: #65a30d;
+  --brand-pink: #f472b6;
+  --brand-pink-hover: #ec4899;
+  --purple-actions: #a855f7;
+  --border-dash: #9ca3af;
+}
+
+.tailored-classes-container {
+  background-color: var(--bg-cream);
+  min-height: 100vh;
+  padding: 4rem 1.5rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* --- Header & Layout Elements --- */
+.tc-header {
+  text-align: center;
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto 4rem auto;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.tc-subtitle {
+  color: var(--brand-green);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.tc-title {
+  color: var(--text-dark);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Decorative SVG Absolute Layout Coordinates */
+.shape-worm {
+  position: absolute;
+  left: 5%;
+  bottom: -10px;
+  transform: rotate(-5deg);
+}
+
+.shape-star {
+  position: absolute;
+  right: 2%;
+  top: 10px;
+  transform: rotate(12deg);
+}
+
+/* --- Entrance Animation Setup --- */
+.fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive Responsive Card Grid System --- */
+.tc-grid {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 2rem;
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .tc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .tc-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* --- Dynamic Card Styling Structures --- */
+.tc-card {
+  background: #ffffff;
+  border: 1.5px dashed var(--border-dash);
+  border-radius: 28px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.tc-card:hover {
+  background-color: #fffbeb; /* Matches 5th hover element profile exactly */
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Card Images Configurations */
+.tc-image-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1.15 / 1;
+}
+
+.tc-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Orange Sold Out Tag */
+.tc-badge-sold {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #ff4500;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+/* --- Interactive Action Floating Menus (Image Overlay Hover) --- */
+.tc-hover-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
+}
+
+.tc-card:hover .tc-hover-actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.action-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--purple-actions);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
+  background-color: #9333ea;
+}
+
+/* --- Card Body Elements Typography --- */
+.tc-card-content {
+  text-align: center;
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.tc-card-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0 0 0.75rem 0;
+}
+
+.tc-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 1.25rem 0;
+  max-width: 90%;
+}
+
+.tc-card-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 1.25rem;
+}
+
+/* --- Unified Button Controls --- */
+.tc-btn {
+  width: 85%;
+  padding: 0.85rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-add-cart {
+  background-color: var(--brand-pink);
+  color: #ffffff;
+}
+
+.btn-add-cart:hover {
+  background-color: var(--brand-pink-hover);
+}
+
+.btn-sold-out {
+  background-color: #fbcfe8;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+.arrow-icon {
+  font-size: 0.95rem;
+}
+
+/* --- Review Stars Framework --- */
+.tc-rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.25rem;
+}
+
+.stars-row {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 1.15rem;
+}
+
+.star.filled {
+  color: #a855f7; /* Purple star highlight coloring matched directly */
+}
+
+.star.empty {
+  color: #d1d5db;
+}
+
+.reviews-text {
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+/* --- Bottom View All Button Control Row --- */
+.tc-footer-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.tc-btn-view-all {
+  background-color: var(--brand-pink);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 1.1rem 3.5rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(244, 114, 182, 0.3);
+}
+
+.tc-btn-view-all:hover {
+  background-color: var(--brand-pink-hover);
+  transform: scale(1.02);
+}
+
+.arrow-icon-large {
+  font-size: 1.15rem;
+}
+
+/* --- Small Display Mobile Viewport Adjustments --- */
+@media (max-width: 640px) {
+  .tc-title {
+    font-size: 1.75rem;
+  }
+  .shape-worm, .shape-star {
+    display: none; /* Hides decorative floating illustrations on tight layout constraints */
+  }
+  .tc-card {
+    padding: 1rem;
+  }
+}

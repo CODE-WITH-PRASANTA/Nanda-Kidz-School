@@ -9,6 +9,14 @@ import OurFacilities from './Components/OurFacilities/OurFacilities';
 
 // Pages
 
+// Components
+import Topbar from './Components/Topbar/Topbar';
+import Navbar from './Components/Navbar/Navbar';
+import Footer from './Components/Footer/Footer';
+
+
+// Pages
+import Home from './Pages/Home/Home';
 
 const App = () => {
   return (
@@ -22,6 +30,16 @@ const App = () => {
         <Route path="/OurFacilities" element={<OurFacilities/>} />
        
       </Routes>
+
+    <Topbar />
+    <Navbar />
+     
+      <Routes>
+        <Route path="/Home" element={<Home />} />
+        
+
+      </Routes>
+         <Footer />
     </BrowserRouter>
   );
 };
