@@ -1,90 +1,73 @@
-import React from "react";
-import "./AboutUs.css";
+import React from 'react';
+import './AboutUs.css';
 
-import AboutImage from "../../assets/aboutus.webp"; // Your own image
-
-import {
-  FaArrowRight,
-  FaRegStar,
-  FaGraduationCap,
-} from "react-icons/fa";
-
-import { GiRocket } from "react-icons/gi";
+// Import local assets as needed
+import starImg from '../../assets/star.webp';
+import rocketImg from '../../assets/rocket.webp';
+import capImg from '../../assets/aboutuscap.webp';
+import studentImg from '../../assets/aboutus.webp';
 
 const AboutUs = () => {
   return (
-    <section className="aboutUs">
+    <section className="about-us-container">
+      <div className="about-us-content">
+        
+        {/* Left Section: Organic Animated Blob & Image */}
+        <div className="image-section">
+          {/* Top Left Decorative Shooting Star */}
+          <img src={starImg} alt="Star Illustration" className="decorative-star" />
 
-      {/* Floating Shapes */}
+          {/* Main Organic Outer Wrapper */}
+          <div className="blob-wrapper">
+            
+            {/* Animated Top Circle Dot */}
+            <span className="blob-dot top-dot"></span>
 
-      <div className="aboutStar">
-        <FaRegStar />
-      </div>
+            {/* Organic Pink Border Frame with Breathing Animation */}
+            <div className="blob-border">
+              {/* Inner Clipped Container for Student Image */}
+              <div className="blob-image-container">
+                <img src={studentImg} alt="Students Studying" className="student-image" />
+              </div>
+            </div>
 
-      <div className="aboutRocket">
-        <GiRocket />
-      </div>
+            {/* Animated Bottom Right Circle Dot */}
+            <span className="blob-dot bottom-dot"></span>
+          </div>
+        </div>
 
-      <div className="aboutCap">
-        <FaGraduationCap />
-      </div>
+        {/* Right Section: Content */}
+        <div className="text-section">
+          {/* Decorative Rocket */}
+          <img src={rocketImg} alt="Rocket Illustration" className="decorative-rocket" />
 
-      {/* Left Side */}
+          {/* Subtitle Header */}
+          <div className="subtitle-wrapper">
+            <img src={capImg} alt="Graduation Cap" className="cap-icon" />
+            <span className="subtitle">ABOUT US</span>
+          </div>
 
-      <div className="aboutLeft">
+          {/* Main Headline */}
+          <h1 className="main-heading">
+            Globally Recognized
+            <br />
+            Interactive Preschool Education
+          </h1>
 
-        <div className="aboutCircleOne"></div>
+          {/* Description Paragraph */}
+          <p className="description">
+            Tellus in hac habitasse platea dictumst. Eget arcu dictum varius duis at consectetur
+            lorem donec massa. Eget magna fermentum iaculis eu non diam. Amet nisl purus in
+            mollis nunc sed id.
+          </p>
 
-        <div className="aboutCircleTwo"></div>
-
-        <div className="aboutImageShape">
-
-          <img
-            src={AboutImage}
-            alt="About"
-            className="aboutImage"
-          />
-
+          {/* Read More Button */}
+          <button className="read-more-btn">
+            READ MORE <span className="arrow-icon">↗</span>
+          </button>
         </div>
 
       </div>
-
-      {/* Right Side */}
-
-      <div className="aboutRight">
-
-        <div className="aboutHeading">
-
-          <FaGraduationCap className="smallCap" />
-
-          <span>ABOUT US</span>
-
-        </div>
-
-        <h2>
-          Globally Recognized
-          <br />
-          Interactive Preschool
-          <br />
-          Education
-        </h2>
-
-        <p>
-          Tellus in hac habitasse platea dictumst. Eget arcu dictum varius
-          duis at consectetur lorem donec massa. Eget magna fermentum
-          iaculis eu non diam. Amet nisl purus in mollis nunc sed id.
-        </p>
-
-        <button className="aboutBtn">
-
-          READ MORE
-
-          <FaArrowRight />
-
-        </button>
-
-      </div>
-
     </section>
   );
 };

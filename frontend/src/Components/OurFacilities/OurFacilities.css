@@ -1,0 +1,267 @@
+/* Color Palette Variables matching reference screenshots */
+:root {
+  --bg-purple: #903AF1;
+  --card-gold: #E5A947;
+  --badge-pink: #F572B4;
+  --text-white: #FFFFFF;
+  --text-dark: #1F1F1F;
+}
+
+/* Main Section Wrapper */
+.facilities-section {
+  position: relative;
+  background-color: var(--bg-purple);
+  padding: 80px 4% 100px 4%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Fredoka', 'Quicksand', 'Poppins', sans-serif;
+  color: var(--text-white);
+}
+
+/* Header Floating Fixed Elements */
+.decoration-cloud {
+  position: absolute;
+  top: 30px;
+  left: 4%;
+  width: 220px;
+  max-width: 18vw;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decoration-rainbow {
+  position: absolute;
+  top: 30px;
+  right: 4%;
+  width: 210px;
+  max-width: 18vw;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Header Typography */
+.facilities-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 55px auto;
+  position: relative;
+  z-index: 2;
+}
+
+.sub-title {
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.icon-grad-cap {
+  font-size: 26px; /* Adjust size here (e.g., 28px or 32px for larger) */
+  line-height: 1;
+  display: inline-block;
+  transform: translateY(-2px); /* Perfectly aligns icon vertically with text */
+}
+
+.main-title {
+  font-size: 44px;
+  font-weight: 800;
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+.header-description {
+  font-size: 15px;
+  line-height: 1.6;
+  opacity: 0.95;
+  font-weight: 400;
+}
+
+/* 4 Column Container */
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  align-items: stretch;
+  position: relative;
+  z-index: 2;
+  max-width: 1350px;
+  margin: 0 auto;
+}
+
+/* Main Box Design matching reference arches */
+.facility-card {
+  background-color: var(--card-gold);
+  border-radius: 95px 95px 50px 50px; /* Precise dome top & soft curved base */
+  padding: 16px 16px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s ease,
+              background-color 0.4s ease;
+}
+
+.facility-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 22px 35px rgba(0, 0, 0, 0.22);
+}
+
+/* Inner Photo Arch Container */
+.image-frame {
+  width: 100%;
+  height: 240px;
+  border-radius: 80px 80px 22px 22px; /* Perfect arch shape inside gold card */
+  overflow: hidden;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.facility-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.5s ease;
+  transform-origin: center center;
+}
+
+/* Smooth Flower Opening / Petal Unfolding Effect on Card Hover */
+.facility-card:hover .facility-image {
+  transform: scale(1.18) rotate(2.5deg);
+  filter: brightness(1.05);
+}
+
+/* Text Content Container */
+.card-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.card-title {
+  font-size: 25px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-white);
+  transition: color 0.4s ease;
+  letter-spacing: -0.3px;
+}
+
+/* Wavy Line Under Heading */
+.wavy-underline {
+  width: 95px;
+  height: 8px;
+  margin-bottom: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cpath d='M0 3 Q 5 0, 10 3 T 20 3' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  transition: filter 0.4s ease;
+}
+
+.card-description {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-white);
+  transition: color 0.10s ease;
+}
+
+/* Pointing anywhere on the card switches text color from White to Dark/Black */
+.facility-card:hover .card-title,
+.facility-card:hover .card-description {
+  color: var(--text-dark);
+}
+
+.facility-card:hover .wavy-underline {
+  filter: invert(1);
+}
+
+/* Action Badge Container */
+.card-action {
+  margin-top: 22px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Pink Badge Pill */
+.action-pill {
+  background-color: var(--badge-pink);
+  border-radius: 35px;
+  padding: 10px 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.4s ease, 
+              box-shadow 0.4s ease, 
+              transform 0.4s ease;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-svg-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-white);
+  transition: stroke 0.4s ease;
+}
+
+.action-text {
+  color: var(--text-white);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  transition: color 0.4s ease;
+}
+
+/* On Card Hover: Pink Pill dissolves into the gold card background naturally */
+.facility-card:hover .action-pill {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.facility-card:hover .action-text {
+  color: var(--text-dark);
+}
+
+.facility-card:hover .action-svg-icon {
+  stroke: var(--text-dark);
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 1200px) {
+  .facilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 650px) {
+  .facilities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-title {
+    font-size: 30px;
+  }
+
+  .decoration-cloud, .decoration-rainbow {
+    width: 110px;
+    top: 15px;
+  }
+}
