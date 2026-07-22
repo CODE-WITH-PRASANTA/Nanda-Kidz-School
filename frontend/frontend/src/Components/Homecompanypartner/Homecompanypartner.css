@@ -1,0 +1,146 @@
+/* ==========================================
+   Homecompanypartner Section Styling
+   ========================================== */
+
+.Homecompanypartner {
+  padding: 80px 20px;
+  background-color: #fcf8f2; /* Matching the subtle warm background in screenshot */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.Homecompanypartner .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Header Section --- */
+.Homecompanypartner .header-wrapper {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.Homecompanypartner .subtitle {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ff6b00; /* Accent brand orange */
+  margin-bottom: 8px;
+}
+
+.Homecompanypartner .title {
+  font-size: 45px;
+  font-weight: 900;
+  color: #0d0d0d;
+  margin: 0;
+  line-height: 1.2;
+  padding-left: 195px;
+}
+
+/* --- Partners Grid --- */
+.Homecompanypartner .partners-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+/* --- Partner Card & Animation --- */
+.Homecompanypartner .partner-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Entrance Animation Setup */
+  opacity: 0;
+  animation: partnerFadeUp 0.6s ease-out forwards;
+}
+
+.Homecompanypartner .partner-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Partner Image Styling (Normal Color) --- */
+.Homecompanypartner .partner-logo {
+  max-width: 100%;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  /* Natural color settings */
+  filter: none;
+  opacity: 1;
+  transition: transform 0.3s ease;
+}
+
+.Homecompanypartner .partner-card:hover .partner-logo {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* --- Entrance Animation --- */
+@keyframes partnerFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   Responsive Breakpoints
+   ========================================== */
+
+/* Tablets & Small Desktops */
+@media (max-width: 992px) {
+  .Homecompanypartner {
+    padding: 60px 20px;
+  }
+
+  .Homecompanypartner .title {
+    font-size: 32px;
+  }
+
+  .Homecompanypartner .partners-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Small Tablets & Large Phones */
+@media (max-width: 600px) {
+  .Homecompanypartner .title {
+    font-size: 26px;
+  }
+
+  .Homecompanypartner .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .Homecompanypartner .partner-card {
+    padding: 20px 12px;
+  }
+
+  .Homecompanypartner .partner-logo {
+    max-height: 48px;
+  }
+}
+
+/* Very Small Mobile Screens */
+@media (max-width: 400px) {
+  .Homecompanypartner .partners-grid {
+    grid-template-columns: 1fr;
+  }
+}

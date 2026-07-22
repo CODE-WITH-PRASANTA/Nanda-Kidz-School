@@ -8,7 +8,7 @@
 }
 
 /* Main Section Wrapper */
-.facilities-section {
+.about-facilities-section {
   position: relative;
   background-color: var(--bg-purple);
   padding: 80px 4% 100px 4%;
@@ -20,7 +20,7 @@
 }
 
 /* Header Floating Fixed Elements */
-.decoration-cloud {
+.about-facilities-decoration-cloud {
   position: absolute;
   top: 30px;
   left: 4%;
@@ -30,7 +30,7 @@
   z-index: 1;
 }
 
-.decoration-rainbow {
+.about-facilities-decoration-rainbow {
   position: absolute;
   top: 30px;
   right: 4%;
@@ -41,7 +41,7 @@
 }
 
 /* Header Typography */
-.facilities-header {
+.about-facilities-header {
   text-align: center;
   max-width: 780px;
   margin: 0 auto 55px auto;
@@ -49,8 +49,8 @@
   z-index: 2;
 }
 
-.sub-title {
-  font-size: 14px;
+.about-facilities-sub-title {
+  font-size: 18px;
   letter-spacing: 2px;
   font-weight: 700;
   text-transform: uppercase;
@@ -61,29 +61,29 @@
   gap: 8px;
 }
 
-.icon-grad-cap {
-  font-size: 26px; /* Adjust size here (e.g., 28px or 32px for larger) */
+.about-facilities-icon-grad-cap {
+  font-size: 26px;
   line-height: 1;
   display: inline-block;
-  transform: translateY(-2px); /* Perfectly aligns icon vertically with text */
+  transform: translateY(-2px);
 }
 
-.main-title {
+.about-facilities-main-title {
   font-size: 44px;
   font-weight: 800;
   margin-bottom: 18px;
   line-height: 1.2;
 }
 
-.header-description {
-  font-size: 15px;
+.about-facilities-header-description {
+  font-size: 18px;
   line-height: 1.6;
   opacity: 0.95;
   font-weight: 400;
 }
 
 /* 4 Column Container */
-.facilities-grid {
+.about-facilities-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 22px;
@@ -95,9 +95,9 @@
 }
 
 /* Main Box Design matching reference arches */
-.facility-card {
+.about-facilities-card {
   background-color: var(--card-gold);
-  border-radius: 95px 95px 50px 50px; /* Precise dome top & soft curved base */
+  border-radius: 95px 95px 50px 50px;
   padding: 16px 16px 22px 16px;
   display: flex;
   flex-direction: column;
@@ -111,22 +111,22 @@
               background-color 0.4s ease;
 }
 
-.facility-card:hover {
+.about-facilities-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 22px 35px rgba(0, 0, 0, 0.22);
 }
 
 /* Inner Photo Arch Container */
-.image-frame {
+.about-facilities-image-frame {
   width: 100%;
   height: 240px;
-  border-radius: 80px 80px 22px 22px; /* Perfect arch shape inside gold card */
+  border-radius: 80px 80px 22px 22px;
   overflow: hidden;
   margin-bottom: 22px;
   position: relative;
 }
 
-.facility-image {
+.about-facilities-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -136,13 +136,13 @@
 }
 
 /* Smooth Flower Opening / Petal Unfolding Effect on Card Hover */
-.facility-card:hover .facility-image {
+.about-facilities-card:hover .about-facilities-image {
   transform: scale(1.18) rotate(2.5deg);
   filter: brightness(1.05);
 }
 
 /* Text Content Container */
-.card-content {
+.about-facilities-card-content {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -150,7 +150,7 @@
   padding: 0 10px;
 }
 
-.card-title {
+.about-facilities-card-title {
   font-size: 25px;
   font-weight: 800;
   margin-bottom: 8px;
@@ -160,7 +160,7 @@
 }
 
 /* Wavy Line Under Heading */
-.wavy-underline {
+.about-facilities-wavy-underline {
   width: 95px;
   height: 8px;
   margin-bottom: 16px;
@@ -169,7 +169,7 @@
   transition: filter 0.4s ease;
 }
 
-.card-description {
+.about-facilities-card-description {
   font-size: 14.5px;
   line-height: 1.55;
   color: var(--text-white);
@@ -177,17 +177,17 @@
 }
 
 /* Pointing anywhere on the card switches text color from White to Dark/Black */
-.facility-card:hover .card-title,
-.facility-card:hover .card-description {
+.about-facilities-card:hover .about-facilities-card-title,
+.about-facilities-card:hover .about-facilities-card-description {
   color: var(--text-dark);
 }
 
-.facility-card:hover .wavy-underline {
+.about-facilities-card:hover .about-facilities-wavy-underline {
   filter: invert(1);
 }
 
 /* Action Badge Container */
-.card-action {
+.about-facilities-card-action {
   margin-top: 22px;
   width: 100%;
   display: flex;
@@ -195,7 +195,7 @@
 }
 
 /* Pink Badge Pill */
-.action-pill {
+.about-facilities-action-pill {
   background-color: var(--badge-pink);
   border-radius: 35px;
   padding: 10px 22px;
@@ -207,20 +207,20 @@
               transform 0.4s ease;
 }
 
-.icon-wrapper {
+.about-facilities-icon-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.action-svg-icon {
+.about-facilities-action-svg-icon {
   width: 24px;
   height: 24px;
   stroke: var(--text-white);
   transition: stroke 0.4s ease;
 }
 
-.action-text {
+.about-facilities-action-text {
   color: var(--text-white);
   font-size: 13.5px;
   font-weight: 700;
@@ -230,37 +230,38 @@
 }
 
 /* On Card Hover: Pink Pill dissolves into the gold card background naturally */
-.facility-card:hover .action-pill {
+.about-facilities-card:hover .about-facilities-action-pill {
   background-color: transparent;
   box-shadow: none;
 }
 
-.facility-card:hover .action-text {
+.about-facilities-card:hover .about-facilities-action-text {
   color: var(--text-dark);
 }
 
-.facility-card:hover .action-svg-icon {
+.about-facilities-card:hover .about-facilities-action-svg-icon {
   stroke: var(--text-dark);
 }
 
 /* Responsive Grid Adjustments */
 @media (max-width: 1200px) {
-  .facilities-grid {
+  .about-facilities-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
   }
 }
 
 @media (max-width: 650px) {
-  .facilities-grid {
+  .about-facilities-grid {
     grid-template-columns: 1fr;
   }
 
-  .main-title {
+  .about-facilities-main-title {
     font-size: 30px;
   }
 
-  .decoration-cloud, .decoration-rainbow {
+  .about-facilities-decoration-cloud, 
+  .about-facilities-decoration-rainbow {
     width: 110px;
     top: 15px;
   }

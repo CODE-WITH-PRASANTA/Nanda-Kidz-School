@@ -1,0 +1,260 @@
+/* ==========================================================
+   SOCIAL SECTION
+========================================================== */
+
+.social-section {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  background: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.social-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 70px;
+}
+
+.doodle {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.doodle img {
+  width: 100%;
+  max-width: 220px;
+}
+
+.header-content {
+  flex: 2;
+  text-align: center;
+}
+
+.sub-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #9d4edd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.grad-cap-icon {
+  font-size: 28px;
+}
+
+.main-title {
+  margin: 18px 0;
+  font-size: 48px;
+  font-weight: 800;
+  color: #111;
+}
+
+.description {
+  max-width: 620px;
+  margin: auto;
+  color: #666;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* ==========================================================
+   GALLERY
+========================================================== */
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.gallery-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 34px;
+  cursor: pointer;
+  aspect-ratio: 1/1.08;
+  background: #f7f7f7;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .55s ease;
+}
+
+/* ==========================================================
+   OVERLAY
+========================================================== */
+
+.hover-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(
+      135deg,
+      rgba(176,92,255,.78),
+      rgba(140,45,255,.78)
+  );
+
+  opacity: 0;
+  transition: .45s ease;
+}
+
+.gallery-card:hover .hover-overlay {
+  opacity: 1;
+}
+
+/* ==========================================================
+   INSTAGRAM BUTTON
+========================================================== */
+
+.instagram-btn {
+
+  width: 74px;
+  height: 74px;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(255,255,255,.18);
+
+  border: 2px solid rgba(255,255,255,.95);
+
+  text-decoration: none;
+
+  backdrop-filter: blur(3px);
+
+  transform: scale(.45);
+
+  opacity: 0;
+
+  transition: all .45s cubic-bezier(.175,.885,.32,1.35);
+}
+
+.instagram-icon{
+  color:#fff;
+  font-size:30px;
+  transition:.35s;
+}
+
+.gallery-card:hover .instagram-btn{
+
+  opacity:1;
+
+  transform:scale(1);
+
+  background:#fff;
+
+  border-color:#FFD84D;
+}
+
+.gallery-card:hover .instagram-icon{
+
+  color:#d89b00;
+
+}
+
+.gallery-card:hover .card-image{
+
+  transform:scale(1.08);
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:1100px){
+
+.gallery-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+@media (max-width:768px){
+
+.social-header{
+
+flex-direction:column;
+
+}
+
+.main-title{
+
+font-size:38px;
+
+}
+
+.description{
+
+font-size:15px;
+
+}
+
+.gallery-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:20px;
+
+}
+
+}
+
+@media(max-width:576px){
+
+.gallery-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.gallery-card{
+
+border-radius:26px;
+
+}
+
+.main-title{
+
+font-size:32px;
+
+}
+
+.instagram-btn{
+
+width:65px;
+
+height:65px;
+
+}
+
+.instagram-icon{
+
+font-size:26px;
+
+}
+
+}
