@@ -9,6 +9,8 @@ import Footer from "./Components/Footer/Footer";
 // Pages
 import Home from "./Pages/Home/Home";
 import About from "./Pages/About/About";
+import Blog from "./Pages/Blog/Blog";
+import ContactUs from "./Pages/ContactUs/ContactUs";
 const App = () => {
   return (
     <BrowserRouter>
@@ -21,6 +23,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About/>} />
+        <Route path="/blog" element={<Blog/>}/>
+        <Route path="/contact" element={<ContactUs/>}/>
       </Routes>
 
       {/* Common Footer */}
