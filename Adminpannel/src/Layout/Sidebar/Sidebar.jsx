@@ -16,6 +16,9 @@ import {
   FaBus,
   FaImages,
   FaBlog,
+  FaStore,
+  FaBoxOpen,
+  FaPlusCircle,
   FaBullhorn,
   FaEnvelope,
   FaGlobe,
@@ -38,6 +41,7 @@ const Sidebar = ({
   onViewProfile,
 }) => {
   const location = useLocation();
+  const [shopOpen, setShopOpen] = useState(location.pathname.startsWith("/shop"));
   const [blogOpen, setBlogOpen] = useState(location.pathname.startsWith("/blog"));
 
   const showLabel = !collapsed || mobileSidebar;
@@ -59,9 +63,14 @@ const Sidebar = ({
     { title: "Gallery Management", icon: <FaImages />, path: "/gallery-management" },
   ];
 
+  const shopSubItems = [
+    { title: "Shop Products", path: "/shop/products", icon: <FaBoxOpen /> },
+    { title: "Add New Product", path: "/shop/products/add", icon: <FaPlusCircle />, highlight: true },
+  ];
+
   const blogSubItems = [
-    { title: "Blog Post", path: "/blog-management/posts" },
-    { title: "Blog Management", path: "/blog-management" },
+    { title: "Blog Post", path: "/blog-management/posts", icon: <FaFileAlt /> },
+    { title: "Blog Management", path: "/blog-management", icon: <FaBlog /> },
   ];
 
   const bottomMenuItems = [
@@ -72,10 +81,17 @@ const Sidebar = ({
     { title: "Reports", icon: <FaChartBar />, path: "/reports" },
   ];
 
+  const handleShopToggle = () => {
+    if (collapsed && !mobileSidebar) return;
+    setShopOpen((v) => !v);
+  };
+
   const handleBlogToggle = () => {
     if (collapsed && !mobileSidebar) return;
     setBlogOpen((v) => !v);
   };
+
+  const closeOnMobile = () => mobileSidebar && toggleMobileSidebar();
 
   return (
     <>
@@ -134,7 +150,7 @@ const Sidebar = ({
               key={item.path}
               to={item.path}
               style={{ "--i": index }}
-              onClick={() => mobileSidebar && toggleMobileSidebar()}
+              onClick={closeOnMobile}
               className={({ isActive }) =>
                 isActive ? "Sidebar-link active" : "Sidebar-link"
               }
@@ -148,13 +164,52 @@ const Sidebar = ({
             </NavLink>
           ))}
 
+          {/* Shop dropdown */}
+          <div className="Sidebar-dropdown-wrapper">
+            <button
+              type="button"
+              className={`Sidebar-link Sidebar-dropdown-toggle ${shopOpen ? "open" : ""} ${location.pathname.startsWith("/shop") ? "active" : ""}`}
+              onClick={handleShopToggle}
+              style={{ "--i": menuItems.length }}
+              title={collapsed && !mobileSidebar ? "Shop" : undefined}
+            >
+              <div className="Sidebar-icon"><FaStore /></div>
+              {showLabel && <span className="Sidebar-title">Shop</span>}
+              {showLabel && (
+                <FaChevronDown className={`Sidebar-chevron ${shopOpen ? "rotated" : ""}`} />
+              )}
+              {collapsed && !mobileSidebar && (
+                <div className="Sidebar-tooltip">Shop</div>
+              )}
+            </button>
+
+            {showLabel && (
+              <div className={`Sidebar-submenu ${shopOpen ? "expanded" : ""}`}>
+                {shopSubItems.map((sub) => (
+                  <NavLink
+                    key={sub.path}
+                    to={sub.path}
+                    onClick={closeOnMobile}
+                    className={({ isActive }) =>
+                      isActive ? "Sidebar-submenu-link active" : "Sidebar-submenu-link"
+                    }
+                  >
+                    <span className="Sidebar-submenu-icon">{sub.icon}</span>
+                    <span className="Sidebar-submenu-text">{sub.title}</span>
+                    {sub.highlight && <span className="Sidebar-submenu-badge">New</span>}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* Blog dropdown */}
           <div className="Sidebar-dropdown-wrapper">
             <button
               type="button"
               className={`Sidebar-link Sidebar-dropdown-toggle ${blogOpen ? "open" : ""} ${location.pathname.startsWith("/blog") ? "active" : ""}`}
               onClick={handleBlogToggle}
-              style={{ "--i": menuItems.length }}
+              style={{ "--i": menuItems.length + 1 }}
               title={collapsed && !mobileSidebar ? "Blog" : undefined}
             >
               <div className="Sidebar-icon"><FaBlog /></div>
@@ -173,12 +228,13 @@ const Sidebar = ({
                   <NavLink
                     key={sub.path}
                     to={sub.path}
-                    onClick={() => mobileSidebar && toggleMobileSidebar()}
+                    onClick={closeOnMobile}
                     className={({ isActive }) =>
                       isActive ? "Sidebar-submenu-link active" : "Sidebar-submenu-link"
                     }
                   >
-                    {sub.title}
+                    <span className="Sidebar-submenu-icon">{sub.icon}</span>
+                    <span className="Sidebar-submenu-text">{sub.title}</span>
                   </NavLink>
                 ))}
               </div>
@@ -189,8 +245,8 @@ const Sidebar = ({
             <NavLink
               key={item.path}
               to={item.path}
-              style={{ "--i": menuItems.length + 1 + index }}
-              onClick={() => mobileSidebar && toggleMobileSidebar()}
+              style={{ "--i": menuItems.length + 2 + index }}
+              onClick={closeOnMobile}
               className={({ isActive }) =>
                 isActive ? "Sidebar-link active" : "Sidebar-link"
               }
