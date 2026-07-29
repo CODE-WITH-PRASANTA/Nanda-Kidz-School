@@ -5,31 +5,48 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
 import MainLayout from "./Layout/MainLayout/MainLayout";
 
+import DashBoard from "./Pages/DashBoard/DashBoard";
 import BlogPost from "./Pages/BlogPost/BlogPost";
 import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
-import DashBoard from "./Pages/DashBoard/DashBoard"
-
+import Shop from "./Pages/Shop/Shop";
+import Addproduct from "./Pages/Addproduct/Addproduct";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* MainLayout can act as your application shell containing the Sidebar and Outlet */}
         <Route path="/" element={<MainLayout />}>
-          {/* Default redirect from root to dashboard */}
+          {/* Redirect "/" to dashboard */}
           <Route index element={<Navigate to="/dashboard" replace />} />
-          
-          {/* Proper Dashboard path */}
-          <Route path="/dashboard" element={<DashBoard/>}/>
-          <Route path="/blog-management/posts" element={<BlogPost/>}/>
-         <Route path="/gallery-management" element={<GalleryManagement/>}/>
-         
+
+          {/* Dashboard */}
+          <Route path="dashboard" element={<DashBoard />} />
+
+          {/* Shop */}
+          <Route path="shop/products" element={<Shop />} />
+          <Route path="shop/products/add" element={<Addproduct />} />
+
+          {/* Blog */}
+          <Route
+            path="blog-management/posts"
+            element={<BlogPost />}
+          />
+
+          {/* Gallery */}
+          <Route
+            path="gallery-management"
+            element={<GalleryManagement />}
+          />
         </Route>
 
-        {/* Fallback catch-all route */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        {/* 404 */}
+        <Route
+          path="*"
+          element={<Navigate to="/dashboard" replace />}
+        />
       </Routes>
     </BrowserRouter>
   );
