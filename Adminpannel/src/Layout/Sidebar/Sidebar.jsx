@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -44,7 +44,15 @@ const Sidebar = ({
   const [shopOpen, setShopOpen] = useState(location.pathname.startsWith("/shop"));
   const [blogOpen, setBlogOpen] = useState(location.pathname.startsWith("/blog"));
 
-  const showLabel = !collapsed || mobileSidebar;
+  // Automatically keep dropdowns open if navigating inside their sub-routes
+  useEffect(() => {
+    if (location.pathname.startsWith("/shop")) setShopOpen(true);
+    if (location.pathname.startsWith("/blog")) setBlogOpen(true);
+  }, [location.pathname]);
+
+  // On mobile devices, labels should always show when the drawer is open
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 992;
+  const showLabel = isMobile ? true : !collapsed;
 
   const menuItems = [
     { title: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
@@ -82,16 +90,20 @@ const Sidebar = ({
   ];
 
   const handleShopToggle = () => {
-    if (collapsed && !mobileSidebar) return;
+    if (collapsed && !isMobile) return;
     setShopOpen((v) => !v);
   };
 
   const handleBlogToggle = () => {
-    if (collapsed && !mobileSidebar) return;
+    if (collapsed && !isMobile) return;
     setBlogOpen((v) => !v);
   };
 
-  const closeOnMobile = () => mobileSidebar && toggleMobileSidebar();
+  const closeOnMobile = () => {
+    if (mobileSidebar && toggleMobileSidebar) {
+      toggleMobileSidebar();
+    }
+  };
 
   return (
     <>
@@ -99,14 +111,13 @@ const Sidebar = ({
       <div
         className={`Sidebar-overlay ${mobileSidebar ? "show" : ""}`}
         onClick={toggleMobileSidebar}
+        aria-hidden="true"
       />
 
       <aside
-        className={`
-          Sidebar
-          ${collapsed ? "collapsed" : ""}
-          ${mobileSidebar ? "mobile-open" : ""}
-        `}
+        className={`Sidebar ${collapsed ? "collapsed" : ""} ${
+          mobileSidebar ? "mobile-open" : ""
+        }`}
       >
         {/* Logo Section */}
         <div className="Sidebar-logoSection">
@@ -121,7 +132,13 @@ const Sidebar = ({
                   <stop offset="100%" stopColor="#c084fc" />
                 </linearGradient>
               </defs>
-              <path d="M6 40 A24 24 0 0 1 54 40" fill="none" stroke="url(#rainbowArc1)" strokeWidth="6" strokeLinecap="round" />
+              <path
+                d="M6 40 A24 24 0 0 1 54 40"
+                fill="none"
+                stroke="url(#rainbowArc1)"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
               <circle cx="44" cy="16" r="7" fill="#fde047" />
               <path d="M18 44 h24 l-4 10 h-16 Z" fill="#f8fafc" opacity="0.15" />
             </svg>
@@ -143,7 +160,7 @@ const Sidebar = ({
           </button>
         </div>
 
-        {/* Menu */}
+        {/* Navigation Menu */}
         <div className="Sidebar-menu">
           {menuItems.map((item, index) => (
             <NavLink
@@ -154,11 +171,11 @@ const Sidebar = ({
               className={({ isActive }) =>
                 isActive ? "Sidebar-link active" : "Sidebar-link"
               }
-              title={collapsed && !mobileSidebar ? item.title : undefined}
+              title={collapsed && !isMobile ? item.title : undefined}
             >
               <div className="Sidebar-icon">{item.icon}</div>
               {showLabel && <span className="Sidebar-title">{item.title}</span>}
-              {collapsed && !mobileSidebar && (
+              {collapsed && !isMobile && (
                 <div className="Sidebar-tooltip">{item.title}</div>
               )}
             </NavLink>
@@ -168,77 +185,101 @@ const Sidebar = ({
           <div className="Sidebar-dropdown-wrapper">
             <button
               type="button"
-              className={`Sidebar-link Sidebar-dropdown-toggle ${shopOpen ? "open" : ""} ${location.pathname.startsWith("/shop") ? "active" : ""}`}
+              className={`Sidebar-link Sidebar-dropdown-toggle ${
+                shopOpen ? "open" : ""
+              } ${location.pathname.startsWith("/shop") ? "active" : ""}`}
               onClick={handleShopToggle}
+              aria-expanded={shopOpen}
               style={{ "--i": menuItems.length }}
-              title={collapsed && !mobileSidebar ? "Shop" : undefined}
+              title={collapsed && !isMobile ? "Shop" : undefined}
             >
-              <div className="Sidebar-icon"><FaStore /></div>
+              <div className="Sidebar-icon">
+                <FaStore />
+              </div>
               {showLabel && <span className="Sidebar-title">Shop</span>}
               {showLabel && (
-                <FaChevronDown className={`Sidebar-chevron ${shopOpen ? "rotated" : ""}`} />
+                <FaChevronDown
+                  className={`Sidebar-chevron ${shopOpen ? "rotated" : ""}`}
+                />
               )}
-              {collapsed && !mobileSidebar && (
+              {collapsed && !isMobile && (
                 <div className="Sidebar-tooltip">Shop</div>
               )}
             </button>
 
-            {showLabel && (
-              <div className={`Sidebar-submenu ${shopOpen ? "expanded" : ""}`}>
-                {shopSubItems.map((sub) => (
-                  <NavLink
-                    key={sub.path}
-                    to={sub.path}
-                    onClick={closeOnMobile}
-                    className={({ isActive }) =>
-                      isActive ? "Sidebar-submenu-link active" : "Sidebar-submenu-link"
-                    }
-                  >
-                    <span className="Sidebar-submenu-icon">{sub.icon}</span>
-                    <span className="Sidebar-submenu-text">{sub.title}</span>
-                    {sub.highlight && <span className="Sidebar-submenu-badge">New</span>}
-                  </NavLink>
-                ))}
-              </div>
-            )}
+            <div
+              className={`Sidebar-submenu ${
+                shopOpen && showLabel ? "expanded" : ""
+              }`}
+            >
+              {shopSubItems.map((sub) => (
+                <NavLink
+                  key={sub.path}
+                  to={sub.path}
+                  onClick={closeOnMobile}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "Sidebar-submenu-link active"
+                      : "Sidebar-submenu-link"
+                  }
+                >
+                  <span className="Sidebar-submenu-icon">{sub.icon}</span>
+                  <span className="Sidebar-submenu-text">{sub.title}</span>
+                  {sub.highlight && (
+                    <span className="Sidebar-submenu-badge">New</span>
+                  )}
+                </NavLink>
+              ))}
+            </div>
           </div>
 
           {/* Blog dropdown */}
           <div className="Sidebar-dropdown-wrapper">
             <button
               type="button"
-              className={`Sidebar-link Sidebar-dropdown-toggle ${blogOpen ? "open" : ""} ${location.pathname.startsWith("/blog") ? "active" : ""}`}
+              className={`Sidebar-link Sidebar-dropdown-toggle ${
+                blogOpen ? "open" : ""
+              } ${location.pathname.startsWith("/blog") ? "active" : ""}`}
               onClick={handleBlogToggle}
+              aria-expanded={blogOpen}
               style={{ "--i": menuItems.length + 1 }}
-              title={collapsed && !mobileSidebar ? "Blog" : undefined}
+              title={collapsed && !isMobile ? "Blog" : undefined}
             >
-              <div className="Sidebar-icon"><FaBlog /></div>
+              <div className="Sidebar-icon">
+                <FaBlog />
+              </div>
               {showLabel && <span className="Sidebar-title">Blog</span>}
               {showLabel && (
-                <FaChevronDown className={`Sidebar-chevron ${blogOpen ? "rotated" : ""}`} />
+                <FaChevronDown
+                  className={`Sidebar-chevron ${blogOpen ? "rotated" : ""}`}
+                />
               )}
-              {collapsed && !mobileSidebar && (
+              {collapsed && !isMobile && (
                 <div className="Sidebar-tooltip">Blog</div>
               )}
             </button>
 
-            {showLabel && (
-              <div className={`Sidebar-submenu ${blogOpen ? "expanded" : ""}`}>
-                {blogSubItems.map((sub) => (
-                  <NavLink
-                    key={sub.path}
-                    to={sub.path}
-                    onClick={closeOnMobile}
-                    className={({ isActive }) =>
-                      isActive ? "Sidebar-submenu-link active" : "Sidebar-submenu-link"
-                    }
-                  >
-                    <span className="Sidebar-submenu-icon">{sub.icon}</span>
-                    <span className="Sidebar-submenu-text">{sub.title}</span>
-                  </NavLink>
-                ))}
-              </div>
-            )}
+            <div
+              className={`Sidebar-submenu ${
+                blogOpen && showLabel ? "expanded" : ""
+              }`}
+            >
+              {blogSubItems.map((sub) => (
+                <NavLink
+                  key={sub.path}
+                  to={sub.path}
+                  onClick={closeOnMobile}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "Sidebar-submenu-link active"
+                      : "Sidebar-submenu-link"
+                  }
+                >
+                  <span className="Sidebar-submenu-icon">{sub.icon}</span>
+                  <span className="Sidebar-submenu-text">{sub.title}</span>
+                </NavLink>
+              ))}
+            </div>
           </div>
 
           {bottomMenuItems.map((item, index) => (
@@ -250,11 +291,11 @@ const Sidebar = ({
               className={({ isActive }) =>
                 isActive ? "Sidebar-link active" : "Sidebar-link"
               }
-              title={collapsed && !mobileSidebar ? item.title : undefined}
+              title={collapsed && !isMobile ? item.title : undefined}
             >
               <div className="Sidebar-icon">{item.icon}</div>
               {showLabel && <span className="Sidebar-title">{item.title}</span>}
-              {collapsed && !mobileSidebar && (
+              {collapsed && !isMobile && (
                 <div className="Sidebar-tooltip">{item.title}</div>
               )}
             </NavLink>
@@ -266,7 +307,10 @@ const Sidebar = ({
           <button
             type="button"
             className="Sidebar-profile"
-            onClick={onViewProfile}
+            onClick={() => {
+              closeOnMobile();
+              if (onViewProfile) onViewProfile();
+            }}
           >
             <div className="Sidebar-avatar">
               <span>AU</span>
@@ -282,14 +326,21 @@ const Sidebar = ({
 
           {showLabel && (
             <div className="Sidebar-quick-icons">
-              <a href="tel:+919876543210" className="Sidebar-quick-btn" aria-label="Call support">
+              <a
+                href="tel:+919876543210"
+                className="Sidebar-quick-btn"
+                aria-label="Call support"
+              >
                 <FaPhoneAlt size={13} />
               </a>
               <button
                 type="button"
                 className="Sidebar-quick-btn"
                 aria-label="View profile"
-                onClick={onViewProfile}
+                onClick={() => {
+                  closeOnMobile();
+                  if (onViewProfile) onViewProfile();
+                }}
               >
                 <FaIdBadge size={14} />
               </button>
@@ -297,7 +348,10 @@ const Sidebar = ({
                 type="button"
                 className="Sidebar-quick-btn Sidebar-quick-btn-danger"
                 aria-label="Logout"
-                onClick={onLogout}
+                onClick={() => {
+                  closeOnMobile();
+                  if (onLogout) onLogout();
+                }}
               >
                 <FaPowerOff size={13} />
               </button>
@@ -307,14 +361,25 @@ const Sidebar = ({
           {/* Illustration banner */}
           {showLabel && (
             <div className="Sidebar-illustration">
-              <svg viewBox="0 0 260 110" preserveAspectRatio="xMidYMax meet" className="Sidebar-illustration-svg">
+              <svg
+                viewBox="0 0 260 110"
+                preserveAspectRatio="xMidYMax meet"
+                className="Sidebar-illustration-svg"
+              >
                 <defs>
                   <linearGradient id="skySunset" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#fbbf24" />
                     <stop offset="100%" stopColor="#fb923c" />
                   </linearGradient>
                 </defs>
-                <circle cx="60" cy="26" r="16" fill="url(#skySunset)" opacity="0.85" className="Sidebar-illustration-sun" />
+                <circle
+                  cx="60"
+                  cy="26"
+                  r="16"
+                  fill="url(#skySunset)"
+                  opacity="0.85"
+                  className="Sidebar-illustration-sun"
+                />
                 <path d="M0 92 h260 v18 h-260 Z" fill="#0b3d2e" />
                 <rect x="95" y="46" width="70" height="46" fill="#fb923c" />
                 <path d="M90 46 L130 22 L170 46 Z" fill="#ea580c" />
