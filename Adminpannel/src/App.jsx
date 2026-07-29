@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import DashBoard from "./Pages/DashBoard/DashBoard";
+import BlogManagement from "./Pages/BlogManagement/BlogManagement";
 import BlogPost from "./Pages/BlogPost/BlogPost";
 
 // Import other placeholder or actual pages as needed for your sidebar links:
@@ -27,7 +28,10 @@ function App() {
           
           {/* Proper Dashboard path */}
           <Route path="dashboard" element={<DashBoard />} />
+          <Route path="/blog-management" element={<BlogManagement/>}/>
           <Route path="/blog-management/posts" element={<BlogPost/>}/>
+          
+        
          
 
           {/* Other Sidebar paths mapped correctly */}
