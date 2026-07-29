@@ -1,0 +1,283 @@
+/* Page Setup */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fafafa;
+  color: #4a4a4a;
+}
+
+.love-wrapper {
+  position: relative;
+  min-height: 100vh;
+  padding: 60px 20px;
+  overflow-x: hidden;
+  background-color: #fafafa;
+}
+
+/* Floating Images */
+.floating-flower {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  width: 140px;
+  z-index: 1;
+}
+
+.floating-bunny {
+  position: absolute;
+  bottom: 100px;
+  right: 60px;
+  width: 140px;
+  z-index: 1;
+}
+
+/* Main Container */
+.love-container {
+  max-width: 850px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header Styles */
+.love-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.love-header .subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f26a4f;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.love-header .main-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #2b2b2b;
+  margin-bottom: 16px;
+}
+
+.love-header .highlight-text {
+  color: #f26a4f;
+  position: relative;
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+.love-header .description {
+  font-size: 15px;
+  color: #777777;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Stepper Navigation */
+.stepper-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto 40px auto;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #e0e0e0;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #bbbbbb;
+  margin-bottom: 8px;
+}
+
+.step-item.active .step-circle {
+  border-color: #f26a4f;
+  color: #f26a4f;
+}
+
+.step-label {
+  font-size: 12px;
+  color: #aaaaaa;
+  line-height: 1.3;
+}
+
+.step-item.active .step-label {
+  color: #4a4a4a;
+  font-weight: 600;
+}
+
+.step-line {
+  flex: 1;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 0 15px;
+  align-self: flex-start;
+  margin-top: 18px;
+}
+
+/* Form Styling */
+.love-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-row.three-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-row.two-cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.form-row.full-width {
+  grid-template-columns: 1fr;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555555;
+  margin-bottom: 6px;
+}
+
+.form-group .required {
+  color: #f26a4f;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 30px;
+  border: 1px solid #eaeaea;
+  background-color: #ffffff;
+  font-size: 14px;
+  color: #4a4a4a;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-group textarea {
+  border-radius: 20px;
+  resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #cccccc;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #f26a4f;
+}
+
+/* Submit Button */
+.form-submit-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px 0;
+  background-color: #f26a4f;
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #d9553b;
+}
+
+/* Fixed Action Buttons at bottom right */
+.floating-actions {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+
+.action-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.demo-btn {
+  background-color: #e3b842;
+}
+
+.purchase-btn {
+  background-color: #e75a43;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .floating-flower,
+  .floating-bunny {
+    position: static;
+    display: block;
+    margin: 0 auto 20px auto;
+    width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .form-row.three-cols,
+  .form-row.two-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .love-header .main-title {
+    font-size: 32px;
+  }
+}

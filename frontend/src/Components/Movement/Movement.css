@@ -1,0 +1,349 @@
+/* --- Movement.css --- */
+
+/* 1. Global Wrapper & Background */
+.movement-section {
+  position: relative;
+  width: 100%;
+  background-color: #fbf9f4; /* Cream / off-white background matching reference */
+  padding: 80px 40px;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  overflow: hidden;
+}
+
+.movement-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* 2. Left Column: Auto Slider Styling */
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.slider-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth Slide Transition */
+}
+
+.slide-item {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Image Text Overlay */
+.slide-overlay-text {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+  color: #ffffff;
+  z-index: 2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slide-overlay-text h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+}
+
+.slide-overlay-text p {
+  font-size: 13px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Slider Controls */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.3s;
+}
+
+.slider-arrow:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.slider-arrow.left { left: 12px; }
+.slider-arrow.right { right: 12px; }
+
+.slider-dots {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 3;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dot.active {
+  background-color: #ffffff;
+  transform: scale(1.3);
+}
+
+/* 3. Right Column: Content Styling */
+.content-wrapper {
+  padding-left: 10px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #d18d79;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 44px;
+  font-weight: 700;
+  color: #2b2b2b;
+  line-height: 1.15;
+  margin: 0 0 15px 0;
+  position: relative;
+}
+
+.highlight-text {
+  font-family: 'Permanent Marker', cursive;
+  color: #e27055; /* Coral orange color */
+  position: relative;
+  display: inline-block;
+}
+
+.underline-doodle {
+  display: block;
+  width: 140px;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    #f2bd53,
+    #f2bd53 10px,
+    transparent 10px,
+    transparent 14px
+  );
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+/* Price in Rupees */
+.price {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 52px;
+  color: #2b2b2b;
+  margin: 10px 0 20px 0;
+}
+
+.rupee-symbol {
+  font-size: 38px;
+  font-weight: 400;
+  margin-right: 2px;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #6d6d6d;
+  margin-bottom: 25px;
+}
+
+/* Hashtags */
+.tags-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.tag {
+  font-size: 13px;
+  color: #555;
+  font-weight: 600;
+}
+
+.hash {
+  color: #e27055;
+  margin-right: 3px;
+}
+
+/* Teacher Info / Avatar */
+.teacher-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.teacher-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.teacher-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin: 0 0 4px 0;
+}
+
+.teacher-quote {
+  font-size: 13px;
+  color: #777777;
+  margin: 0;
+}
+
+/* 4. Bottom Right Action Buttons */
+.bottom-action-buttons {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.btn-demos {
+  background-color: #f1c453;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 15px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.btn-purchase {
+  background-color: #e27055;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 15px;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+/* 5. Background Doodles */
+.doodle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.12;
+  z-index: 1;
+}
+
+.doodle-flask {
+  width: 110px;
+  top: 35%;
+  left: 2%;
+}
+
+.doodle-dots-right {
+  width: 60px;
+  bottom: 30%;
+  right: 4%;
+}
+
+/* ==========================================
+   6. Responsive Layout Breaks (Mobile/Tablet)
+   ========================================== */
+
+@media (max-width: 992px) {
+  .movement-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .content-wrapper {
+    padding-left: 0;
+  }
+
+  .slider-wrapper {
+    height: 400px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .price {
+    font-size: 44px;
+  }
+
+  .bottom-action-buttons {
+    position: static;
+    margin-top: 30px;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  .movement-section {
+    padding: 40px 20px;
+  }
+
+  .slider-wrapper {
+    height: 320px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .price {
+    font-size: 38px;
+  }
+
+  .tags-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .doodle {
+    display: none; /* Mobile screens पर डूडल छुपाएं */
+  }
+}
