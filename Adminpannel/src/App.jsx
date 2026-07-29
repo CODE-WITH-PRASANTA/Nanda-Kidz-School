@@ -8,6 +8,7 @@ import {
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import DashBoard from "./Pages/DashBoard/DashBoard";
 import BlogPost from "./Pages/BlogPost/BlogPost";
+import NewProduct from "./Pages/NewProduct/NewProduct";
 
 // Import other placeholder or actual pages as needed for your sidebar links:
 // import Students from "./Pages/Students/Students";
@@ -28,6 +29,8 @@ function App() {
           {/* Proper Dashboard path */}
           <Route path="dashboard" element={<DashBoard />} />
           <Route path="/blog-management/posts" element={<BlogPost/>}/>
+          <Route path="/newproducts" element={<NewProduct/>}/>
+          
          
 
           {/* Other Sidebar paths mapped correctly */}
