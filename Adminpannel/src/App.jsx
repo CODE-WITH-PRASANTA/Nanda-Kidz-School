@@ -7,15 +7,15 @@ import {
 } from "react-router-dom";
 import MainLayout from "./Layout/MainLayout/MainLayout";
 import DashBoard from "./Pages/DashBoard/DashBoard";
+<<<<<<< HEAD
+import Shop from "./Pages/Shop/Shop";
+import Addproduct from "./Pages/Addproduct/Addproduct";
+
+=======
 import BlogPost from "./Pages/BlogPost/BlogPost";
 import NewProduct from "./Pages/NewProduct/NewProduct";
+>>>>>>> 38ddf0b594a2592b3fbfbac03e1b25d83a6bf628
 
-// Import other placeholder or actual pages as needed for your sidebar links:
-// import Students from "./Pages/Students/Students";
-// import Admissions from "./Pages/Admissions/Admissions";
-// import Teachers from "./Pages/Teachers/Teachers";
-// import Classes from "./Pages/Classes/Classes";
-// ... import other pages to match your sidebar paths
 
 function App() {
   return (
@@ -28,6 +28,11 @@ function App() {
           
           {/* Proper Dashboard path */}
           <Route path="dashboard" element={<DashBoard />} />
+<<<<<<< HEAD
+<Route path="/shop/products"element={<Shop/>}/>
+<Route path="/shop/products/add"element={<Addproduct/>}/>
+         
+=======
           <Route path="/blog-management/posts" element={<BlogPost/>}/>
           <Route path="/newproducts" element={<NewProduct/>}/>
           
@@ -53,6 +58,7 @@ function App() {
           {/* <Route path="website-manage" element={<WebsiteManage />} /> */}
           {/* <Route path="settings" element={<Settings />} /> */}
           {/* <Route path="reports" element={<Reports />} /> */}
+>>>>>>> 38ddf0b594a2592b3fbfbac03e1b25d83a6bf628
         </Route>
 
         {/* Fallback catch-all route */}
