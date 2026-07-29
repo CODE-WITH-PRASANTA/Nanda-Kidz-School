@@ -1,0 +1,278 @@
+/* --- Focused.css --- */
+
+/* 1. Global Reset / Section Setup */
+.focused-section {
+  position: relative; /* Needed for absolute positioning of doodles */
+  width: 100%;
+  background-color: #ffffff; /* Proper white background */
+  padding: 80px 20px; /* Vertical spacing */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Clean base font */
+  overflow: hidden; /* Keeps doodles inside */
+  color: #555555; /* Base text color */
+}
+
+.focused-container {
+  max-width: 1200px; /* Standard max width */
+  margin: 0 auto;
+  position: relative;
+  z-index: 10; /* Sits above background doodles */
+}
+
+/* 2. Header Styling */
+.focused-header {
+  text-align: center;
+  margin-bottom: 70px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  color: #df9e8e; /* Pale peach/pink color */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.header-title {
+  font-size: 48px;
+  color: #2c2c2c;
+  font-weight: 700;
+  margin-bottom: 25px;
+  line-height: 1.2;
+}
+
+/* 100% SAME: The special hand-drawn style font for 'Growth' */
+.highlight-text {
+  font-family: 'Permanent Marker', cursive; /* Applied Google Font */
+  color: #e57e62; /* The orange/coral color */
+  font-weight: 400;
+}
+
+.header-description {
+  font-size: 16px;
+  color: #777777;
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* 3. Cards Grid */
+.focused-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns by default */
+  gap: 30px; /* Space between cards */
+  align-items: start;
+}
+
+/* 4. Card Base Styling */
+.focused-card {
+  background: #ffffff;
+  border-radius: 5px; /* Subtle rounding */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.focused-card:hover {
+  transform: translateY(-5px); /* Lift on hover */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* 5. Card Image */
+.card-image-wrapper {
+  width: 100%;
+  height: 240px; /* Fixed height for consistency */
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers area without stretching */
+  object-position: center;
+}
+
+/* 6. Card Content Area */
+.card-content {
+  padding: 40px 30px 20px 30px;
+  text-align: center;
+  flex-grow: 1; /* Pushes button to the bottom */
+}
+
+.card-title {
+  font-size: 16px;
+  color: #444444;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* 100% SAME: The large, special font for prices */
+.card-price {
+  font-family: 'Permanent Marker', cursive; /* Special font */
+  font-size: 64px;
+  color: #333333;
+  margin-bottom: 30px;
+  line-height: 1;
+}
+
+/* 100% SAME: The Rupee Sign alignment */
+.rupee-sign {
+  font-size: 32px; /* Smaller than the number */
+  vertical-align: super; /* Raised position */
+  margin-right: 5px;
+  font-weight: 400;
+}
+
+.card-description {
+  font-size: 15px;
+  color: #777777;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  min-height: 50px; /* keeps alignment if description is short */
+}
+
+/* Features List */
+.card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left; /* Left alignment for features as in reference */
+  display: inline-block; /* Centers the whole block */
+}
+
+.card-features li {
+  font-size: 14px;
+  color: #666666;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.check-icon {
+  margin-right: 12px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* 7. Featured (Orange) Card Variation */
+.focused-card.featured .card-content {
+  background-color: #e57e62; /* Main Orange color */
+}
+
+.focused-card.featured .card-title,
+.focused-card.featured .card-price,
+.focused-card.featured .card-description,
+.focused-card.featured .card-features li {
+  color: #ffffff; /* All text white on featured card */
+}
+
+/* Check icon color variations */
+.focused-card.standard .check-icon { color: #555555; }
+.focused-card.featured .check-icon { color: #ffffff; }
+
+/* 8. Card Buttons */
+.card-button {
+  width: 100%;
+  border: none;
+  padding: 18px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+}
+
+/* Specific Button Colors mapped 100% to reference */
+.focused-card:nth-child(1) .card-button {
+  background-color: #ecc164; /* Yellow/Gold button */
+  color: #ffffff;
+}
+.focused-card:nth-child(1) .card-button:hover { background-color: #dbac4e; }
+
+.focused-card:nth-child(2) .card-button {
+  background-color: #dc7157; /* Darker Orange/Coral button */
+  color: #ffffff;
+}
+.focused-card:nth-child(2) .card-button:hover { background-color: #c95d44; }
+
+.focused-card:nth-child(3) .card-button {
+  background-color: #85d2e7; /* Blue button */
+  color: #ffffff;
+}
+.focused-card:nth-child(3) .card-button:hover { background-color: #6cbcd1; }
+
+/* 9. Background Doodle Positions - Faded opacity like reference */
+.doodle {
+  position: absolute;
+  pointer-events: none; /* User can't interact with them */
+  opacity: 0.15; /* Subtle and faded */
+  z-index: 1;
+}
+
+.doodle-pencil { width: 100px; top: 15%; left: 5%; transform: rotate(-15deg); }
+.doodle-ruler { width: 120px; top: 10%; right: 5%; transform: rotate(10deg); }
+.doodle-pen { width: 90px; bottom: 10%; right: 8%; transform: rotate(15deg); }
+.doodle-waves { width: 150px; bottom: 5%; left: 8%; }
+.doodle-dots-tl { width: 60px; top: 10%; left: 15%; }
+.doodle-dots-br { width: 60px; bottom: 10%; right: 15%; }
+
+
+/* =========================================================
+   10. Responsiveness Rules (All Devices)
+   ========================================================= */
+
+/* Tablets / Small Desktops (e.g., iPad Pro) */
+@media (max-width: 1024px) {
+  .focused-container { max-width: 90%; }
+  
+  .focused-header { margin-bottom: 50px; }
+  .header-title { font-size: 40px; }
+  
+  .focused-cards-grid { gap: 20px; }
+  
+  .card-price { font-size: 56px; }
+  .card-content { padding: 30px 20px 15px 20px; }
+  
+  .doodle { opacity: 0.1; } /* Fade doodles more on smaller screens */
+}
+
+/* Small Tablets / Large Mobiles (Landscape) */
+@media (max-width: 768px) {
+  .focused-section { padding: 60px 15px; }
+  
+  .header-title { font-size: 32px; }
+  
+  /* Stack cards vertically */
+  .focused-cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px; /* Prevents cards getting too wide */
+    margin: 0 auto;
+    gap: 40px;
+  }
+  
+  .card-image-wrapper { height: 280px; } /* Slightly taller images when stacked */
+
+  /* Hide some doodles to prevent clutter on mobile */
+  .doodle-pencil, .doodle-ruler, .doodle-dots-tl, .doodle-dots-br { display: none; }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  .focused-header { margin-bottom: 40px; }
+  .header-subtitle { font-size: 12px; }
+  .header-title { font-size: 28px; }
+  
+  .focused-cards-grid { max-width: 100%; }
+  
+  .card-image-wrapper { height: 220px; }
+  .card-content { padding: 25px 15px 10px 15px; }
+  .card-price { font-size: 48px; }
+  .rupee-sign { font-size: 24px; }
+}

@@ -1,0 +1,212 @@
+/* --- Indulge.css --- */
+
+/* 1. Global Reset / Section Setup */
+.indulge-section {
+  position: relative; /* Needed for background doodles positioning */
+  width: 100%;
+  background-color: #ffffff; /* Proper white background */
+  padding: 80px 20px; /* Vertical spacing */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Clean base font */
+  overflow: hidden; /* Keeps doodles inside */
+  color: #555555; /* Base text color */
+}
+
+.indulge-container {
+  max-width: 1200px; /* Standard max width */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 50px;
+  position: relative;
+  z-index: 10; /* Sits above background doodles */
+}
+
+/* 2. Left Column Styling */
+.indulge-left {
+  flex: 1; /* Takes up half the space */
+  position: relative;
+  max-width: 500px; /* Limits paragraph width for readability */
+}
+
+.good-impact {
+  font-size: 14px;
+  color: #df9e8e; /* Pale peach/pink color */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.main-heading {
+  font-size: 48px;
+  color: #333333;
+  font-weight: 700;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+/* 100% SAME: The special hand-drawn style font for 'Relaxation' */
+.highlight-text {
+  font-family: 'Permanent Marker', cursive; /* Applied Google Font */
+  color: #69a773; /* The green color */
+  font-weight: 400;
+  position: relative;
+  display: inline-block;
+}
+
+/* 100% SAME: Hand-drawn style underline doodle */
+.underline-doodle {
+  display: block;
+  width: 200px;
+  height: 6px;
+  background-color: #f7b731; /* Gold/Yellow color */
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.description-text {
+  font-size: 16px;
+  color: #777777;
+  line-height: 1.8;
+  margin-bottom: 50px;
+}
+
+/* 3. Character Area Alignment */
+.character-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  position: absolute;
+  bottom: -30px;
+  left: 100px;
+}
+
+.grass-img {
+  width: 130px;
+  height: auto;
+ margin-bottom: -170px;
+}
+
+.creature-img {
+  width: 160px;
+  height: auto;
+  margin-bottom: -50px;
+}
+
+/* 4. Right Column Styling */
+.indulge-right {
+  flex: 1;
+}
+
+.treatment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.treatment-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 30px 0;
+  border-bottom: 1px solid #f0f0f0; /* Faint line divider */
+}
+
+.treatment-item:last-child {
+  border-bottom: none;
+}
+
+/* Tag colors (matched to reference) */
+.treatment-tag {
+  width: 60px;
+  height: 30px;
+  border-radius: 15px; /* Fully rounded */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  text-transform: lowercase;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-right: 25px;
+}
+
+.tag-sale { background-color: #8dd0f1; }  /* Sale (Blue) */
+.tag-promo { background-color: #be8ad3; } /* Promo (Purple) */
+.tag-new { background-color: #ec75ad; }   /* New (Pink) */
+
+.treatment-name {
+  font-size: 20px;
+  color: #333333;
+  font-weight: 600;
+  flex-grow: 1; /* Pushes price to the right */
+}
+
+.treatment-price {
+  font-size: 22px;
+  color: #333333;
+  font-weight: 700;
+}
+
+/* Background doodles positioning (faded like reference) */
+.doodle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.15; /* Subtle and faded */
+}
+
+.doodle-waves { bottom: 10px; left: 5%; width: 200px; }
+.doodle-dots { top: 50%; right: 10%; width: 100px; }
+
+
+/* =========================================================
+   5. Responsiveness Rules (All Devices)
+   ========================================================= */
+
+/* Tablets / Small Desktops (e.g., iPad Pro) */
+@media (max-width: 1024px) {
+  .indulge-container { gap: 30px; padding: 0 10px; }
+  .main-heading { font-size: 40px; }
+  .treatment-name { font-size: 18px; }
+}
+
+/* Small Tablets / Large Mobiles (Landscape) */
+@media (max-width: 768px) {
+  .indulge-container {
+    flex-direction: column; /* Stack left above right */
+    align-items: center;
+    gap: 60px;
+  }
+  
+  .indulge-left {
+    text-align: center;
+    max-width: 100%;
+  }
+  
+  /* Centers doodles, heading underline, and characters on mobile */
+  .underline-doodle { margin: 5px auto 0 auto; }
+  
+  .character-area {
+    position: relative; /* Takes out of absolute for stacking */
+    left: 0;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .indulge-right { width: 100%; }
+}
+
+/* Mobile Portrait */
+@media (max-width: 480px) {
+  .main-heading { font-size: 32px; }
+  .treatment-item { padding: 20px 0; }
+  .treatment-tag { margin-right: 15px; }
+  .treatment-name { font-size: 16px; }
+  .treatment-price { font-size: 18px; }
+  
+  /* Scale character for very small screens */
+  .creature-img { width: 130px; }
+  .grass-img { width: 100px; }
+}
