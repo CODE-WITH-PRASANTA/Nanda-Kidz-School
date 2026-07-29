@@ -1,10 +1,8 @@
-
 import React, { useState } from "react";
 import {
   FiBox,
   FiUpload,
   FiCheck,
-  FiBell,
   FiChevronDown,
   FiMonitor,
   FiBookOpen,
@@ -19,155 +17,59 @@ import {
   FiMail,
   FiInfo,
   FiSend,
-  FiExternalLink,
 } from "react-icons/fi";
 import "./NewProduct.css";
 
 const NewProduct = () => {
   const [productType, setProductType] = useState("Physical");
   const [productStatus, setProductStatus] = useState("Active");
-
   const [featured, setFeatured] = useState(false);
   const [bestSeller, setBestSeller] = useState(false);
   const [newArrival, setNewArrival] = useState(true);
   const [allowReviews, setAllowReviews] = useState(true);
-
   const [qty, setQty] = useState(1);
 
-  const productTypes = [
-    { name: "Physical", icon: <FiBox /> },
-    { name: "Variable", icon: <FiBookOpen /> },
-    { name: "Digital", icon: <FiSmartphone /> },
-  ];
-
-  const statusOptions = [
-    {
-      name: "Active",
-      description: "Product will be visible on the website",
-    },
-    {
-      name: "Inactive",
-      description: "Product will be hidden from store",
-    },
-    {
-      name: "Draft",
-      description: "Save as draft for later",
-    },
-  ];
-
-  const settings = [
-    {
-      title: "Featured Product",
-      description: "Show in featured section",
-      value: featured,
-      setter: setFeatured,
-    },
-    {
-      title: "Best Seller",
-      description: "Mark as best seller",
-      value: bestSeller,
-      setter: setBestSeller,
-    },
-    {
-      title: "New Arrival",
-      description: "Show as new arrival",
-      value: newArrival,
-      setter: setNewArrival,
-    },
-    {
-      title: "Allow Reviews",
-      description: "Allow customers to review",
-      value: allowReviews,
-      setter: setAllowReviews,
-    },
-  ];
-
-  const tips = [
-    "Use high quality images for better sales",
-    "Write clear and detailed product description",
-    "Set appropriate price and stock levels",
-    "Choose correct category for easy search",
-  ];
-
   return (
-    <div className="anp-admin-container">
+    <div className="np-admin-container">
 
-      {/* ==================== HEADER ==================== */}
-      <header className="anp-top-header">
-        <div className="anp-breadcrumb-area">
-          <h1 className="anp-page-title">Add New Product</h1>
+      {/* Page Header - Top Right Header Removed */}
+      <header className="np-page-header">
+        <div className="np-breadcrumb-area">
+          <h1 className="np-page-title">Add New Product</h1>
 
-          <p className="anp-breadcrumbs">
+          <p className="np-breadcrumbs">
             Dashboard
-            <span className="anp-separator">&gt;</span>
+            <span>&gt;</span>
             Shop
-            <span className="anp-separator">&gt;</span>
+            <span>&gt;</span>
             Products
-            <span className="anp-separator">&gt;</span>
+            <span>&gt;</span>
             Add New Product
           </p>
         </div>
-
-        <div className="anp-header-actions">
-          <button
-            type="button"
-            className="anp-visit-website-btn"
-          >
-            <FiExternalLink />
-            <span>Visit Website</span>
-          </button>
-
-          <button
-            type="button"
-            className="anp-notification-icon"
-            aria-label="Notifications"
-          >
-            <FiBell />
-            <span className="anp-badge-dot">5</span>
-          </button>
-
-          <button
-            type="button"
-            className="anp-admin-profile"
-          >
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"
-              alt="Admin profile"
-            />
-
-            <span>Admin</span>
-            <FiChevronDown />
-          </button>
-        </div>
       </header>
 
+      {/* Main Layout */}
+      <div className="np-main-grid">
 
-      {/* ==================== MAIN GRID ==================== */}
-      <main className="anp-main-content-grid">
+        {/* ================= LEFT 50% ================= */}
+        <div className="np-left-column">
 
-        {/* ==================== LEFT FORM COLUMN ==================== */}
-        <section className="anp-form-column">
-
-          {/* PRODUCT INFORMATION */}
-          <div className="anp-card">
-
-            <div className="anp-card-header">
-              <span className="anp-card-icon purple-bg">
+          {/* Product Information */}
+          <div className="np-card">
+            <div className="np-card-header">
+              <span className="np-card-icon np-purple-bg">
                 <FiBox />
               </span>
-
               <h2>Product Information</h2>
             </div>
 
+            <div className="np-form-row np-two-col">
 
-            {/* Product Name / SKU */}
-            <div className="anp-form-row two-col">
-
-              <div className="anp-form-group">
+              <div className="np-form-group">
                 <label>
                   Product Name <span>*</span>
                 </label>
-
                 <input
                   type="text"
                   placeholder="Enter product name"
@@ -175,12 +77,10 @@ const NewProduct = () => {
                 />
               </div>
 
-
-              <div className="anp-form-group">
+              <div className="np-form-group">
                 <label>
                   SKU / Product Code <span>*</span>
                 </label>
-
                 <input
                   type="text"
                   placeholder="Enter unique SKU or product code"
@@ -190,88 +90,78 @@ const NewProduct = () => {
 
             </div>
 
+            <div className="np-form-row np-two-col">
 
-            {/* Category / Sub Category */}
-            <div className="anp-form-row two-col">
-
-              <div className="anp-form-group">
+              <div className="np-form-group">
                 <label>
                   Category <span>*</span>
                 </label>
 
-                <div className="anp-select-wrapper">
+                <div className="np-select-wrapper">
                   <select defaultValue="Bags">
                     <option value="Bags">Bags</option>
                     <option value="Electronics">Electronics</option>
                     <option value="Clothing">Clothing</option>
-                    <option value="Shoes">Shoes</option>
                   </select>
-
-                  <FiChevronDown className="select-arrow" />
+                  <FiChevronDown className="np-select-arrow" />
                 </div>
               </div>
 
-
-              <div className="anp-form-group">
+              <div className="np-form-group">
                 <label>Sub Category</label>
 
-                <div className="anp-select-wrapper">
+                <div className="np-select-wrapper">
                   <select defaultValue="School Bags">
-                    <option value="School Bags">
-                      School Bags
-                    </option>
-
-                    <option value="Travel Bags">
-                      Travel Bags
-                    </option>
-
-                    <option value="Laptop Bags">
-                      Laptop Bags
-                    </option>
+                    <option value="School Bags">School Bags</option>
+                    <option value="Travel Bags">Travel Bags</option>
                   </select>
-
-                  <FiChevronDown className="select-arrow" />
+                  <FiChevronDown className="np-select-arrow" />
                 </div>
               </div>
 
             </div>
 
+            <div className="np-form-row np-two-col">
 
-            {/* Product Type / Brand */}
-            <div className="anp-form-row two-col">
-
-              <div className="anp-form-group">
+              <div className="np-form-group">
                 <label>
                   Type <span>*</span>
                 </label>
 
-                <div className="anp-type-selector">
+                <div className="np-type-selector">
 
-                  {productTypes.map((type) => (
-                    <button
-                      key={type.name}
-                      type="button"
-                      className={
-                        productType === type.name
-                          ? "active"
-                          : ""
-                      }
-                      onClick={() =>
-                        setProductType(type.name)
-                      }
-                    >
-                      {type.icon}
-                      <span>{type.name}</span>
-                    </button>
-                  ))}
+                  <button
+                    type="button"
+                    className={productType === "Physical" ? "active" : ""}
+                    onClick={() => setProductType("Physical")}
+                  >
+                    <FiBox />
+                    Physical
+                  </button>
+
+                  <button
+                    type="button"
+                    className={productType === "Variable" ? "active" : ""}
+                    onClick={() => setProductType("Variable")}
+                  >
+                    <FiBookOpen />
+                    Variable
+                  </button>
+
+                  <button
+                    type="button"
+                    className={productType === "Digital" ? "active" : ""}
+                    onClick={() => setProductType("Digital")}
+                  >
+                    <FiSmartphone />
+                    Digital
+                  </button>
 
                 </div>
               </div>
 
-
-              <div className="anp-form-group">
-                <label>Brand</label>
-
+              <div className="np-form-group">
+                <label>Brand (Optional)</label>
                 <input
                   type="text"
                   placeholder="Enter brand name"
@@ -281,386 +171,265 @@ const NewProduct = () => {
 
             </div>
 
-
-            {/* Short Description */}
-            <div className="anp-form-group">
-
+            <div className="np-form-group">
               <label>
                 Short Description <span>*</span>
               </label>
 
               <textarea
                 rows="3"
-                maxLength="160"
                 placeholder="Enter short description about product..."
                 defaultValue="Durable and comfortable school backpack with multiple compartments. Perfect for daily school use."
               />
 
-              <span className="anp-char-count">
-                99/160
-              </span>
-
+              <span className="np-char-count">99/160</span>
             </div>
 
-
-            {/* Full Description */}
-            <div className="anp-form-group">
-
+            <div className="np-form-group">
               <label>Full Description</label>
 
-              <div className="anp-description-editor">
+              <div className="np-editor">
+                <div className="np-toolbar">
 
-                <div className="anp-editor-toolbar">
+                  <span className="np-toolbar-dropdown">
+                    Paragraph
+                    <FiChevronDown />
+                  </span>
 
-                  <button type="button">
-                    <b>B</b>
-                  </button>
+                  <div className="np-toolbar-divider" />
 
-                  <button type="button">
-                    <i>I</i>
-                  </button>
+                  <button type="button"><b>B</b></button>
+                  <button type="button"><i>I</i></button>
+                  <button type="button"><u>U</u></button>
 
-                  <button type="button">
-                    <u>U</u>
-                  </button>
+                  <div className="np-toolbar-divider" />
 
-                  <span className="anp-editor-divider" />
+                  <button type="button">≡</button>
+                  <button type="button">≡</button>
+                  <button type="button">≡</button>
+
+                  <div className="np-toolbar-divider" />
 
                   <button type="button">
                     <FiUpload />
                   </button>
 
-                  <button type="button">
-                    <FiPlus />
-                  </button>
-
-                  <button type="button">
-                    <FiChevronDown />
-                  </button>
+                  <button type="button">⋯</button>
 
                 </div>
 
                 <textarea
-                  rows="7"
+                  className="np-editor-textarea"
                   placeholder="Write product description here..."
                   defaultValue="Crafted with high-grade, water-resistant polyester fabric, this school backpack ensures maximum durability and longevity. Features padded ergonomic shoulder straps, spacious dual compartments, side mesh pockets for bottles, and a vibrant artistic layout designed specially for students."
                 />
-
               </div>
-
             </div>
-
           </div>
 
+          {/* Product Images */}
+          <div className="np-card">
 
-          {/* ==================== PRODUCT IMAGES ==================== */}
-          <div className="anp-card">
-
-            <div className="anp-card-header">
-              <span className="anp-card-icon purple-bg">
+            <div className="np-card-header">
+              <span className="np-card-icon np-purple-bg">
                 <FiUpload />
               </span>
-
               <h2>
                 Product Images <span>*</span>
               </h2>
             </div>
 
+            <div className="np-images-grid">
 
-            <div className="anp-images-grid-container">
-
-              <div className="anp-upload-box main-upload">
-
-                <FiUpload className="upload-cloud-icon" />
-
-                <strong>
-                  Upload Main Image
-                </strong>
-
-                <small>
-                  Drag & drop or click to browse
-                </small>
-
-                <small>
-                  JPG, PNG, WEBP (Max. 5MB)
-                </small>
-
+              <div className="np-upload-box np-main-upload">
+                <FiUpload className="np-upload-icon" />
+                <strong>Upload Main Image</strong>
+                <span>Drag & drop or click to browse</span>
+                <small>JPG, PNG, WEBP (Max. 5MB)</small>
               </div>
 
+              <div className="np-upload-box">
+                <FiPlus />
+                <span>Add Image</span>
+              </div>
 
-              {[1, 2, 3, 4].map((item) => (
-                <div
-                  className="anp-upload-box"
-                  key={item}
-                >
-                  <FiPlus className="plus-icon" />
+              <div className="np-upload-box">
+                <FiPlus />
+                <span>Add Image</span>
+              </div>
 
-                  <span>
-                    Add Image
-                  </span>
-                </div>
-              ))}
+              <div className="np-upload-box">
+                <FiPlus />
+                <span>Add Image</span>
+              </div>
+
+              <div className="np-upload-box">
+                <FiPlus />
+                <span>Add Image</span>
+              </div>
 
             </div>
-
           </div>
 
+          {/* Pricing & Inventory */}
+          <div className="np-card">
 
-          {/* ==================== PRICING ==================== */}
-          <div className="anp-card">
-
-            <div className="anp-card-header">
-              <span className="anp-card-icon green-bg">
+            <div className="np-card-header">
+              <span className="np-card-icon np-green-bg">
                 <FiBox />
               </span>
-
-              <h2>
-                Pricing & Inventory
-              </h2>
+              <h2>Pricing & Inventory</h2>
             </div>
 
+            <div className="np-form-row np-three-col">
 
-            <div className="anp-form-row three-col">
-
-              <div className="anp-form-group">
-                <label>
-                  Price (₹) <span>*</span>
-                </label>
-
-                <input
-                  type="number"
-                  defaultValue="899.00"
-                />
+              <div className="np-form-group">
+                <label>Price (₹) *</label>
+                <input type="text" defaultValue="899.00" />
               </div>
 
-
-              <div className="anp-form-group">
-                <label>
-                  Sale Price (₹)
-                </label>
-
-                <input
-                  type="number"
-                  defaultValue="999.00"
-                />
-
-                <span className="anp-input-hint">
-                  Leave empty if no sale
-                </span>
+              <div className="np-form-group">
+                <label>Sale Price (₹)</label>
+                <input type="text" defaultValue="999.00" />
+                <small>Leave empty if no sale</small>
               </div>
 
-
-              <div className="anp-form-group">
-                <label>
-                  Cost Price (₹)
-                </label>
-
-                <input
-                  type="number"
-                  defaultValue="600.00"
-                />
-
-                <span className="anp-input-hint">
-                  For inventory calculation
-                </span>
+              <div className="np-form-group">
+                <label>Cost Price (₹)</label>
+                <input type="text" defaultValue="600.00" />
+                <small>For inventory calculation</small>
               </div>
 
             </div>
 
+            <div className="np-form-row np-three-col">
 
-            <div className="anp-form-row three-col">
-
-              <div className="anp-form-group">
-                <label>
-                  Stock Quantity <span>*</span>
-                </label>
-
-                <input
-                  type="number"
-                  defaultValue="45"
-                />
+              <div className="np-form-group">
+                <label>Stock Quantity *</label>
+                <input type="number" defaultValue="45" />
               </div>
 
-
-              <div className="anp-form-group">
-                <label>
-                  Low Stock Alert
-                </label>
-
-                <input
-                  type="number"
-                  defaultValue="5"
-                />
-
-                <span className="anp-input-hint">
-                  Alert when stock is below this
-                </span>
+              <div className="np-form-group">
+                <label>Low Stock Alert</label>
+                <input type="number" defaultValue="5" />
               </div>
 
+              <div className="np-form-group">
+                <label>Unit</label>
 
-              <div className="anp-form-group">
-                <label>
-                  Unit
-                </label>
-
-                <div className="anp-select-wrapper">
-
+                <div className="np-select-wrapper">
                   <select defaultValue="Piece">
-                    <option value="Piece">
-                      Piece
-                    </option>
-
-                    <option value="Kg">
-                      Kg
-                    </option>
-
-                    <option value="Box">
-                      Box
-                    </option>
+                    <option>Piece</option>
+                    <option>Kg</option>
+                    <option>Box</option>
                   </select>
-
-                  <FiChevronDown className="select-arrow" />
-
+                  <FiChevronDown className="np-select-arrow" />
                 </div>
-
               </div>
 
             </div>
 
-
-            <label className="anp-checkbox-group">
-
-              <input
-                type="checkbox"
-                defaultChecked
-              />
-
-              <span>
-                Track inventory for this product
-              </span>
-
+            <label className="np-checkbox">
+              <input type="checkbox" defaultChecked />
+              <span>Track inventory for this product</span>
             </label>
 
           </div>
 
+          {/* Bottom Actions */}
+          <div className="np-bottom-actions">
+            <button className="np-cancel-btn">Cancel</button>
+            <button className="np-draft-btn">Save as Draft</button>
+            <button className="np-publish-btn">
+              <FiSend />
+              Save & Publish
+            </button>
+          </div>
 
-          {/* ==================== STATUS ==================== */}
-          <div className="anp-card">
+        </div>
 
-            <div className="anp-card-header">
+        {/* ================= MIDDLE 25% ================= */}
+        <div className="np-middle-column">
 
-              <span className="anp-card-icon green-bg">
+          {/* Product Status */}
+          <div className="np-card">
+
+            <div className="np-card-header">
+              <span className="np-card-icon np-green-bg">
                 <FiCheck />
               </span>
-
-              <h2>
-                Product Status
-              </h2>
-
+              <h2>Product Status</h2>
             </div>
 
+            <div className="np-status-list">
 
-            <div className="anp-radio-group-container">
-
-              {statusOptions.map((status) => (
-
+              {["Active", "Inactive", "Draft"].map((status) => (
                 <label
-                  key={status.name}
-                  className={`anp-radio-box ${
-                    productStatus === status.name
-                      ? "selected"
-                      : ""
+                  key={status}
+                  className={`np-status-box ${
+                    productStatus === status ? "selected" : ""
                   }`}
                 >
-
                   <input
                     type="radio"
                     name="product-status"
-                    checked={
-                      productStatus === status.name
-                    }
-                    onChange={() =>
-                      setProductStatus(status.name)
-                    }
+                    checked={productStatus === status}
+                    onChange={() => setProductStatus(status)}
                   />
 
-                  <div className="radio-content">
-
-                    <span className="radio-title">
-
-                      {status.name}
-
-                      {status.name === "Active" && (
-                        <span className="status-pill active-pill">
-                          Visible
-                        </span>
+                  <div>
+                    <strong>
+                      {status}
+                      {status === "Active" && (
+                        <span className="np-visible-pill">Visible</span>
                       )}
+                    </strong>
 
-                    </span>
-
-                    <span className="radio-desc">
-                      {status.description}
-                    </span>
-
+                    <small>
+                      {status === "Active"
+                        ? "Product will be visible on the website"
+                        : status === "Inactive"
+                        ? "Product will be hidden from store"
+                        : "Save as draft for later"}
+                    </small>
                   </div>
-
                 </label>
-
               ))}
 
             </div>
-
           </div>
 
+          {/* Product Settings */}
+          <div className="np-card">
 
-          {/* ==================== SETTINGS ==================== */}
-          <div className="anp-card">
-
-            <div className="anp-card-header">
-
-              <span className="anp-card-icon purple-bg">
+            <div className="np-card-header">
+              <span className="np-card-icon np-purple-bg">
                 <FiBox />
               </span>
-
-              <h2>
-                Product Settings
-              </h2>
-
+              <h2>Product Settings</h2>
             </div>
 
+            {[
+              ["Featured Product", "Show in featured section", featured, setFeatured],
+              ["Best Seller", "Mark as best seller", bestSeller, setBestSeller],
+              ["New Arrival", "Show as new arrival", newArrival, setNewArrival],
+              ["Allow Reviews", "Allow customers to review", allowReviews, setAllowReviews],
+            ].map(([title, desc, value, setter]) => (
 
-            {settings.map((setting) => (
+              <div className="np-toggle-row" key={title}>
 
-              <div
-                className="anp-toggle-row"
-                key={setting.title}
-              >
-
-                <div className="toggle-info">
-
-                  <span className="toggle-title">
-                    {setting.title}
-                  </span>
-
-                  <span className="toggle-desc">
-                    {setting.description}
-                  </span>
-
+                <div>
+                  <strong>{title}</strong>
+                  <small>{desc}</small>
                 </div>
 
-
-                <label className="anp-switch">
-
+                <label className="np-switch">
                   <input
                     type="checkbox"
-                    checked={setting.value}
-                    onChange={() =>
-                      setting.setter(!setting.value)
-                    }
+                    checked={value}
+                    onChange={() => setter(!value)}
                   />
-
-                  <span className="slider round" />
-
+                  <span />
                 </label>
 
               </div>
@@ -669,437 +438,233 @@ const NewProduct = () => {
 
           </div>
 
+          {/* Shipping & Delivery BELOW Product Settings */}
+          <div className="np-card">
 
-          {/* ==================== SHIPPING ==================== */}
-          <div className="anp-card">
-
-            <div className="anp-card-header">
-
-              <span className="anp-card-icon green-bg">
+            <div className="np-card-header">
+              <span className="np-card-icon np-green-bg">
                 <FiBox />
               </span>
-
-              <h2>
-                Shipping & Delivery
-              </h2>
-
+              <h2>Shipping & Delivery</h2>
             </div>
 
+            <div className="np-form-group">
+              <label>Requires Shipping</label>
 
-            <div className="anp-form-group">
-
-              <label>
-                Requires Shipping
-              </label>
-
-              <div className="anp-select-wrapper">
-
+              <div className="np-select-wrapper">
                 <select defaultValue="Yes">
-
-                  <option value="Yes">
-                    Yes
-                  </option>
-
-                  <option value="No">
-                    No
-                  </option>
-
+                  <option>Yes</option>
+                  <option>No</option>
                 </select>
-
-                <FiChevronDown className="select-arrow" />
-
+                <FiChevronDown className="np-select-arrow" />
               </div>
-
             </div>
 
+            <div className="np-form-row np-two-col">
 
-            <div className="anp-form-row two-col">
-
-              <div className="anp-form-group">
-
-                <label>
-                  Weight (kg)
-                </label>
-
-                <input
-                  type="number"
-                  defaultValue="0.65"
-                />
-
+              <div className="np-form-group">
+                <label>Weight (kg)</label>
+                <input type="text" defaultValue="0.65" />
               </div>
 
+              <div className="np-form-group">
+                <label>Dimensions (cm)</label>
 
-              <div className="anp-form-group">
-
-                <label>
-                  Dimensions (cm)
-                </label>
-
-                <div className="dimension-inputs">
-
-                  <input
-                    placeholder="Length"
-                    defaultValue="30"
-                  />
-
-                  <input
-                    placeholder="Width"
-                    defaultValue="15"
-                  />
-
-                  <input
-                    placeholder="Height"
-                    defaultValue="42"
-                  />
-
+                <div className="np-dimensions">
+                  <input type="text" defaultValue="30" placeholder="L" />
+                  <input type="text" defaultValue="15" placeholder="W" />
+                  <input type="text" defaultValue="42" placeholder="H" />
                 </div>
-
               </div>
 
             </div>
 
           </div>
 
+          {/* SEO Settings BELOW Shipping */}
+          <div className="np-card">
 
-          {/* ==================== SEO ==================== */}
-          <div className="anp-card">
-
-            <div className="anp-card-header">
-
-              <span className="anp-card-icon purple-bg">
+            <div className="np-card-header">
+              <span className="np-card-icon np-purple-bg">
                 <FiBox />
               </span>
-
-              <h2>
-                SEO Settings
-              </h2>
-
+              <h2>SEO Settings</h2>
             </div>
 
-
-            <div className="anp-form-group">
-
-              <label>
-                Meta Title
-              </label>
+            <div className="np-form-group">
+              <label>Meta Title</label>
 
               <input
                 type="text"
-                maxLength="60"
-                placeholder="Enter meta title"
                 defaultValue="Buy School Backpack Online - Best Quality Bags"
+                placeholder="Enter meta title"
               />
 
-              <span className="anp-char-count">
-                48/60
-              </span>
-
+              <span className="np-char-count">48/60</span>
             </div>
 
-
-            <div className="anp-form-group">
-
-              <label>
-                Meta Description
-              </label>
+            <div className="np-form-group">
+              <label>Meta Description</label>
 
               <textarea
-                rows="3"
-                maxLength="160"
-                placeholder="Enter meta description"
+                rows="4"
                 defaultValue="Shop durable and comfortable school backpacks with multiple compartments at the best price. Free shipping available!"
+                placeholder="Enter meta description"
               />
 
-              <span className="anp-char-count">
-                115/160
-              </span>
-
+              <span className="np-char-count">115/160</span>
             </div>
 
           </div>
 
+        </div>
 
-          {/* ==================== ACTIONS ==================== */}
-          <div className="anp-bottom-actions">
+        {/* ================= RIGHT 25% ================= */}
+        <div className="np-right-column">
 
-            <button
-              type="button"
-              className="anp-btn-cancel"
-            >
-              Cancel
-            </button>
+          {/* Product Overview */}
+          <div className="np-card np-overview-card">
 
-            <button
-              type="button"
-              className="anp-btn-draft"
-            >
-              Save as Draft
-            </button>
+            <div className="np-preview-header">
+              <h2>Product Overview</h2>
 
-            <button
-              type="button"
-              className="anp-btn-publish"
-            >
-              <FiSend />
-              Save & Publish
-            </button>
+              <div className="np-device-switch">
+                <button className="active">
+                  <FiMonitor />
+                </button>
+                <button>
+                  <FiBookOpen />
+                </button>
+                <button>
+                  <FiSmartphone />
+                </button>
+              </div>
+            </div>
 
-          </div>
+            <div className="np-product-preview">
 
-        </section>
+              <span className="np-discount">-10%</span>
 
+              <button className="np-wishlist">
+                <FiHeart />
+              </button>
 
-        {/* ==================== RIGHT PREVIEW ==================== */}
-        <aside className="anp-preview-column">
-
-          <div className="anp-preview-sticky-wrapper">
-
-            {/* PREVIEW CARD */}
-            <div className="anp-card anp-preview-card">
-
-              <div className="anp-preview-header">
-
-                <h3>
-                  Product Preview
-                </h3>
-
-
-                <div className="anp-preview-device-switch">
-
-                  <button
-                    type="button"
-                    className="active"
-                  >
-                    <FiMonitor />
-                  </button>
-
-                  <button type="button">
-                    <FiBookOpen />
-                  </button>
-
-                  <button type="button">
-                    <FiSmartphone />
-                  </button>
-
-                </div>
-
+              <div className="np-product-image">
+                <img
+                  src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"
+                  alt="School Backpack"
+                />
               </div>
 
+              <h3>School Backpack</h3>
 
-              <div className="anp-live-product-box">
+              <span className="np-category">Bags</span>
 
-                <span className="anp-discount-tag">
-                  -10%
-                </span>
+              <div className="np-price-row">
+                <strong>₹899.00</strong>
+                <del>₹999.00</del>
+              </div>
 
+              <span className="np-stock">In Stock</span>
 
-                <button
-                  type="button"
-                  className="anp-wishlist-btn"
-                  aria-label="Add to wishlist"
-                >
-                  <FiHeart />
+              <p>
+                Durable and comfortable school backpack with multiple
+                compartments. Perfect for daily school use.
+              </p>
+
+              <div className="np-feature-chips">
+                <span>🛡 Quality Material</span>
+                <span>💧 Water Resistant</span>
+                <span>⭐ 1 Year Warranty</span>
+              </div>
+
+              <div className="np-cart-row">
+
+                <div className="np-quantity">
+                  <button
+                    onClick={() => setQty(Math.max(1, qty - 1))}
+                  >
+                    <FiMinus />
+                  </button>
+
+                  <span>{qty}</span>
+
+                  <button onClick={() => setQty(qty + 1)}>
+                    <FiPlus />
+                  </button>
+                </div>
+
+                <button className="np-cart-btn">
+                  <FiShoppingCart />
+                  Add to Cart
                 </button>
 
+              </div>
 
-                <div className="anp-live-img-container">
+              <div className="np-share-row">
+                <span>Share:</span>
 
-                  <img
-                    src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500"
-                    alt="School Backpack"
-                    className="anp-preview-bag-img"
-                  />
+                <a href="#facebook">
+                  <FiFacebook />
+                </a>
 
-                </div>
+                <a href="#twitter">
+                  <FiTwitter />
+                </a>
 
+                <a href="#share">
+                  <FiShare2 />
+                </a>
 
-                <div className="anp-live-details">
-
-                  <h4 className="live-product-title">
-                    School Backpack
-                  </h4>
-
-
-                  <span className="live-product-category">
-                    Bags
-                  </span>
-
-
-                  <div className="live-price-row">
-
-                    <span className="current-price">
-                      ₹899.00
-                    </span>
-
-                    <span className="original-price">
-                      ₹999.00
-                    </span>
-
-                    <span className="stock-badge">
-                      In Stock
-                    </span>
-
-                  </div>
-
-
-                  <p className="live-description">
-                    Durable and comfortable school backpack
-                    with multiple compartments. Perfect for
-                    daily school use.
-                  </p>
-
-
-                  <div className="live-features-row">
-
-                    <span className="feat-chip">
-                      Quality Material
-                    </span>
-
-                    <span className="feat-chip">
-                      Water Resistant
-                    </span>
-
-                    <span className="feat-chip">
-                      1 Year Warranty
-                    </span>
-
-                  </div>
-
-
-                  <div className="live-cart-actions">
-
-                    <div className="qty-selector">
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setQty(
-                            Math.max(1, qty - 1)
-                          )
-                        }
-                      >
-                        <FiMinus />
-                      </button>
-
-                      <span>
-                        {qty}
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setQty(qty + 1)
-                        }
-                      >
-                        <FiPlus />
-                      </button>
-
-                    </div>
-
-
-                    <button
-                      type="button"
-                      className="add-to-cart-btn"
-                    >
-                      <FiShoppingCart />
-                      Add to Cart
-                    </button>
-
-                  </div>
-
-
-                  <div className="live-share-row">
-
-                    <span>
-                      Share:
-                    </span>
-
-                    <div className="share-icons">
-
-                      <a
-                        href="#facebook"
-                        aria-label="Facebook"
-                      >
-                        <FiFacebook />
-                      </a>
-
-                      <a
-                        href="#twitter"
-                        aria-label="Twitter"
-                      >
-                        <FiTwitter />
-                      </a>
-
-                      <a
-                        href="#share"
-                        aria-label="Share"
-                      >
-                        <FiShare2 />
-                      </a>
-
-                      <a
-                        href="#mail"
-                        aria-label="Email"
-                      >
-                        <FiMail />
-                      </a>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
+                <a href="#mail">
+                  <FiMail />
+                </a>
               </div>
 
             </div>
+          </div>
 
+          {/* Product Tips - Only Tips in Third Column */}
+          <div className="np-card np-tips-card">
 
-            {/* TIPS */}
-            <div className="anp-card anp-tips-card">
-
-              <div className="anp-card-header">
-
-                <span className="anp-card-icon purple-bg">
-                  <FiInfo />
-                </span>
-
-                <h2>
-                  Tips
-                </h2>
-
-              </div>
-
-
-              <ul className="anp-tips-list">
-
-                {tips.map((tip) => (
-
-                  <li key={tip}>
-
-                    <FiCheck className="tip-check" />
-
-                    <span>
-                      {tip}
-                    </span>
-
-                  </li>
-
-                ))}
-
-              </ul>
-
+            <div className="np-card-header">
+              <span className="np-card-icon np-purple-bg">
+                <FiInfo />
+              </span>
+              <h2>Product Tips</h2>
             </div>
+
+            <ul className="np-tips-list">
+
+              <li>
+                <FiCheck />
+                Use high quality images for better sales
+              </li>
+
+              <li>
+                <FiCheck />
+                Write clear and detailed product description
+              </li>
+
+              <li>
+                <FiCheck />
+                Set appropriate price and stock levels
+              </li>
+
+              <li>
+                <FiCheck />
+                Choose correct category for easy search
+              </li>
+
+            </ul>
 
           </div>
 
-        </aside>
+        </div>
 
-      </main>
-
+      </div>
     </div>
   );
 };
 
 export default NewProduct;
-
