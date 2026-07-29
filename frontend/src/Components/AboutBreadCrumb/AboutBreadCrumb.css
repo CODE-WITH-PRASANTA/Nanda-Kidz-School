@@ -1,0 +1,114 @@
+/* Main Breadcrumb Banner Container */
+.about-breadcrumb-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  background-color:#EC75AD; /* Vibrant purple matching the reference image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Breadcrumb Text Styling */
+.breadcrumb-content {
+  text-align: center;
+  color: #ffffff;
+  z-index: 10;
+  margin-bottom: 35px;
+}
+
+.breadcrumb-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.5px;
+}
+
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nav-item {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.nav-item.active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-separator {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.1rem;
+}
+
+/* --- Infinite Cloud Animation --- */
+.cloud-animated-track {
+  position: absolute;
+  bottom: -1px; /* Prevents 1px gap rendering issues */
+  left: -100%;
+  width: 200%;
+  display: flex;
+  pointer-events: none;
+  animation: moveCloudsLeftToRight 50s linear infinite;
+  will-change: transform;
+}
+
+.cloud-image {
+  width: 50%;
+  height: auto;
+  max-height: 140px;
+  object-fit: cover;
+  object-position: bottom;
+  display: block;
+}
+
+/* Hardware-accelerated forward (Left-to-Right) infinite movement */
+@keyframes moveCloudsLeftToRight {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(50%, 0, 0);
+  }
+}
+
+/* --- Responsive Layout Breaks --- */
+@media (max-width: 992px) {
+  .about-breadcrumb-wrapper {
+    height: 300px;
+  }
+
+  .breadcrumb-title {
+    font-size: 2.25rem;
+  }
+
+  .cloud-image {
+    max-height: 110px;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-breadcrumb-wrapper {
+    height: 240px;
+  }
+
+  .breadcrumb-title {
+    font-size: 1.75rem;
+  }
+
+  .breadcrumb-content {
+    margin-bottom: 25px;
+  }
+
+  .cloud-image {
+    max-height: 80px;
+  }
+}

@@ -1,0 +1,339 @@
+/* =======================================
+   DESIGN TOKENS & PALETTE
+   ======================================= */
+:root {
+  --primary-pink: #ea68a6;
+  --primary-pink-shadow: rgba(234, 104, 166, 0.25);
+  --hover-purple: #8c44db;
+  --text-dark: #121212;
+  --text-muted: #555555;
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* Base Layout Container */
+.about-us-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.about-us-content {
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+}
+
+/* =======================================
+   LEFT SECTION: ORGANIC ANIMATED BLOB
+   ======================================= */
+.image-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Shooting Star Decoration */
+.decorative-star {
+  position: absolute;
+  top: -45px;
+  left: 0px;
+  width: 170px;
+  height: auto;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Blob Outer Container */
+.blob-wrapper {
+  position: relative;
+  width: 480px;
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+  Organic Pink Frame Border
+  Uses custom border-radius ratios to produce the kidney/bean shape 
+  with smooth morphing (flower opening/closing effect)
+*/
+.blob-border {
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary-pink);
+  padding: 22px; /* Thickness of the pink outline frame */
+  border-radius: 48% 52% 43% 57% / 60% 40% 60% 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 12px 30px var(--primary-pink-shadow);
+  animation: organicMorph 6s ease-in-out infinite alternate;
+  transition: all 0.5s ease;
+}
+
+/* Inner Clipped Image Container */
+.blob-image-container {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 46% 54% 41% 59% / 58% 42% 58% 42%;
+  overflow: hidden;
+  position: relative;
+  animation: organicMorphInner 6s ease-in-out infinite alternate;
+}
+
+.student-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Floating Dots Base Styling */
+.blob-dot {
+  position: absolute;
+  background-color: var(--primary-pink);
+  border-radius: 50%;
+  z-index: 5;
+}
+
+/* Top Large Floating Dot */
+.top-dot {
+  width: 75px;
+  height: 75px;
+  top: -52px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: topDotPulse 3.5s ease-in-out infinite alternate;
+}
+
+/* Bottom Right Small Floating Dot */
+.bottom-dot {
+  width: 40px;
+  height: 40px;
+  bottom: 80px;
+  right: -30px;
+  animation: bottomDotFloat 4s ease-in-out infinite alternate;
+}
+
+/* =======================================
+   KEYFRAME ANIMATIONS (SMOOTH & ORGANIC)
+   ======================================= */
+
+/* Organic morphing shape keyframe (Opening / Closing effect) */
+@keyframes organicMorph {
+  0% {
+    border-radius: 48% 52% 43% 57% / 60% 40% 60% 40%;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    border-radius: 55% 45% 52% 48% / 48% 55% 45% 52%;
+    transform: scale(1.02) rotate(1deg);
+  }
+  100% {
+    border-radius: 42% 58% 38% 62% / 62% 38% 62% 38%;
+    transform: scale(0.98) rotate(-1deg);
+  }
+}
+
+@keyframes organicMorphInner {
+  0% {
+    border-radius: 46% 54% 41% 59% / 58% 42% 58% 42%;
+  }
+  50% {
+    border-radius: 53% 47% 50% 50% / 46% 53% 47% 50%;
+  }
+  100% {
+    border-radius: 40% 60% 36% 64% / 60% 40% 60% 40%;
+  }
+}
+
+/* Top Dot Synchronized Float */
+@keyframes topDotPulse {
+  0% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-12px) scale(1.08);
+  }
+}
+
+/* Bottom Right Dot Float */
+@keyframes bottomDotFloat {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(10px, -10px);
+  }
+}
+
+/* =======================================
+   RIGHT SECTION: TEXT & CONTENT
+   ======================================= */
+.text-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Decorative Rocket Image */
+.decorative-rocket {
+  position: absolute;
+  top: -100px;
+  right: 80px;
+  width: 110px;
+  height: auto;
+  pointer-events: none;
+}
+
+/* Subtitle Header */
+.subtitle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.cap-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.subtitle {
+  color: var(--hover-purple);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 1.3px;
+}
+
+/* Typography */
+.main-heading {
+  font-family: var(--font-heading);
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.25;
+  margin: 0 0 20px 0;
+}
+
+.description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 500px;
+}
+
+/* Interactive CTA Button */
+.read-more-btn {
+  background-color: var(--primary-pink);
+  color: #ffffff;
+  border: none;
+  padding: 15px 36px;
+  border-radius: 50px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px var(--primary-pink-shadow);
+}
+
+.arrow-icon {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.read-more-btn:hover {
+  background-color: var(--hover-purple);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(140, 68, 219, 0.35);
+}
+
+.read-more-btn:hover .arrow-icon {
+  transform: translate(3px, -3px);
+}
+
+/* =======================================
+   RESPONSIVE ADAPTATIONS
+   ======================================= */
+@media (max-width: 992px) {
+  .about-us-content {
+    grid-template-columns: 1fr;
+    gap: 70px;
+  }
+
+  .text-section {
+    align-items: center;
+    text-align: center;
+  }
+
+  .decorative-rocket {
+    top: -50px;
+    right: 20px;
+    width: 80px;
+  }
+
+  .blob-wrapper {
+    width: 400px;
+    height: 320px;
+  }
+}
+
+@media (max-width: 576px) {
+  .blob-wrapper {
+    width: 310px;
+    height: 250px;
+  }
+
+  .blob-border {
+    padding: 14px;
+  }
+
+  .main-heading {
+    font-size: 1.9rem;
+  }
+
+  .top-dot {
+    width: 50px;
+    height: 50px;
+    top: -28px;
+  }
+
+  .bottom-dot {
+    width: 28px;
+    height: 28px;
+    right: -10px;
+    bottom: 40px;
+  }
+
+  .decorative-star {
+    width: 110px;
+    top: -30px;
+    left: -10px;
+  }
+}

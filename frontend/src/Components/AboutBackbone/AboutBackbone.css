@@ -1,0 +1,185 @@
+/* Container & Base Background Color */
+.about-backbone-container {
+  position: relative;
+  background-color: #FDF7EE; /* Warm cream/light beige background */
+  padding: 150px 20px;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.about-backbone-content {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 2;
+}
+
+/* Header Styling */
+.about-backbone-header {
+  margin-bottom: 50px;
+}
+
+.badge-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+
+.subtitle {
+  display: block;
+  color: #D3A15E; /* Warm accent gold/tan color */
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.title {
+  color: #0E0E0E; /* Strong dark font color */
+  font-size: 38px;
+  font-weight: 800;
+  margin: 0 0 18px 0;
+  letter-spacing: -0.5px;
+  padding-left: 170px;
+}
+
+.description {
+  color: #333333;
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 600px;
+  font-weight: 400;
+}
+
+/* Floating / Corner Decorative Images */
+.decorative-element {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.planet-icon {
+  top: 15%;
+  left: 8%;
+  width: 150px;
+}
+
+.rocket-icon {
+  top: 15%;
+  right: 8%;
+  width: 190px;
+}
+
+.decorative-element img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Responsive Grid Layout for Partner Logos */
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+
+.logo-card {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.logo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.partner-logo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* --- Responsive Breakpoints --- */
+
+/* Tablet (2 items per row / Hide side illustrations on smaller viewports) */
+@media (max-width: 992px) {
+  .planet-icon {
+    top: 4%;
+    left: 4%;
+    width: 80px;
+  }
+
+  .rocket-icon {
+    top: 4%;
+    right: 4%;
+    width: 100px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Mobile Screen Sizes */
+@media (max-width: 576px) {
+  .about-backbone-container {
+    padding: 50px 16px;
+  }
+
+  .decorative-element {
+    position: relative;
+    display: inline-block;
+    margin: 0 10px 20px;
+  }
+
+  .planet-icon,
+  .rocket-icon {
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 60px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .description br {
+    display: none; /* Text wraps naturally on small screens */
+  }
+
+  .partners-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 14px;
+  }
+
+  .logo-card {
+    height: 90px;
+  }
+}
