@@ -1,24 +1,16 @@
 import React from 'react';
 import './ContactBreadcrumb.css';
-
-// Replace with your local relative path to the cloud image asset
-import cloudImg from '../../assets/cloudimage.webp'; 
+import bgImage from '../../assets/contact.jpg'; // Adjust path according to your src/assets structure
 
 const ContactBreadcrumb = () => {
   return (
-    <div className="about-breadcrumb-wrapper">
-      {/* Centered Text Content */}
-      <div className="breadcrumb-content">
-        <h1 className="breadcrumb-title">Contact 1</h1>
-        <div className="breadcrumb-nav">
-          <span className="nav-item">Kindergarten WordPress Theme</span>
-        </div>
-      </div>
-
-      {/* Infinite Moving Cloud Track */}
-      <div className="cloud-animated-track">
-        <img src={cloudImg} alt="Cloud Layer 1" className="cloud-image" />
-        <img src={cloudImg} alt="Cloud Layer 2" className="cloud-image" />
+    <div 
+      className="ContactBreadcrumb" 
+      style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(${bgImage})` }}
+    >
+      <div className="ContactBreadcrumb-container">
+        <h1 className="ContactBreadcrumb-title">Contact 1</h1>
+        <p className="ContactBreadcrumb-subtitle">KINDERGARTEN WORDPRESS THEME</p>
       </div>
     </div>
   );

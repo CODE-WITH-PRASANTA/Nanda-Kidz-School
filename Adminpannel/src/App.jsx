@@ -5,8 +5,11 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
 import MainLayout from "./Layout/MainLayout/MainLayout";
+
 import DashBoard from "./Pages/DashBoard/DashBoard";
+<<<<<<< HEAD
 import Shop from "./Pages/Shop/Shop";
 import Addproduct from "./Pages/Addproduct/Addproduct";
 
@@ -14,14 +17,21 @@ import BlogPost from "./Pages/BlogPost/BlogPost";
 import NewProduct from "./Pages/NewProduct/NewProduct";
 
 
+=======
+import BlogPost from "./Pages/BlogPost/BlogPost";
+import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
+import Shop from "./Pages/Shop/Shop";
+import Addproduct from "./Pages/Addproduct/Addproduct";
+
+>>>>>>> 75c280b96154d477acf60d01efe9c46e8a7aa25c
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* MainLayout can act as your application shell containing the Sidebar and Outlet */}
         <Route path="/" element={<MainLayout />}>
-          {/* Default redirect from root to dashboard */}
+          {/* Redirect "/" to dashboard */}
           <Route index element={<Navigate to="/dashboard" replace />} />
+<<<<<<< HEAD
           
           {/* Proper Dashboard path */}
           <Route path="dashboard" element={<DashBoard />} />
@@ -53,10 +63,34 @@ function App() {
           {/* <Route path="website-manage" element={<WebsiteManage />} /> */}
           {/* <Route path="settings" element={<Settings />} /> */}
           {/* <Route path="reports" element={<Reports />} /> */}
+=======
+
+          {/* Dashboard */}
+          <Route path="dashboard" element={<DashBoard />} />
+
+          {/* Shop */}
+          <Route path="shop/products" element={<Shop />} />
+          <Route path="shop/products/add" element={<Addproduct />} />
+
+          {/* Blog */}
+          <Route
+            path="blog-management/posts"
+            element={<BlogPost />}
+          />
+
+          {/* Gallery */}
+          <Route
+            path="gallery-management"
+            element={<GalleryManagement />}
+          />
+>>>>>>> 75c280b96154d477acf60d01efe9c46e8a7aa25c
         </Route>
 
-        {/* Fallback catch-all route */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        {/* 404 */}
+        <Route
+          path="*"
+          element={<Navigate to="/dashboard" replace />}
+        />
       </Routes>
     </BrowserRouter>
   );
