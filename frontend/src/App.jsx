@@ -21,6 +21,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About/>} />
+        
       </Routes>
 
       {/* Common Footer */}
