@@ -1,5 +1,5 @@
 import React from 'react';
-import './Dashboard.css';
+import './AdminDashboard.css';
 import {
   Users,
   UserCheck,
@@ -15,14 +15,14 @@ import {
   MessageSquare
 } from 'lucide-react';
 
-const Dashboard = () => {
+const AdminDashboard = () => {
   // Interactive Handler for Action Buttons
   const handleActionClick = (actionName) => {
     alert(`${actionName} बटन पर सफलतापूर्वक क्लिक किया गया!`);
   };
 
   return (
-    <div className="dashboard-container">
+    <div className="AdminDashboard-container">
       {/* Top Header */}
       <div className="header-section">
         <div>
@@ -335,4 +335,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;
