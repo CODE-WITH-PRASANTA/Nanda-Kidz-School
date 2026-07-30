@@ -21,32 +21,14 @@ const Breadcrumb = () => {
     <nav className="Breadcrumb">
       <ol className="Breadcrumb-list">
         <li className="Breadcrumb-item">
-          <Link to="/dashboard" className="Breadcrumb-link">
-            <Home size={15} />
-          </Link>
+          
         </li>
 
         {pathnames.map((item, index) => {
           const url = "/" + pathnames.slice(0, index + 1).join("/");
           const last = index === pathnames.length - 1;
 
-          return (
-            <React.Fragment key={url}>
-              <ChevronRight size={14} className="Breadcrumb-separator" />
-
-              <li className="Breadcrumb-item">
-                {last ? (
-                  <span className="Breadcrumb-current">
-                    {formatName(item)}
-                  </span>
-                ) : (
-                  <Link className="Breadcrumb-link" to={url}>
-                    {formatName(item)}
-                  </Link>
-                )}
-              </li>
-            </React.Fragment>
-          );
+          
         })}
       </ol>
     </nav>
