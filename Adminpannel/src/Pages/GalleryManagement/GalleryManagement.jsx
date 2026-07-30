@@ -195,39 +195,6 @@ const GalleryManagement = () => {
 
   return (
     <div className="GalleryManagement">
-      {/* Top Header */}
-      <header className="GalleryManagement-header">
-        <div className="GalleryManagement-header-left">
-          <h1>
-            Gallery Management <span className="GalleryManagement-badge-icon">🏫</span>
-          </h1>
-          <p>Manage photos and videos gallery of your school</p>
-        </div>
-
-        <div className="GalleryManagement-header-right">
-          <button className="GalleryManagement-visit-btn">
-            Visit Website <IconExternalLink className="GalleryManagement-icon-sm" />
-          </button>
-          
-          <div className="GalleryManagement-notification">
-            <IconBell />
-            <span className="GalleryManagement-notif-badge">5</span>
-          </div>
-
-          <div className="GalleryManagement-admin-profile">
-            <img 
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" 
-              alt="Admin" 
-            />
-            <span>Admin</span>
-          </div>
-        </div>
-      </header>
-
-      {/* Breadcrumb */}
-      <div className="GalleryManagement-breadcrumb">
-        <span>Dashboard</span> &gt; <span className="active">Gallery Management</span>
-      </div>
 
       {/* Stats Cards & Top Tab Navigation */}
       <div className="GalleryManagement-top-row">
