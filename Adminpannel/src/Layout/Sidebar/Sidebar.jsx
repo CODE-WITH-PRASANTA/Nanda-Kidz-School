@@ -1,401 +1,246 @@
-import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+// Sidebar.jsx
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
-  FaTachometerAlt,
-  FaUserGraduate,
-  FaClipboardList,
-  FaUserFriends,
-  FaChalkboardTeacher,
-  FaDoorOpen,
-  FaCalendarCheck,
-  FaMoneyBillWave,
-  FaFileAlt,
-  FaCalendarAlt,
-  FaBook,
-  FaBookOpen,
-  FaBus,
-  FaImages,
-  FaBlog,
-  FaStore,
-  FaBoxOpen,
-  FaPlusCircle,
-  FaBullhorn,
-  FaEnvelope,
-  FaGlobe,
-  FaCog,
-  FaChartBar,
-  FaTimes,
-  FaChevronDown,
-  FaPhoneAlt,
-  FaIdBadge,
-  FaPowerOff,
-} from "react-icons/fa";
+  Home,
+  GraduationCap,
+  UserPlus,
+  Users,
+  UserCheck,
+  BookOpen,
+  CalendarCheck,
+  Wallet,
+  ClipboardList,
+  CalendarDays,
+  NotebookPen,
+  Library,
+  Bus,
+  Image as ImageIcon,
+  FileText,
+  Bell,
+  Mail,
+  Globe,
+  Store,
+  Settings,
+  BarChart3,
+  ChevronRight,
+  ChevronDown,
+  Phone,
+  Maximize2,
+  Power,
+  X,
+} from 'lucide-react';
+import './Sidebar.css';
 
-import "./Sidebar.css";
+// Controlled by the parent layout — isCollapsed/isMobileOpen/onMobileClose
+// keep this in sync with the Topbar toggle and the layout's content offset.
+const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = () => {} }) => {
+  const [openDropdowns, setOpenDropdowns] = useState({});
+  // Labels must show whenever the mobile drawer is open, no matter what the
+  // desktop "collapsed" rail state happens to be — otherwise React never
+  // renders the text/arrow/submenu elements into the DOM at all on mobile,
+  // and no CSS override can bring back something that was never rendered.
+  const showLabels = !isCollapsed || isMobileOpen;
 
-const Sidebar = ({
-  collapsed,
-  mobileSidebar,
-  toggleMobileSidebar,
-  onLogout,
-  onViewProfile,
-}) => {
-  const location = useLocation();
-  const [shopOpen, setShopOpen] = useState(location.pathname.startsWith("/shop"));
-  const [blogOpen, setBlogOpen] = useState(location.pathname.startsWith("/blog"));
-
-  // Automatically keep dropdowns open if navigating inside their sub-routes
-  useEffect(() => {
-    if (location.pathname.startsWith("/shop")) setShopOpen(true);
-    if (location.pathname.startsWith("/blog")) setBlogOpen(true);
-  }, [location.pathname]);
-
-  // On mobile devices, labels should always show when the drawer is open
-  const isMobile = typeof window !== "undefined" && window.innerWidth <= 992;
-  const showLabel = isMobile ? true : !collapsed;
+  const toggleDropdown = (key) => {
+    setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const menuItems = [
-    { title: "Dashboard", icon: <FaTachometerAlt />, path: "/dashboard" },
-    { title: "Students", icon: <FaUserGraduate />, path: "/students" },
-    { title: "Admissions", icon: <FaClipboardList />, path: "/admissions" },
-    { title: "Parents", icon: <FaUserFriends />, path: "/parents" },
-    { title: "Teachers", icon: <FaChalkboardTeacher />, path: "/teachers" },
-    { title: "Classes", icon: <FaDoorOpen />, path: "/classes" },
-    { title: "Attendance", icon: <FaCalendarCheck />, path: "/attendance" },
-    { title: "Fees & Payments", icon: <FaMoneyBillWave />, path: "/fees-payments" },
-    { title: "Examinations", icon: <FaFileAlt />, path: "/examinations" },
-    { title: "Events", icon: <FaCalendarAlt />, path: "/events" },
-    { title: "Homework", icon: <FaBook />, path: "/homework" },
-    { title: "Library", icon: <FaBookOpen />, path: "/library" },
-    { title: "Transport", icon: <FaBus />, path: "/transport" },
-    { title: "Gallery Management", icon: <FaImages />, path: "/gallery-management" },
+    { type: 'link', icon: Home, text: 'Dashboard', path: '/dashboard' },
+    { type: 'link', icon: GraduationCap, text: 'Students', path: '/students' },
+    { type: 'link', icon: UserPlus, text: 'Admissions', path: '/admissions' },
+    { type: 'link', icon: Users, text: 'Parents', path: '/parents' },
+    { type: 'link', icon: UserCheck, text: 'Teachers', path: '/teachers' },
+    { type: 'link', icon: BookOpen, text: 'Classes', path: '/classes' },
+    { type: 'link', icon: CalendarCheck, text: 'Attendance', path: '/attendance' },
+    { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
+    { type: 'link', icon: ClipboardList, text: 'Examinations', path: '/examinations' },
+    { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
+    { type: 'link', icon: NotebookPen, text: 'Homework', path: '/homework' },
+    { type: 'link', icon: Library, text: 'Library', path: '/library' },
+    { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
+    { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
+
+    {
+      type: 'dropdown',
+      key: 'blog',
+      icon: FileText,
+      text: 'Blog Posting',
+      subItems: [
+        { text: 'Blog Post', path: '/blog/post' },
+        { text: 'Blog Management', path: '/blog/management' },
+      ],
+    },
+
+    { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
+    { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
+    { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
+
+    {
+      type: 'dropdown',
+      key: 'shop',
+      icon: Store,
+      text: 'Shop',
+      subItems: [
+        { text: 'Shop', path: '/shop' },
+        { text: 'Add to Shop', path: '/shop/add' },
+      ],
+    },
+
+    { type: 'link', icon: Settings, text: 'Settings', path: '/settings' },
+    { type: 'link', icon: BarChart3, text: 'Reports', path: '/reports' },
   ];
-
-  const shopSubItems = [
-    { title: "Shop Products", path: "/shop/products", icon: <FaBoxOpen /> },
-    { title: "Add New Product", path: "/shop/products/add", icon: <FaPlusCircle />, highlight: true },
-  ];
-
-  const blogSubItems = [
-    { title: "Blog Post", path: "/blog-management/posts", icon: <FaFileAlt /> },
-    { title: "Blog Management", path: "/blog-management", icon: <FaBlog /> },
-  ];
-
-  const bottomMenuItems = [
-    { title: "Notice Board", icon: <FaBullhorn />, path: "/notice-board" },
-    { title: "Contact Messages", icon: <FaEnvelope />, path: "/contact-messages" },
-    { title: "Website Manage", icon: <FaGlobe />, path: "/website-manage" },
-    { title: "Settings", icon: <FaCog />, path: "/settings" },
-    { title: "Reports", icon: <FaChartBar />, path: "/reports" },
-  ];
-
-  const handleShopToggle = () => {
-    if (collapsed && !isMobile) return;
-    setShopOpen((v) => !v);
-  };
-
-  const handleBlogToggle = () => {
-    if (collapsed && !isMobile) return;
-    setBlogOpen((v) => !v);
-  };
-
-  const closeOnMobile = () => {
-    if (mobileSidebar && toggleMobileSidebar) {
-      toggleMobileSidebar();
-    }
-  };
 
   return (
     <>
-      {/* Mobile Overlay */}
-      <div
-        className={`Sidebar-overlay ${mobileSidebar ? "show" : ""}`}
-        onClick={toggleMobileSidebar}
-        aria-hidden="true"
-      />
+      {isMobileOpen && <div className="Sidebar-overlay" onClick={onMobileClose} />}
 
-      <aside
-        className={`Sidebar ${collapsed ? "collapsed" : ""} ${
-          mobileSidebar ? "mobile-open" : ""
-        }`}
-      >
-        {/* Logo Section */}
-        <div className="Sidebar-logoSection">
-          <div className="Sidebar-logo">
-            <svg viewBox="0 0 60 60" className="Sidebar-logo-svg">
+      <aside className={`Sidebar ${isCollapsed ? 'collapsed' : 'expanded'} ${isMobileOpen ? 'mobile-open' : ''}`}>
+        {/* Logo header */}
+        <div className="Sidebar-header">
+          <div className="Sidebar-logoMark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" width="26" height="26">
               <defs>
-                <linearGradient id="rainbowArc1" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#f87171" />
-                  <stop offset="25%" stopColor="#fbbf24" />
-                  <stop offset="50%" stopColor="#34d399" />
-                  <stop offset="75%" stopColor="#60a5fa" />
-                  <stop offset="100%" stopColor="#c084fc" />
+                <linearGradient id="kidsSchoolLogoGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#FDE68A" />
+                  <stop offset="35%" stopColor="#F472B6" />
+                  <stop offset="70%" stopColor="#818CF8" />
+                  <stop offset="100%" stopColor="#38BDF8" />
                 </linearGradient>
               </defs>
               <path
-                d="M6 40 A24 24 0 0 1 54 40"
-                fill="none"
-                stroke="url(#rainbowArc1)"
-                strokeWidth="6"
-                strokeLinecap="round"
+                d="M20 5 C 27 5, 33 11, 33 18 C 33 27, 27 32, 20 35 C 13 32, 7 27, 7 18 C 7 11, 13 5, 20 5 Z"
+                fill="url(#kidsSchoolLogoGrad)"
               />
-              <circle cx="44" cy="16" r="7" fill="#fde047" />
-              <path d="M18 44 h24 l-4 10 h-16 Z" fill="#f8fafc" opacity="0.15" />
+              <path d="M13 18 L20 14 L27 18 L20 22 Z" fill="#1E1B4B" opacity="0.85" />
             </svg>
           </div>
 
-          {showLabel && (
-            <div className="Sidebar-logoText">
-              <h2 className="Sidebar-logoTitle">Kids School</h2>
-              <span className="Sidebar-logoTagline">Admin Panel</span>
+          {showLabels && (
+            <div className="Sidebar-brandText">
+              <h1>Kids School</h1>
+              <span>Admin Panel</span>
             </div>
           )}
 
-          <button
-            className="Sidebar-close"
-            onClick={toggleMobileSidebar}
-            aria-label="Close menu"
-          >
-            <FaTimes />
+          <button className="Sidebar-mobile-close" onClick={onMobileClose} aria-label="Close menu">
+            <X size={18} />
           </button>
         </div>
 
-        {/* Navigation Menu */}
-        <div className="Sidebar-menu">
-          {menuItems.map((item, index) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              style={{ "--i": index }}
-              onClick={closeOnMobile}
-              className={({ isActive }) =>
-                isActive ? "Sidebar-link active" : "Sidebar-link"
+        {/* Navigation */}
+        <nav className="Sidebar-nav">
+          <ul className="Sidebar-menu">
+            {menuItems.map((item, index) => {
+              if (item.type === 'link') {
+                const Icon = item.icon;
+                return (
+                  <li key={index} className="SidebarItem">
+                    <NavLink
+                      to={item.path}
+                      className={({ isActive }) => `SidebarItem-link ${isActive ? 'active' : ''}`}
+                      title={!showLabels ? item.text : ''}
+                      onClick={onMobileClose}
+                    >
+                      <span className="SidebarItem-icon">
+                        <Icon size={18} />
+                      </span>
+                      {showLabels && <span className="SidebarItem-text">{item.text}</span>}
+                      {showLabels && <ChevronRight className="SidebarItem-arrow" size={15} />}
+                    </NavLink>
+                  </li>
+                );
               }
-              title={collapsed && !isMobile ? item.title : undefined}
-            >
-              <div className="Sidebar-icon">{item.icon}</div>
-              {showLabel && <span className="Sidebar-title">{item.title}</span>}
-              {collapsed && !isMobile && (
-                <div className="Sidebar-tooltip">{item.title}</div>
-              )}
-            </NavLink>
-          ))}
 
-          {/* Shop dropdown */}
-          <div className="Sidebar-dropdown-wrapper">
-            <button
-              type="button"
-              className={`Sidebar-link Sidebar-dropdown-toggle ${
-                shopOpen ? "open" : ""
-              } ${location.pathname.startsWith("/shop") ? "active" : ""}`}
-              onClick={handleShopToggle}
-              aria-expanded={shopOpen}
-              style={{ "--i": menuItems.length }}
-              title={collapsed && !isMobile ? "Shop" : undefined}
-            >
-              <div className="Sidebar-icon">
-                <FaStore />
-              </div>
-              {showLabel && <span className="Sidebar-title">Shop</span>}
-              {showLabel && (
-                <FaChevronDown
-                  className={`Sidebar-chevron ${shopOpen ? "rotated" : ""}`}
-                />
-              )}
-              {collapsed && !isMobile && (
-                <div className="Sidebar-tooltip">Shop</div>
-              )}
-            </button>
+              // Dropdown
+              const Icon = item.icon;
+              const isOpen = !!openDropdowns[item.key];
+              return (
+                <li key={index} className={`SidebarItem SidebarItem-dropdown ${isOpen ? 'is-open' : ''}`}>
+                  <button
+                    className="SidebarItem-link SidebarItem-toggle"
+                    onClick={() => showLabels && toggleDropdown(item.key)}
+                    title={!showLabels ? item.text : ''}
+                  >
+                    <span className="SidebarItem-icon">
+                      <Icon size={18} />
+                    </span>
+                    {showLabels && <span className="SidebarItem-text">{item.text}</span>}
+                    {showLabels && (
+                      <ChevronDown className={`SidebarItem-chevron ${isOpen ? 'rotated' : ''}`} size={15} />
+                    )}
+                  </button>
 
-            <div
-              className={`Sidebar-submenu ${
-                shopOpen && showLabel ? "expanded" : ""
-              }`}
-            >
-              {shopSubItems.map((sub) => (
-                <NavLink
-                  key={sub.path}
-                  to={sub.path}
-                  onClick={closeOnMobile}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "Sidebar-submenu-link active"
-                      : "Sidebar-submenu-link"
-                  }
-                >
-                  <span className="Sidebar-submenu-icon">{sub.icon}</span>
-                  <span className="Sidebar-submenu-text">{sub.title}</span>
-                  {sub.highlight && (
-                    <span className="Sidebar-submenu-badge">New</span>
+                  {showLabels && (
+                    <ul className="SidebarItem-submenu">
+                      {item.subItems.map((sub, subIndex) => (
+                        <li key={subIndex}>
+                          <NavLink
+                            to={sub.path}
+                            className={({ isActive }) => `SidebarItem-subLink ${isActive ? 'active' : ''}`}
+                            onClick={onMobileClose}
+                          >
+                            {sub.text}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                </NavLink>
-              ))}
-            </div>
-          </div>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-          {/* Blog dropdown */}
-          <div className="Sidebar-dropdown-wrapper">
-            <button
-              type="button"
-              className={`Sidebar-link Sidebar-dropdown-toggle ${
-                blogOpen ? "open" : ""
-              } ${location.pathname.startsWith("/blog") ? "active" : ""}`}
-              onClick={handleBlogToggle}
-              aria-expanded={blogOpen}
-              style={{ "--i": menuItems.length + 1 }}
-              title={collapsed && !isMobile ? "Blog" : undefined}
-            >
-              <div className="Sidebar-icon">
-                <FaBlog />
-              </div>
-              {showLabel && <span className="Sidebar-title">Blog</span>}
-              {showLabel && (
-                <FaChevronDown
-                  className={`Sidebar-chevron ${blogOpen ? "rotated" : ""}`}
-                />
-              )}
-              {collapsed && !isMobile && (
-                <div className="Sidebar-tooltip">Blog</div>
-              )}
-            </button>
-
-            <div
-              className={`Sidebar-submenu ${
-                blogOpen && showLabel ? "expanded" : ""
-              }`}
-            >
-              {blogSubItems.map((sub) => (
-                <NavLink
-                  key={sub.path}
-                  to={sub.path}
-                  onClick={closeOnMobile}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "Sidebar-submenu-link active"
-                      : "Sidebar-submenu-link"
-                  }
-                >
-                  <span className="Sidebar-submenu-icon">{sub.icon}</span>
-                  <span className="Sidebar-submenu-text">{sub.title}</span>
-                </NavLink>
-              ))}
-            </div>
-          </div>
-
-          {bottomMenuItems.map((item, index) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              style={{ "--i": menuItems.length + 2 + index }}
-              onClick={closeOnMobile}
-              className={({ isActive }) =>
-                isActive ? "Sidebar-link active" : "Sidebar-link"
-              }
-              title={collapsed && !isMobile ? item.title : undefined}
-            >
-              <div className="Sidebar-icon">{item.icon}</div>
-              {showLabel && <span className="Sidebar-title">{item.title}</span>}
-              {collapsed && !isMobile && (
-                <div className="Sidebar-tooltip">{item.title}</div>
-              )}
-            </NavLink>
-          ))}
-        </div>
-
-        {/* Admin footer */}
-        <div className="Sidebar-footer">
-          <button
-            type="button"
-            className="Sidebar-profile"
-            onClick={() => {
-              closeOnMobile();
-              if (onViewProfile) onViewProfile();
-            }}
-          >
+        {/* User footer */}
+        <div className="Sidebar-userCard">
+          <div className="Sidebar-userTop">
             <div className="Sidebar-avatar">
-              <span>AU</span>
-              <span className="Sidebar-avatar-dot" />
+              <Users size={16} />
             </div>
-            {showLabel && (
-              <div className="Sidebar-profile-info">
-                <span className="Sidebar-profile-name">Admin User</span>
-                <span className="Sidebar-profile-role">Super Admin</span>
+            {showLabels && (
+              <div className="Sidebar-userInfo">
+                <span className="Sidebar-userName">Admin User</span>
+                <span className="Sidebar-userRole">Super Admin</span>
               </div>
             )}
-          </button>
+          </div>
 
-          {showLabel && (
-            <div className="Sidebar-quick-icons">
-              <a
-                href="tel:+919876543210"
-                className="Sidebar-quick-btn"
-                aria-label="Call support"
-              >
-                <FaPhoneAlt size={13} />
-              </a>
-              <button
-                type="button"
-                className="Sidebar-quick-btn"
-                aria-label="View profile"
-                onClick={() => {
-                  closeOnMobile();
-                  if (onViewProfile) onViewProfile();
-                }}
-              >
-                <FaIdBadge size={14} />
+          {showLabels && (
+            <div className="Sidebar-userActions">
+              <button className="Sidebar-userActionBtn" aria-label="Support">
+                <Phone size={15} />
               </button>
-              <button
-                type="button"
-                className="Sidebar-quick-btn Sidebar-quick-btn-danger"
-                aria-label="Logout"
-                onClick={() => {
-                  closeOnMobile();
-                  if (onLogout) onLogout();
-                }}
-              >
-                <FaPowerOff size={13} />
+              <button className="Sidebar-userActionBtn" aria-label="Full screen">
+                <Maximize2 size={15} />
               </button>
-            </div>
-          )}
-
-          {/* Illustration banner */}
-          {showLabel && (
-            <div className="Sidebar-illustration">
-              <svg
-                viewBox="0 0 260 110"
-                preserveAspectRatio="xMidYMax meet"
-                className="Sidebar-illustration-svg"
-              >
-                <defs>
-                  <linearGradient id="skySunset" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#fbbf24" />
-                    <stop offset="100%" stopColor="#fb923c" />
-                  </linearGradient>
-                </defs>
-                <circle
-                  cx="60"
-                  cy="26"
-                  r="16"
-                  fill="url(#skySunset)"
-                  opacity="0.85"
-                  className="Sidebar-illustration-sun"
-                />
-                <path d="M0 92 h260 v18 h-260 Z" fill="#0b3d2e" />
-                <rect x="95" y="46" width="70" height="46" fill="#fb923c" />
-                <path d="M90 46 L130 22 L170 46 Z" fill="#ea580c" />
-                <rect x="118" y="66" width="24" height="26" fill="#7c2d12" />
-                <rect x="100" y="54" width="12" height="12" fill="#fde68a" />
-                <rect x="148" y="54" width="12" height="12" fill="#fde68a" />
-                <circle cx="30" cy="80" r="14" fill="#16a34a" />
-                <rect x="27" y="86" width="6" height="14" fill="#78350f" />
-                <circle cx="230" cy="76" r="16" fill="#16a34a" />
-                <rect x="227" y="84" width="6" height="16" fill="#78350f" />
-                <circle cx="70" cy="96" r="4" fill="#fde68a" />
-                <circle cx="190" cy="96" r="4" fill="#fde68a" />
-              </svg>
+              <button className="Sidebar-userActionBtn Sidebar-userActionBtn-danger" aria-label="Log out">
+                <Power size={15} />
+              </button>
             </div>
           )}
         </div>
+
+        {/* Bottom illustration banner */}
+        {showLabels && (
+          <div className="Sidebar-illustration" aria-hidden="true">
+            <svg viewBox="0 0 260 110" preserveAspectRatio="xMidYMax meet">
+              <circle cx="215" cy="26" r="16" fill="#FDE68A" opacity="0.9" />
+              <rect x="0" y="94" width="260" height="16" fill="#312E81" />
+              <rect x="70" y="46" width="120" height="48" rx="4" fill="#F8FAFC" />
+              <polygon points="60,46 130,18 200,46" fill="#EF4444" />
+              <rect x="118" y="66" width="24" height="28" fill="#6366F1" />
+              <rect x="82" y="60" width="16" height="16" fill="#93C5FD" />
+              <rect x="162" y="60" width="16" height="16" fill="#93C5FD" />
+              <circle cx="34" cy="88" r="12" fill="#34D399" />
+              <circle cx="228" cy="88" r="10" fill="#34D399" />
+              <circle cx="40" cy="94" r="6" fill="#FBBF24" />
+              <circle cx="55" cy="96" r="5" fill="#FB923C" />
+              <circle cx="205" cy="96" r="5" fill="#F472B6" />
+            </svg>
+          </div>
+        )}
       </aside>
     </>
   );
