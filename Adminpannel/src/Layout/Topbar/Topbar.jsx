@@ -1,197 +1,171 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  FaBars,
-  FaCog,
-  FaSignOutAlt,
-  FaBell,
-  FaUserCircle,
-  FaChevronRight,
-  FaChevronDown,
-  FaExternalLinkAlt,
-  FaThLarge,
-  FaBox,
-} from "react-icons/fa";
-import "./Topbar.css";
+  Menu,
+  LayoutGrid,
+  ChevronRight,
+  ExternalLink,
+  Bell,
+  ChevronDown,
+  User,
+  Settings,
+  HelpCircle,
+  LogOut,
+  ShoppingBag,
+  UserPlus,
+  CheckCircle,
+} from 'lucide-react';
+import './Topbar.css';
 
-// Route configuration mapping paths to title & icons
-const PAGE_CONFIG = {
-  "/dashboard": {
-    icon: FaThLarge,
-    title: "Dashboard",
-    crumbs: ["Dashboard"],
-  },
-  "/shop/products/add": {
-    icon: FaBox,
-    title: "Add New Product",
-    crumbs: ["Dashboard", "Shop / Products", "Add New Product"],
-  },
-};
-
-const toTitleCase = (segment) =>
-  segment
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
-
-const getPageInfo = (pathname) => {
-  if (PAGE_CONFIG[pathname]) return PAGE_CONFIG[pathname];
-
-  const parts = pathname.split("/").filter(Boolean);
-  const last = parts[parts.length - 1] || "dashboard";
-  const title = toTitleCase(last);
-  return {
-    icon: FaThLarge,
-    title,
-    crumbs: parts.length > 1 ? ["Dashboard", title] : ["Dashboard"],
-  };
-};
+const notificationsData = [
+  { id: 1, title: 'New product added', time: '2 min ago', icon: ShoppingBag, color: '#7C5CFF' },
+  { id: 2, title: 'New user registered', time: '5 min ago', icon: UserPlus, color: '#22C55E' },
+  { id: 3, title: 'Order confirmed', time: '20 min ago', icon: CheckCircle, color: '#F59E0B' },
+];
 
 const Topbar = ({
   toggleSidebar,
-  toggleMobileSidebar,
-  websiteUrl = "#",
-  adminName = "Admin",
-  notificationCount = 5,
-  avatarUrl = null,
-  onLogout,
+  icon: PageIcon = LayoutGrid,
+  title = 'Add New Product',
+  breadcrumbs = ['Dashboard', 'Shop / Products', 'Add New Product'],
+  websiteUrl = '#',
 }) => {
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+
+  const notificationRef = useRef(null);
   const profileRef = useRef(null);
-  const location = useLocation();
 
-  const { icon: PageIcon, title, crumbs } = getPageInfo(location.pathname);
-
-  // Close profile dropdown on outside click
   useEffect(() => {
-    const closeDropdown = (e) => {
+    const handleClickOutside = (e) => {
+      if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+        setNotificationOpen(false);
+      }
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
     };
-
-    document.addEventListener("mousedown", closeDropdown);
-    return () => document.removeEventListener("mousedown", closeDropdown);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Handle robust responsive sidebar toggle
-  const handleToggle = () => {
-    if (window.innerWidth <= 992) {
-      if (typeof toggleMobileSidebar === "function") {
-        toggleMobileSidebar();
-      }
-    } else {
-      if (typeof toggleSidebar === "function") {
-        toggleSidebar();
-      }
-    }
-  };
 
   return (
     <header className="Topbar">
-      {/* Left Section: Toggle, Icon, Title & Breadcrumbs */}
       <div className="Topbar-left">
-        <button
-          className="Topbar-toggle"
-          onClick={handleToggle}
-          aria-label="Toggle Sidebar"
-          type="button"
-        >
-          <FaBars />
+        <button className="Topbar-toggleBtn" onClick={toggleSidebar} aria-label="Toggle Sidebar">
+          <Menu size={20} />
         </button>
 
-        <div className="Topbar-pageIconWrapper">
-          <PageIcon className="Topbar-pageMainIcon" />
+        <div className="Topbar-pageIcon">
+          <PageIcon size={18} />
         </div>
 
         <div className="Topbar-pageInfo">
           <h1 className="Topbar-pageTitle">{title}</h1>
-          <nav className="Topbar-breadcrumb" aria-label="breadcrumb">
-            {crumbs.map((crumb, idx) => {
-              const isLast = idx === crumbs.length - 1;
-              return (
-                <React.Fragment key={crumb + idx}>
-                  {idx === 0 ? (
-                    <Link to="/dashboard" className="Topbar-crumb">
-                      {crumb}
-                    </Link>
-                  ) : (
-                    <span className={`Topbar-crumb ${isLast ? "current" : ""}`}>
-                      {crumb}
-                    </span>
-                  )}
-                  {!isLast && <FaChevronRight className="Topbar-crumb-sep" size={10} />}
-                </React.Fragment>
-              );
-            })}
-          </nav>
+          <div className="Topbar-breadcrumb">
+            {breadcrumbs.map((crumb, index) => (
+              <React.Fragment key={index}>
+                {index > 0 && <ChevronRight size={12} className="Topbar-breadcrumb-sep" />}
+                <span className={`Topbar-breadcrumb-item ${index === breadcrumbs.length - 1 ? 'current' : ''}`}>
+                  {crumb}
+                </span>
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Right Section: Website Link, Notifications & Profile Menu */}
       <div className="Topbar-right">
-        <a
-          href={websiteUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="Topbar-visitBtn"
-        >
+        <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="Topbar-visitBtn">
           <span>Visit Website</span>
-          <FaExternalLinkAlt size={11} />
+          <ExternalLink size={14} />
         </a>
 
-        <button className="Topbar-notification" aria-label="Notifications" type="button">
-          <FaBell />
-          {notificationCount > 0 && (
-            <span className="Topbar-badge">{notificationCount}</span>
-          )}
-        </button>
-
-        <div className="Topbar-profile" ref={profileRef}>
+        <div className="Notification" ref={notificationRef}>
           <button
-            className={`Topbar-profileInfo ${profileOpen ? "active" : ""}`}
-            onClick={() => setProfileOpen((prev) => !prev)}
-            aria-expanded={profileOpen}
-            type="button"
+            className="Topbar-iconBtn"
+            onClick={() => setNotificationOpen(!notificationOpen)}
+            aria-label="Notifications"
           >
-            {avatarUrl ? (
-              <img src={avatarUrl} alt={adminName} className="Topbar-profileImage" />
-            ) : (
-              <FaUserCircle className="Topbar-profileImagePlaceholder" />
+            <Bell size={19} />
+            {notificationsData.length > 0 && (
+              <span className="Topbar-badge">{notificationsData.length}</span>
             )}
-            <span className="Topbar-profileName">{adminName}</span>
-            <FaChevronDown className={`Topbar-profileChevron ${profileOpen ? "open" : ""}`} />
           </button>
 
-          <div className={`Topbar-dropdown ${profileOpen ? "show" : ""}`}>
-            <button
-              className="Topbar-dropdownItem"
-              onClick={() => setProfileOpen(false)}
-              type="button"
-            >
-              <FaUserCircle />
-              Profile
-            </button>
-            <button
-              className="Topbar-dropdownItem"
-              onClick={() => setProfileOpen(false)}
-              type="button"
-            >
-              <FaCog />
-              Settings
-            </button>
-            <div className="Topbar-dropdownDivider" />
-            <button
-              className="Topbar-dropdownItem logout"
-              onClick={() => {
-                setProfileOpen(false);
-                if (onLogout) onLogout();
-              }}
-              type="button"
-            >
-              <FaSignOutAlt />
-              Logout
-            </button>
-          </div>
+          <AnimatePresence>
+            {notificationOpen && (
+              <motion.div
+                className="Topbar-popup"
+                initial={{ opacity: 0, scale: 0.92, y: -8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.92, y: -8 }}
+                transition={{ duration: 0.16, ease: 'easeOut' }}
+              >
+                <div className="Topbar-popup-header">
+                  <h3>Notifications</h3>
+                </div>
+                <div className="Topbar-popup-list">
+                  {notificationsData.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={item.id} className="Topbar-notification-row">
+                        <div
+                          className="Topbar-notification-icon"
+                          style={{ backgroundColor: `${item.color}18`, color: item.color }}
+                        >
+                          <Icon size={16} />
+                        </div>
+                        <div className="Topbar-notification-content">
+                          <p>{item.title}</p>
+                          <span>{item.time}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="Topbar-popup-footer">
+                  <button>View All</button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div className="ProfileMenu" ref={profileRef}>
+          <button className="ProfileMenu-trigger" onClick={() => setProfileOpen(!profileOpen)}>
+            <div className="ProfileMenu-avatar">
+              <User size={16} />
+            </div>
+            <span className="ProfileMenu-name">Admin</span>
+            <ChevronDown size={15} className={`ProfileMenu-chevron ${profileOpen ? 'open' : ''}`} />
+          </button>
+
+          <AnimatePresence>
+            {profileOpen && (
+              <motion.div
+                className="Topbar-popup ProfileMenu-dropdown"
+                initial={{ opacity: 0, scale: 0.92, y: -8 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.92, y: -8 }}
+                transition={{ duration: 0.16, ease: 'easeOut' }}
+              >
+                <button className="ProfileMenu-item">
+                  <User size={16} /> My Profile
+                </button>
+                <button className="ProfileMenu-item">
+                  <Settings size={16} /> Settings
+                </button>
+                <button className="ProfileMenu-item">
+                  <HelpCircle size={16} /> Help
+                </button>
+                <div className="ProfileMenu-divider" />
+                <button className="ProfileMenu-item danger">
+                  <LogOut size={16} /> Logout
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </header>

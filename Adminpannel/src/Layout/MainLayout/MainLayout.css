@@ -1,124 +1,193 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===========================================================
+   GLOBAL
+=========================================================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 html,
 body,
-#root {
-  width: 100%;
-  min-height: 100%;
-  font-family: "Poppins", sans-serif;
-  background: #f5f7fb;
-  overflow-x: hidden;
+#root{
+  width:100%;
+  height:100%;
+  font-family:'Inter',sans-serif;
+  background:#f5f7fb;
+  overflow-x:hidden;
 }
 
-.MainLayout {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-  background: #f5f7fb;
+/* ===========================================================
+   LAYOUT
+=========================================================== */
+
+.MainLayout{
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  background:#f5f7fb;
 }
 
-/* ===========================
-  CONTENT
-=========================== */
+/* ===========================================================
+   CONTENT WRAPPER
+=========================================================== */
 
-.MainLayout-content {
-  width: calc(100% - 280px);
-  margin-left: 280px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  transition: .35s ease;
-  padding-top: 75px; /* Pushes content down below the fixed topbar */
+.MainContent-wrapper{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  width:100%;
+  transition:margin-left .3s ease;
 }
 
-.MainLayout-content.collapsed {
-  width: calc(100% - 90px);
-  margin-left: 90px;
+/* Sidebar Expanded */
+
+.MainContent-wrapper.expanded{
+  margin-left:260px;
 }
 
-/* ===========================
-  PAGE
-=========================== */
+/* Sidebar Collapsed */
 
-.MainLayout-page {
-  margin-top: 0;
-  padding: 25px;
-  min-height: calc(100vh - 75px);
-  background: #f5f7fb;
-  overflow-y: auto;
-  width: 100%;
+.MainContent-wrapper.collapsed{
+  margin-left:80px;
 }
 
-/* scrollbar */
-.MainLayout-page::-webkit-scrollbar {
-  width: 7px;
+/* ===========================================================
+   MAIN CONTENT
+=========================================================== */
+
+.MainContent{
+
+  flex:1;
+
+  margin-top:72px;
+
+  padding:24px;
+
+  background:#f5f7fb;
+
+  min-height:calc(100vh - 72px);
+
+  overflow-x:hidden;
+
 }
 
-.MainLayout-page::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 20px;
+.MainContent-outlet{
+
+  width:100%;
+
 }
 
-/* ===========================
-  LARGE SCREEN
-=========================== */
+/* ===========================================================
+   BREADCRUMB
+=========================================================== */
 
-@media (max-width: 1400px) {
-  .MainLayout-page {
-    padding: 22px;
-  }
+.Breadcrumb{
+
+  margin-bottom:18px;
+
 }
 
-/* ===========================
-  TABLET
-  992px
-=========================== */
+.Breadcrumb-list{
 
-@media (max-width: 992px) {
-  .MainLayout {
-    display: block;
-  }
+  display:flex;
 
-  .MainLayout-content,
-  .MainLayout-content.collapsed {
-    width: 100%;
-    margin-left: 0;
-  }
+  align-items:center;
 
-  .MainLayout-page {
-    margin-top: 0;
-    padding: 20px;
-  }
+  flex-wrap:wrap;
+
+  gap:6px;
+
+  list-style:none;
+
 }
 
-/* ===========================
-  MOBILE
-  768px
-=========================== */
+.Breadcrumb-item{
 
-@media (max-width: 768px) {
-  .MainLayout-page {
-    padding: 15px;
-  }
+  display:flex;
+
+  align-items:center;
+
 }
 
-/* ===========================
-  SMALL MOBILE
-  576px
-=========================== */
+.Breadcrumb-link{
 
-@media (max-width: 576px) {
-  .MainLayout-page {
-    padding: 12px;
-  }
+  color:#64748b;
+
+  text-decoration:none;
+
+  display:flex;
+
+  align-items:center;
+
+  transition:.25s;
+
 }
 
-@media (max-width: 420px) {
-  .MainLayout-page {
-    padding: 10px;
-  }
+.Breadcrumb-link:hover{
+
+  color:#4f46e5;
+
+}
+
+.Breadcrumb-current{
+
+  color:#111827;
+
+  font-weight:600;
+
+}
+
+.Breadcrumb-separator{
+
+  color:#94a3b8;
+
+}
+
+/* ===========================================================
+   MOBILE
+=========================================================== */
+
+@media(max-width:1023px){
+
+.MainContent-wrapper{
+
+margin-left:0!important;
+
+width:100%;
+
+}
+
+.MainContent{
+
+padding:16px;
+
+margin-top:72px;
+
+}
+
+}
+
+/* ===========================================================
+   SMALL MOBILE
+=========================================================== */
+
+@media(max-width:576px){
+
+.MainContent{
+
+padding:14px;
+
+}
+
+.Breadcrumb{
+
+display:none;
+
+}
+
 }
