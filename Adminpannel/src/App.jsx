@@ -9,17 +9,19 @@ import {
 import MainLayout from "./Layout/MainLayout/MainLayout";
 
 import DashBoard from "./Pages/DashBoard/DashBoard";
-import BlogPost from "./Pages/BlogPost/BlogPost";
-import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
 import Shop from "./Pages/Shop/Shop";
 import Addproduct from "./Pages/Addproduct/Addproduct";
+import BlogManagement from "./Pages/BlogManagement/BlogManagement";
+import BlogPost from "./Pages/BlogPost/BlogPost";
+import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
+import NewProduct from "./Pages/NewProduct/NewProduct";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          {/* Redirect "/" to dashboard */}
+          {/* Redirect to Dashboard */}
           <Route index element={<Navigate to="/dashboard" replace />} />
 
           {/* Dashboard */}
@@ -30,6 +32,7 @@ function App() {
           <Route path="shop/products/add" element={<Addproduct />} />
 
           {/* Blog */}
+          <Route path="blog-management" element={<BlogManagement />} />
           <Route
             path="blog-management/posts"
             element={<BlogPost />}
@@ -40,9 +43,15 @@ function App() {
             path="gallery-management"
             element={<GalleryManagement />}
           />
+
+          {/* New Product */}
+          <Route
+            path="newproducts"
+            element={<NewProduct />}
+          />
         </Route>
 
-        {/* 404 */}
+        {/* 404 Redirect */}
         <Route
           path="*"
           element={<Navigate to="/dashboard" replace />}

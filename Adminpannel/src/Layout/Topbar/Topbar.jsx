@@ -10,13 +10,11 @@ import {
   FaChevronDown,
   FaExternalLinkAlt,
   FaThLarge,
-  FaBoxOpen,
+  FaBox,
 } from "react-icons/fa";
 import "./Topbar.css";
 
-// Maps a route to the page icon / title / breadcrumb trail shown on the left.
-// Add an entry per route; anything not listed falls back to a generic
-// title derived from the last URL segment.
+// Route configuration mapping paths to title & icons
 const PAGE_CONFIG = {
   "/dashboard": {
     icon: FaThLarge,
@@ -24,7 +22,7 @@ const PAGE_CONFIG = {
     crumbs: ["Dashboard"],
   },
   "/shop/products/add": {
-    icon: FaBoxOpen,
+    icon: FaBox,
     title: "Add New Product",
     crumbs: ["Dashboard", "Shop / Products", "Add New Product"],
   },
@@ -53,6 +51,8 @@ const Topbar = ({
   toggleMobileSidebar,
   websiteUrl = "#",
   adminName = "Admin",
+  notificationCount = 5,
+  avatarUrl = null,
   onLogout,
 }) => {
   const [profileOpen, setProfileOpen] = useState(false);
@@ -61,6 +61,7 @@ const Topbar = ({
 
   const { icon: PageIcon, title, crumbs } = getPageInfo(location.pathname);
 
+  // Close profile dropdown on outside click
   useEffect(() => {
     const closeDropdown = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -68,49 +69,65 @@ const Topbar = ({
       }
     };
 
-    document.addEventListener("click", closeDropdown);
-    return () => document.removeEventListener("click", closeDropdown);
+    document.addEventListener("mousedown", closeDropdown);
+    return () => document.removeEventListener("mousedown", closeDropdown);
   }, []);
 
+  // Handle robust responsive sidebar toggle
   const handleToggle = () => {
     if (window.innerWidth <= 992) {
-      toggleMobileSidebar();
+      if (typeof toggleMobileSidebar === "function") {
+        toggleMobileSidebar();
+      }
     } else {
-      toggleSidebar();
+      if (typeof toggleSidebar === "function") {
+        toggleSidebar();
+      }
     }
   };
 
   return (
     <header className="Topbar">
+      {/* Left Section: Toggle, Icon, Title & Breadcrumbs */}
       <div className="Topbar-left">
-        <button className="Topbar-toggle" onClick={handleToggle} aria-label="Toggle sidebar">
+        <button
+          className="Topbar-toggle"
+          onClick={handleToggle}
+          aria-label="Toggle Sidebar"
+          type="button"
+        >
           <FaBars />
         </button>
 
-        <div className="Topbar-pageIcon">
-          <PageIcon />
+        <div className="Topbar-pageIconWrapper">
+          <PageIcon className="Topbar-pageMainIcon" />
         </div>
 
         <div className="Topbar-pageInfo">
           <h1 className="Topbar-pageTitle">{title}</h1>
-          <div className="Topbar-breadcrumb">
+          <nav className="Topbar-breadcrumb" aria-label="breadcrumb">
             {crumbs.map((crumb, idx) => {
               const isLast = idx === crumbs.length - 1;
               return (
                 <React.Fragment key={crumb + idx}>
                   {idx === 0 ? (
-                    <Link to="/dashboard" className="Topbar-crumb">{crumb}</Link>
+                    <Link to="/dashboard" className="Topbar-crumb">
+                      {crumb}
+                    </Link>
                   ) : (
-                    <span className={`Topbar-crumb ${isLast ? "current" : ""}`}>{crumb}</span>
+                    <span className={`Topbar-crumb ${isLast ? "current" : ""}`}>
+                      {crumb}
+                    </span>
                   )}
-                  {!isLast && <FaChevronRight className="Topbar-crumb-sep" />}
+                  {!isLast && <FaChevronRight className="Topbar-crumb-sep" size={10} />}
                 </React.Fragment>
               );
             })}
-          </div>
+          </nav>
         </div>
       </div>
 
+      {/* Right Section: Website Link, Notifications & Profile Menu */}
       <div className="Topbar-right">
         <a
           href={websiteUrl}
@@ -118,43 +135,58 @@ const Topbar = ({
           rel="noopener noreferrer"
           className="Topbar-visitBtn"
         >
-          Visit Website <FaExternalLinkAlt size={12} />
+          <span>Visit Website</span>
+          <FaExternalLinkAlt size={11} />
         </a>
 
-        <button className="Topbar-notification" aria-label="Notifications">
+        <button className="Topbar-notification" aria-label="Notifications" type="button">
           <FaBell />
-          <span className="Topbar-badge">1</span>
+          {notificationCount > 0 && (
+            <span className="Topbar-badge">{notificationCount}</span>
+          )}
         </button>
 
         <div className="Topbar-profile" ref={profileRef}>
-          <div
-            className="Topbar-profileInfo"
-            onClick={() => setProfileOpen(!profileOpen)}
+          <button
+            className={`Topbar-profileInfo ${profileOpen ? "active" : ""}`}
+            onClick={() => setProfileOpen((prev) => !prev)}
+            aria-expanded={profileOpen}
+            type="button"
           >
-            <FaUserCircle className="Topbar-profileImage" size={40} />
-            <div className="Topbar-profileText">
-              <span>{adminName}</span>
-            </div>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={adminName} className="Topbar-profileImage" />
+            ) : (
+              <FaUserCircle className="Topbar-profileImagePlaceholder" />
+            )}
+            <span className="Topbar-profileName">{adminName}</span>
             <FaChevronDown className={`Topbar-profileChevron ${profileOpen ? "open" : ""}`} />
-          </div>
+          </button>
 
           <div className={`Topbar-dropdown ${profileOpen ? "show" : ""}`}>
-            <button className="Topbar-dropdownItem" onClick={() => setProfileOpen(false)}>
+            <button
+              className="Topbar-dropdownItem"
+              onClick={() => setProfileOpen(false)}
+              type="button"
+            >
               <FaUserCircle />
               Profile
             </button>
-
-            <button className="Topbar-dropdownItem" onClick={() => setProfileOpen(false)}>
+            <button
+              className="Topbar-dropdownItem"
+              onClick={() => setProfileOpen(false)}
+              type="button"
+            >
               <FaCog />
               Settings
             </button>
-
+            <div className="Topbar-dropdownDivider" />
             <button
               className="Topbar-dropdownItem logout"
               onClick={() => {
                 setProfileOpen(false);
-                onLogout && onLogout();
+                if (onLogout) onLogout();
               }}
+              type="button"
             >
               <FaSignOutAlt />
               Logout

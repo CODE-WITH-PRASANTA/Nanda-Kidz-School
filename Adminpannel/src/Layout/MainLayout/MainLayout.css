@@ -1,186 +1,124 @@
-/*=========================================================
-                    MAIN LAYOUT
-=========================================================*/
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body,
-#root{
-    width:100%;
-    height:100%;
-    overflow-x:hidden;
-    background:#f5f7fb;
-    font-family:"Poppins",sans-serif;
+#root {
+  width: 100%;
+  min-height: 100%;
+  font-family: "Poppins", sans-serif;
+  background: #f5f7fb;
+  overflow-x: hidden;
 }
 
-.MainLayout{
-    display:flex;
-    width:100%;
-    min-height:100vh;
-    background:#f5f7fb;
-    overflow:hidden;
+.MainLayout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7fb;
 }
 
-/*=========================================================
-                    RIGHT CONTENT
-=========================================================*/
+/* ===========================
+  CONTENT
+=========================== */
 
-.MainLayout-content{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    margin-left:280px;
-    min-width:0;
-    min-height:100vh;
-    transition:margin-left .35s ease;
+.MainLayout-content {
+  width: calc(100% - 280px);
+  margin-left: 280px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: .35s ease;
+  padding-top: 75px; /* Pushes content down below the fixed topbar */
 }
 
-/* Only actually collapsed (user toggled it) narrows the offset —
-   this must always match the sidebar's own real width, never a
-   width forced by a screen-size breakpoint on its own. */
-.MainLayout-content.collapsed{
-    margin-left:90px;
+.MainLayout-content.collapsed {
+  width: calc(100% - 90px);
+  margin-left: 90px;
 }
 
-/*=========================================================
-                    PAGE
-=========================================================*/
+/* ===========================
+  PAGE
+=========================== */
 
-.MainLayout-page{
-    flex:1;
-    padding:25px;
-    overflow-y:auto;
-    overflow-x:hidden;
-    background:#f5f7fb;
-    min-height:100vh;
-    -webkit-overflow-scrolling:touch;
+.MainLayout-page {
+  margin-top: 0;
+  padding: 25px;
+  min-height: calc(100vh - 75px);
+  background: #f5f7fb;
+  overflow-y: auto;
+  width: 100%;
 }
 
-/*=========================================================
-                    SCROLLBAR
-=========================================================*/
-
-.MainLayout-page::-webkit-scrollbar{
-    width:6px;
+/* scrollbar */
+.MainLayout-page::-webkit-scrollbar {
+  width: 7px;
 }
 
-.MainLayout-page::-webkit-scrollbar-thumb{
-    background:#c9c9c9;
-    border-radius:20px;
+.MainLayout-page::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
 }
 
-.MainLayout-page::-webkit-scrollbar-track{
-    background:transparent;
+/* ===========================
+  LARGE SCREEN
+=========================== */
+
+@media (max-width: 1400px) {
+  .MainLayout-page {
+    padding: 22px;
+  }
 }
 
-/*=========================================================
-                    LARGE LAPTOP
-=========================================================*/
+/* ===========================
+  TABLET
+  992px
+=========================== */
 
-@media(max-width:1400px){
+@media (max-width: 992px) {
+  .MainLayout {
+    display: block;
+  }
 
-.MainLayout-page{
-    padding:22px;
+  .MainLayout-content,
+  .MainLayout-content.collapsed {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .MainLayout-page {
+    margin-top: 0;
+    padding: 20px;
+  }
 }
 
+/* ===========================
+  MOBILE
+  768px
+=========================== */
+
+@media (max-width: 768px) {
+  .MainLayout-page {
+    padding: 15px;
+  }
 }
 
-/*=========================================================
-                    LAPTOP
-    (Sidebar is still full-width here unless the user has
-    toggled collapse — so content offset stays untouched.
-    Only spacing tightens up.)
-=========================================================*/
+/* ===========================
+  SMALL MOBILE
+  576px
+=========================== */
 
-@media(max-width:1200px){
-
-.MainLayout-page{
-    padding:20px;
+@media (max-width: 576px) {
+  .MainLayout-page {
+    padding: 12px;
+  }
 }
 
-}
-
-/*=========================================================
-                    TABLET
-    (Sidebar switches to an off-canvas drawer at this
-    breakpoint — see Sidebar.css @media(max-width:992px) —
-    so content always runs full width with no left offset,
-    collapsed or not.)
-=========================================================*/
-
-@media(max-width:992px){
-
-.MainLayout{
-    display:block;
-}
-
-.MainLayout-content,
-.MainLayout-content.collapsed{
-    margin-left:0;
-    width:100%;
-    min-height:100vh;
-}
-
-.MainLayout-page{
-    padding:18px;
-    min-height:calc(100vh - 70px); /* 70px = Topbar height, unchanged at this breakpoint */
-}
-
-}
-
-/*=========================================================
-                    MOBILE
-=========================================================*/
-
-@media(max-width:768px){
-
-.MainLayout{
-    display:block;
-    min-height:100dvh;
-}
-
-.MainLayout-content,
-.MainLayout-content.collapsed{
-    width:100%;
-    margin-left:0;
-    min-height:100dvh;
-}
-
-.MainLayout-page{
-    padding:15px;
-    min-height:calc(100dvh - 70px); /* matches Topbar's actual height — was 65px, causing a 5px gap */
-    overflow-y:auto;
-    overflow-x:hidden;
-    -webkit-overflow-scrolling:touch;
-}
-
-}
-
-/*=========================================================
-                SMALL MOBILE
-=========================================================*/
-
-@media(max-width:576px){
-
-.MainLayout-page{
-    padding:12px;
-}
-
-}
-
-/*=========================================================
-                EXTRA SMALL
-=========================================================*/
-
-@media(max-width:420px){
-
-.MainLayout-page{
-    padding:10px;
-}
-
+@media (max-width: 420px) {
+  .MainLayout-page {
+    padding: 10px;
+  }
 }
