@@ -1,0 +1,426 @@
+/* ==========================================================================
+   Sidebar — Kids School Admin Panel
+   Reference theme: navy/indigo gradient body, violet pill active state,
+   gold accents, avatar footer card, bottom illustration.
+   ========================================================================== */
+
+.Sidebar {
+  --navy-900: #1e1b4b;
+  --navy-800: #24215c;
+  --navy-950: #14122e;
+  --violet: #7c5cff;
+  --violet-dark: #6d4bff;
+  --violet-soft: #9b82ff;
+  --gold: #fbbf24;
+  --text: #eef0ff;
+  --text-muted: rgba(238, 240, 255, 0.62);
+  --divider: rgba(238, 240, 255, 0.09);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 268px;
+  height: 100vh;
+  background: linear-gradient(180deg, var(--navy-800) 0%, var(--navy-900) 60%, var(--navy-950) 100%);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  box-shadow: 6px 0 28px rgba(15, 12, 41, 0.35);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.Sidebar.collapsed {
+  width: 82px;
+}
+
+/* ---------- Header / logo ---------- */
+.Sidebar-header {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--divider);
+  flex-shrink: 0;
+}
+
+.Sidebar-logoMark {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.Sidebar-brandText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.Sidebar-brandText h1 {
+  font-size: 17px;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Sidebar-brandText span {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.Sidebar-mobile-close {
+  display: none;
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  border: none;
+  color: var(--text);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ---------- Nav ---------- */
+.Sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 12px 4px;
+}
+
+.Sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+.Sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+}
+
+.Sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.SidebarItem {
+  position: relative;
+}
+
+/* Every row (link or dropdown toggle) shares one alignment grid:
+   fixed icon column -> flexible label -> trailing arrow/chevron column.
+   This is what keeps every icon and label lined up, expanded or collapsed. */
+.SidebarItem-link,
+.SidebarItem-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 12px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border: none;
+  background: none;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.SidebarItem-link:hover,
+.SidebarItem-toggle:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.SidebarItem-link.active {
+  background: linear-gradient(90deg, var(--violet), var(--violet-dark));
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(124, 92, 255, 0.35);
+}
+
+.SidebarItem-icon {
+  min-width: 20px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.SidebarItem-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.SidebarItem-arrow {
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all 0.18s ease;
+}
+
+.SidebarItem-link.active .SidebarItem-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.SidebarItem-chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.SidebarItem-chevron.rotated {
+  transform: rotate(180deg);
+  color: var(--violet-soft);
+}
+
+.SidebarItem-dropdown.is-open > .SidebarItem-toggle {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+/* ---------- Submenu ---------- */
+.SidebarItem-submenu {
+  list-style: none;
+  margin: 3px 0 4px 32px;
+  padding: 4px 0 4px 12px;
+  border-left: 2px dashed rgba(238, 240, 255, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.SidebarItem-dropdown.is-open .SidebarItem-submenu {
+  max-height: 220px;
+}
+
+.SidebarItem-subLink {
+  display: block;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.SidebarItem-subLink:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.SidebarItem-subLink.active {
+  background: rgba(124, 92, 255, 0.2);
+  color: var(--violet-soft);
+}
+
+/* ---------- User footer card ---------- */
+.Sidebar-userCard {
+  flex-shrink: 0;
+  margin: 8px 14px;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--divider);
+}
+
+.Sidebar-userTop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Sidebar-avatar {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--violet-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.Sidebar-userInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.Sidebar-userName {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Sidebar-userRole {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.Sidebar-userActions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.Sidebar-userActionBtn {
+  flex: 1;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.Sidebar-userActionBtn:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: var(--text);
+}
+
+.Sidebar-userActionBtn-danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+/* ---------- Bottom illustration ---------- */
+.Sidebar-illustration {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.Sidebar-illustration svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- Overlay ---------- */
+.Sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 30, 0.55);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+/* ---------- Collapsed rail mode (desktop) ---------- */
+.Sidebar.collapsed .Sidebar-header {
+  justify-content: center;
+  padding: 0;
+}
+
+.Sidebar.collapsed .Sidebar-brandText,
+.Sidebar.collapsed .Sidebar-userInfo,
+.Sidebar.collapsed .Sidebar-userActions,
+.Sidebar.collapsed .Sidebar-illustration,
+.Sidebar.collapsed .SidebarItem-text,
+.Sidebar.collapsed .SidebarItem-arrow,
+.Sidebar.collapsed .SidebarItem-chevron,
+.Sidebar.collapsed .SidebarItem-submenu {
+  display: none;
+}
+
+.Sidebar.collapsed .SidebarItem-link,
+.Sidebar.collapsed .SidebarItem-toggle {
+  justify-content: center;
+  padding: 12px 0;
+  gap: 0;
+}
+
+.Sidebar.collapsed .Sidebar-userCard {
+  margin: 8px;
+  padding: 8px;
+}
+
+.Sidebar.collapsed .Sidebar-userTop {
+  justify-content: center;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 1023px) {
+  .Sidebar {
+    left: -280px;
+    width: 268px;
+  }
+
+  .Sidebar.mobile-open {
+    left: 0;
+  }
+
+  /* On mobile the drawer always opens at full width with labels visible,
+     regardless of the desktop "collapsed" rail state. */
+  .Sidebar.collapsed.mobile-open {
+    width: 268px;
+  }
+
+  .Sidebar.collapsed.mobile-open .Sidebar-brandText,
+  .Sidebar.collapsed.mobile-open .Sidebar-userInfo,
+  .Sidebar.collapsed.mobile-open .Sidebar-userActions,
+  .Sidebar.collapsed.mobile-open .Sidebar-illustration,
+  .Sidebar.collapsed.mobile-open .SidebarItem-text,
+  .Sidebar.collapsed.mobile-open .SidebarItem-arrow,
+  .Sidebar.collapsed.mobile-open .SidebarItem-chevron {
+    display: flex;
+  }
+
+  .Sidebar.collapsed.mobile-open .SidebarItem-link,
+  .Sidebar.collapsed.mobile-open .SidebarItem-toggle {
+    justify-content: flex-start;
+    padding: 11px 12px;
+    gap: 12px;
+  }
+
+  .Sidebar.collapsed.mobile-open .Sidebar-header {
+    justify-content: flex-start;
+    padding: 0 18px;
+  }
+
+  .Sidebar-mobile-close {
+    display: flex;
+  }
+}

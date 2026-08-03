@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@600;700&display=swap');
+
+/* Main Banner Container */
+.ShopBreadcrumb {
+  width: 100%;
+  min-height: 380px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 40px 20px;
+}
+
+/* Inner Layout Wrapper */
+.ShopBreadcrumb-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Chalk-style / Playful Title */
+.ShopBreadcrumb-title {
+  color: #ffffff;
+  font-family: 'Fredoka One', 'Comic Sans MS', cursive, sans-serif;
+  font-size: 5.5rem;
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* Subtitle Tagline */
+.ShopBreadcrumb-subtitle {
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  opacity: 0.95;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .ShopBreadcrumb {
+    min-height: 320px;
+  }
+
+  .ShopBreadcrumb-title {
+    font-size: 4.2rem;
+  }
+
+  .ShopBreadcrumb-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 2.5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .ShopBreadcrumb {
+    min-height: 250px;
+    padding: 30px 15px;
+  }
+
+  .ShopBreadcrumb-title {
+    font-size: 3rem;
+  }
+
+  .ShopBreadcrumb-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+  }
+}

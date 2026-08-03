@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===========================================================
+   GLOBAL
+=========================================================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body,
+#root{
+  width:100%;
+  height:100%;
+  font-family:'Inter',sans-serif;
+  background:#f5f7fb;
+  overflow-x:hidden;
+}
+
+/* ===========================================================
+   LAYOUT
+=========================================================== */
+
+.MainLayout{
+  width:100%;
+  min-height:100vh;
+  display:flex;
+  background:#f5f7fb;
+}
+
+/* ===========================================================
+   CONTENT WRAPPER
+=========================================================== */
+
+.MainContent-wrapper{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  width:100%;
+  transition:margin-left .3s ease;
+}
+
+/* Sidebar Expanded */
+
+.MainContent-wrapper.expanded{
+  margin-left:260px;
+}
+
+/* Sidebar Collapsed */
+
+.MainContent-wrapper.collapsed{
+  margin-left:80px;
+}
+
+/* ===========================================================
+   MAIN CONTENT
+=========================================================== */
+
+.MainContent{
+
+  flex:1;
+
+ 
+
+  
+  background:#f5f7fb;
+
+  min-height:calc(100vh - 72px);
+
+  overflow-x:hidden;
+
+}
+
+.MainContent-outlet{
+
+  width:100%;
+
+}
+
+/* ===========================================================
+   BREADCRUMB
+=========================================================== */
+
+.Breadcrumb{
+
+  margin-bottom:18px;
+
+}
+
+
+
+
+.Breadcrumb-item{
+
+  display:flex;
+
+  align-items:center;
+
+}
+
+.Breadcrumb-link{
+
+  color:#64748b;
+
+  text-decoration:none;
+
+  display:flex;
+
+  align-items:center;
+
+  transition:.25s;
+
+}
+
+.Breadcrumb-link:hover{
+
+  color:#4f46e5;
+
+}
+
+.Breadcrumb-current{
+
+  color:#111827;
+
+  font-weight:600;
+
+}
+
+.Breadcrumb-separator{
+
+  color:#94a3b8;
+
+}
+
+/* ===========================================================
+   MOBILE
+=========================================================== */
+
+@media(max-width:1023px){
+
+.MainContent-wrapper{
+
+margin-left:0!important;
+
+width:100%;
+
+}
+
+.MainContent{
+
+padding:16px;
+
+margin-top:72px;
+
+}
+
+}
+
+/* ===========================================================
+   SMALL MOBILE
+=========================================================== */
+
+@media(max-width:576px){
+
+.MainContent{
+
+padding:14px;
+
+}
+
+.Breadcrumb{
+
+display:none;
+
+}
+
+}

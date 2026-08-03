@@ -1,0 +1,407 @@
+/* ==========================================================================
+   Topbar — Fully Responsive Fixed-Top Layout
+   ========================================================================== */
+
+.Topbar {
+  --violet: #7c5cff;
+  --violet-dark: #6d4bff;
+  --ink: #1e1b3a;
+  --muted: #8b8aa3;
+  --border: #ececf3;
+
+  height: 74px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 16px;
+  
+  /* Ensure it stays fixed/sticky relative to the document layout container */
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.03);
+}
+
+/* ---------- Left: toggle + page icon + title/breadcrumb ---------- */
+.Topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.Topbar-toggleBtn {
+  background: none;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.Topbar-toggleBtn:hover {
+  background: #f4f3fa;
+}
+
+.Topbar-pageIcon {
+  min-width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #f4f3fa;
+  color: var(--violet);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.Topbar-pageInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.Topbar-pageTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Topbar-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Topbar-breadcrumb-item.current {
+  color: var(--violet);
+}
+
+.Topbar-breadcrumb-sep {
+  color: #c8c6d9;
+  flex-shrink: 0;
+}
+
+/* ---------- Right side ---------- */
+.Topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.Topbar-visitBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--violet), var(--violet-dark));
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 16px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(124, 92, 255, 0.28);
+  transition: filter 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.Topbar-visitBtn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.Topbar-iconBtn {
+  position: relative;
+  background: #f4f3fa;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.Topbar-iconBtn:hover {
+  background: #ebe9f7;
+}
+
+.Topbar-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ffffff;
+}
+
+.Notification {
+  position: relative;
+}
+
+/* Shared dropdown/popup shell */
+.Topbar-popup {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 290px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(30, 27, 58, 0.14);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.Topbar-popup-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.Topbar-popup-header h3 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.Topbar-popup-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.Topbar-notification-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  border-bottom: 1px solid #f5f4fa;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.Topbar-notification-row:hover {
+  background: #faf9fe;
+}
+
+.Topbar-notification-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.Topbar-notification-content p {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.Topbar-notification-content span {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.Topbar-popup-footer button {
+  width: 100%;
+  padding: 10px;
+  background: none;
+  border: none;
+  color: var(--violet);
+  font-weight: 700;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.Topbar-popup-footer button:hover {
+  background: #faf9fe;
+}
+
+/* ---------- Profile ---------- */
+.ProfileMenu {
+  position: relative;
+}
+
+.ProfileMenu-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: #f4f3fa;
+  border: none;
+  padding: 5px 10px 5px 5px;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+
+.ProfileMenu-trigger:hover {
+  background: #ebe9f7;
+}
+
+.ProfileMenu-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--violet), var(--violet-dark));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ProfileMenu-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.ProfileMenu-chevron {
+  color: var(--muted);
+  transition: transform 0.2s ease;
+}
+
+.ProfileMenu-chevron.open {
+  transform: rotate(180deg);
+}
+
+.ProfileMenu-dropdown {
+  width: 200px;
+  padding: 6px;
+}
+
+.ProfileMenu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ProfileMenu-item:hover {
+  background: #faf9fe;
+}
+
+.ProfileMenu-item.danger {
+  color: #ef4444;
+}
+
+.ProfileMenu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 5px 0;
+}
+
+/* ---------- Responsive Breakpoints ---------- */
+@media (max-width: 1024px) {
+  .Topbar {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .Topbar-breadcrumb {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .Topbar {
+    padding: 0 16px;
+    height: 68px;
+  }
+
+  .Topbar-pageIcon {
+    display: none;
+  }
+
+  .Topbar-pageTitle {
+    font-size: 14px;
+    max-width: 140px;
+  }
+
+  .Topbar-visitBtn span {
+    display: none;
+  }
+
+  .Topbar-visitBtn {
+    padding: 8px 10px;
+  }
+
+  .ProfileMenu-name {
+    display: none;
+  }
+
+  .ProfileMenu-trigger {
+    padding: 4px;
+  }
+
+  .Topbar-popup {
+    width: 260px;
+    right: -10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .Topbar {
+    padding: 0 12px;
+  }
+
+  .Topbar-visitBtn {
+    display: none; /* Hide visit website button on extra small devices to prevent overflow */
+  }
+
+  .Topbar-pageTitle {
+    font-size: 13px;
+    max-width: 110px;
+  }
+}

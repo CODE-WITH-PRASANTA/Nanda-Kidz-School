@@ -1,0 +1,170 @@
+/* सेक्शन रैपर (Exact ऑफ-व्हाइट बैकग्राउंड) */
+.contacts-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #FAF8F5; /* Reference Image exact warm off-white color */
+  padding: 100px 20px 140px;
+  overflow: hidden;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* मुख्य कंटेनर */
+.contacts-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 5;
+}
+
+/* 3-कॉलम ग्रिड लेआउट */
+.contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+/* कार्ड स्टाइल्स */
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.contact-icon-wrapper {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.contact-icon {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.contact-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2D2D2D;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.3px;
+}
+
+.contact-description {
+  font-size: 0.95rem;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 18px 0;
+  max-width: 300px;
+}
+
+.contact-email {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2D2D2D;
+  text-decoration: underline;
+  margin-bottom: 6px;
+  transition: color 0.2s ease;
+}
+
+.contact-email:hover {
+  color: #EC75AD;
+}
+
+.contact-phone {
+  font-size: 0.85rem;
+  color: #888888;
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+/* --- डेकोरेटिव इलस्ट्रेशन्स --- */
+
+/* ऊपर बाईं ओर मधुमक्खी (Bee) */
+.decor-bee {
+  position: absolute;
+  top: 30px;
+  left: 8%;
+  width: 90px;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* नीचे दाईं ओर घास (Grass) */
+.decor-grass {
+  position: absolute;
+  bottom: 80px;
+  right: 12%;
+  width: 65px;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* --- बॉटम वेव डिवाइडर --- */
+.wave-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 3;
+}
+
+.wave-svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 80px;
+}
+
+/* --- रिस्पॉन्सिव मीडिया क्वेरीज़ --- */
+@media (max-width: 992px) {
+  .contacts-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  .decor-bee {
+    left: 4%;
+    width: 75px;
+  }
+
+  .decor-grass {
+    right: 5%;
+    width: 55px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contacts-wrapper {
+    padding: 70px 16px 100px;
+  }
+
+  .contacts-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .decor-bee {
+    top: 15px;
+    left: 2%;
+    width: 60px;
+  }
+
+  .decor-grass {
+    bottom: 50px;
+    right: 3%;
+    width: 45px;
+  }
+
+  .wave-svg {
+    height: 50px;
+  }
+}
