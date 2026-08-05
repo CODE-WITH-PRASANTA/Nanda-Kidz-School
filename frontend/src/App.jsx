@@ -15,6 +15,8 @@ import Price from "./Pages/price/price";
 import Courses from "./Pages/Courses/Courses";
 import Shop from "./Pages/Shop/Shop";
 import Faq from "./Pages/Faq/Faq";
+import Teacher from "./Pages/Teacher/Teacher";
+import TeacherDetails from "./Pages/TeacherDetails/TeacherDetails";
 
 const App = () => {
   return (
@@ -36,6 +38,10 @@ const App = () => {
         <Route path="/Courses" element={<Courses/>} />
         <Route path="/shop" element={<Shop/>}/>
         <Route path="/faq" element={<Faq />}/>
+        <Route path="/teacher" element={<Teacher />}/>
+        <Route path="/teacherdetails" element={<TeacherDetails />}/>
+
+
 
 
 

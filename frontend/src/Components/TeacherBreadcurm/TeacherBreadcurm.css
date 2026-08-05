@@ -1,0 +1,107 @@
+/* Base Container Styles */
+.TeacherBreadcurm {
+  width: 100%;
+  min-height: 350px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark Overlay to match the reference image tone */
+.TeacherBreadcurm-overlay {
+  width: 100%;
+  height: 100%;
+  min-height: 350px;
+  background-color: rgba(0, 0, 0, 0.55); /* Dark tint */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* Centered Text Content */
+.TeacherBreadcurm-content {
+  text-align: center;
+  color: #ffffff;
+  z-index: 1;
+}
+
+/* Page Heading */
+.TeacherBreadcurm-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+  font-family: 'Poppins', sans-serif, system-ui;
+}
+
+/* Breadcrumb Navigation Bar */
+.TeacherBreadcurm-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif, system-ui;
+}
+
+/* Home Link */
+.TeacherBreadcurm-home {
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.TeacherBreadcurm-home:hover {
+  color: #ff5200; /* Accent orange hover state */
+}
+
+/* Vertical Separator */
+.TeacherBreadcurm-separator {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+}
+
+/* Current Active Page */
+.TeacherBreadcurm-current {
+  color: #ff5200; /* Matching orange highlight color */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .TeacherBreadcurm, 
+  .TeacherBreadcurm-overlay {
+    min-height: 260px;
+  }
+
+  .TeacherBreadcurm-title {
+    font-size: 2.2rem;
+  }
+
+  .TeacherBreadcurm-nav {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .TeacherBreadcurm, 
+  .TeacherBreadcurm-overlay {
+    min-height: 200px;
+  }
+
+  .TeacherBreadcurm-title {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+
+  .TeacherBreadcurm-nav {
+    font-size: 0.85rem;
+    gap: 8px;
+  }
+}
