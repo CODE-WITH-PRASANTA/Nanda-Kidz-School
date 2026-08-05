@@ -14,6 +14,8 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Price from "./Pages/price/price"; 
 import Courses from "./Pages/Courses/Courses";
 import Shop from "./Pages/Shop/Shop";
+import ClassDetails from "./Pages/ClassDetails/ClassDetails";
+import BlogDetails from "./Pages/BlogDetails/BlogDetails";
 
 const App = () => {
   return (
@@ -27,13 +29,14 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About/>} />
-        
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/price" element={<Price />} />
         <Route path="/Courses" element={<Courses/>} />
         <Route path="/shop" element={<Shop/>}/>
+        <Route path="/class-details/2" element={<ClassDetails/>}/>
+        <Route path="/blog/3" element={<BlogDetails/>}/>
       </Routes>
 
       {/* Common Footer */}
