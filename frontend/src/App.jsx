@@ -14,6 +14,7 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Price from "./Pages/price/price"; 
 import Courses from "./Pages/Courses/Courses";
 import Shop from "./Pages/Shop/Shop";
+import Faq from "./Pages/Faq/Faq";
 
 const App = () => {
   return (
@@ -34,6 +35,10 @@ const App = () => {
         <Route path="/price" element={<Price />} />
         <Route path="/Courses" element={<Courses/>} />
         <Route path="/shop" element={<Shop/>}/>
+        <Route path="/faq" element={<Faq />}/>
+
+
+
       </Routes>
 
       {/* Common Footer */}

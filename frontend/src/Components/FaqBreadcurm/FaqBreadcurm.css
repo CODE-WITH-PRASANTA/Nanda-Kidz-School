@@ -1,0 +1,90 @@
+/* Base styles matching the component name */
+.faq-banner {
+  width: 100%;
+  min-height: 350px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.faq-banner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.faq-banner-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.faq-banner-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.faq-banner-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.faq-banner-link:hover {
+  opacity: 0.8;
+}
+
+.faq-banner-separator {
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.faq-banner-active {
+  color: #ff4d2e; /* Highlight accent color matching reference UI */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .faq-banner {
+    min-height: 260px;
+    padding: 30px 15px;
+  }
+
+  .faq-banner-title {
+    font-size: 2.3rem;
+  }
+
+  .faq-banner-breadcrumb {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .faq-banner {
+    min-height: 200px;
+  }
+
+  .faq-banner-title {
+    font-size: 1.8rem;
+  }
+
+  .faq-banner-breadcrumb {
+    font-size: 0.85rem;
+  }
+}
