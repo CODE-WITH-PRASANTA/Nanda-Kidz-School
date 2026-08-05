@@ -14,6 +14,9 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Price from "./Pages/price/price"; 
 import Courses from "./Pages/Courses/Courses";
 import Shop from "./Pages/Shop/Shop";
+import Termandconditions from "./Pages/Termandconditions/Termandconditions";
+import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
+
 
 const App = () => {
   return (
@@ -34,6 +37,9 @@ const App = () => {
         <Route path="/price" element={<Price />} />
         <Route path="/Courses" element={<Courses/>} />
         <Route path="/shop" element={<Shop/>}/>
+        <Route path="/termandcondition" element={<Termandconditions/>}/>
+        <Route path="/privacypolicy" element={<Privacypolicy/>}/>
+       
       </Routes>
 
       {/* Common Footer */}

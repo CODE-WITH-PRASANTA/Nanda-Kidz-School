@@ -1,0 +1,123 @@
+/* Policies.css */
+
+/* --- General Font Reset --- */
+/* The font in the image is a serif, similar to Times New Roman or Garamond. */
+.policy-wrapper {
+    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Container & Background Layout --- */
+.policy-content {
+    /* Set a maximum width and center the content to match the portrait layout */
+    max-width: 800px;
+    margin: 40px auto;
+    
+    /* Background image settings for the paper texture */
+    background-color: #ffffff; /* Fallback color */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Box Shadow adds to the 'paper' effect */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 4px; /* Subtle rounded corners */
+}
+
+/* --- Responsive Padding --- */
+.policy-inner-padding {
+    /* Matches the visual padding in the reference image */
+    padding: 80px 60px;
+    box-sizing: border-box;
+}
+
+/* --- Typographical Styling (Alignment & Sizing) --- */
+
+/* Main 'Privacy Policy' Title */
+.policy-main-title {
+    text-align: center;
+    font-size: 48px; /* Extra large font for the main title */
+    margin: 0 0 50px 0; /* Spacing below title */
+    letter-spacing: -0.5px;
+    font-weight: 700;
+}
+
+/* General paragraph settings */
+.policy-paragraph {
+    text-align: left;
+    font-size: 18px; /* Clear and readable body text size */
+    line-height: 1.6; /* Optimal line height for readability */
+    margin: 0 0 20px 0; /* Consistent bottom spacing */
+    font-weight: 400;
+}
+
+/* Intro Paragraph Spacing */
+.policy-intro-text {
+    margin-bottom: 35px;
+}
+
+/* Section Title (Numbers and Titles) */
+.policy-section {
+    margin-bottom: 25px;
+}
+
+.policy-section-title {
+    font-size: 20px; /* Slightly larger than paragraph text */
+    font-weight: 700;
+    margin: 0 0 10px 0; /* Spacing between title and body */
+    text-align: left;
+}
+
+/* Closing Statement (Specific top margin) */
+.policy-closing-text {
+    margin-top: 35px;
+}
+
+/* --- Media Queries for Responsiveness --- */
+
+/* For smaller tablets and large phones */
+@media screen and (max-width: 768px) {
+    .policy-content {
+        margin: 20px;
+    }
+    
+    .policy-inner-padding {
+        padding: 50px 30px;
+    }
+    
+    .policy-main-title {
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
+    
+    .policy-paragraph {
+        font-size: 17px;
+    }
+    
+    .policy-section-title {
+        font-size: 19px;
+    }
+}
+
+/* For small mobile phones */
+@media screen and (max-width: 480px) {
+    .policy-inner-padding {
+        padding: 40px 20px;
+    }
+    
+    .policy-main-title {
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .policy-paragraph {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    
+    .policy-section-title {
+        font-size: 18px;
+    }
+}
