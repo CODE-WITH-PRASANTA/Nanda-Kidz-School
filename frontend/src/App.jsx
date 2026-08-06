@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
+import Floating from "./Components/Floating/Floating"; // Adjust path if inside Pages folder
 
 // Pages
 import Home from "./Pages/Home/Home";
@@ -19,7 +20,6 @@ import BlogDetails from "./Pages/BlogDetails/BlogDetails";
 import Termandconditions from "./Pages/Termandconditions/Termandconditions";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -31,21 +31,23 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/about" element={<About/>} />
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/price" element={<Price />} />
-        <Route path="/Courses" element={<Courses/>} />
-        <Route path="/shop" element={<Shop/>}/>
-        <Route path="/class-details/2" element={<ClassDetails/>}/>
-        <Route path="/blog/3" element={<BlogDetails/>}/>
-        <Route path="/termandcondition" element={<Termandconditions/>}/>
-        <Route path="/privacypolicy" element={<Privacypolicy/>}/>
-       
-      </Routes>
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/shop" element={<Shop />} />
+        
+        {/* Dynamic Parameter Routes */}
+        <Route path="/class-details/:id" element={<ClassDetails />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
+        
+        <Route path="/termandcondition" element={<Termandconditions />} />
+        <Route path="/privacypolicy" element={<Privacypolicy />} />
 
-      {/* Common Footer */}
+      
+      </Routes>
+      <Floating />
       <Footer />
     </BrowserRouter>
   );
