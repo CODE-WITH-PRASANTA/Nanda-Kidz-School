@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --pc-orange: #f26522;
+  --pc-orange-hover: #d94e0e;
+  --pc-dark-purple: #230832;
+  --pc-text-gray: #666666;
+  --pc-text-dark: #333333;
+  --pc-bg-cream: #fdf6ed;
+  --pc-white: #ffffff;
+  --pc-border-light: #f0e6d8;
+}
+
+/* Base Wrapper & Warm Off-White Background */
+.pc-section {
+  width: 100%;
+  padding: 80px 20px 100px;
+  background-color: var(--pc-bg-cream);
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.pc-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 5;
+}
+
+/* Bottom Corner Decorative Images */
+.pc-dino-bg {
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  pointer-events: none; /* Prevents blocking clicks on cards */
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+/* Bottom Left Dinosaur */
+.pc-dino-left {
+  left: -10px;
+  width: 300px;
+}
+
+/* Bottom Right Dinosaur */
+.pc-dino-right {
+  right: -10px;
+  width: 300px;
+}
+
+/* Header Area */
+.pc-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.pc-subtitle {
+  font-family: 'Caveat', cursive;
+  font-size: 32px;
+  color: var(--pc-orange);
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.pc-subtitle:hover {
+  color: var(--pc-orange-hover);
+  transform: scale(1.05);
+}
+
+.pc-title {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--pc-dark-purple);
+  margin-top: 5px;
+  letter-spacing: -0.5px;
+}
+
+/* 3-Column Grid Layout */
+.pc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Class Card Item */
+.pc-card {
+  background-color: var(--pc-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(35, 8, 50, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.pc-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(35, 8, 50, 0.12);
+}
+
+/* Image & Badge Overlay */
+.pc-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+}
+
+.pc-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.pc-card:hover .pc-card-image {
+  transform: scale(1.08);
+}
+
+/* Orange Price Badge Overlapping Image */
+.pc-price-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--pc-orange);
+  color: var(--pc-white);
+  padding: 8px 18px;
+  font-size: 18px;
+  font-weight: 700;
+  border-top-left-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.pc-price-badge:hover,
+.pc-card:hover .pc-price-badge {
+  background-color: var(--pc-orange-hover);
+}
+
+/* Content Details */
+.pc-card-content {
+  padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.pc-card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--pc-dark-purple);
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.pc-card:hover .pc-card-title {
+  color: var(--pc-orange);
+}
+
+.pc-card-description {
+  font-size: 13px;
+  color: var(--pc-text-gray);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Metadata Info Row */
+.pc-card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px dashed var(--pc-border-light);
+  margin-bottom: 22px;
+}
+
+.pc-info-item {
+  font-size: 13px;
+}
+
+.pc-info-label {
+  color: var(--pc-orange);
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.pc-info-item:hover .pc-info-label {
+  color: var(--pc-orange-hover);
+}
+
+.pc-info-value {
+  color: var(--pc-text-dark);
+  font-weight: 600;
+}
+
+/* Join Button */
+.pc-action-wrapper {
+  margin-top: auto;
+}
+
+.pc-btn-join {
+  background-color: var(--pc-orange);
+  color: var(--pc-white);
+  border: none;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(242, 101, 34, 0.2);
+}
+
+.pc-btn-join:hover {
+  background-color: var(--pc-orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(217, 78, 14, 0.35);
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .pc-dino-left {
+    width: 140px;
+  }
+  .pc-dino-right {
+    width: 150px;
+  }
+}
+
+@media (max-width: 992px) {
+  .pc-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+
+  .pc-dino-left,
+  .pc-dino-right {
+    opacity: 0.6; /* Slight fade on medium screens so content stands out */
+  }
+}
+
+@media (max-width: 640px) {
+  .pc-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .pc-title {
+    font-size: 32px;
+  }
+
+  .pc-section {
+    padding: 50px 15px 80px;
+  }
+
+  /* Hide or shrink corner images on small screens */
+  .pc-dino-left {
+    width: 90px;
+  }
+  .pc-dino-right {
+    width: 100px;
+  }
+}

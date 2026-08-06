@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --ci-orange: #f26522;
+  --ci-orange-hover: #d94e0e;
+  --ci-dark-purple: #230832;
+  --ci-text-gray: #666666;
+  --ci-bg-cream: #fdf5f0;
+  --ci-bg-light: #fbfbfb;
+  --ci-white: #ffffff;
+  --ci-border-light: #eeeeee;
+}
+
+/* Base Wrapper Section */
+.ci-section {
+  width: 100%;
+  padding: 60px 20px;
+  background-color: var(--ci-white);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Main Two-Column Layout Container */
+.ci-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 35px;
+  align-items: flex-start;
+}
+
+/* ----------------------------------
+   Left Scrollable Pane + Hidden Scrollbar
+------------------------------------ */
+.ci-left-scroll-pane {
+  flex: 1.8;
+  max-height: 850px;
+  overflow-y: auto;
+  padding-right: 10px;
+
+  /* Hide vertical scrollbar for Chrome, Safari and Opera */
+  -webkit-overflow-scrolling: touch;
+}
+
+.ci-left-scroll-pane::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide vertical scrollbar for IE, Edge and Firefox */
+.ci-left-scroll-pane {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Main Banner Image */
+.ci-image-container {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+
+.ci-main-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Tab Navigation Row */
+.ci-tabs-wrapper {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.ci-tab-btn {
+  flex: 1;
+  padding: 14px 10px;
+  background-color: var(--ci-bg-cream);
+  color: var(--ci-dark-purple);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.ci-tab-btn:hover {
+  background-color: var(--ci-orange);
+  color: var(--ci-white);
+}
+
+.ci-tab-btn.ci-tab-active {
+  background-color: var(--ci-orange);
+  color: var(--ci-white);
+}
+
+/* Content Area below Tabs */
+.ci-tab-content {
+  padding-top: 10px;
+}
+
+.ci-content-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ci-dark-purple);
+  margin: 25px 0 15px 0;
+}
+
+.ci-content-title:first-child {
+  margin-top: 0;
+}
+
+.ci-text {
+  font-size: 14px;
+  color: var(--ci-text-gray);
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+/* Requirements Check List */
+.ci-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.ci-list li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 14px;
+  color: var(--ci-text-gray);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.ci-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ci-orange);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+
+/* ----------------------------------
+   Right Constant/Sticky Sidebar
+------------------------------------ */
+.ci-right-sidebar {
+  flex: 1;
+  position: sticky;
+  top: 30px; /* Sticks to viewport top while scrolling */
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Information Card */
+.ci-info-card {
+  background-color: var(--ci-white);
+  border-radius: 10px;
+  padding: 30px 25px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+  border-top: 3px solid var(--ci-orange);
+}
+
+.ci-sidebar-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ci-dark-purple);
+  margin-bottom: 12px;
+}
+
+.ci-title-divider {
+  width: 50px;
+  height: 2px;
+  background-color: var(--ci-orange);
+  margin-bottom: 25px;
+}
+
+.ci-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ci-info-row {
+  display: flex;
+  font-size: 14px;
+}
+
+.ci-info-label {
+  font-weight: 700;
+  color: var(--ci-dark-purple);
+  width: 100px;
+}
+
+.ci-info-val {
+  color: var(--ci-text-gray);
+}
+
+/* Newsletter Card */
+.ci-newsletter-card {
+  background-color: var(--ci-bg-cream);
+  border-radius: 10px;
+  padding: 35px 25px;
+  text-align: center;
+}
+
+.ci-newsletter-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ci-dark-purple);
+  margin-bottom: 20px;
+}
+
+.ci-newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ci-newsletter-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--ci-border-light);
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.ci-newsletter-input:focus {
+  border-color: var(--ci-orange);
+}
+
+.ci-newsletter-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--ci-orange);
+  color: var(--ci-white);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ci-newsletter-btn:hover {
+  background-color: var(--ci-orange-hover);
+}
+
+/* Responsive Layout Breakdown */
+@media (max-width: 992px) {
+  .ci-container {
+    flex-direction: column;
+  }
+
+  .ci-left-scroll-pane {
+    max-height: none; /* Unset max-height on tablet/mobile */
+    overflow-y: visible;
+  }
+
+  .ci-right-sidebar {
+    width: 100%;
+    position: static;
+  }
+}
+
+@media (max-width: 576px) {
+  .ci-tabs-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ci-content-title {
+    font-size: 20px;
+  }
+}

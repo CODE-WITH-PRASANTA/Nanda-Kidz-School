@@ -14,6 +14,11 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Price from "./Pages/price/price"; 
 import Courses from "./Pages/Courses/Courses";
 import Shop from "./Pages/Shop/Shop";
+import ClassDetails from "./Pages/ClassDetails/ClassDetails";
+import BlogDetails from "./Pages/BlogDetails/BlogDetails";
+import Termandconditions from "./Pages/Termandconditions/Termandconditions";
+import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
+
 
 import Gallery from "./Pages/Gallery/Gallery";
 import Pricing from "./Pages/Pricing/Pricing";
@@ -31,7 +36,6 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About/>} />
-        
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<ContactUs />} />
@@ -47,6 +51,11 @@ const App = () => {
         
 
 
+        <Route path="/class-details/2" element={<ClassDetails/>}/>
+        <Route path="/blog/3" element={<BlogDetails/>}/>
+        <Route path="/termandcondition" element={<Termandconditions/>}/>
+        <Route path="/privacypolicy" element={<Privacypolicy/>}/>
+       
       </Routes>
 
       {/* Common Footer */}
