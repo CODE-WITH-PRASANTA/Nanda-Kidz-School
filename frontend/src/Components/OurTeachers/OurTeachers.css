@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fredoka:wght@500;600;700&family=Inter:wght@400;500&display=swap');
+
+/* Main Section Container */
+.our-teachers {
+  padding: 100px 20px; /* Increased padding for better spacing */
+  background-color: #fdfaf6;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden; /* Keep section content within viewport */
+}
+
+.our-teachers__container {
+  max-width: 1500px; /* Sightly increased max-width */
+  margin: 0 auto;
+}
+
+/* Header Styles */
+.our-teachers__header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.our-teachers__subtitle {
+  font-family: 'Caveat', cursive;
+  font-size: 34px; /* Sightly larger subtitle */
+  color: #e37458;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.our-teachers__title {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 46px; /* Larger, bolder title */
+  font-weight: 700;
+  color: #210d48;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Responsive Grid Layout */
+.our-teachers__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 35px;
+}
+
+/* Card Wrapper */
+.our-teachers__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* --- The Magic Happens Here --- */
+/* Restructured Main Avatar Container */
+.our-teachers__avatar-container {
+  position: relative;
+  width: 290px;  /* Sightly larger for an attractive look */
+  height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  /* Removed overflow: hidden so blob and social bar can animate outside */
+}
+
+/* The MAIN image must be clipped separately to stay circular */
+.our-teachers__image {
+  position: relative;
+  z-index: 2; /* Sits above the blob */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%; /* Image clipped into a perfect circle */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Subtle shadow on the image circle */
+}
+
+/* The Animated Morphing Blob Background */
+.our-teachers__blob-bg {
+  position: absolute;
+  /* Blob slightly larger than the container so it's always visible */
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  background: linear-gradient(135deg, #e37458 0%, #f39c12 100%);
+  
+  /* Initial attractive blob shape */
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  
+  /* The Key Morphing Animation */
+  animation: morphBlob 10s ease-in-out infinite alternate;
+  
+  z-index: 1; /* Sits below the white border and image */
+  opacity: 0.9; /* Sightly translucent */
+}
+
+/* --- Defining the Morphing Keyframes --- */
+@keyframes morphBlob {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  25% {
+    border-radius: 40% 60% 50% 50% / 50% 60% 40% 60%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  75% {
+    border-radius: 50% 50% 60% 40% / 60% 40% 60% 50%;
+  }
+  100% {
+    border-radius: 60% 40% 60% 30% / 70% 30% 50% 60%;
+  }
+}
+
+/* Sliding Social Bar Container */
+.our-teachers__social-bar {
+  position: absolute;
+  /* Social bar starts just below the container boundary */
+  bottom: -60px; 
+  left: 0;
+  width: 100%;
+  z-index: 4; /* Higher than image z-index */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-bottom: 25px; /* Space from the very bottom edge */
+  
+  opacity: 0;
+  visibility: hidden;
+  /* Smooth Slide and Springy effect */
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease;
+}
+
+/* Hover Action: Slide and Fade In Social Bar */
+.our-teachers__avatar-container:hover .our-teachers__social-bar {
+  transform: translateY(-90px); /* Adjust this value to set the final visual position */
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Individual Social Icon Button Style */
+.our-teachers__social-link {
+  width: 44px;
+  height: 44px;
+  background-color: #ffffff;
+  color: #210d48;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.our-teachers__social-link:hover {
+  background-color: #e37458;
+  color: #ffffff;
+  transform: translateY(-4px) scale(1.1); /* Pop effect on icon hover */
+  box-shadow: 0 8px 20px rgba(227, 116, 88, 0.4);
+}
+
+/* Text Container */
+.our-teachers__info {
+  margin-top: 8px;
+}
+
+.our-teachers__name {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 26px; /* Attractive larger font */
+  font-weight: 600;
+  color: #210d48;
+  margin: 0 0 6px 0;
+}
+
+.our-teachers__role {
+  font-size: 16px;
+  color: #e37458;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 1280px) {
+  .our-teachers__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 45px;
+  }
+}
+
+@media (max-width: 680px) {
+  .our-teachers {
+    padding: 70px 15px;
+  }
+
+  .our-teachers__title {
+    font-size: 36px;
+  }
+
+  .our-teachers__grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  /* Reduce sizes for mobile consistency */
+  .our-teachers__avatar-container {
+    width: 250px;
+    height: 250px;
+  }
+
+  .our-teachers__image {
+    border-width: 8px;
+  }
+
+  .our-teachers__blob-bg {
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+  }
+
+  .our-teachers__avatar-container:hover .our-teachers__social-bar {
+    transform: translateY(-75px);
+  }
+}

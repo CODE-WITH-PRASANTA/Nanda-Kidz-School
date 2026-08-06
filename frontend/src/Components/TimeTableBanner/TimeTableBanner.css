@@ -1,0 +1,107 @@
+/* Base Styles */
+.TimeTableBanner-container {
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Background positioning */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* PARALLAX EFFECT: This makes the image stable while text slides over */
+  /* Note: This is kept for desktop, but overridden for mobile/tablets below */
+  background-attachment: fixed;
+}
+
+.TimeTableBanner-content {
+  text-align: center;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  transform: translateY(-20px); 
+  padding: 0 20px; /* Added padding to prevent text touching edges on small screens */
+}
+
+.TimeTableBanner-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  letter-spacing: 1px;
+}
+
+.TimeTableBanner-breadcrumbs {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap; /* Allows breadcrumbs to wrap nicely on narrow phones */
+}
+
+.TimeTableBanner-breadcrumb-home {
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.TimeTableBanner-breadcrumb-home:hover {
+  opacity: 0.8;
+}
+
+.TimeTableBanner-breadcrumb-separator {
+  color: #888888;
+  font-weight: 400;
+}
+
+.TimeTableBanner-breadcrumb-current {
+  color: #db593e; 
+}
+
+/* =========================================================
+   RESPONSIVE QUERIES
+   ========================================================= */
+
+/* Mobile view (Facebook app browser on Android / iPhones) */
+@media screen and (max-width: 767px) {
+  .TimeTableBanner-container {
+    height: 40vh;
+    height: 40svh; /* 'svh' fixes UI jumping in Facebook browser when scrolling */
+    min-height: 250px;
+    
+    /* CRITICAL: Disables parallax on Android Webview to prevent severe image distortion */
+    background-attachment: scroll; 
+  }
+
+  .TimeTableBanner-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .TimeTableBanner-breadcrumbs {
+    font-size: 0.95rem;
+  }
+}
+
+/* Tablet view (Covers iPad Pro 11" and 12.9" in portrait and landscape) */
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+  .TimeTableBanner-container {
+    height: 50vh;
+    min-height: 350px;
+    
+    /* CRITICAL: Disables parallax on iPads. iOS Safari/Webview stretches fixed backgrounds to document height instead of viewport height. */
+    background-attachment: scroll; 
+  }
+
+  .TimeTableBanner-title {
+    /* Slightly scaled down from your 4rem to ensure it looks perfectly balanced on iPad portrait */
+    font-size: 3.8rem; 
+  }
+
+  .TimeTableBanner-breadcrumbs {
+    font-size: 1.2rem;
+  }
+}

@@ -17,6 +17,15 @@ import Shop from "./Pages/Shop/Shop";
 import Faq from "./Pages/Faq/Faq";
 import Teacher from "./Pages/Teacher/Teacher";
 import TeacherDetails from "./Pages/TeacherDetails/TeacherDetails";
+import ClassDetails from "./Pages/ClassDetails/ClassDetails";
+import BlogDetails from "./Pages/BlogDetails/BlogDetails";
+import Termandconditions from "./Pages/Termandconditions/Termandconditions";
+import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
+
+
+import Gallery from "./Pages/Gallery/Gallery";
+import Pricing from "./Pages/Pricing/Pricing";
+import TimeTable from "./Pages/TimeTable/TimeTable";
 
 const App = () => {
   return (
@@ -30,21 +39,26 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About/>} />
-        
         <Route path="/about" element={<About />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/price" element={<Price />} />
         <Route path="/Courses" element={<Courses/>} />
         <Route path="/shop" element={<Shop/>}/>
-        <Route path="/faq" element={<Faq />}/>
-        <Route path="/teacher" element={<Teacher />}/>
-        <Route path="/teacherdetails" element={<TeacherDetails />}/>
 
 
 
+        <Route path="/gallery" element={<Gallery/>}/>
+        <Route path="/pricing" element={<Pricing/>}/>
+        <Route path="/time-table" element={<TimeTable/>}/>  
+        
 
 
+        <Route path="/class-details/2" element={<ClassDetails/>}/>
+        <Route path="/blog/3" element={<BlogDetails/>}/>
+        <Route path="/termandcondition" element={<Termandconditions/>}/>
+        <Route path="/privacypolicy" element={<Privacypolicy/>}/>
+       
       </Routes>
 
       {/* Common Footer */}
