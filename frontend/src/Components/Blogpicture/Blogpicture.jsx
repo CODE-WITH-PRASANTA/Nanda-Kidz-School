@@ -1,67 +1,204 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import './Blogpicture.css';
 
-const blogPosts = [
+// Import reference images
+import img1 from "../../assets/as1.jpg";
+import img2 from "../../assets/as2.jpg";
+import img3 from "../../assets/as3.jpg";
+
+// All Posts Data
+const allBlogPosts = [
+  // Page 1 Data
   {
     id: 1,
-    title: 'Feel the Joy',
-    date: 'January 31, 2025',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=600&auto=format&fit=crop',
+    image: img1,
+    author: 'Jack John',
+    date: '25 Dec 2026',
+    title: 'Red Green Color Blindness',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 2,
-    title: 'Happy Hearts',
-    date: 'January 31, 2025',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=600&auto=format&fit=crop',
+    image: img2,
+    author: 'Jack John',
+    date: '25 Dec 2026',
+    title: '8 Ways to Learning Lesson',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 3,
-    title: 'Time to Cuddle',
-    date: 'January 31, 2025',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=600&auto=format&fit=crop',
+    image: img3,
+    author: 'Jack John',
+    date: '25 Dec 2026',
+    title: 'Full-Day Session With Activities',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
+  // Page 2 Dummy Data
   {
     id: 4,
-    title: 'Quiet Moments',
-    date: 'January 31, 2025',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?q=80&w=600&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/child1/600/400',
+    author: 'Jack John',
+    date: '26 Dec 2026',
+    title: 'Early Childhood Development Activities',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 5,
-    title: 'Little Smiles',
-    date: 'January 31, 2025',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://images.unsplash.com/photo-1540479859555-17af45c78602?q=80&w=600&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/child2/600/400',
+    author: 'Jack John',
+    date: '26 Dec 2026',
+    title: 'Creative Arts and Crafts for Kids',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
     id: 6,
-    title: 'Shine Bright',
-    date: 'January 31, 2025',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop',
+    image: 'https://picsum.photos/seed/child3/600/400',
+    author: 'Jack John',
+    date: '26 Dec 2026',
+    title: 'Interactive Learning in Classroom',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
+  // Page 3 Dummy Data
+  {
+    id: 7,
+    image: 'https://picsum.photos/seed/child4/600/400',
+    author: 'Jack John',
+    date: '27 Dec 2026',
+    title: 'Outdoor Play & Physical Growth',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    id: 8,
+    image: 'https://picsum.photos/seed/child5/600/400',
+    author: 'Jack John',
+    date: '27 Dec 2026',
+    title: 'Social Skill Building Workshops',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    id: 9,
+    image: 'https://picsum.photos/seed/child6/600/400',
+    author: 'Jack John',
+    date: '27 Dec 2026',
+    title: 'Music and Movement Program',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  // Page 4 Dummy Data
+  {
+    id: 10,
+    image: 'https://picsum.photos/seed/child7/600/400',
+    author: 'Jack John',
+    date: '28 Dec 2026',
+    title: 'Reading and Storytelling Sessions',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    id: 11,
+    image: 'https://picsum.photos/seed/child8/600/400',
+    author: 'Jack John',
+    date: '28 Dec 2026',
+    title: 'Healthy Habits and Nutrition',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  },
+  {
+    id: 12,
+    image: 'https://picsum.photos/seed/child9/600/400',
+    author: 'Jack John',
+    date: '28 Dec 2026',
+    title: 'Science Experiments for Beginners',
+    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+  }
 ];
 
 const Blogpicture = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 3;
+
+  const totalPages = Math.ceil(allBlogPosts.length / postsPerPage);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = allBlogPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return (
-    <section className="blog-section-container">
-      <div className="blog-grid flex-grid">
-        {blogPosts.map((post) => (
-          <div key={post.id} className="blog-card">
-            <img src={post.image} alt={post.title} className="blog-card-img" />
-            
-            {/* कार्ड के नीचे डार्क ग्रेडिएंट ओवरले ताकि टेक्स्ट साफ़ दिखे */}
-            <div className="blog-card-overlay">
-              <span className="blog-date-tag">{post.date}</span>
-              <h3 className="blog-card-title">{post.title}</h3>
-              <p className="blog-card-desc">{post.description}</p>
+    <section className="Blogpicture">
+      <div className="Blogpicture-container">
+        
+        {/* Blog Cards Grid */}
+        <div className="Blogpicture-grid">
+          {currentPosts.map((post) => (
+            <div key={post.id} className="Blogpicture-card">
+              
+              {/* Image */}
+              <div className="Blogpicture-image-wrapper">
+                <img 
+                  src={post.image} 
+                  alt={post.title} 
+                  className="Blogpicture-image" 
+                />
+              </div>
+
+              {/* Content Body */}
+              <div className="Blogpicture-content">
+                <div className="Blogpicture-meta">
+                  <span>
+                    <strong className="Blogpicture-accent">By Admin:</strong> {post.author}
+                  </span>
+                  <span>
+                    <strong className="Blogpicture-accent">Date:</strong> {post.date}
+                  </span>
+                </div>
+
+                <h3 className="Blogpicture-title">{post.title}</h3>
+                <p className="Blogpicture-excerpt">{post.excerpt}</p>
+
+                {/* Button with Top Slide Effect */}
+                <button className="Blogpicture-readmore-btn">
+                  <span>Read More</span>
+                </button>
+              </div>
+
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* Pagination Section */}
+        <div className="Blogpicture-pagination">
+          <button 
+            className="Blogpicture-page-btn"
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            aria-label="Previous Page"
+          >
+            <FiChevronLeft />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+            <button
+              key={page}
+              className={`Blogpicture-page-btn ${currentPage === page ? 'active' : ''}`}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button 
+            className="Blogpicture-page-btn"
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            aria-label="Next Page"
+          >
+            <FiChevronRight />
+          </button>
+        </div>
+
       </div>
     </section>
   );

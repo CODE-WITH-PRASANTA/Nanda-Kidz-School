@@ -1,0 +1,119 @@
+.TimeTableSchedule-container {
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.TimeTableSchedule-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #f0f4f8; 
+  /* CRITICAL: Enables smooth momentum scrolling on iOS and Android Webviews */
+  -webkit-overflow-scrolling: touch; 
+}
+
+.TimeTableSchedule-table {
+  width: 100%;
+  /* Ensures the 7-column layout doesn't break words awkwardly on small screens */
+  min-width: 900px; 
+  border-collapse: collapse;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+/* Header Styles */
+.TimeTableSchedule-th {
+  padding: 24px 15px;
+  font-size: 1.15rem;
+  color: #1a103c; 
+  font-weight: 700;
+  border-bottom: 1px solid #f0f4f8;
+  border-right: 1px solid #f0f4f8;
+}
+
+.TimeTableSchedule-th:last-child {
+  border-right: none;
+}
+
+/* Row & Cell Styles */
+.TimeTableSchedule-tr {
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.TimeTableSchedule-tr:last-child {
+  border-bottom: none;
+}
+
+.TimeTableSchedule-td {
+  padding: 25px 15px;
+  border-right: 1px solid #f0f4f8;
+  vertical-align: middle;
+}
+
+.TimeTableSchedule-td:last-child {
+  border-right: none;
+}
+
+/* Content Styles */
+.TimeTableSchedule-subject {
+  color: #e45b3b; 
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.TimeTableSchedule-time {
+  color: #8892a0; 
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* =========================================================
+   RESPONSIVE QUERIES
+   ========================================================= */
+
+/* iPad Pro (Portrait) & Large Tablets (1024px and below) */
+@media screen and (max-width: 1024px) {
+  .TimeTableSchedule-th {
+    padding: 20px 10px;
+    font-size: 1.05rem;
+  }
+  
+  .TimeTableSchedule-td {
+    padding: 20px 10px;
+  }
+  
+  .TimeTableSchedule-subject {
+    font-size: 1rem;
+  }
+}
+
+/* Facebook App Browser on Android / Standard Phones (768px and below) */
+@media screen and (max-width: 768px) {
+  .TimeTableSchedule-container {
+    padding: 0 10px;
+    margin: 20px auto;
+  }
+
+  .TimeTableSchedule-th {
+    padding: 16px 10px;
+    font-size: 1rem;
+  }
+  
+  .TimeTableSchedule-td {
+    padding: 16px 10px;
+  }
+
+  .TimeTableSchedule-subject {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    /* Prevents the subject titles from breaking mid-word on very tight mobile screens */
+    white-space: nowrap; 
+  }
+
+  .TimeTableSchedule-time {
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+}

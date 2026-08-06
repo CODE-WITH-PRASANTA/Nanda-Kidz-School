@@ -1,0 +1,98 @@
+/* Base Container Setup */
+.BlogDetailsBreadcurm {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif, system-ui;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Dark Dimming Overlay */
+.BlogDetailsBreadcurm-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55); /* Matches dark filter in reference image */
+  z-index: 1;
+}
+
+/* Center Content Wrapper */
+.BlogDetailsBreadcurm-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 20px;
+}
+
+/* Main Heading */
+.BlogDetailsBreadcurm-title {
+  font-size: 52px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* Breadcrumb Navigation Line */
+.BlogDetailsBreadcurm-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.BlogDetailsBreadcurm-link {
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.BlogDetailsBreadcurm-link:hover {
+  color: #e64a19;
+}
+
+.BlogDetailsBreadcurm-separator {
+  color: #e64a19;
+  font-size: 14px;
+}
+
+.BlogDetailsBreadcurm-active {
+  color: #e64a19; /* Primary orange/red accent color */
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 992px) {
+  .BlogDetailsBreadcurm {
+    min-height: 320px;
+  }
+
+  .BlogDetailsBreadcurm-title {
+    font-size: 42px;
+  }
+}
+
+@media (max-width: 576px) {
+  .BlogDetailsBreadcurm {
+    min-height: 250px;
+  }
+
+  .BlogDetailsBreadcurm-title {
+    font-size: 32px;
+  }
+
+  .BlogDetailsBreadcurm-nav {
+    font-size: 14px;
+  }
+}

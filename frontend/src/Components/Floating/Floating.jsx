@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Floating.css';
 
-// Import local image
+// Import local image banner
 import bgTop from '../../assets/nan1.png';
 
 // Lucide Icons
@@ -17,6 +17,9 @@ import {
 } from 'lucide-react';
 
 const Floating = ({ onClose }) => {
+  // Internal state to control overlay visibility
+  const [isOpen, setIsOpen] = useState(true);
+
   const [formData, setFormData] = useState({
     name: '',
     address: '',
@@ -24,27 +27,64 @@ const Floating = ({ onClose }) => {
     message: ''
   });
 
+  // Handler to close the floating form
+  const handleClose = () => {
+    setIsOpen(false);
+    if (onClose && typeof onClose === 'function') {
+      onClose();
+    }
+  };
+
+  // Close on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
     alert('Enquiry Submitted Successfully!');
+    handleClose();
   };
 
+  // If closed, render nothing
+  if (!isOpen) {
+    return null;
+  }
+
   return (
-    <div className="floating-modal-overlay">
-      <div className="floating-card">
+    <div 
+      className="floating-modal-overlay" 
+      onClick={handleClose} 
+      role="dialog" 
+      aria-modal="true"
+    >
+      <div 
+        className="floating-card" 
+        onClick={(e) => e.stopPropagation()}
+      >
         
         {/* Top Header Banner Background Section */}
         <div 
           className="floating-header-bg" 
           style={{ backgroundImage: `url(${bgTop})` }}
         >
-          {/* Close Button */}
-          <button className="floating-close-btn" onClick={onClose} aria-label="Close">
+          {/* Close Cross Button */}
+          <button 
+            type="button"
+            className="floating-close-btn" 
+            onClick={handleClose} 
+            aria-label="Close modal"
+          >
             <X size={18} color="#1e293b" />
           </button>
 

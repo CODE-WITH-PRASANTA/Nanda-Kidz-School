@@ -1,0 +1,107 @@
+/* Base Styles */
+.GalleryBanner-container {
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Parallax effect for desktop */
+}
+
+.GalleryBanner-content {
+  text-align: center;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  transform: translateY(-20px); 
+  
+  /* ENHANCEMENT: Soft text shadow makes the text pop and ensures high readability against any image */
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.GalleryBanner-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  letter-spacing: 1px;
+}
+
+.GalleryBanner-breadcrumbs {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.GalleryBanner-breadcrumb-home {
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none; /* Prevents the default browser link underline */
+  /* ENHANCEMENT: Smoother, more modern transition */
+  transition: all 0.3s ease; 
+}
+
+.GalleryBanner-breadcrumb-home:hover {
+  opacity: 0.8;
+  /* ENHANCEMENT: Subtle upward lift on hover to indicate clickability */
+  transform: translateY(-1px);
+}
+
+.GalleryBanner-breadcrumb-separator {
+  color: #888888;
+  font-weight: 400;
+}
+
+.GalleryBanner-breadcrumb-current {
+  color: #db593e; 
+}
+
+/* =========================================================
+   RESPONSIVE QUERIES
+   ========================================================= */
+
+/* 1. Mobile view (Optimized specifically for Facebook App Browser on Android) */
+@media screen and (max-width: 767px) {
+  .GalleryBanner-container {
+    height: 40vh;
+    min-height: 280px; 
+    
+    /* CRITICAL FIX: The Facebook in-app browser on Android lags heavily 
+       with 'background-attachment: fixed'. This changes it to standard 
+       scrolling for a buttery smooth experience on phones. */
+    background-attachment: scroll; 
+  }
+
+  .GalleryBanner-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .GalleryBanner-breadcrumbs {
+    font-size: 0.95rem;
+  }
+}
+
+/* 2. Tablet view (Optimized specifically for iPad Pro 11" and 12.9") */
+@media screen and (min-width: 834px) and (max-width: 1366px) {
+  .GalleryBanner-container {
+    height: 45vh;
+    min-height: 380px;
+    /* iPads handle parallax (fixed) perfectly, so we keep it active here */
+  }
+
+  .GalleryBanner-title {
+    /* Scaled up nicely to fill the expansive iPad Pro screens */
+    font-size: 4.5rem; 
+  }
+
+  .GalleryBanner-breadcrumbs {
+    font-size: 1.25rem;
+  }
+}
