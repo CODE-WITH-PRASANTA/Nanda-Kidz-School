@@ -10,6 +10,9 @@ import NewProduct from "./Pages/NewProduct/NewProduct";
 import BlogManagement from "./Pages/BlogManagement/BlogManagement";
 import BlogPost from "./Pages/BlogPost/BlogPost";
 import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
+import Teacherlist from "./Components/Teacherlist/Teacherlist";
+import AdmissionForm from "./Components/AdmissionForm/AdmissionForm";
+import TeachersAttendance from "./Components/TeachersAttendance/TeachersAttendance";
 
 function App() {
   return (
@@ -45,6 +48,9 @@ function App() {
             element={<GalleryManagement />}
           />
         </Route>
+         <Route path="/teacherlist" element={<Teacherlist/>} />
+         <Route path="/admissionform" element={<AdmissionForm/>} />
+         <Route path="/attendance" element={<TeachersAttendance/>} />
 
         {/* 404 */}
         <Route
