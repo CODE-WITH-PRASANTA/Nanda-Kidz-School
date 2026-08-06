@@ -1,0 +1,233 @@
+/* Container Reset & Setup */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.adventures-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #faf9f6;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.adventures-container {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  gap: 25px;
+  max-width: 1300px;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* Common Card Styles */
+.adventure-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+.side-card {
+  padding: 40px 25px 30px 25px;
+  text-align: center;
+  justify-content: space-between;
+}
+
+/* Blob Image Wrapper */
+.image-blob-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Blob Background Colors & Shapes */
+.blue-blob {
+  background: #71cbfe;
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+}
+
+.yellow-blob {
+  background: #f1bf43;
+  border-radius: 58% 42% 38% 62% / 52% 56% 44% 48%;
+}
+
+.blob-image {
+  width: 88%;
+  height: 88%;
+  object-fit: cover;
+  border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
+}
+
+/* Card Typography & Content */
+.card-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.decorative-icon {
+  position: absolute;
+  left: -10px;
+  top: -15px;
+  font-size: 20px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333333;
+  margin-bottom: 12px;
+}
+
+.card-description {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #888888;
+  margin-bottom: 25px;
+  max-width: 320px;
+}
+
+/* Buttons */
+.card-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 25px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.card-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.green-btn {
+  background-color: #61c9a8;
+}
+
+.red-btn {
+  background-color: #ed7d7d;
+}
+
+/* Center Card - Full Image & Overlay */
+.center-card {
+  padding: 0;
+  position: relative;
+  min-height: 520px;
+}
+
+.center-image-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.center-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 20px 25px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  text-align: center;
+}
+
+.center-card-title {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.giraffe-illustration {
+  position: absolute;
+  bottom: 0;
+  left: -10px;
+  width: 75px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Floating Action Buttons at bottom right */
+.floating-actions {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+}
+
+.action-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.demo-btn {
+  background-color: #e3b842;
+}
+
+.purchase-btn {
+  background-color: #e75a43;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 1024px) {
+  .adventures-container {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .center-card {
+    min-height: 450px;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-card {
+    padding: 30px 15px;
+  }
+
+  .card-title {
+    font-size: 18px;
+  }
+
+  .card-description {
+    font-size: 11px;
+  }
+}

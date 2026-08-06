@@ -1,0 +1,98 @@
+/* Base Container */
+.BlogBreadCrumb {
+  position: relative;
+  width: 100%;
+  min-height: 380px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Poppins', sans-serif, system-ui;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Dark Overlay matching the reference image's dimmed backdrop */
+.BlogBreadCrumb-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* Center Content Wrapper */
+.BlogBreadCrumb-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 20px;
+}
+
+/* Main Heading */
+.BlogBreadCrumb-title {
+  font-size: 52px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+/* Breadcrumb Navigation Line */
+.BlogBreadCrumb-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.BlogBreadCrumb-link {
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.BlogBreadCrumb-link:hover {
+  color: #e64a19;
+}
+
+.BlogBreadCrumb-separator {
+  color: #e64a19;
+  font-size: 14px;
+}
+
+.BlogBreadCrumb-active {
+  color: #e64a19;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .BlogBreadCrumb {
+    min-height: 280px;
+  }
+
+  .BlogBreadCrumb-title {
+    font-size: 38px;
+  }
+
+  .BlogBreadCrumb-nav {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .BlogBreadCrumb {
+    min-height: 220px;
+  }
+
+  .BlogBreadCrumb-title {
+    font-size: 30px;
+  }
+}

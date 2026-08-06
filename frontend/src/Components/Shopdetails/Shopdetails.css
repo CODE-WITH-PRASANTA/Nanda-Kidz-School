@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;600;700&display=swap');
+
+/* Main Wrapper */
+.Shopdetails {
+  width: 100%;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.Shopdetails-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 3-Column Responsive Grid Layout */
+.Shopdetails-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Card Container */
+.Shopdetails-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Card Image Styles */
+.Shopdetails-image-wrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.Shopdetails-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.Shopdetails-card:hover .Shopdetails-image {
+  transform: scale(1.03);
+}
+
+/* Sale Badge */
+.Shopdetails-sale-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #72cfdb;
+  color: #ffffff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  box-shadow: 0 2px 6px rgba(114, 207, 219, 0.4);
+}
+
+/* Card Info Section */
+.Shopdetails-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 18px;
+  width: 100%;
+}
+
+.Shopdetails-card-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #38424d;
+  margin: 0 0 6px 0;
+}
+
+/* Rating Stars */
+.Shopdetails-rating {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+
+.Shopdetails-star-filled {
+  color: #616770;
+}
+
+.Shopdetails-star-empty {
+  color: #cbd5e1;
+}
+
+/* Price Section */
+.Shopdetails-price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+.Shopdetails-original-price {
+  color: #b0b8c1;
+  text-decoration: line-through;
+}
+
+.Shopdetails-price {
+  color: #ee815d;
+  font-weight: 600;
+}
+
+.Shopdetails-sale-price {
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/* Add To Cart Button */
+.Shopdetails-btn {
+  background-color: #f27c54;
+  color: #ffffff;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 24px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.Shopdetails-btn:hover {
+  background-color: #e0683f;
+  transform: translateY(-1px);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 992px) {
+  .Shopdetails-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .Shopdetails-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .Shopdetails {
+    padding: 40px 15px;
+  }
+}
