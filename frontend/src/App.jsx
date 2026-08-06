@@ -15,6 +15,10 @@ import Price from "./Pages/price/price";
 import Courses from "./Pages/Courses/Courses";
 import Shop from "./Pages/Shop/Shop";
 
+import Gallery from "./Pages/Gallery/Gallery";
+import Pricing from "./Pages/Pricing/Pricing";
+import TimeTable from "./Pages/TimeTable/TimeTable";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -34,6 +38,15 @@ const App = () => {
         <Route path="/price" element={<Price />} />
         <Route path="/Courses" element={<Courses/>} />
         <Route path="/shop" element={<Shop/>}/>
+
+
+
+        <Route path="/gallery" element={<Gallery/>}/>
+        <Route path="/pricing" element={<Pricing/>}/>
+        <Route path="/time-table" element={<TimeTable/>}/>  
+        
+
+
       </Routes>
 
       {/* Common Footer */}

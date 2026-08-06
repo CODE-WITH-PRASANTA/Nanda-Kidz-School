@@ -1,0 +1,81 @@
+.PricingTable-container {
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.PricingTable-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #f0f4f8; 
+}
+
+.PricingTable-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  text-align: left;
+}
+
+/* Header Styles */
+.PricingTable-th {
+  padding: 24px 30px;
+  font-size: 1.15rem;
+  color: #1a103c; /* Dark navy/purple to match the image */
+  font-weight: 700;
+  border-bottom: 1px solid #f0f4f8;
+  border-right: 1px solid #f0f4f8;
+}
+
+.PricingTable-th:last-child {
+  border-right: none;
+}
+
+/* Row & Cell Styles */
+.PricingTable-tr {
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.PricingTable-tr:last-child {
+  border-bottom: none;
+}
+
+.PricingTable-td {
+  padding: 24px 30px;
+  color: #64748b;
+  font-size: 1rem;
+  border-right: 1px solid #f0f4f8;
+  vertical-align: middle;
+}
+
+.PricingTable-td:last-child {
+  border-right: none;
+}
+
+.PricingTable-service {
+  color: #64748b;
+}
+
+/* Footer Note */
+.PricingTable-footer-note {
+  text-align: center;
+  color: #64748b;
+  margin-top: 25px;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   RESPONSIVE QUERIES
+   ========================================================= */
+@media screen and (max-width: 768px) {
+  .PricingTable-th, 
+  .PricingTable-td {
+    padding: 16px;
+    font-size: 0.95rem;
+  }
+  
+  .PricingTable-th {
+    font-size: 1.05rem;
+  }
+}
