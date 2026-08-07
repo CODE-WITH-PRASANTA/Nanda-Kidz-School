@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+ 
 import MainLayout from "./Layout/MainLayout/MainLayout";
 
 import DashBoard from "./Pages/DashBoard/DashBoard";
@@ -10,6 +10,9 @@ import NewProduct from "./Pages/NewProduct/NewProduct";
 import BlogManagement from "./Pages/BlogManagement/BlogManagement";
 import BlogPost from "./Pages/BlogPost/BlogPost";
 import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
+import ClassesTime from "./Components/ClassesTime/ClassesTime";
+import FeeCollections from "./Components/FeeCollections/FeeCollections";
+import StudentPage from "./Components/StudentPage/StudentPage";
 
 function App() {
   return (
@@ -44,9 +47,28 @@ function App() {
             path="gallery-management"
             element={<GalleryManagement />}
           />
+
+           {/* ClassesTime */}
+           <Route
+              path="/classes"
+              element={<ClassesTime />}
+            />
+            
+            {/* FeeCollections */}
+            <Route
+              path="/fees-payments"
+              element={<FeeCollections />}
+            />
+             
+            {/* StudentPage */}
+            <Route
+              path="/students"
+              element={<StudentPage />}
+            />
+
         </Route>
 
-        {/* 404 */}
+       {/* 404 */}
         <Route
           path="*"
           element={<Navigate to="/dashboard" replace />}
