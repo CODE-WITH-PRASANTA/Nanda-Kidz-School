@@ -25,8 +25,8 @@ const Navbar = () => {
       dropdown: [
         { title: 'Gallery', path: '/gallery' },
         { title: 'Pricing', path: '/pricing' },
-        { title: 'Time', path: '/time' },
-        { title: 'Table', path: '/table' },
+        { title: 'Time Table', path: '/time-table' },
+        
         { title: 'FAQ', path: '/faq' },
         { title: 'Teacher', path: '/teacher' },
       ]

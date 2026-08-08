@@ -5,12 +5,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
-<<<<<<< HEAD
  
-=======
 import Floating from "./Components/Floating/Floating";
 
->>>>>>> 900aca6c2952d509ff6e09ade06f1610ba10ab0d
 // Pages
 import Home from "./Pages/Home/Home";
 import About from "./Pages/About/About";
