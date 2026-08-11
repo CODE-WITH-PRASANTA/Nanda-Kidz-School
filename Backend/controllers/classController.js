@@ -1,91 +1,46 @@
-const Class = require('../models/classModel');
+const ClassModel = require('../models/ClassModel');
 
-// @desc    Get all classes
-// @route   GET /api/classes
-const getClasses = async (req, res) => {
+// Get all classes
+exports.getClasses = async (req, res) => {
   try {
-    const classes = await Class.find().sort({ createdAt: -1 });
-    res.status(200).json(classes);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching classes', error: error.message });
+    const classes = await ClassModel.find().sort({ createdAt: -1 });
+    res.json(classes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
-// @desc    Create a new class
-// @route   POST /api/classes
-const createClass = async (req, res) => {
+// Create a class
+exports.createClass = async (req, res) => {
   try {
-    const { name, code, section, teacher, status } = req.body;
-
-    if (!name || !code) {
-      return res.status(400).json({ message: 'Please provide name and code' });
-    }
-
-    const newClass = await Class.create({
-      name,
-      code,
-      section: section || 'A',
-      teacher: teacher || '--',
-      status: status || 'Active',
-    });
-
-    res.status(201).json(newClass);
-  } catch (error) {
-    res.status(500).json({ message: 'Error creating class', error: error.message });
+    const newClass = new ClassModel(req.body);
+    const savedClass = await newClass.save();
+    res.status(201).json(savedClass);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
 
-// @desc    Update a class
-// @route   PUT /api/classes/:id
-const updateClass = async (req, res) => {
+// Update a class
+exports.updateClass = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { name, code, section, teacher, status } = req.body;
-
-    const existingClass = await Class.findById(id);
-    if (!existingClass) {
-      return res.status(404).json({ message: 'Class not found' });
-    }
-
-    const updatedClass = await Class.findByIdAndUpdate(
-      id,
-      {
-        name,
-        code,
-        section,
-        teacher: teacher || '--',
-        status,
-      },
-      { new: true, runValidators: true }
+    const updatedClass = await ClassModel.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true }
     );
-
-    res.status(200).json(updatedClass);
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating class', error: error.message });
+    res.json(updatedClass);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
 
-// @desc    Delete a class
-// @route   DELETE /api/classes/:id
-const deleteClass = async (req, res) => {
+// Delete a class
+exports.deleteClass = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const existingClass = await Class.findById(id);
-    if (!existingClass) {
-      return res.status(404).json({ message: 'Class not found' });
-    }
-
-    await Class.findByIdAndDelete(id);
-    res.status(200).json({ id, message: 'Class deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting class', error: error.message });
+    await ClassModel.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Class deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-};
-
-module.exports = {
-  getClasses,
-  createClass,
-  updateClass,
-  deleteClass,
 };
