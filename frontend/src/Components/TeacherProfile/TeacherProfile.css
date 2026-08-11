@@ -1,0 +1,198 @@
+/* Main Component Container */
+.TeacherProfile {
+  width: 100%;
+  padding: 60px 20px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif, system-ui;
+}
+
+.TeacherProfile-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start; /* Enables sticky behavior on sidebar */
+  margin-top: 17px;
+}
+
+/* Left Area */
+.TeacherProfile-left {
+  flex: 1;
+  width: 100%;
+}
+
+.TeacherProfile-image-container {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.TeacherProfile-main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.TeacherProfile-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2b1c40;
+  margin-bottom: 15px;
+}
+
+.TeacherProfile-paragraph {
+  font-size: 0.92rem;
+  color: #777777;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+.TeacherProfile-bio-section {
+  margin-bottom: 40px;
+}
+
+/* Skills Section */
+.TeacherProfile-skills-list {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.TeacherProfile-skill-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.TeacherProfile-skill-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #2b1c40;
+}
+
+.TeacherProfile-skill-percentage {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2b1c40;
+}
+
+.TeacherProfile-progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: #eeeeee;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.TeacherProfile-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease-in-out;
+}
+
+/* Right Sticky Sidebar */
+.TeacherProfile-right {
+  width: 360px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 30px;
+}
+
+.TeacherProfile-card {
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-top: 3px solid #ff5200;
+  padding: 30px 25px;
+}
+
+.TeacherProfile-card-header {
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.TeacherProfile-card-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #2b1c40;
+  margin: 0;
+}
+
+.TeacherProfile-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.TeacherProfile-info-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.88rem;
+  color: #666666;
+}
+
+.TeacherProfile-info-label {
+  font-weight: 700;
+  color: #2b1c40;
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.TeacherProfile-info-value {
+  color: #666666;
+  word-break: break-word;
+}
+
+.TeacherProfile-social-row {
+  margin-top: 5px;
+}
+
+.TeacherProfile-social-icons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.TeacherProfile-social-link {
+  color: #777777;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.TeacherProfile-social-link:hover {
+  color: #ff5200;
+}
+
+/* Responsive Breakdown */
+@media (max-width: 992px) {
+  .TeacherProfile-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .TeacherProfile-right {
+    width: 100%;
+    position: static;
+  }
+}
+
+@media (max-width: 576px) {
+  .TeacherProfile {
+    padding: 30px 15px;
+  }
+
+  .TeacherProfile-section-title {
+    font-size: 1.25rem;
+  }
+
+  .TeacherProfile-info-label {
+    width: 90px;
+  }
+}

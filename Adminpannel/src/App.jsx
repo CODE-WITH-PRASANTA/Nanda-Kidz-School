@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./Layout/MainLayout/MainLayout";
@@ -13,6 +13,13 @@ import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
 import LoginForm from "./Components/AdminDashboard/Loginform/Loginform";
 import ProtectedRoute from "./Components/protectedroute/protectedroute";
 
+import FeeCollections from "./Components/FeeCollections/FeeCollections";
+import StudentPage from "./Components/StudentPage/StudentPage";
+import Teacherlist from "./Components/Teacherlist/Teacherlist";
+import AdmissionForm from "./Components/AdmissionForm/AdmissionForm";
+import TeachersAttendance from "./Components/TeachersAttendance/TeachersAttendance";
+import Schedule from "./Components/Schedule/Schedule";
+import Classandsection from "./Components/Classandsection/Classandsection";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -59,8 +66,15 @@ function App() {
           {/* Default Route */}
           <Route index element={<Navigate to="/dashboard" replace />} />
 
-          {/* Dashboard */}
+          {/* Core Modules */}
           <Route path="dashboard" element={<DashBoard />} />
+          <Route path="students" element={<StudentPage />} />
+          <Route path="admissions" element={<AdmissionForm />} />
+          <Route path="teachers" element={<Teacherlist />} />
+          <Route path="teacher-attendance" element={<TeachersAttendance />} />
+          <Route path="fees-payments" element={<FeeCollections />} />
+          <Route path="class-schedules" element={<Schedule/>}/>
+          <Route path="classes" element={<Classandsection/>}/>
 
           {/* Shop */}
           <Route path="shop" element={<Shop />} />
@@ -80,7 +94,9 @@ function App() {
         {/* 404 Fallback */}
         <Route
           path="*"
-          element={<Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />}
+          element={
+            <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
+          }
         />
       </Routes>
     </BrowserRouter>

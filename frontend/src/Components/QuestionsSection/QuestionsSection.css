@@ -1,0 +1,142 @@
+/* Base Section Setup */
+.QuestionsSection {
+  width: 100%;
+  padding: 80px 20px;
+  background-color: #ffffff;
+  font-family: 'Poppins', sans-serif, system-ui;
+  box-sizing: border-box;
+}
+
+.QuestionsSection-container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+/* Header Styling */
+.QuestionsSection-header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.QuestionsSection-subtitle {
+  font-family: 'Caveat', 'Comic Sans MS', cursive;
+  font-size: 30px;
+  color: #f2522e;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.QuestionsSection-title {
+  font-size: 38px;
+  font-weight: 700;
+  color: #1d0938;
+  margin: 0;
+}
+
+/* Form Grid Layout */
+.QuestionsSection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.QuestionsSection-row {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 640px) {
+  .QuestionsSection-row:not(.single) {
+    flex-direction: row;
+  }
+}
+
+.QuestionsSection-input-group {
+  flex: 1;
+}
+
+/* Input and Textarea Styling */
+.QuestionsSection-input,
+.QuestionsSection-textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background-color: #ffffff;
+  font-size: 14px;
+  color: #333333;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.QuestionsSection-input::placeholder,
+.QuestionsSection-textarea::placeholder {
+  color: #9e9e9e;
+}
+
+.QuestionsSection-input:focus,
+.QuestionsSection-textarea:focus {
+  border-color: #f2522e;
+}
+
+.QuestionsSection-textarea {
+  resize: vertical;
+}
+
+/* Button & Slide Animation */
+.QuestionsSection-btn-wrapper {
+  margin-top: 10px;
+}
+
+.QuestionsSection-submit-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  padding: 14px 32px;
+  background-color: #e64a19; /* Base reddish-orange color from 2nd image */
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+
+/* Top-to-Bottom Slide Overlay */
+.QuestionsSection-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f38218; /* Bright orange color from 1st reference image */
+  z-index: -1;
+  transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover State */
+.QuestionsSection-submit-btn:hover::before {
+  top: 0;
+}
+
+.QuestionsSection-submit-btn span {
+  position: relative;
+  z-index: 2;
+}
+
+/* Mobile Responsiveness Fine-tuning */
+@media (max-width: 480px) {
+  .QuestionsSection-title {
+    font-size: 28px;
+  }
+  
+  .QuestionsSection-submit-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
