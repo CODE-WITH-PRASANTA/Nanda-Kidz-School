@@ -50,7 +50,7 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
       items: [
         { type: 'link', icon: Home, text: 'Dashboard', path: '/dashboard' },
       ],
-    },
+    }, 
     {
       category: 'Academic Management',
       items: [

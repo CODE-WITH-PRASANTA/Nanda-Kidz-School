@@ -1,0 +1,422 @@
+:root {
+  --primary-pink: #ff3b7b;
+  --hover-pink: #e02d68;
+  --soft-pink-bg: #fff0f5;
+  --accent-blue: #3b82f6;
+  --light-blue-bg: #eef6ff;
+  --text-dark: #2c3e50;
+  --text-muted: #6c757d;
+  --white: #ffffff;
+  --shadow-3d: 0 20px 40px rgba(255, 59, 123, 0.15), 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.Loginform-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffeef4 0%, #e8f4ff 100%);
+  padding: 20px;
+  perspective: 1000px;
+}
+
+.Loginform-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  background: var(--white);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: var(--shadow-3d);
+  transform-style: preserve-3d;
+  animation: LoginformFloat 6s ease-in-out infinite alternate;
+  position: relative;
+}
+
+@keyframes LoginformFloat {
+  0% { transform: translateY(0px) rotateX(0deg); }
+  100% { transform: translateY(-10px) rotateX(2deg); }
+}
+
+.Loginform-left {
+  flex: 1.1;
+  background: linear-gradient(180deg, #ffffff 0%, #fff4f8 100%);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 2px dashed #f0f0f0;
+}
+
+.Loginform-brand-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.Loginform-logo-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #3b82f6, #ff3b7b);
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  box-shadow: 0 8px 16px rgba(255, 59, 123, 0.3);
+  animation: LoginformPulse 2s infinite;
+}
+
+@keyframes LoginformPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.Loginform-brand-title {
+  color: var(--primary-pink);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.Loginform-brand-subtitle {
+  color: var(--accent-blue);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.Loginform-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.Loginform-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  transition: transform 0.3s ease;
+}
+
+.Loginform-info-item:hover {
+  transform: translateX(5px);
+}
+
+.Loginform-info-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-pink);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.Loginform-info-text h4 {
+  color: var(--text-dark);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.Loginform-info-text p {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.Loginform-illustration {
+  background: var(--light-blue-bg);
+  border-radius: 16px;
+  padding: 15px;
+  text-align: center;
+  color: var(--accent-blue);
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid #dbeafe;
+}
+
+.Loginform-right {
+  flex: 0.9;
+  padding: 50px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.Loginform-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.Loginform-lock-badge {
+  width: 64px;
+  height: 64px;
+  background: var(--soft-pink-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  color: var(--primary-pink);
+  font-size: 26px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.Loginform-title {
+  color: var(--primary-pink);
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.Loginform-subtext {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.Loginform-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.Loginform-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.Loginform-label {
+  color: var(--text-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.Loginform-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.Loginform-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--primary-pink);
+  font-size: 16px;
+}
+
+.Loginform-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.Loginform-input:focus {
+  border-color: var(--primary-pink);
+  box-shadow: 0 0 0 3px rgba(255, 59, 123, 0.15);
+}
+
+.Loginform-toggle-btn {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.Loginform-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.Loginform-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.Loginform-forgot {
+  color: var(--primary-pink);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.Loginform-forgot:hover {
+  text-decoration: underline;
+}
+
+.Loginform-submit-btn {
+  background: linear-gradient(135deg, #ff528d, #ff3b7b);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(255, 59, 123, 0.4);
+  transition: all 0.2s ease;
+}
+
+.Loginform-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 59, 123, 0.5);
+}
+
+.Loginform-submit-btn:active {
+  transform: translateY(1px);
+}
+
+.Loginform-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.Loginform-divider::before,
+.Loginform-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.Loginform-divider span {
+  padding: 0 10px;
+}
+
+.Loginform-admin-btn {
+  background: transparent;
+  border: 1.5px solid var(--accent-blue);
+  color: var(--accent-blue);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.Loginform-admin-btn:hover {
+  background: var(--light-blue-bg);
+}
+
+.Loginform-success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  perspective: 1000px;
+  animation: LoginformFadeIn 0.4s ease forwards;
+}
+
+.Loginform-success-card {
+  background: white;
+  padding: 50px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  animation: Loginform3DPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  max-width: 450px;
+  width: 90%;
+}
+
+.Loginform-success-icon {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-size: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+  animation: LoginformBounce 1s infinite alternate;
+}
+
+.Loginform-success-title {
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.Loginform-success-subtext {
+  color: #64748b;
+  font-size: 15px;
+}
+
+@keyframes LoginformFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes Loginform3DPop {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotateX(-30deg) translateZ(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateX(0deg) translateZ(0);
+  }
+}
+
+@keyframes LoginformBounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+@media (max-width: 900px) {
+  .Loginform-wrapper {
+    flex-direction: column;
+  }
+  .Loginform-left {
+    border-right: none;
+    border-bottom: 2px dashed #f0f0f0;
+    padding: 30px 20px;
+  }
+  .Loginform-right {
+    padding: 30px 20px;
+  }
+}
