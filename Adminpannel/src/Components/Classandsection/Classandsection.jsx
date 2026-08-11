@@ -7,7 +7,7 @@ import {
 import './Classandsection.css';
 
 const API_URL = 'http://localhost:5000/api/classes';
-
+ 
 const Classandsection = () => {
   const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(false);
