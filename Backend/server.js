@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
 const { upload, convertSingleToWebp, convertMultipleToWebp } = require("./middleware/upload");
+const classRoutes = require('./routes/classRoutes.js');
 
 const app = express();
 const subjectRoutes = require('./routes/subjectRoutes');
@@ -15,6 +16,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/classes', classRoutes);
 
 // Serve static uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
