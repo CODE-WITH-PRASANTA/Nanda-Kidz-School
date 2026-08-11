@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
 const { upload, convertSingleToWebp, convertMultipleToWebp } = require("./middleware/upload");
+const galleryRoutes = require('./routes/galleryRoutes');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.post(
     });
   }
 );
+app.use('/api/gallery', galleryRoutes);
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)
 app.post(
