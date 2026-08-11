@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
 const { upload, convertSingleToWebp, convertMultipleToWebp } = require("./middleware/upload");
+const galleryRoutes = require('./routes/galleryRoutes');
 const inquiryRoutes = require('./routes/inquiryRoutes');
 
 const app = express();
@@ -42,6 +43,7 @@ app.post(
     });
   }
 );
+app.use('/api/gallery', galleryRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/classes', classRoutes);
 
