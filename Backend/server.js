@@ -5,8 +5,10 @@ const path = require("path");
 const connectDB = require("./config/db");
 const { upload, convertSingleToWebp, convertMultipleToWebp } = require("./middleware/upload");
 const inquiryRoutes = require('./routes/inquiryRoutes');
+const classRoutes = require('./routes/classRoutes.js');
 
 const app = express();
+const subjectRoutes = require('./routes/subjectRoutes');
 
 // Database Connection
 connectDB();
@@ -15,6 +17,7 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api/classes', classRoutes);
 
 // Serve static uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -38,6 +41,7 @@ app.post(
     });
   }
 );
+app.use('/api/subjects', subjectRoutes);
 
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)
