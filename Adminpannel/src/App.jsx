@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+ 
 import MainLayout from "./Layout/MainLayout/MainLayout";
 
 import DashBoard from "./Pages/DashBoard/DashBoard";
@@ -18,6 +18,8 @@ import StudentPage from "./Components/StudentPage/StudentPage";
 import Teacherlist from "./Components/Teacherlist/Teacherlist";
 import AdmissionForm from "./Components/AdmissionForm/AdmissionForm";
 import TeachersAttendance from "./Components/TeachersAttendance/TeachersAttendance";
+import ParentsInquiry from "./Components/ParentsInquiry/ParentsInquiry";
+import SubjectManagement from "./Components/SubjectManagement/SubjectManagement";
 import Schedule from "./Components/Schedule/Schedule";
 import Classandsection from "./Components/Classandsection/Classandsection";
 
@@ -73,6 +75,7 @@ function App() {
           <Route path="teachers" element={<Teacherlist />} />
           <Route path="teacher-attendance" element={<TeachersAttendance />} />
           <Route path="fees-payments" element={<FeeCollections />} />
+          <Route path="/parents" element={<ParentsInquiry />} />
           <Route path="class-schedules" element={<Schedule/>}/>
           <Route path="classes" element={<Classandsection/>}/>
 
@@ -84,6 +87,7 @@ function App() {
           {/* Blog */}
           <Route path="blog-management" element={<BlogManagement />} />
           <Route path="blog-management/posts" element={<BlogPost />} />
+          <Route path="/subjects" element={<SubjectManagement/>} />
           <Route path="blog/post" element={<BlogPost />} />
           <Route path="blog/management" element={<BlogManagement />} />
 
