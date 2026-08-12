@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+
+// 1. Import your logo file here (adjust filename/extension like .png, .svg, or .jpg as needed)
+import logo from '../../assets/nanda image .png'; 
+
 import {
   Home,
   GraduationCap,
@@ -159,27 +163,14 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
       <aside className={`Sidebar ${isCollapsed ? 'collapsed' : 'expanded'} ${isMobileOpen ? 'mobile-open' : ''}`}>
         {/* Brand Header */}
         <div className="Sidebar-header">
-          <div className="Sidebar-logoMark" aria-hidden="true">
-            <svg viewBox="0 0 40 40" width="26" height="26">
-              <defs>
-                <linearGradient id="kidsSchoolLogoGrad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FDE68A" />
-                  <stop offset="35%" stopColor="#F472B6" />
-                  <stop offset="70%" stopColor="#818CF8" />
-                  <stop offset="100%" stopColor="#38BDF8" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M20 5 C 27 5, 33 11, 33 18 C 33 27, 27 32, 20 35 C 13 32, 7 27, 7 18 C 7 11, 13 5, 20 5 Z"
-                fill="url(#kidsSchoolLogoGrad)"
-              />
-              <path d="M13 18 L20 14 L27 18 L20 22 Z" fill="#1E1B4B" opacity="0.85" />
-            </svg>
+          {/* 2. Logo container with imported image */}
+          <div className="Sidebar-logoMark">
+            <img src={logo} alt="Kids School Logo" className="Sidebar-logoImg" />
           </div>
 
           {showLabels && (
             <div className="Sidebar-brandText">
-              <h1>Kids School</h1>
+              <h1>Nanda Kidz School</h1>
               <span>Admin Panel</span>
             </div>
           )}

@@ -447,3 +447,11 @@
 .SidebarItem-chevron.rotated {
   transform: rotate(180deg);
 }
+
+
+.Sidebar-logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
