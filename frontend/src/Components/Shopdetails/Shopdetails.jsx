@@ -3,18 +3,18 @@ import './Shopdetails.css';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 
 // Sample background image imports from src/assets (adjust names as needed in your project)
-import img1 from '../../assets/pic1.jpg';
-import img2 from '../../assets/pic2.jpg';
-import img3 from '../../assets/pic3.jpg';
-import img4 from '../../assets/pic4.jpg';
-import img5 from '../../assets/pic5.jpg';
-import img6 from '../../assets/pic6.jpg';
-import img7 from '../../assets/pic7.jpg';
-import img8 from '../../assets/pic8.jpg';
-import img9 from '../../assets/pic9.jpg';
-import img10 from '../../assets/pic10.jpg';
-import img11 from '../../assets/pic11.jpg';
-import img12 from '../../assets/pic12.jpg';
+import img1 from '../../assets/shop1.webp';
+import img2 from '../../assets/shop2.webp';
+import img3 from '../../assets/shop3.webp';
+import img4 from '../../assets/shop4.webp';
+import img5 from '../../assets/shop5.webp';
+import img6 from '../../assets/shop6.webp';
+import img7 from '../../assets/shop7.webp';
+import img8 from '../../assets/shop8.webp';
+import img9 from '../../assets/shop9.webp';
+import img10 from '../../assets/shop10.webp';
+import img11 from '../../assets/shop11.webp';
+import img12 from '../../assets/shop12.webp';
 
 const products = [
   {

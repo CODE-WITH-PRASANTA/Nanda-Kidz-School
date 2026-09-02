@@ -1,7 +1,7 @@
 import React from 'react';
 import './HomeKindergarten.css';
 
-import boyImg from '../../assets/who-we-are1.jpg';
+import boyImg from '../../assets/aboutus.webp';
 import owlImg from '../../assets/who-we-are-shape1.png';
 
 const HomeKindergarten = () => {

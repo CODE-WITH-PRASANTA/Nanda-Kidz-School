@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import './Homecoursecategory.css';
 
 // Import local image assets
-import artImg from '../../assets/Art.avif';
-import musicImg from '../../assets/Music.avif';
-import languageImg from '../../assets/Language.avif';
-import indoorImg from '../../assets/Indoor.avif';
-import danceImg from '../../assets/Dance.avif';
-import cookingImg from '../../assets/Cooking.avif';
+import artImg from '../../assets/art.webp';
+import musicImg from '../../assets/music.webp';
+import languageImg from '../../assets/language.webp';
+import indoorImg from '../../assets/indoor.webp';
+import danceImg from '../../assets/dance.webp';
+import cookingImg from '../../assets/cooking.webp';
 
 const Homecoursecategory = () => {
   const allCategories = [

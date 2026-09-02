@@ -3,15 +3,15 @@ import './HeroSection.css';
 
 // Import all background, decorative, and children elements
 import bgImage from '../../assets/bg-1.jpg';
-import child1 from '../../assets/c-1.jpg'; 
-import child2 from '../../assets/c-2.jpg'; 
-import child3 from '../../assets/c-3.jpg'; 
-import child4 from '../../assets/c-4.jpg'; 
-import child5 from '../../assets/c-5.jpg'; 
-import child6 from '../../assets/c-6.jpg'; 
-import child7 from '../../assets/c-7.jpg'; 
-import child8 from '../../assets/c-8.jpg'; 
-import child9 from '../../assets/c-9.jpg'; 
+import child1 from '../../assets/c-1.webp'; 
+import child2 from '../../assets/c-2.webp'; 
+import child3 from '../../assets/c-3.webp'; 
+import child4 from '../../assets/c-4.webp'; 
+import child5 from '../../assets/c-5.webp'; 
+import child6 from '../../assets/c-6.webp'; 
+import child7 from '../../assets/c-7.webp'; 
+import child8 from '../../assets/c-8.webp'; 
+import child9 from '../../assets/c-9.webp';  
 
 // Decorative vectors overlapping the grid
 import giraffeAsset from '../../assets/jeeraf.png'; 

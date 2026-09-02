@@ -2,9 +2,9 @@ import React from 'react';
 import './PopularClasses.css';
 
 // Import class card images
-import classImg1 from '../../assets/class-1.jpg';
-import classImg2 from '../../assets/class-2.jpg';
-import classImg3 from '../../assets/class-3.jpg';
+import classImg1 from '../../assets/image4.webp';
+import classImg2 from '../../assets/image5.webp';
+import classImg3 from '../../assets/image6.webp';
 
 // Import decorative corner dinosaur images
 import dinoLeftImg from '../../assets/class-shape-1.png';

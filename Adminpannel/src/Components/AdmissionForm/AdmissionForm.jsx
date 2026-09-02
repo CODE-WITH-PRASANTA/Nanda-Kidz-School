@@ -57,7 +57,7 @@ const AdmissionForm = () => {
 
     transportRequired: 'Yes',
     pickupLocation: 'Green Street',
-    dropLocation: 'Nanda Kids School',
+    dropLocation: 'Nanda Kidz School',
     routeBus: 'Route 3 / Bus 12',
     pickupTime: '08:00 AM',
     dropTime: '02:30 PM',
@@ -428,7 +428,7 @@ const AdmissionForm = () => {
                 <div className="input-group">
                   <label>Drop Location <span>*</span></label>
                   <select name="dropLocation" value={formData.dropLocation} onChange={handleChange}>
-                    <option value="Nanda Kids School">Nanda Kids School</option>
+                    <option value="Nanda Kidz School">Nanda Kidz School</option>
                   </select>
                 </div>
               </div>
@@ -833,11 +833,11 @@ const AdmissionForm = () => {
               <div className="school-hero-banner">
                 <img
                   src={schoolHeroImg}
-                  alt="Nanda Kids School Banner"
+                  alt="Nanda Kidz School Banner"
                   className="hero-img"
                 />
                 <div className="school-title-text">
-                  <h2>Nanda Kids School</h2>
+                  <h2>Nanda Kidz School</h2>
                   <p>Admission Preview</p>
                 </div>
               </div>

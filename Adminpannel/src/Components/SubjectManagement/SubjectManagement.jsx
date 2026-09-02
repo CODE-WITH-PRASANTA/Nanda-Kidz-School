@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './SubjectManagement.css';
 
 const API_BASE_URL = 'http://localhost:5000/api/subjects';
+const CLASS_API_URL = 'http://localhost:5000/api/classes';
 const ITEMS_PER_PAGE = 5;
 
 const SubjectManagement = () => {
   const [subjects, setSubjects] = useState([]);
+  const [classList, setClassList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -23,9 +25,10 @@ const SubjectManagement = () => {
     status: 'Active',
   });
 
-  // Fetch subjects on initial component mount
+  // Fetch subjects and classes on initial component mount
   useEffect(() => {
     fetchSubjects();
+    fetchClasses();
   }, []);
 
   // GET: Fetch subjects from API
@@ -41,6 +44,18 @@ const SubjectManagement = () => {
       setError(err.message || 'Error connecting to server');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // GET: Fetch classes for dropdown options
+  const fetchClasses = async () => {
+    try {
+      const response = await fetch(CLASS_API_URL);
+      if (!response.ok) throw new Error('Failed to fetch classes');
+      const data = await response.json();
+      setClassList(data);
+    } catch (err) {
+      console.error('Error fetching classes for dropdown:', err);
     }
   };
 
@@ -112,6 +127,7 @@ const SubjectManagement = () => {
       }
 
       resetForm();
+      setIsFormVisible(false);
     } catch (err) {
       alert(`Error: ${err.message}`);
     }
@@ -251,10 +267,11 @@ const SubjectManagement = () => {
                   required
                 >
                   <option value="">Select Class</option>
-                  <option value="Nursery - Class 5">Nursery - Class 5</option>
-                  <option value="Nursery - Class 3">Nursery - Class 3</option>
-                  <option value="Class 1 - Class 5">Class 1 - Class 5</option>
-                  <option value="Class 3 - Class 5">Class 3 - Class 5</option>
+                  {classList.map((cls) => (
+                    <option key={cls._id} value={`${cls.name} - Sec ${cls.section}`}>
+                      {cls.name} ({cls.section})
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -314,7 +331,6 @@ const SubjectManagement = () => {
                   }}
                 />
               </div>
-              <button className="sm-btn-outline">🌪 Filter</button>
             </div>
           </div>
 
