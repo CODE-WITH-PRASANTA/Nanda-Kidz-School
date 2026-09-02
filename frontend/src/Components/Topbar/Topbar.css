@@ -89,11 +89,13 @@
   height: 32px;
   text-decoration: none;
   font-size: 13px;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease;
+  border-radius: 50%;
 }
 
 .topbar-social-link:hover {
   opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 /* --- Media Queries for Responsive Design --- */
@@ -151,5 +153,7 @@
   .topbar-contact-wrapper {
     width: 100%;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 12px;
   }
 }

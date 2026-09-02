@@ -40,33 +40,33 @@ const SlideIcon = () => (
 const facilitiesData = [
   {
     id: 1,
-    title: 'Child Friendly',
+    title: 'Nanda Kidz Play School',
     description:
-      'Tempus quam pellentesque nec nam aliquam sem et tortor. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin.',
+      'A cheerful home away from home where every child feels welcomed, safe, and encouraged to explore, learn, and grow at their own happy pace.',
     image: facility1,
     icon: <BookIcon />,
   },
   {
     id: 2,
-    title: 'Good Infrastructure',
+    title: 'Fruite Day',
     description:
-      'Dignissim cras tincidunt lobortis feugiat vivamus at augue eget. Nunc vel risus commodo viverra maecenas accumsan lacus vel.',
+      'A special day where little ones celebrate bonding, sharing, and kindness together, building friendships that make school feel like family.',
     image: facility2,
     icon: <BusIcon />,
   },
   {
     id: 3,
-    title: 'Friendly Staffs',
+    title: 'Kids Playing Club',
     description:
-      'Bibendum at varius vel pharetra vel turpis nunc eget lorem. Elit ullamcorper dignissim cras tincidunt lobortis feugiat.',
+      'Fun-filled group play sessions that build teamwork, physical activity, and social skills, helping children learn through movement and laughter.',
     image: facility3,
     icon: <SlideIcon />,
   },
   {
     id: 4,
-    title: 'Real Time Learning',
+    title: 'Frendship Day',
     description:
-      'Dolor morbi non arcu risus. Bibendum arcu vitae elementum curabitur vitae nunc. Commodo viverra maecenas accumsan.',
+      'A special day where little ones celebrate bonding, sharing, and kindness together, building friendships that make school feel like family..',
     image: facility4,
     icon: <BookIcon />,
   },

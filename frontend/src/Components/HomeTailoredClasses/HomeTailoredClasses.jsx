@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './HomeTailoredClasses.css';
 
-// Importing local images (Replace with your actual paths if needed)
+// Importing local images
 import westernMusicImg from '../../assets/Image1.webp';
 import orchestraPlayingImg from '../../assets/image2.webp';
 import engineeringClassImg from '../../assets/image3.webp';
@@ -13,7 +13,6 @@ const HomeTailoredClasses = () => {
   const [isAnimate, setIsAnimate] = useState(false);
 
   useEffect(() => {
-    // Trigger entrance animation on page mount
     setIsAnimate(true);
   }, []);
 
@@ -21,17 +20,17 @@ const HomeTailoredClasses = () => {
     {
       id: 1,
       image: westernMusicImg,
-      title: "Western Music Club",
-      description: "Consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo. Tortor at risus viverra adipiscing at.",
+      title: "Nanda Kidz Play School",
+      description: "Nurturing tiny tots with joyful foundational learning, interactive play, and early creative milestones.",
       isSoldOut: true,
       reviews: 2,
-      stars: [true, true, true, true, false] // 4.5 stars layout approximation
+      stars: [true, true, true, true, false]
     },
     {
       id: 2,
       image: orchestraPlayingImg,
-      title: "Orchestra Playing",
-      description: "Orci nulla pellentesque dignissim enim. Et egestas quis ipsum suspendisse ultrices.",
+      title: "Friendship Day",
+      description: "Celebrating shared smiles, wonderful bonds, and joyful togetherness among our kindergarten friends.",
       isSoldOut: false,
       reviews: 1,
       stars: [true, true, true, true, true]
@@ -39,8 +38,8 @@ const HomeTailoredClasses = () => {
     {
       id: 3,
       image: engineeringClassImg,
-      title: "Engineering Class",
-      description: "Penatibus et magnis dis parturient montes nascetur ridiculus. Arcu cursus euismod quis viverra.",
+      title: "Jump Day",
+      description: "Building physical agility, core balance, and endless giggles through exciting outdoor trampoline bouncing.",
       isSoldOut: false,
       reviews: 1,
       stars: [true, true, true, true, false]
@@ -49,7 +48,7 @@ const HomeTailoredClasses = () => {
       id: 4,
       image: kidsPlayingImg,
       title: "Kids Playing Club",
-      description: "Erat imperdiet sed euismod nisi porta lorem mollis. Adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus.",
+      description: "Engaging recreational activities designed to foster social cooperation, confidence, and motor coordination.",
       isSoldOut: false,
       reviews: 1,
       stars: [true, true, true, true, false]
@@ -57,8 +56,8 @@ const HomeTailoredClasses = () => {
     {
       id: 5,
       image: artClubImg,
-      title: "Art Club",
-      description: "Elementum nisi quis eleifend quam adipiscing vitae. Sit amet consectetur adipiscing elit pellentesque.",
+      title: "Fruit Day",
+      description: "Teaching healthy eating habits and nutritional awareness through colorful, fun-filled fruit celebrations.",
       isSoldOut: false,
       reviews: 1,
       stars: [true, true, true, true, true]
@@ -66,8 +65,8 @@ const HomeTailoredClasses = () => {
     {
       id: 6,
       image: paintingClassImg,
-      title: "Painting Class",
-      description: "Tellus rutrum tellus pellentesque eu tincidunt. Ullamcorper eget nulla facilisi etiam dignissim diam.",
+      title: "Van Mahotsav",
+      description: "Instilling environmental love and green consciousness by planting saplings and nurturing nature together.",
       isSoldOut: false,
       reviews: 1,
       stars: [true, true, false, false, false]
@@ -76,9 +75,12 @@ const HomeTailoredClasses = () => {
 
   return (
     <div className="tailored-classes-container">
+      {/* Ambient decorative glow blobs */}
+      <div className="tc-ambient tc-ambient--1"></div>
+      <div className="tc-ambient tc-ambient--2"></div>
+
       {/* Header Section */}
       <header className={`tc-header ${isAnimate ? 'fade-in-up' : ''}`}>
-        {/* Abstract Green Worm Shape */}
         <div className="shape-worm">
           <svg viewBox="0 0 100 50" width="80" height="40">
             <path d="M10,30 Q25,10 40,30 T70,30 T90,20" fill="none" stroke="#22c55e" strokeWidth="12" strokeLinecap="round"/>
@@ -88,14 +90,16 @@ const HomeTailoredClasses = () => {
           </svg>
         </div>
 
-        <span className="tc-subtitle">TAILORED CLASSES</span>
+        <span className="tc-subtitle">
+          <span className="tc-subtitle-dot"></span>
+          NANDA KIDZ EVENTS &amp; ACTIVITIES
+        </span>
         <h1 className="tc-title">
           Unique Approaches To Teaching<br />
           Combined Technology &amp;<br />
           Learning.
         </h1>
 
-        {/* Abstract Yellow Star Shape */}
         <div className="shape-star">
           <svg viewBox="0 0 100 100" width="90" height="90">
             <path d="M50,0 L63,35 L100,35 L70,57 L81,95 L50,73 L19,95 L30,57 L0,35 L37,35 Z" fill="#eab308" stroke="#1e293b" strokeWidth="2"/>
@@ -105,14 +109,24 @@ const HomeTailoredClasses = () => {
 
       {/* Grid Layout Section */}
       <main className="tc-grid">
-        {cardData.map((item) => (
-          <div key={item.id} className="tc-card">
-            
+        {cardData.map((item, index) => (
+          <div
+            key={item.id}
+            className="tc-card"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
             {/* Image Container with Hover Effects */}
             <div className="tc-image-wrapper">
-              {item.isSoldOut && <div className="tc-badge-sold">SOLD OUT</div>}
+              {item.isSoldOut && (
+                <div className="tc-badge-sold">
+                  <span className="tc-badge-dot"></span>
+                  SOLD OUT
+                </div>
+              )}
               <img src={item.image} alt={item.title} className="tc-card-image" />
-              
+              <div className="tc-image-shine"></div>
+              <div className="tc-image-gradient"></div>
+
               {/* Hover Floating Action Buttons */}
               <div className="tc-hover-actions">
                 <button className="action-btn check-btn" title="Approve">
@@ -138,18 +152,17 @@ const HomeTailoredClasses = () => {
             <div className="tc-card-content">
               <h3 className="tc-card-title">{item.title}</h3>
               <p className="tc-card-desc">{item.description}</p>
-              
-              <div className="tc-card-price">{item.price}</div>
-              
+
               {/* Dynamic Action Buttons based on state */}
               {item.isSoldOut ? (
-                <button className="tc-btn btn-sold-out">
-                  SOLD OUT 
+                <button className="tc-btn btn-sold-out" disabled>
+                  SOLD OUT
                   <span className="arrow-icon">↗</span>
                 </button>
               ) : (
                 <button className="tc-btn btn-add-cart">
-                  ADD TO CART 
+                  <span className="tc-btn-shine"></span>
+                  ADD TO CART
                   <span className="arrow-icon">↗</span>
                 </button>
               )}
@@ -158,13 +171,18 @@ const HomeTailoredClasses = () => {
               <div className="tc-rating-container">
                 <div className="stars-row">
                   {item.stars.map((filled, index) => (
-                    <span key={index} className={`star ${filled ? 'filled' : 'empty'}`}>★</span>
+                    <span
+                      key={index}
+                      className={`star ${filled ? 'filled' : 'empty'}`}
+                      style={{ animationDelay: `${index * 0.06}s` }}
+                    >
+                      ★
+                    </span>
                   ))}
                 </div>
                 <span className="reviews-text">{item.reviews} {item.reviews > 1 ? 'reviews' : 'review'}</span>
               </div>
             </div>
-
           </div>
         ))}
       </main>
@@ -172,6 +190,7 @@ const HomeTailoredClasses = () => {
       {/* Main Bottom Footer Button */}
       <div className="tc-footer-actions">
         <button className="tc-btn-view-all">
+          <span className="tc-btn-shine"></span>
           VIEW ALL <span className="arrow-icon-large">↗</span>
         </button>
       </div>

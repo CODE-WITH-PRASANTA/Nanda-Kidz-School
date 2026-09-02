@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Floating.css';
 
-// Import local image banner
 import bgTop from '../../assets/nan1.png';
 
-// Lucide Icons
 import { 
   X, 
   User, 
@@ -13,11 +11,11 @@ import {
   MessageSquare, 
   Send, 
   Phone, 
-  MessageCircle 
+  MessageCircle,
+  Sparkles
 } from 'lucide-react';
 
 const Floating = ({ onClose }) => {
-  // Internal state to control overlay visibility
   const [isOpen, setIsOpen] = useState(true);
 
   const [formData, setFormData] = useState({
@@ -27,7 +25,6 @@ const Floating = ({ onClose }) => {
     message: ''
   });
 
-  // Handler to close the floating form
   const handleClose = () => {
     setIsOpen(false);
     if (onClose && typeof onClose === 'function') {
@@ -35,7 +32,6 @@ const Floating = ({ onClose }) => {
     }
   };
 
-  // Close on Escape key press
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -43,7 +39,11 @@ const Floating = ({ onClose }) => {
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
   }, []);
 
   const handleChange = (e) => {
@@ -56,7 +56,13 @@ const Floating = ({ onClose }) => {
     handleClose();
   };
 
-  // If closed, render nothing
+  // Progress: how many of the 3 required fields are filled
+  const progress = useMemo(() => {
+    const required = [formData.name, formData.address, formData.age];
+    const filled = required.filter((v) => v && v.length > 0).length;
+    return Math.round((filled / required.length) * 100);
+  }, [formData]);
+
   if (!isOpen) {
     return null;
   }
@@ -72,24 +78,26 @@ const Floating = ({ onClose }) => {
         className="floating-card" 
         onClick={(e) => e.stopPropagation()}
       >
-        
-        {/* Top Header Banner Background Section */}
-        <div 
-          className="floating-header-bg" 
-          style={{ backgroundImage: `url(${bgTop})` }}
-        >
-          {/* Close Cross Button */}
-          <button 
-            type="button"
-            className="floating-close-btn" 
-            onClick={handleClose} 
-            aria-label="Close modal"
-          >
-            <X size={18} color="#1e293b" />
-          </button>
+        {/* Gradient border glow */}
+        <div className="floating-card-glow"></div>
 
-          {/* Logo & Header Title */}
-          <div className="floating-brand-section">
+        <button 
+          type="button"
+          className="floating-close-btn" 
+          onClick={handleClose} 
+          aria-label="Close modal"
+        >
+          <X size={18} />
+        </button>
+
+        {/* Compact Glass Header with circular framed photo */}
+        <div className="floating-header">
+          <div className="floating-avatar-frame">
+            <img src={bgTop} alt="Nanda Kidz" className="floating-avatar-img" />
+            <span className="floating-avatar-sparkle"><Sparkles size={14} /></span>
+          </div>
+
+          <div className="floating-header-text">
             <div className="brand-logo-wrapper">
               <div className="brand-logo-text">
                 <span className="letter-n">N</span>
@@ -98,121 +106,134 @@ const Floating = ({ onClose }) => {
                 <span className="letter-d">D</span>
                 <span className="letter-a2">A</span>
               </div>
-              <div className="brand-subtext">KIDS</div>
+              <div className="brand-subtext">KIDZ</div>
             </div>
-            <div className="brand-tagline">Preschool & Daycare</div>
-            
-            <h1 className="floating-title">Enquiry Form</h1>
-            <p className="floating-subtitle">
-              We’re excited to be a part
-            </p>
-            <p className="floating-subtitle">of your child’s learning journey!</p>
+            <div className="brand-tagline">Preschool &amp; Daycare</div>
           </div>
-          <span className="heart-icon">❤️</span>
         </div>
 
-        {/* Main Form Content */}
-        <div className="floating-form-container">
-          <form onSubmit={handleSubmit} className="floating-form">
-            
-            {/* Child's Name */}
-            <div className="form-group field-purple">
-              <div className="input-label-row">
-                <div className="field-icon icon-purple">
-                  <User size={16} />
-                </div>
-                <label>Child’s Name <span className="required-star">★</span></label>
-              </div>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Enter child’s full name"
-                required
-              />
-            </div>
+        <div className="floating-intro">
+          <h1 className="floating-title">Let's Get Started</h1>
+          <p className="floating-subtitle">
+            We're excited to be part of your child's learning journey!
+          </p>
+        </div>
 
-            {/* Address */}
-            <div className="form-group field-green">
-              <div className="input-label-row">
-                <div className="field-icon icon-green">
-                  <MapPin size={16} />
-                </div>
-                <label>Address <span className="required-star">★</span></label>
-              </div>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Enter your full address"
-                required
-              />
-            </div>
-
-            {/* Child's Age */}
-            <div className="form-group field-orange">
-              <div className="input-label-row">
-                <div className="field-icon icon-orange">
-                  <Cake size={16} />
-                </div>
-                <label>Child’s Age <span className="required-star">★</span></label>
-              </div>
-              <select
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled hidden>Select child’s age</option>
-                <option value="2">2 Years</option>
-                <option value="3">3 Years</option>
-                <option value="4">4 Years</option>
-                <option value="5+">5+ Years</option>
-              </select>
-            </div>
-
-            {/* Message */}
-            <div className="form-group field-pink">
-              <div className="input-label-row">
-                <div className="field-icon icon-pink">
-                  <MessageSquare size={16} />
-                </div>
-                <label>Message</label>
-              </div>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Tell us about your child..."
-                rows="3"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <button type="submit" className="submit-btn">
-              <Send size={18} className="submit-icon" />
-              <span>Submit Enquiry</span>
-            </button>
-          </form>
-
-          {/* Divider */}
-          <div className="form-divider">
-            <span className="divider-heart">♥</span>
+        {/* Progress Indicator */}
+        <div className="floating-progress-row">
+          <div className="floating-progress-track">
+            <div
+              className="floating-progress-fill"
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
+          <span className="floating-progress-label">{progress}% complete</span>
+        </div>
 
-          {/* Quick Contact Action Buttons */}
-          <div className="contact-actions">
-            <a href="tel:+919876543210" className="contact-action-btn call-btn" title="Call Us">
-              <Phone size={20} />
-              <span>Call Us</span>
-            </a>
+        {/* Scrollable Form Body */}
+        <div className="floating-scroll-body">
+          <div className="floating-form-container">
+            <form onSubmit={handleSubmit} className="floating-form">
 
-            <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="contact-action-btn whatsapp-btn" title="WhatsApp Us">
-              <MessageCircle size={20} />
-              <span>WhatsApp</span>
-            </a>
+              {/* Child's Name — floating label style */}
+              <div className="fl-field fl-purple">
+                <div className="fl-icon"><User size={16} /></div>
+                <input
+                  type="text"
+                  name="name"
+                  id="fl-name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder=" "
+                  required
+                />
+                <label htmlFor="fl-name">Child's Name <span className="required-star">★</span></label>
+              </div>
+
+              {/* Address */}
+              <div className="fl-field fl-green">
+                <div className="fl-icon"><MapPin size={16} /></div>
+                <input
+                  type="text"
+                  name="address"
+                  id="fl-address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  placeholder=" "
+                  required
+                />
+                <label htmlFor="fl-address">Address <span className="required-star">★</span></label>
+              </div>
+
+              {/* Child's Age */}
+              <div className="fl-field fl-orange">
+                <div className="fl-icon"><Cake size={16} /></div>
+                <select
+                  name="age"
+                  id="fl-age"
+                  value={formData.age}
+                  onChange={handleChange}
+                  required
+                  className={formData.age ? 'has-value' : ''}
+                >
+                  <option value="" disabled hidden></option>
+                  <option value="2">2 Years</option>
+                  <option value="3">3 Years</option>
+                  <option value="4">4 Years</option>
+                  <option value="5+">5+ Years</option>
+                </select>
+                <label htmlFor="fl-age">Child's Age <span className="required-star">★</span></label>
+              </div>
+
+              {/* Message */}
+              <div className="fl-field fl-pink fl-textarea-field">
+                <div className="fl-icon"><MessageSquare size={16} /></div>
+                <textarea
+                  name="message"
+                  id="fl-message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder=" "
+                  rows="3"
+                />
+                <label htmlFor="fl-message">Message (optional)</label>
+              </div>
+
+              <button type="submit" className="submit-btn">
+                <span className="submit-btn-shine"></span>
+                <Send size={18} className="submit-icon" />
+                <span>Submit Enquiry</span>
+              </button>
+            </form>
+
+            <div className="form-divider">
+              <span className="divider-heart">♥</span>
+            </div>
+
+            <p className="contact-quick-label">Prefer to talk instead?</p>
+
+            <div className="contact-actions">
+              <a href="tel:+919876543210" className="contact-action-btn call-btn" title="Call Us">
+                <span className="contact-action-icon">
+                  <Phone size={18} />
+                </span>
+                <span className="contact-action-text">
+                  <span className="contact-action-title">Call Us</span>
+                  <span className="contact-action-sub">Speak directly</span>
+                </span>
+              </a>
+
+              <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="contact-action-btn whatsapp-btn" title="WhatsApp Us">
+                <span className="contact-action-icon">
+                  <span className="whatsapp-pulse"></span>
+                  <MessageCircle size={18} />
+                </span>
+                <span className="contact-action-text">
+                  <span className="contact-action-title">WhatsApp</span>
+                  <span className="contact-action-sub">Quick chat</span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
 

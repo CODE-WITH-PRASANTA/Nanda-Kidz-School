@@ -11,66 +11,80 @@ const CoreValues = () => {
   const valuesData = [
     {
       id: '01',
-      title: 'Active Learning',
+      title: 'Active Experiential Learning',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'At Nanda Kidz, children learn through sensory exploration, fun STEM activities, interactive storytelling, and curiosity-driven play that builds lifelong foundations.',
       colorClass: 'core-values__number--blue',
+      tag: 'Brain Development',
     },
     {
       id: '02',
-      title: 'Safe Environment',
+      title: 'Safe, Nurturing & Caring Environment',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'A secure, hygienic, and CCTV-monitored campus where certified early childhood educators care for every child with warmth, empathy, and homelike love.',
       colorClass: 'core-values__number--yellow',
+      tag: '100% Child Safety',
     },
     {
       id: '03',
-      title: 'Fully Equipment',
+      title: 'Modern Child-Friendly Infrastructure',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        'Specially designed child-safe play zones, Montessori learning kits, audio-visual smart classrooms, and engaging indoor-outdoor activity arenas.',
       colorClass: 'core-values__number--pink',
+      tag: 'World-Class Setup',
     },
   ];
 
   return (
     <section className="core-values">
-      {/* Top Left Decorative Image (Sun) */}
+      {/* Decorative Floating Vectors */}
       <img
         src={shapeSun}
-        alt="Sun element"
+        alt="Nanda Kidz Sunshine Vector"
         className="core-values__shape core-values__shape--top-left"
       />
-
-      {/* Bottom Left Decorative Image (Pencil) */}
       <img
         src={shapePencil}
-        alt="Pencil element"
+        alt="Creative Learning Pencil Vector"
         className="core-values__shape core-values__shape--bottom-left"
       />
-
-      {/* Right Side Decorative Overlay Image */}
       <img
         src={shapeRight}
-        alt="Right decorative element"
+        alt="Play School Abstract Graphic"
         className="core-values__shape core-values__shape--right"
       />
 
       <div className="core-values__container">
-        {/* Left Column: Main Illustration */}
+        {/* Left Column: Premium Framed Illustration */}
         <div className="core-values__image-wrapper">
+          <div className="core-values__image-backdrop"></div>
           <img
             src={mainImg}
-            alt="Childcare Education Teacher"
+            alt="Best Pre-School and Kindergarten Education at Nanda Kidz"
             className="core-values__main-image"
           />
+          <div className="core-values__experience-card">
+            <span className="exp-star">⭐</span>
+            <div>
+              <strong>#1 Rated Pre-School</strong>
+              <small>Play School • LKG • UKG</small>
+            </div>
+          </div>
         </div>
 
-        {/* Right Column: Content Section */}
+        {/* Right Column: SEO Optimized Value Proposition */}
         <div className="core-values__content">
-          <span className="core-values__subtitle">Our Core Values</span>
+          <div className="core-values__badge">
+            <span className="core-values__subtitle">Why Choose Nanda Kidz</span>
+          </div>
+
           <h2 className="core-values__title">
-            We are Refunding Early Childcare Education
+            Redefining Early Childhood Education for <span className="text-highlight">Tomorrow’s Leaders</span>
           </h2>
+
+          <p className="core-values__intro-text">
+            Nanda Kidz Play School & Kindergarten provides a stimulating blend of Montessori and play-way methodologies, empowering little minds with confidence, creativity, and foundational academic brilliance.
+          </p>
 
           {/* List Items */}
           <div className="core-values__list">
@@ -80,7 +94,10 @@ const CoreValues = () => {
                   {item.id}
                 </div>
                 <div className="core-values__item-text">
-                  <h3 className="core-values__item-title">{item.title}</h3>
+                  <div className="core-values__header-row">
+                    <h3 className="core-values__item-title">{item.title}</h3>
+                    <span className="core-values__pill-tag">{item.tag}</span>
+                  </div>
                   <p className="core-values__item-description">
                     {item.description}
                   </p>
