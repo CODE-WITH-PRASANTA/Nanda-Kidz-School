@@ -1,6 +1,6 @@
 import React from 'react';
 import './AboutDetails.css';
-import principalImg from '../../assets/woman_half_crop.webp'; // PNG/WEBP with transparent background recommended
+import principalImg from '../../assets/NandaMam.webp';
 import { 
   FaUser, 
   FaQuoteLeft, 
@@ -32,11 +32,14 @@ const AboutDetails = () => {
             <path d="M 280,0 C 370,120 370,380 0,500" fill="none" stroke="#f6a609" strokeWidth="12" />
           </svg>
 
-          {/* Principal Image */}
+          {/* Soft glow behind the photo for a premium spotlight feel */}
+          <div className="about-details-img-glow" aria-hidden="true"></div>
+
+          {/* Principal/Director Image */}
           <div className="about-details-img-container">
             <img 
               src={principalImg} 
-              alt="Mrs. Ananya Sharma" 
+              alt="Dr. Achman Nanda" 
               className="about-details-img" 
             />
           </div>
@@ -69,21 +72,18 @@ const AboutDetails = () => {
           </div>
 
           {/* Title & Role */}
-          <h2 className="about-details-name">Mrs. Ananya Sharma</h2>
-          <span className="about-details-role">PRINCIPAL</span>
+          <h2 className="about-details-name">Dr. Achman Nanda</h2>
+          <span className="about-details-role">FOUNDER & DIRECTOR</span>
 
           <div className="about-details-divider">
             <span className="about-details-diamond">◆</span>
           </div>
 
-          {/* Quote Body */}
+          {/* Quote Body with Professional Profile Summary */}
           <div className="about-details-quote-box">
             <FaQuoteLeft className="about-details-qicon q-left" />
             <p className="about-details-text">
-              At our school, we believe every child is unique and full of potential. 
-              Our mission is to nurture young minds with knowledge, values, and 
-              creativity, helping them grow into confident, compassionate, and 
-              responsible individuals. Together, let's build a brighter tomorrow.
+              Dr. Achman Nanda is a veteran child psychologist and academician with over three decades of professional experience in child psychology, autism spectrum assessment, and intervention strategies. Having led prestigious institutions like Bachpan Group of Schools, New Delhi, and currently directing Nanda Kidz The Little Kingdom Play School, her mission is to foster early childhood development, inclusive education, and dedicated social welfare initiatives for women and children.
             </p>
             <FaQuoteRight className="about-details-qicon q-right" />
           </div>
@@ -95,7 +95,7 @@ const AboutDetails = () => {
                 <FaGraduationCap />
               </div>
               <div>
-                <strong>15+</strong>
+                <strong>30+</strong>
                 <span>Years of<br />Experience</span>
               </div>
             </div>
@@ -107,8 +107,8 @@ const AboutDetails = () => {
                 <FaUserFriends />
               </div>
               <div>
-                <strong>1000+</strong>
-                <span>Happy Students<br />& Parents</span>
+                <strong>20+</strong>
+                <span>Years in Social<br />Work & Welfare</span>
               </div>
             </div>
 
@@ -119,8 +119,8 @@ const AboutDetails = () => {
                 <FaTrophy />
               </div>
               <div>
-                <strong>25+</strong>
-                <span>Awards &<br />Recognitions</span>
+                <strong>Auth.</strong>
+                <span>Autism & Child<br />Specialist</span>
               </div>
             </div>
           </div>

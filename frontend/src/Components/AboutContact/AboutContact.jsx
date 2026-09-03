@@ -9,48 +9,47 @@ import {
   User,
   Tag,
   PenLine,
-  Headphones,
   Globe,
   Share2,
   Compass,
   MessageCircle,
-  GraduationCap,
-  Building2,
-  Sparkles,
 } from "lucide-react";
 
 const CONTACT_DETAILS = [
   {
     id: 1,
-    icon: <Phone size={20} />,
+    icon: <Phone size={18} />,
     label: "Call Us",
-    value: "+91 98765 43210",
+    value: "+91 83389 08897",
+    href: "tel:+918338908897",
   },
   {
     id: 2,
-    icon: <Mail size={20} />,
+    icon: <Mail size={18} />,
     label: "Email Us",
-    value: "info@nandakidz.com",
+    value: "support@utkalproperty.com",
+    href: "mailto:support@utkalproperty.com",
   },
   {
     id: 3,
-    icon: <MapPin size={20} />,
+    icon: <MapPin size={18} />,
     label: "Visit Us",
-    value: "K-5, HIG-424, Kalinga Vihar, Kalinganagar, Bhubaneswar, Odisha 751019",
+    value: "Plot No-55, Lane-2, Road-2, Jagrath Vihar, Baramunda, Bhubaneswar, Pin-751003",
+    href: "https://maps.google.com/?q=Baramunda+Bhubaneswar",
   },
   {
     id: 4,
-    icon: <Clock size={20} />,
+    icon: <Clock size={18} />,
     label: "Office Hours",
-    value: "Mon - Sat: 8:00 AM - 5:00 PM · Sunday: Closed",
+    value: "Mon - Sat: 9:00 AM - 7:00 PM · Sunday: Closed",
   },
 ];
 
 const SOCIAL_LINKS = [
-  { id: "facebook", icon: <Globe size={18} />, href: "https://facebook.com", label: "Facebook" },
-  { id: "instagram", icon: <Share2 size={18} />, href: "https://instagram.com", label: "Instagram" },
-  { id: "twitter", icon: <Compass size={18} />, href: "https://twitter.com", label: "Twitter" },
-  { id: "youtube", icon: <MessageCircle size={18} />, href: "https://youtube.com", label: "YouTube" },
+  { id: "facebook", icon: <Globe size={16} />, href: "https://facebook.com", label: "Facebook" },
+  { id: "instagram", icon: <Share2 size={16} />, href: "https://instagram.com", label: "Instagram" },
+  { id: "twitter", icon: <Compass size={16} />, href: "https://twitter.com", label: "Twitter" },
+  { id: "youtube", icon: <MessageCircle size={16} />, href: "https://youtube.com", label: "YouTube" },
 ];
 
 const AboutContact = () => {
@@ -97,14 +96,14 @@ const AboutContact = () => {
           <div className="about-contact-info">
             <div className="about-contact-info-header">
               <span className="about-contact-plane-icon">
-                <Send size={22} />
+                <Send size={18} />
               </span>
               <span className="about-contact-eyebrow">Get In</span>
               <h2 className="about-contact-title">Touch With Us</h2>
               <div className="about-contact-title-underline" />
               <p className="about-contact-description">
                 We'd love to hear from you! Whether you have a question about
-                admissions, our programs, or just want to say hello, our team
+                properties, our services, or want to schedule a visit, our team
                 is always here for you.
               </p>
             </div>
@@ -115,7 +114,13 @@ const AboutContact = () => {
                   <div className="about-contact-detail-icon">{item.icon}</div>
                   <div className="about-contact-detail-text">
                     <span className="about-contact-detail-label">{item.label}</span>
-                    <span className="about-contact-detail-value">{item.value}</span>
+                    {item.href ? (
+                      <a href={item.href} className="about-contact-detail-value link-value" target={item.href.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span className="about-contact-detail-value">{item.value}</span>
+                    )}
                   </div>
                 </div>
               ))}
@@ -135,20 +140,13 @@ const AboutContact = () => {
                 </a>
               ))}
             </div>
-
-            {/* CAMPUS CARD GRAPHIC CONTAINER MATCHING REFERENCE IMAGE */}
-            <div className="about-contact-photo-wrapper">
-             
-
-             
-            </div>
           </div>
 
           {/* ================= RIGHT: FORM CARD ================= */}
           <div className="about-contact-form-card">
             <div className="about-contact-form-header">
               <div className="about-contact-form-icon">
-                <Send size={20} />
+                <Send size={18} />
               </div>
               <h3 className="about-contact-form-title">Send Us a Message</h3>
             </div>
@@ -167,7 +165,7 @@ const AboutContact = () => {
             <form className="about-contact-form" onSubmit={handleSubmit}>
               <div className="about-contact-form-row">
                 <div className="about-contact-field">
-                  <User size={18} className="about-contact-field-icon" />
+                  <User size={16} className="about-contact-field-icon" />
                   <input
                     type="text"
                     name="name"
@@ -178,7 +176,7 @@ const AboutContact = () => {
                   />
                 </div>
                 <div className="about-contact-field">
-                  <Mail size={18} className="about-contact-field-icon" />
+                  <Mail size={16} className="about-contact-field-icon" />
                   <input
                     type="email"
                     name="email"
@@ -192,7 +190,7 @@ const AboutContact = () => {
 
               <div className="about-contact-form-row">
                 <div className="about-contact-field">
-                  <Phone size={18} className="about-contact-field-icon" />
+                  <Phone size={16} className="about-contact-field-icon" />
                   <input
                     type="tel"
                     name="phone"
@@ -202,7 +200,7 @@ const AboutContact = () => {
                   />
                 </div>
                 <div className="about-contact-field">
-                  <Tag size={18} className="about-contact-field-icon" />
+                  <Tag size={16} className="about-contact-field-icon" />
                   <input
                     type="text"
                     name="subject"
@@ -214,11 +212,11 @@ const AboutContact = () => {
               </div>
 
               <div className="about-contact-field about-contact-field-textarea">
-                <PenLine size={18} className="about-contact-field-icon about-contact-field-icon-top" />
+                <PenLine size={16} className="about-contact-field-icon about-contact-field-icon-top" />
                 <textarea
                   name="message"
                   placeholder="Your Message"
-                  rows={5}
+                  rows={4}
                   value={formData.message}
                   onChange={handleChange}
                   required
@@ -230,7 +228,7 @@ const AboutContact = () => {
                 className="about-contact-submit-btn"
                 disabled={isSubmitting}
               >
-                <Send size={18} />
+                <Send size={16} />
                 {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
