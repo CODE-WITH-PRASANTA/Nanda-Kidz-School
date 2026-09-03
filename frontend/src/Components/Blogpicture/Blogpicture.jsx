@@ -3,9 +3,18 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import './Blogpicture.css';
 
 // Import reference images
-import img1 from "../../assets/as1.jpg";
-import img2 from "../../assets/as2.jpg";
-import img3 from "../../assets/as3.jpg";
+import img1 from "../../assets/c-4.webp";
+import img2 from "../../assets/c-5.webp";
+import img3 from "../../assets/c-7.webp";
+import img4 from "../../assets/c-3.webp";
+import img5 from "../../assets/c-7.webp";
+import img6 from "../../assets/c-1.webp";
+import img7 from "../../assets/c-7.webp";
+import img8 from "../../assets/c-4.webp";
+import img9 from "../../assets/c-9.webp";
+import img10 from "../../assets/c-2.webp";
+import img11 from "../../assets/c-7.webp";
+import img12 from "../../assets/c-5.webp";
 
 // All Posts Data
 const allBlogPosts = [
@@ -37,7 +46,7 @@ const allBlogPosts = [
   // Page 2 Dummy Data
   {
     id: 4,
-    image: 'https://picsum.photos/seed/child1/600/400',
+    image: img4,
     author: 'Jack John',
     date: '26 Dec 2026',
     title: 'Early Childhood Development Activities',
@@ -45,7 +54,7 @@ const allBlogPosts = [
   },
   {
     id: 5,
-    image: 'https://picsum.photos/seed/child2/600/400',
+    image: img5,
     author: 'Jack John',
     date: '26 Dec 2026',
     title: 'Creative Arts and Crafts for Kids',
@@ -53,7 +62,7 @@ const allBlogPosts = [
   },
   {
     id: 6,
-    image: 'https://picsum.photos/seed/child3/600/400',
+    image: img6,
     author: 'Jack John',
     date: '26 Dec 2026',
     title: 'Interactive Learning in Classroom',
@@ -62,7 +71,7 @@ const allBlogPosts = [
   // Page 3 Dummy Data
   {
     id: 7,
-    image: 'https://picsum.photos/seed/child4/600/400',
+    image: img7,
     author: 'Jack John',
     date: '27 Dec 2026',
     title: 'Outdoor Play & Physical Growth',
@@ -70,7 +79,7 @@ const allBlogPosts = [
   },
   {
     id: 8,
-    image: 'https://picsum.photos/seed/child5/600/400',
+    image: img8,
     author: 'Jack John',
     date: '27 Dec 2026',
     title: 'Social Skill Building Workshops',
@@ -78,7 +87,7 @@ const allBlogPosts = [
   },
   {
     id: 9,
-    image: 'https://picsum.photos/seed/child6/600/400',
+    image: img9,
     author: 'Jack John',
     date: '27 Dec 2026',
     title: 'Music and Movement Program',
@@ -87,7 +96,7 @@ const allBlogPosts = [
   // Page 4 Dummy Data
   {
     id: 10,
-    image: 'https://picsum.photos/seed/child7/600/400',
+    image: img10,
     author: 'Jack John',
     date: '28 Dec 2026',
     title: 'Reading and Storytelling Sessions',
@@ -95,7 +104,7 @@ const allBlogPosts = [
   },
   {
     id: 11,
-    image: 'https://picsum.photos/seed/child8/600/400',
+    image: img11,
     author: 'Jack John',
     date: '28 Dec 2026',
     title: 'Healthy Habits and Nutrition',
@@ -103,7 +112,7 @@ const allBlogPosts = [
   },
   {
     id: 12,
-    image: 'https://picsum.photos/seed/child9/600/400',
+    image: img12,
     author: 'Jack John',
     date: '28 Dec 2026',
     title: 'Science Experiments for Beginners',

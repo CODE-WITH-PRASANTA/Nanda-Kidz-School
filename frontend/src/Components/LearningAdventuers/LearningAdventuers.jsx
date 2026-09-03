@@ -2,9 +2,9 @@ import React from 'react';
 import './LearningAdventuers.css';
 
 
-import kids1Img from '../../assets/c-1.jpg'; // Left card image
-import bubbleGirlImg from '../../assets/c-5.jpg'; // Center card image
-import musicGirlImg from '../../assets/c-3.jpg'; // Right card image
+import kids1Img from '../../assets/c-1.webp'; // Left card image
+import bubbleGirlImg from '../../assets/c-5.webp'; // Center card image
+import musicGirlImg from '../../assets/c-3.webp'; // Right card image
 import giraffeImg from '../../assets/jeeraf.png'; // Giraffe illustration
 
 const LearningAdventuers = () => {

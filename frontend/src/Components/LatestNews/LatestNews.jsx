@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './LatestNews.css';
 
 // Import your assets from your local assets folder
-import newsImg1 from '../../assets/blog-1.jpg';
-import newsImg2 from '../../assets/blog-2.jpg';
-import newsImg3 from '../../assets/blog-3.jpg';
+import newsImg1 from '../../assets/c-1.webp';
+import newsImg2 from '../../assets/c-3.webp';
+import newsImg3 from '../../assets/c-8.webp';
 
 const blogData = [
   {

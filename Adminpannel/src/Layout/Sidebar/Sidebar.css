@@ -424,3 +424,26 @@
     display: flex;
   }
 }
+
+
+.Sidebar-section {
+  margin-bottom: 1rem;
+}
+
+.Sidebar-categoryTitle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  padding: 0.5rem 1rem 0.25rem 1rem;
+}
+
+.SidebarItem-chevron {
+  transition: transform 0.2s ease-in-out;
+  margin-left: auto;
+}
+
+.SidebarItem-chevron.rotated {
+  transform: rotate(180deg);
+}

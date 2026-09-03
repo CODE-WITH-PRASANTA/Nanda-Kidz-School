@@ -2,7 +2,7 @@ import React from 'react';
 import './BlogBreadCrumb.css';
 
 // Replace this path with your local background image file path
-import bgImage from "../../assets/a11.jpg";
+import bgImage from "../../assets/c-2.webp";
 
 const BlogBreadCrumb = () => {
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import './BlogDetailsBreadcurm.css';
 
 // Import your background image (Adjust path according to your project structure)
-import bgImage from '../../assets/ab1.jpg';
+import bgImage from '../../assets/blog-1.jpg';
 
 const BlogDetailsBreadcurm = () => {
   return (
