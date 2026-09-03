@@ -14,7 +14,7 @@
 /* Base Wrapper & Warm Off-White Background */
 .pc-section {
   width: 100%;
-  padding: 80px 20px 100px;
+  padding: 90px 20px 110px;
   background-color: var(--pc-bg-cream);
   font-family: 'Poppins', sans-serif;
   position: relative;
@@ -33,7 +33,7 @@
   position: absolute;
   bottom: 0;
   z-index: 2;
-  pointer-events: none; /* Prevents blocking clicks on cards */
+  pointer-events: none;
   height: auto;
   transition: transform 0.3s ease;
 }
@@ -41,13 +41,13 @@
 /* Bottom Left Dinosaur */
 .pc-dino-left {
   left: -10px;
-  width: 300px;
+  width: 280px;
 }
 
 /* Bottom Right Dinosaur */
 .pc-dino-right {
   right: -10px;
-  width: 300px;
+  width: 280px;
 }
 
 /* Header Area */
@@ -88,17 +88,17 @@
 /* Class Card Item */
 .pc-card {
   background-color: var(--pc-white);
-  border-radius: 12px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(35, 8, 50, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(35, 8, 50, 0.06);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
   display: flex;
   flex-direction: column;
 }
 
 .pc-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 18px 40px rgba(35, 8, 50, 0.12);
+  box-shadow: 0 20px 45px rgba(35, 8, 50, 0.14);
 }
 
 /* Image & Badge Overlay */
@@ -128,9 +128,10 @@
   background-color: var(--pc-orange);
   color: var(--pc-white);
   padding: 8px 18px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
-  border-top-left-radius: 10px;
+  border-top-left-radius: 14px;
+  box-shadow: -4px -4px 12px rgba(0,0,0,0.1);
   transition: background-color 0.3s ease, transform 0.3s ease;
   cursor: pointer;
 }
@@ -149,10 +150,10 @@
 }
 
 .pc-card-title {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
   color: var(--pc-dark-purple);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   transition: color 0.3s ease;
 }
 
@@ -161,7 +162,7 @@
 }
 
 .pc-card-description {
-  font-size: 13px;
+  font-size: 13.5px;
   color: var(--pc-text-gray);
   line-height: 1.6;
   margin-bottom: 20px;
@@ -170,8 +171,8 @@
 /* Metadata Info Row */
 .pc-card-info {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
   padding-top: 15px;
   border-top: 1px dashed var(--pc-border-light);
   margin-bottom: 22px;
@@ -179,16 +180,14 @@
 
 .pc-info-item {
   font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .pc-info-label {
   color: var(--pc-orange);
   font-weight: 700;
-  transition: color 0.3s ease;
-}
-
-.pc-info-item:hover .pc-info-label {
-  color: var(--pc-orange-hover);
 }
 
 .pc-info-value {
@@ -202,32 +201,29 @@
 }
 
 .pc-btn-join {
+  width: 100%;
   background-color: var(--pc-orange);
   color: var(--pc-white);
   border: none;
-  padding: 10px 24px;
-  font-size: 14px;
+  padding: 12px 24px;
+  font-size: 14.5px;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(242, 101, 34, 0.2);
+  box-shadow: 0 4px 14px rgba(242, 101, 34, 0.25);
 }
 
 .pc-btn-join:hover {
   background-color: var(--pc-orange-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(217, 78, 14, 0.35);
+  box-shadow: 0 6px 20px rgba(217, 78, 14, 0.35);
 }
 
 /* Responsive Styles */
 @media (max-width: 1200px) {
-  .pc-dino-left {
-    width: 140px;
-  }
-  .pc-dino-right {
-    width: 150px;
-  }
+  .pc-dino-left { width: 140px; }
+  .pc-dino-right { width: 150px; }
 }
 
 @media (max-width: 992px) {
@@ -235,11 +231,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
   }
-
-  .pc-dino-left,
-  .pc-dino-right {
-    opacity: 0.6; /* Slight fade on medium screens so content stands out */
-  }
+  .pc-dino-left, .pc-dino-right { opacity: 0.6; }
 }
 
 @media (max-width: 640px) {
@@ -248,20 +240,8 @@
     max-width: 400px;
     margin: 0 auto;
   }
-
-  .pc-title {
-    font-size: 32px;
-  }
-
-  .pc-section {
-    padding: 50px 15px 80px;
-  }
-
-  /* Hide or shrink corner images on small screens */
-  .pc-dino-left {
-    width: 90px;
-  }
-  .pc-dino-right {
-    width: 100px;
-  }
+  .pc-title { font-size: 32px; }
+  .pc-section { padding: 50px 15px 80px; }
+  .pc-dino-left { width: 90px; }
+  .pc-dino-right { width: 100px; }
 }

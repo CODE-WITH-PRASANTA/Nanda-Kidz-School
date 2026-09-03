@@ -1,33 +1,69 @@
-/* --- BASE NAVBAR STYLES --- */
+/* ==========================================================================
+   Navbar — premium academy-style treatment
+   Palette: warm ivory + deep ink + brass/gold accent (not the generic
+   blue-link / white-bar default — chosen to fit an academy/studio brand:
+   Gallery, Pricing, Time Table, Teacher).
+   ========================================================================== */
+
+:root {
+  --nv-bg: #fbf8f3;
+  --nv-ink: #201c18;
+  --nv-muted: rgba(32, 28, 24, 0.58);
+  --nv-line: rgba(32, 28, 24, 0.09);
+  --nv-gold: #a9814f;
+  --nv-gold-deep: #8a6a3d;
+  --nv-gold-tint: rgba(169, 129, 79, 0.1);
+  --nv-shadow: 0 12px 34px rgba(32, 28, 24, 0.08);
+  --nv-shadow-lg: 0 24px 60px rgba(32, 28, 24, 0.16), 0 6px 16px rgba(32, 28, 24, 0.08);
+}
+
+/* --- BASE NAVBAR --- */
 .navbar {
   width: 100%;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: var(--nv-bg);
+  border-bottom: 1px solid var(--nv-line);
+  box-shadow: var(--nv-shadow);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
+/* Thin brass ribbon along the very top — a quiet signature rather than
+   a loud banner. */
+.navbar::before {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--nv-gold-deep), var(--nv-gold) 45%, #d9be8f 75%, var(--nv-gold));
+}
+
 .navbar-container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 92px;
 }
 
-/* --- LOGO STYLES --- */
+/* --- LOGO --- */
 .navbar-logo-wrapper {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .navbar-logo-image {
-  height: 40px;
+  height: 60px;
   width: auto;
   object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.navbar-logo-wrapper:hover .navbar-logo-image {
+  transform: scale(1.02);
 }
 
 /* --- NAVIGATION LINKS --- */
@@ -35,7 +71,7 @@
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 30px;
+  gap: 36px;
   margin: 0;
   padding: 0;
 }
@@ -45,19 +81,44 @@
 }
 
 .navbar-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
-  color: #333333;
-  font-size: 16px;
-  font-weight: 500;
+  color: var(--nv-ink);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 8px 0;
   transition: color 0.2s ease;
+}
+
+/* Understated gold underline that grows in on hover/active instead of a
+   flat color swap — reads as considered rather than a default state. */
+.navbar-anchor::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 2px;
+  width: 100%;
+  height: 2px;
+  background: var(--nv-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
 }
 
 .navbar-anchor:hover,
 .navbar-anchor.active {
-  color: #007bff;
+  color: var(--nv-gold-deep);
 }
 
-/* --- DROPDOWN STYLES --- */
+.navbar-anchor:hover::after,
+.navbar-anchor.active::after {
+  transform: scaleX(1);
+}
+
+/* --- DROPDOWN --- */
 .navbar-link-item.has-dropdown {
   position: relative;
 }
@@ -66,94 +127,124 @@
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .chevron-icon {
-  transition: transform 0.3s ease;
+  font-size: 13px;
+  color: var(--nv-muted);
+  transition: transform 0.3s ease, color 0.2s ease;
 }
 
 .chevron-icon.rotate {
   transform: rotate(180deg);
+  color: var(--nv-gold-deep);
 }
 
 .navbar-dropdown-menu {
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: calc(100% + 18px);
+  left: -18px;
   background-color: #ffffff;
-  min-width: 150px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  min-width: 210px;
+  box-shadow: var(--nv-shadow-lg);
   list-style: none;
-  padding: 8px 0;
+  padding: 10px;
   margin: 0;
   display: none;
-  z-index: 100;
-  border-radius: 4px;
+  /* High enough to always sit above page content (hero sections, cards,
+     carousels) regardless of their own stacking contexts. */
+  z-index: 5000;
+  border-radius: 14px;
+  border: 1px solid var(--nv-line);
 }
 
 .navbar-dropdown-menu.show-dropdown {
   display: block;
+  animation: navDropdownReveal 0.18s ease-out;
+}
+
+@keyframes navDropdownReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .navbar-dropdown-menu li {
   width: 100%;
 }
 
-/* Dropdown link text styled in bold letters */
 .navbar-dropdown-anchor {
   display: block;
-  padding: 8px 16px;
-  color: #333333;
+  padding: 10px 14px;
+  color: var(--nv-ink);
   text-decoration: none;
-  font-weight: 700; 
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+  transition: background-color 0.18s ease, border-color 0.18s ease, padding-left 0.18s ease;
 }
 
 .navbar-dropdown-anchor:hover {
-  background-color: #f4f4f4;
-  color: #007bff;
+  background-color: var(--nv-gold-tint);
+  border-left-color: var(--nv-gold);
+  padding-left: 18px;
+  color: var(--nv-gold-deep);
 }
 
 /* --- ACTIONS & TOGGLE BUTTONS --- */
 .navbar-actions-group {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .navbar-toggle-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
+  background: var(--nv-bg);
+  border: 1px solid var(--nv-line);
+  font-size: 19px;
   cursor: pointer;
-  color: #333333;
+  color: var(--nv-ink);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(32, 28, 24, 0.06);
 }
 
 .navbar-toggle-btn:hover {
-  color: #007bff;
+  color: var(--nv-gold-deep);
+  background-color: var(--nv-gold-tint);
+  border-color: rgba(169, 129, 79, 0.3);
+  transform: translateY(-1px);
 }
 
 .mobile-menu-trigger {
   display: none;
 }
 
-/* --- SIDEBAR DRAWER STYLES --- */
+/* --- SIDEBAR DRAWER --- */
 .navbar-sidebar-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(20, 17, 14, 0.55);
+  backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 1050;
+  z-index: 5050;
 }
 
 .navbar-sidebar-backdrop.visible {
@@ -165,14 +256,15 @@
   position: fixed;
   top: 0;
   right: -400px;
-  width: 350px;
+  width: min(380px, 100vw);
   height: 100%;
-  background-color: #ffffff;
-  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease-in-out;
-  z-index: 1100;
+  background-color: var(--nv-bg);
+  box-shadow: -12px 0 40px rgba(32, 28, 24, 0.18);
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5100;
   overflow-y: auto;
-  padding: 30px 20px;
+  padding: 36px 28px;
+  box-sizing: border-box;
 }
 
 .navbar-sidebar-drawer.open {
@@ -180,21 +272,34 @@
 }
 
 .navbar-sidebar-close-btn {
-  background: none;
-  border: none;
-  font-size: 22px;
+  background: #ffffff;
+  border: 1px solid var(--nv-line);
+  font-size: 18px;
   cursor: pointer;
   position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #333333;
+  top: 24px;
+  right: 24px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  color: var(--nv-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.navbar-sidebar-close-btn:hover {
+  color: #ffffff;
+  background-color: var(--nv-gold-deep);
+  border-color: var(--nv-gold-deep);
 }
 
 .navbar-sidebar-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 20px;
+  gap: 24px;
+  margin-top: 28px;
 }
 
 .navbar-sidebar-logo-container {
@@ -202,14 +307,14 @@
 }
 
 .navbar-sidebar-logo {
-  height: 35px;
+  height: 46px;
   object-fit: contain;
 }
 
 .navbar-sidebar-description {
-  font-size: 14px;
-  color: #666666;
-  line-height: 1.5;
+  font-size: 14.5px;
+  color: var(--nv-muted);
+  line-height: 1.65;
   margin: 0;
 }
 
@@ -221,76 +326,142 @@
 
 .navbar-sidebar-gallery img {
   width: 100%;
-  height: 70px;
+  height: 76px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(32, 28, 24, 0.1);
+}
+
+.navbar-sidebar-section {
+  padding-top: 16px;
+  border-top: 1px solid var(--nv-line);
 }
 
 .navbar-sidebar-section h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333333;
-  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--nv-gold-deep);
+  margin: 0 0 8px 0;
 }
 
 .navbar-sidebar-section p {
   font-size: 14px;
-  color: #666666;
+  color: var(--nv-ink);
   margin: 4px 0;
 }
 
 .navbar-sidebar-socials {
   display: flex;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .navbar-sidebar-socials a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 35px;
-  height: 35px;
-  background-color: #f1f1f1;
-  color: #333333;
+  width: 38px;
+  height: 38px;
+  background-color: #ffffff;
+  border: 1px solid var(--nv-line);
+  color: var(--nv-ink);
   border-radius: 50%;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .navbar-sidebar-socials a:hover {
-  background-color: #007bff;
+  background-color: var(--nv-gold-deep);
+  border-color: var(--nv-gold-deep);
   color: #ffffff;
+  transform: translateY(-2px);
 }
 
-/* --- RESPONSIVE MEDIA QUERIES --- */
+/* --- RESPONSIVE --- */
 @media screen and (max-width: 992px) {
+  .navbar-container {
+    height: 78px;
+  }
+
+  .navbar-logo-image {
+    height: 46px;
+  }
+
   .mobile-menu-trigger {
     display: flex;
   }
 
   .navbar-links-list {
     position: absolute;
-    top: 80px;
+    top: 78px;
     left: 0;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--nv-bg);
+    border-top: 1px solid var(--nv-line);
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 4px;
+    padding: 16px 20px;
+    box-shadow: var(--nv-shadow-lg);
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out;
+    /* Sits above ordinary page content, below the drawer/backdrop. */
+    z-index: 4000;
   }
 
   .navbar-links-list.mobile-active {
-    max-height: 500px;
+    max-height: 600px;
   }
 
+  .navbar-link-item {
+    width: 100%;
+  }
+
+  .navbar-anchor {
+    width: 100%;
+    padding: 12px 4px;
+  }
+
+  .navbar-anchor::after {
+    display: none;
+  }
+
+  .dropdown-toggle-trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: 12px 4px;
+  }
+
+  /* Elevated floating card, matching the desktop treatment, instead of a
+     flattened inline list — sits directly under the "Pages" row and
+     stays within the mobile menu's own box so it can't get clipped. */
   .navbar-dropdown-menu {
-    position: static;
-    box-shadow: none;
-    padding-left: 15px;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    width: auto;
+    min-width: 0;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--nv-shadow-lg);
+    padding: 12px;
+    margin: 0;
+  }
+
+  .navbar-dropdown-anchor {
+    font-size: 15.5px;
+    padding: 13px 16px;
+    border-radius: 12px;
+  }
+
+  /* Give the open submenu room inside the collapsing panel so its
+     shadow/rounded card never gets cut off by the panel's own bounds. */
+  .navbar-links-list.mobile-active {
+    max-height: 640px;
+    padding-bottom: 28px;
   }
 }

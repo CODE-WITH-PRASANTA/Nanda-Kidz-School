@@ -11,39 +11,39 @@ import dinoLeftImg from '../../assets/class-shape-1.png';
 import dinoRightImg from '../../assets/class-shape-2.png';
 
 const PopularClasses = () => {
-  // Card data array
+  // Complete Play School, LKG, & UKG Class Programs with Indian Pricing & Structured Details
   const classesData = [
     {
       id: 1,
-      title: 'Color Matching',
-      price: '$880',
+      title: 'Play Group Discovery',
+      price: '₹11,999',
       image: classImg1,
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      age: '3-5 Year',
-      time: '8-10 AM',
-      seat: '25',
+        'A warm, playful environment focusing on sensory motor skills, color recognition, social sharing, and joyful early interactions.',
+      age: '2 - 3 Years (Play School)',
+      time: '9:00 - 11:30 AM',
+      seat: '20',
     },
     {
       id: 2,
-      title: 'Learning Disciplines',
-      price: '$790',
+      title: 'LKG Foundation Program',
+      price: '₹14,999',
       image: classImg2,
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      age: '3-5 Year',
-      time: '8-10 AM',
-      seat: '25',
+        'Structured pre-primary curriculum emphasizing English alphabets, phonics sounds, number concepts, rhymes, and creative crafts.',
+      age: '3 - 4 Years (LKG)',
+      time: '9:00 AM - 12:00 PM',
+      seat: '22',
     },
     {
       id: 3,
-      title: 'Drawing',
-      price: '$590',
+      title: 'UKG Advanced Readiness',
+      price: '₹17,500',
       image: classImg3,
       description:
-        'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      age: '3-5 Year',
-      time: '8-10 AM',
+        'Comprehensive kindergarten preparation featuring cursive handwriting, simple mathematics, science exploration, and storytelling.',
+      age: '4 - 5 Years (UKG)',
+      time: '9:00 AM - 1:00 PM',
       seat: '25',
     },
   ];
@@ -72,8 +72,8 @@ const PopularClasses = () => {
       <div className="pc-container">
         {/* Header Section */}
         <div className="pc-header">
-          <span className="pc-subtitle">Classes</span>
-          <h2 className="pc-title">Popular Classes</h2>
+          <span className="pc-subtitle">Nanda Kidz Academic Programs</span>
+          <h2 className="pc-title">Play School, LKG & UKG Classes</h2>
         </div>
 
         {/* Classes Card Grid */}
@@ -94,16 +94,16 @@ const PopularClasses = () => {
                 {/* Metadata Row */}
                 <div className="pc-card-info">
                   <div className="pc-info-item">
-                    <span className="pc-info-label">Age: </span>
+                    <span className="pc-info-label">Age Group: </span>
                     <span className="pc-info-value">{item.age}</span>
                   </div>
                   <div className="pc-info-item">
-                    <span className="pc-info-label">Time: </span>
+                    <span className="pc-info-label">Timing: </span>
                     <span className="pc-info-value">{item.time}</span>
                   </div>
                   <div className="pc-info-item">
-                    <span className="pc-info-label">Seat: </span>
-                    <span className="pc-info-value">{item.seat}</span>
+                    <span className="pc-info-label">Seats: </span>
+                    <span className="pc-info-value">{item.seat} Max</span>
                   </div>
                 </div>
 
@@ -113,7 +113,7 @@ const PopularClasses = () => {
                     className="pc-btn-join"
                     onClick={() => handleJoinClass(item.id)}
                   >
-                    Join Class
+                    Enroll Now ✨
                   </button>
                 </div>
               </div>

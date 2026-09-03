@@ -3,8 +3,8 @@
 .HeroSection {
   position: relative;
   width: 100%;
-  height: 150vh;
-  background-size: 100% auto;
+  min-height: 100vh;
+  background-size: cover;
   background-position: center 0px;
   background-repeat: no-repeat;
   background-color: #faf7f2;
@@ -12,36 +12,28 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 60px 40px 120px 40px;
+  padding: 60px 40px 90px 40px;
   box-sizing: border-box;
-  /* Hardware acceleration keeps background movement stutter-free */
   will-change: background-position;
 }
-/* Update the title styles to match the exact Elementor properties from your screenshot */
+
 .HeroSection-title {
-  /* Font Family & Fallbacks mapped from Elementor global variables */
   font-family: 'Short Stack', 'Fredoka One', cursive, Sans-serif;
-  
-  /* Size & Weight Proportions matching the reference image layout */
-  font-size: 105px;
-  font-weight: 400; 
-  
-  /* Typography Alignments & Spacing rules copied from DevTools elements */
+  font-size: 85px;
+  font-weight: 400;
   text-transform: none;
   font-style: normal;
   text-decoration: none;
   line-height: 0.95;
   letter-spacing: -1px;
-  
-  /* Base color mapping from global primary variable */
-  color: #363b3e; 
+  color: #363b3e;
   margin: 6px 0 0 0;
 }
 
 .HeroSection-titleGreen {
-  /* Keeps the exact same font properties but overrides the primary color for 'Lab' */
   color: #72b28c;
 }
+
 .HeroSection-gridWrapper {
   display: grid;
   grid-template-columns: 0.8fr 1.3fr 0.8fr;
@@ -52,51 +44,124 @@
   z-index: 2;
   margin-top: 20px;
   will-change: transform;
-  /* Transform transitions are omitted here because the requestAnimationFrame loop handles the easing interpolations natively */
 }
 
 .HeroSection-col {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 30px;
 }
 
-/* Card Rules for Compact Proportional Layout */
+/* Card Rules for Full Cover Proportional Layout & Interactive Overlay */
 .HeroSection-card {
   width: 100%;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
   background-color: #fff;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+
+  /* Scroll-reveal baseline (JS toggles .is-revealed to trigger the animation) */
+  opacity: 0;
+  transform: translateY(48px) scale(0.96);
+}
+
+.HeroSection-card.is-revealed {
+  animation: heroCardReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes heroCardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(48px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.HeroSection-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 14px 32px rgba(114, 178, 140, 0.25);
 }
 
 .HeroSection-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
+  transition: transform 0.5s ease;
 }
 
-/* Downscaled Heights to match reference image context perfectly */
-.img-child7 { height: 180px; }
-.img-child1 { height: 210px; }
-.img-child3 { height: 230px; }
+.HeroSection-card:hover img {
+  transform: scale(1.06);
+}
 
-.img-child4 { 
+/* Eye Hover Overlay Animation */
+.HeroSection-eyeOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(54, 59, 62, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+
+.HeroSection-card:hover .HeroSection-eyeOverlay {
+  opacity: 1;
+}
+
+.cartoon-eye-icon {
+  font-size: 38px;
+  background: #ffffff;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  animation: eyeBounce 1.2s infinite ease-in-out;
+}
+
+@keyframes eyeBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.1); }
+}
+
+/* Precise Heights ensuring images cover containers fully.
+   Left/right columns rebalanced to 4 images each (was 3 vs 5),
+   so both columns now finish at roughly the same height and no
+   longer leave a large empty gap under the shorter side. */
+.img-child7 { height: 175px; }
+.img-child1 { height: 205px; }
+.img-child3 { height: 220px; }
+.img-child9 { height: 185px; }
+
+.img-child4 {
   width: 90%;
   max-width: 340px;
-  height: 440px; 
+  height: 440px;
   margin-top: 45px;
   border-radius: 28px;
 }
 
-.img-child8 { height: 140px; }
-.img-child2 { height: 195px; }
-.img-child5 { height: 210px; }
-.img-child9 { height: 190px; }
-.img-child6 { height: 200px; }
+.img-child8 { height: 175px; }
+.img-child2 { height: 205px; }
+.img-child5 { height: 220px; }
+.img-child6 { height: 190px; }
 
-/* Font Layout Hierarchy Definitions */
 .HeroSection-centerContent {
   display: flex;
   flex-direction: column;
@@ -108,6 +173,20 @@
 
 .HeroSection-textBlock {
   margin-bottom: 5px;
+  position: relative;
+}
+
+.HeroSection-textBlock::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(114, 178, 140, 0.16) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .HeroSection-subtitle {
@@ -118,42 +197,19 @@
   font-weight: 700;
 }
 
-
-/* Persistent Overlay Button Actions Container */
-.HeroSection-ctaContainer {
-  position: fixed;
-  bottom: 30px;
-  right: 45px;
-  display: flex;
-  gap: 15px;
-  z-index: 100;
-}
-
-.HeroSection-btnDemos,
-.HeroSection-btnPurchase {
-  border: none;
-  padding: 14px 32px;
-  font-family: 'Fredoka One', sans-serif;
-  font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  border-radius: 24px;
-  cursor: pointer;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease;
-}
-
-.HeroSection-btnDemos { background-color: #ebc352; color: white; }
-.HeroSection-btnPurchase { background-color: #e27575; color: white; }
-
-/* Positional Vector Decorative Overlays */
 .HeroSection-giraffe {
   position: absolute;
-  top: 0;
+  top: 12px;
   right: 25%;
-  height: 170px;
+  height: 165px;
   z-index: 1;
   pointer-events: none;
+  animation: heroGiraffeFloat 5s ease-in-out infinite;
+}
+
+@keyframes heroGiraffeFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-2deg); }
 }
 
 .HeroSection-flower {
@@ -164,19 +220,186 @@
   z-index: 3;
   pointer-events: none;
   will-change: transform;
+  animation: heroFlowerSway 4.5s ease-in-out infinite;
+}
+
+@keyframes heroFlowerSway {
+  0%, 100% { rotate: 0deg; }
+  50% { rotate: 8deg; }
+}
+
+/* --- Eye-Catching Pop-Up Modal Design --- */
+.HeroSection-modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(20, 17, 14, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+}
+
+.HeroSection-modalContainer {
+  background: #fbf8f3;
+  padding: 24px;
+  border-radius: 32px;
+  max-width: 540px;
+  width: 100%;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border: 4px solid #a9814f;
+  text-align: center;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  70% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-popIn {
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.HeroSection-modalCloseBtn {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  background: #e27575;
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, background 0.2s ease;
+  z-index: 10;
+}
+
+.HeroSection-modalCloseBtn:hover {
+  transform: scale(1.15) rotate(90deg);
+  background: #c75c5c;
+}
+
+.HeroSection-modalFrame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  background: #fff;
+  border: 3px solid #72b28c;
+}
+
+.HeroSection-modalImage {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  display: block;
+  background: #111;
+}
+
+.cartoon-preview-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: #ebc352;
+  color: #201c18;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+  letter-spacing: 1px;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Animated Cartoon Eyes on Modal */
+.cartoon-eye-decoration {
+  position: absolute;
+  top: -24px;
+  width: 48px;
+  height: 48px;
+  background: white;
+  border: 3px solid #201c18;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  z-index: 6;
+}
+
+.left-eye { left: 32%; }
+.right-eye { right: 32%; }
+
+.eyeball {
+  width: 20px;
+  height: 20px;
+  background: #201c18;
+  border-radius: 50%;
+  position: relative;
+  animation: lookAround 4s infinite ease-in-out;
+}
+
+.pupil {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+}
+
+@keyframes lookAround {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-4px, 2px); }
+  50% { transform: translate(4px, -2px); }
+  75% { transform: translate(2px, 3px); }
+}
+
+.HeroSection-modalCaption {
+  margin-top: 16px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 18px;
+  color: #363b3e;
+  letter-spacing: 0.5px;
+}
+
+/* Reduced Motion: skip entrance/float animations, show everything immediately */
+@media (prefers-reduced-motion: reduce) {
+  .HeroSection-card {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+  .HeroSection-giraffe,
+  .HeroSection-flower {
+    animation: none !important;
+  }
 }
 
 /* Responsive Scaling Breakdowns Matrix */
 @media (max-width: 1024px) {
-  .HeroSection-title { font-size: 76px; }
+  .HeroSection-title { font-size: 64px; }
   .HeroSection-gridWrapper { grid-template-columns: 0.9fr 1.2fr 0.9fr; gap: 20px; }
   .img-child4 { height: 380px; }
 }
 
 @media (max-width: 768px) {
-  .HeroSection { height: auto; min-height: 150vh; overflow-y: auto; padding: 40px 20px; }
-  .HeroSection-gridWrapper { grid-template-columns: 1fr; gap: 28px; transform: none !important; }
+  .HeroSection { min-height: auto; overflow-y: visible; padding: 40px 20px 60px; }
+  .HeroSection-gridWrapper { grid-template-columns: 1fr; gap: 24px; transform: none !important; }
   .HeroSection-centerContent { grid-row: 1; }
   .img-child4 { height: 400px; width: 100%; max-width: none; }
   .HeroSection-flower { display: none; }
+  .HeroSection-giraffe { height: 110px; right: 6%; }
 }

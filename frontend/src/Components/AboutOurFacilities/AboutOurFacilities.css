@@ -135,7 +135,7 @@
   transform-origin: center center;
 }
 
-/* Smooth Flower Opening / Petal Unfolding Effect on Card Hover */
+/* Smooth Petal Zoom Effect on Card Hover */
 .about-facilities-card:hover .about-facilities-image {
   transform: scale(1.18) rotate(2.5deg);
   filter: brightness(1.05);
@@ -151,7 +151,7 @@
 }
 
 .about-facilities-card-title {
-  font-size: 25px;
+  font-size: 24px;
   font-weight: 800;
   margin-bottom: 8px;
   color: var(--text-white);
@@ -170,10 +170,10 @@
 }
 
 .about-facilities-card-description {
-  font-size: 14.5px;
+  font-size: 13.5px;
   line-height: 1.55;
   color: var(--text-white);
-  transition: color 0.10s ease;
+  transition: color 0.1s ease;
 }
 
 /* Pointing anywhere on the card switches text color from White to Dark/Black */

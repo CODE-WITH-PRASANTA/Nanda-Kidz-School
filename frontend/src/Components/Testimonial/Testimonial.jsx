@@ -2,21 +2,20 @@ import React, { useState } from 'react';
 import './Testimonial.css';
 
 // Import Icons
-import { FaQuoteRight, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaQuoteRight, FaChevronLeft, FaChevronRight, FaStar } from 'react-icons/fa';
 
 // Import bird illustration assets (Replace these paths with your local files)
-import birdPair1 from '../../assets/testimonials-1.png'; // Pink/Red & Blue bird pair
-import birdPair2 from '../../assets/testimonials-2.png'; // Yellow/Patterned & Purple bird pair
-import birdPair3 from '../../assets/testimonials-3.png'; // Green & Teal bird pair
+import birdPair1 from '../../assets/testimonials-1.png';
+import birdPair2 from '../../assets/testimonials-2.png';
+import birdPair3 from '../../assets/testimonials-3.png';
 
 const testimonialData = [
-  // Page 1 (Cards 1, 2, 3)
   {
     id: 1,
     name: 'Glims Bond',
     role: 'Music Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair1,
   },
   {
@@ -24,7 +23,7 @@ const testimonialData = [
     name: 'Sherlock Bin',
     role: 'Art Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair2,
   },
   {
@@ -32,16 +31,15 @@ const testimonialData = [
     name: 'Priestly Herbart',
     role: 'Math Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair3,
   },
-  // Page 2 (Cards 4, 5, 6)
   {
     id: 4,
     name: 'Sherlock Bin',
     role: 'Art Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair2,
   },
   {
@@ -49,7 +47,7 @@ const testimonialData = [
     name: 'Priestly Herbart',
     role: 'Math Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair3,
   },
   {
@@ -57,16 +55,15 @@ const testimonialData = [
     name: 'Glims Bond',
     role: 'Music Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair1,
   },
-  // Page 3 (Cards 7, 8, 9)
   {
     id: 7,
     name: 'Priestly Herbart',
     role: 'Math Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair3,
   },
   {
@@ -74,7 +71,7 @@ const testimonialData = [
     name: 'Glims Bond',
     role: 'Music Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair1,
   },
   {
@@ -82,10 +79,18 @@ const testimonialData = [
     name: 'Sherlock Bin',
     role: 'Art Teacher',
     quote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida.',
     birdImage: birdPair2,
   },
 ];
+
+// Helper: turn a full name into initials for the avatar badge
+const getInitials = (name) =>
+  name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
 
 const Testimonial = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -101,6 +106,10 @@ const Testimonial = () => {
 
   return (
     <section className="testimonial-section">
+      {/* Ambient decorative blobs */}
+      <div className="testimonial-section__ambient testimonial-section__ambient--1"></div>
+      <div className="testimonial-section__ambient testimonial-section__ambient--2"></div>
+
       <div className="testimonial-section__container">
         {/* Header Title */}
         <div className="testimonial-section__header">
@@ -108,11 +117,11 @@ const Testimonial = () => {
           <h2 className="testimonial-section__title">
             What Parents Say About Us
           </h2>
+          <div className="testimonial-section__title-underline"></div>
         </div>
 
         {/* Carousel Wrapper */}
         <div className="testimonial-section__carousel">
-          {/* Navigation Controls in Middle */}
           <button
             className="testimonial-section__nav-btn testimonial-section__nav-btn--prev"
             onClick={handlePrev}
@@ -129,27 +138,35 @@ const Testimonial = () => {
             <FaChevronRight />
           </button>
 
-          {/* Sliding Track */}
           <div
             className="testimonial-section__track"
             style={{ transform: `translateX(-${currentPage * 100}%)` }}
           >
             {testimonialData.map((item) => (
               <div key={item.id} className="testimonial-section__card-wrapper">
-                {/* Circular Orange Card */}
                 <div className="testimonial-section__card">
-                  {/* Hoverable Quote Icon Badge */}
-                  <div className="testimonial-section__quote-badge">
-                    <FaQuoteRight />
+                  {/* Large translucent background quote mark */}
+                  <FaQuoteRight className="testimonial-section__quote-watermark" />
+
+                  {/* Star Rating */}
+                  <div className="testimonial-section__stars">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar key={i} />
+                    ))}
                   </div>
 
                   <p className="testimonial-section__quote">{item.quote}</p>
 
-                  <div className="testimonial-section__author">
-                    <h3 className="testimonial-section__name">{item.name}</h3>
-                    <span className="testimonial-section__role">
-                      {item.role}
-                    </span>
+                  <div className="testimonial-section__footer">
+                    <div className="testimonial-section__avatar">
+                      {getInitials(item.name)}
+                    </div>
+                    <div className="testimonial-section__author">
+                      <h3 className="testimonial-section__name">{item.name}</h3>
+                      <span className="testimonial-section__role">
+                        {item.role}
+                      </span>
+                    </div>
                   </div>
                 </div>
 

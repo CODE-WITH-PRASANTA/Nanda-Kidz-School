@@ -19,18 +19,11 @@ const Navbar = () => {
     { title: 'About', path: '/about' },
     { title: 'Shop', path: '/shop' },
     { title: 'Blog', path: '/blog' },
-    { 
-      title: 'Pages', 
-      path: '#', 
-      dropdown: [
-        { title: 'Gallery', path: '/gallery' },
-        { title: 'Pricing', path: '/pricing' },
-        { title: 'Time Table', path: '/time-table' },
-        
-        { title: 'FAQ', path: '/faq' },
-        { title: 'Teacher', path: '/teacher' },
-      ]
-    },
+    { title: 'Gallery', path: '/gallery' },
+    { title: 'Pricing', path: '/pricing' },
+    { title: 'Time Table', path: '/time-table' },
+    { title: 'FAQ', path: '/faq' },
+    { title: 'Teacher', path: '/teacher' },
     { title: 'Contact Us', path: '/contact' },
   ];
 
@@ -51,17 +44,6 @@ const Navbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.has-dropdown')) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
-
   return (
     <>
       <nav className="navbar">
@@ -70,43 +52,20 @@ const Navbar = () => {
           {/* Left Side: Brand Logo */}
           <div className="navbar-logo-wrapper">
             <a href="/">
-              <img src={logoImg} alt="For Apple Logo" className="navbar-logo-image" />
+              <img src={logoImg} alt="Brand Logo" className="navbar-logo-image" />
             </a>
           </div>
 
-          {/* Center: Desktop Navigation Titles */}
+          {/* Center: Desktop Navigation Titles (All Items Separated Flat) */}
           <ul className={`navbar-links-list ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
             {navLinks.map((link, index) => (
-              <li 
-                key={index} 
-                className={`navbar-link-item ${link.dropdown ? 'has-dropdown' : ''}`}
-              >
-                {link.dropdown ? (
-                  <>
-                    <div 
-                      className="navbar-anchor dropdown-toggle-trigger"
-                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    >
-                      {link.title} <FiChevronDown className={`chevron-icon ${isDropdownOpen ? 'rotate' : ''}`} />
-                    </div>
-                    <ul className={`navbar-dropdown-menu ${isDropdownOpen ? 'show-dropdown' : ''}`}>
-                      {link.dropdown.map((subItem, subIndex) => (
-                        <li key={subIndex}>
-                          <a href={subItem.path} className="navbar-dropdown-anchor">
-                            {subItem.title}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  <a 
-                    href={link.path} 
-                    className={`navbar-anchor ${link.title === 'Home' ? 'active' : ''}`}
-                  >
-                    {link.title}
-                  </a>
-                )}
+              <li key={index} className="navbar-link-item">
+                <a 
+                  href={link.path} 
+                  className={`navbar-anchor ${link.title === 'Home' ? 'active' : ''}`}
+                >
+                  {link.title}
+                </a>
               </li>
             ))}
           </ul>
