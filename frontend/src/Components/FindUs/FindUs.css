@@ -1,218 +1,862 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* =========================================================
+   MAIN SECTION
+========================================================= */
 
 .findus-wrapper {
+  position: relative;
   width: 100%;
   min-height: 100vh;
-  background-color: #fcfcfc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 100px 20px 95px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 5% 10%,
+      rgba(23, 131, 95, 0.055),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 94% 84%,
+      rgba(242, 181, 68, 0.09),
+      transparent 30%
+    ),
+    #fcfcfb;
+  color: #30433b;
+  font-family:
+    "Poppins",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
+
+.findus-wrapper *,
+.findus-wrapper *::before,
+.findus-wrapper *::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DECORATIVE SVG ELEMENTS
+========================================================= */
+
+.findus-decoration {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.findus-decoration-top {
+  top: 10px;
+  left: 2%;
+  width: 135px;
+  opacity: 0.78;
+  transform: rotate(-8deg);
+}
+
+.findus-decoration-bottom {
+  right: 0;
+  bottom: 0;
+  width: 180px;
+  opacity: 0.8;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
 
 .findus-container {
-  max-width: 1200px;
-  width: 100%;
+  position: relative;
+  z-index: 5;
+  width: min(1250px, 100%);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 50px;
+  grid-template-columns:
+    minmax(0, 0.88fr)
+    minmax(0, 1.12fr);
+  gap: 55px;
   align-items: center;
 }
 
-/* Left Content Styles */
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
 .findus-content {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .findus-subtitle {
-  font-size: 11px;
-  font-weight: 700;
-  color: #e86b59;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  margin-bottom: 14px;
+  padding: 8px 15px;
+  border: 1px solid rgba(23, 131, 95, 0.14);
+  border-radius: 50px;
+  background: rgba(23, 131, 95, 0.065);
+  color: #17835f;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  line-height: 1;
   text-transform: uppercase;
 }
 
+.findus-subtitle svg {
+  width: 15px;
+  height: 15px;
+}
+
 .findus-title {
-  font-size: 46px;
+  margin: 0;
+  color: #263e35;
+  font-size: clamp(31px, 4vw, 50px);
   font-weight: 800;
-  color: #333333;
-  line-height: 1.15;
-  margin-bottom: 30px;
-  font-family: 'Georgia', serif;
+  line-height: 1.14;
+  letter-spacing: -1.1px;
 }
 
-.highlight-connect {
-  color: #e86b59;
-  position: relative;
-  display: inline-block;
-  font-style: italic;
+.findus-description {
+  max-width: 650px;
+  margin: 18px 0 0;
+  color: #727d78;
+  font-size: 14px;
+  line-height: 1.85;
 }
 
-.squiggle-line {
-  position: absolute;
-  bottom: -12px;
-  left: 0;
-  width: 100%;
-  height: 16px;
+
+/* =========================================================
+   MINI HIGHLIGHTS
+========================================================= */
+
+.findus-mini-highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  margin-top: 23px;
 }
 
-/* Accordion Styling */
+.findus-mini-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(23, 63, 52, 0.065);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.findus-mini-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+.findus-mini-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.findus-mini-icon.green {
+  background: rgba(23, 131, 95, 0.09);
+  color: #17835f;
+}
+
+.findus-mini-icon.yellow {
+  background: rgba(242, 181, 68, 0.13);
+  color: #a16d0c;
+}
+
+.findus-mini-item div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.findus-mini-item strong {
+  color: #334a41;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.findus-mini-item span {
+  margin-top: 2px;
+  color: #87918d;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   ACCORDION
+========================================================= */
+
 .accordion-section {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #f0f0f0;
-  margin-bottom: 30px;
+  margin-top: 28px;
+  border-top: 1px solid #e9eeeb;
 }
 
 .accordion-item {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e9eeeb;
 }
 
 .accordion-header {
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 16px 0;
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 12px;
-  cursor: pointer;
+  padding: 16px 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
   text-align: left;
-  outline: none;
+  cursor: pointer;
+}
+
+.accordion-header:focus-visible {
+  outline: 2px solid rgba(23, 131, 95, 0.32);
+  outline-offset: 4px;
 }
 
 .accordion-icon {
-  font-size: 12px;
-  color: #4a4a4a;
-  transform: rotate(-90deg);
-  transition: transform 0.3s ease;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #f1f5f2;
+  color: #728079;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+.accordion-icon svg {
+  width: 15px;
+  height: 15px;
 }
 
 .accordion-icon.open {
-  transform: rotate(-180deg);
+  transform: rotate(90deg);
+  background: #17835f;
+  color: #ffffff;
 }
 
 .accordion-title-text {
-  font-size: 15px;
-  font-weight: 700;
-  color: #4a4a4a;
+  color: #364940;
+  font-size: 14px;
+  font-weight: 750;
 }
 
 .accordion-body {
-  padding: 0 0 16px 24px;
-  font-size: 13px;
-  color: #777777;
+  padding: 0 0 17px 41px;
+}
+
+.accordion-body p {
+  max-width: 620px;
+  margin: 0;
+  color: #7a8580;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   ADDRESS
+========================================================= */
+
+.findus-address {
+  margin-top: 24px;
+  padding: 15px 16px;
+  border: 1px solid rgba(242, 181, 68, 0.16);
+  border-radius: 14px;
+  background: rgba(242, 181, 68, 0.055);
+}
+
+.findus-address-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #9c6b0e;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.findus-address-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.findus-address-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: rgba(242, 181, 68, 0.14);
+  color: #a36e0c;
+}
+
+.findus-address-pin svg {
+  width: 16px;
+  height: 16px;
+}
+
+.findus-address p {
+  margin: 0;
+  color: #66736d;
+  font-size: 11px;
   line-height: 1.6;
 }
 
-/* View Prices Button */
-.view-prices-btn {
-  width: max-content;
-  background-color: #e86b59;
-  color: #ffffff;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 30px;
-  font-size: 12px;
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.findus-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.view-prices-btn,
+.call-us-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 45px;
+  padding: 0 17px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.6px;
+  text-decoration: none;
   cursor: pointer;
-  margin-bottom: 40px;
-  transition: background-color 0.2s ease;
+}
+
+.view-prices-btn {
+  border: 0;
+  background: #17835f;
+  color: #ffffff;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .view-prices-btn:hover {
-  background-color: #d65846;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(23, 131, 95, 0.18);
 }
 
-/* Stat Cards */
-.stats-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  max-width: 450px;
+.button-arrow {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.25s ease;
 }
 
-.stat-card {
-  padding: 24px 15px;
-  border-radius: 20px;
+.view-prices-btn:hover .button-arrow {
+  transform: translateX(3px);
+}
+
+.call-us-btn {
+  border: 1px solid rgba(23, 131, 95, 0.14);
+  background: #ffffff;
+  color: #17835f;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.call-us-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.call-us-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(23, 63, 52, 0.07);
+}
+
+
+/* =========================================================
+   ROUTES
+========================================================= */
+
+.findus-routes {
+  margin-top: 24px;
+}
+
+.routes-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.routes-label {
+  color: #17835f;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.routes-hint {
+  color: #a0a8a4;
+  font-size: 9px;
+}
+
+.routes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.routes-list button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid #e4ebe7;
+  border-radius: 50px;
+  background: #ffffff;
+  color: #60746b;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.routes-list button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(23, 131, 95, 0.2);
+  background: rgba(23, 131, 95, 0.055);
+  color: #17835f;
+}
+
+.route-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.routes-list button b {
+  color: #17835f;
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MAP SIDE
+========================================================= */
+
+.findus-map-side {
+  width: 100%;
+  min-width: 0;
+}
+
+
+/* =========================================================
+   MAP HEADING
+========================================================= */
+
+.findus-map-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+.findus-map-heading div {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  text-align: center;
+  gap: 4px;
 }
 
-.yellow-card {
-  background-color: #f0b832;
+.findus-map-heading span:first-child {
+  color: #17835f;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
 }
 
-.red-card {
-  background-color: #c55757;
+.findus-map-heading strong {
+  color: #344b42;
+  font-size: 17px;
+  font-weight: 800;
 }
 
-.stat-number {
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 8px;
-  font-family: Georgia, serif;
+.map-heading-badge {
+  padding: 7px 10px;
+  border-radius: 50px;
+  background: rgba(242, 181, 68, 0.12);
+  color: #9f6d0b;
+  font-size: 9px;
+  font-weight: 800;
 }
 
-.stat-label {
-  font-size: 13px;
-  font-weight: 600;
-  opacity: 0.95;
-}
 
-/* Right Map Container */
+/* =========================================================
+   MAP
+========================================================= */
+
 .findus-map-container {
+  position: relative;
   width: 100%;
-  height: 520px;
-  border-radius: 20px;
+  height: 555px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  background-color: #e5e3df;
+  border: 7px solid #ffffff;
+  border-radius: 28px;
+  background: #e7e5df;
+  box-shadow:
+    0 24px 55px rgba(23, 63, 52, 0.12),
+    0 0 0 1px rgba(23, 63, 52, 0.06);
 }
 
 .google-map-iframe {
+  display: block;
   width: 100%;
   height: 100%;
-  filter: contrast(0.95) saturate(0.85); /* Matches reference map visual style */
+  border: 0;
+  filter: saturate(0.86) contrast(0.97);
 }
 
-/* Responsive Layout */
-@media (max-width: 992px) {
+
+/* =========================================================
+   FLOATING MAP PIN
+========================================================= */
+
+.map-floating-pin {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 47px;
+  height: 47px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 9px 23px rgba(23, 63, 52, 0.15);
+  pointer-events: none;
+}
+
+.map-floating-pin svg {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* =========================================================
+   MAP CAPTION
+========================================================= */
+
+.map-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 12px;
+  padding: 15px 17px;
+  border: 1px solid rgba(23, 63, 52, 0.07);
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 10px 25px rgba(23, 63, 52, 0.05);
+}
+
+.map-caption-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.map-caption-info span {
+  color: #929b97;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.map-caption-info strong {
+  color: #334a41;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #17835f;
+  font-size: 10px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.map-link:hover {
+  color: #126c4e;
+}
+
+.map-link b {
+  font-size: 15px;
+  transition: transform 0.25s ease;
+}
+
+.map-link:hover b {
+  transform: translateX(3px);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media screen and (max-width: 1100px) {
   .findus-container {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 38px;
+  }
+
+  .findus-content {
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .findus-map-side {
+    max-width: 850px;
+    margin: 0 auto;
   }
 
   .findus-map-container {
-    height: 400px;
+    height: 470px;
+  }
+
+  .findus-decoration-bottom {
+    width: 145px;
   }
 }
 
-@media (max-width: 576px) {
-  .findus-title {
-    font-size: 34px;
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media screen and (max-width: 768px) {
+  .findus-wrapper {
+    padding: 75px 20px 70px;
   }
 
-  .stats-container {
+  .findus-title {
+    font-size: 38px;
+  }
+
+  .findus-description {
+    font-size: 13px;
+  }
+
+  .findus-mini-highlights {
     grid-template-columns: 1fr;
-    max-width: 100%;
   }
 
   .findus-map-container {
-    height: 320px;
+    height: 410px;
+    border-radius: 23px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media screen and (max-width: 576px) {
+  .findus-wrapper {
+    padding: 58px 15px 55px;
+  }
+
+  .findus-title {
+    font-size: 29px;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+  }
+
+  .findus-description {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .findus-mini-highlights {
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .findus-mini-item {
+    padding: 11px;
+  }
+
+  .accordion-section {
+    margin-top: 23px;
+  }
+
+  .accordion-header {
+    padding: 15px 0;
+  }
+
+  .accordion-title-text {
+    font-size: 13px;
+  }
+
+  .accordion-body {
+    padding-left: 40px;
+  }
+
+  .accordion-body p {
+    font-size: 11px;
+    line-height: 1.75;
+  }
+
+  .findus-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .view-prices-btn,
+  .call-us-btn {
+    width: 100%;
+  }
+
+  .findus-routes {
+    margin-top: 20px;
+  }
+
+  .routes-list button {
+    padding: 7px 9px;
+    font-size: 9px;
+  }
+
+  .findus-map-heading {
+    align-items: flex-start;
+  }
+
+  .findus-map-heading strong {
+    font-size: 15px;
+  }
+
+  .findus-map-container {
+    height: 325px;
+    border-width: 5px;
+    border-radius: 20px;
+  }
+
+  .map-floating-pin {
+    top: 15px;
+    right: 15px;
+    width: 39px;
+    height: 39px;
+  }
+
+  .map-floating-pin svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .map-caption {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .map-link {
+    padding-top: 2px;
+  }
+
+  .findus-decoration-top {
+    top: 4px;
+    left: -12px;
+    width: 85px;
+  }
+
+  .findus-decoration-bottom {
+    right: -16px;
+    width: 110px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media screen and (max-width: 380px) {
+  .findus-title {
+    font-size: 26px;
+  }
+
+  .findus-address {
+    padding: 14px;
+  }
+
+  .findus-address-row {
+    align-items: flex-start;
+  }
+
+  .findus-map-container {
+    height: 290px;
+  }
+
+  .findus-map-heading strong {
+    font-size: 14px;
+  }
+
+  .map-heading-badge {
+    display: none;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion-icon,
+  .view-prices-btn,
+  .call-us-btn,
+  .routes-list button,
+  .map-link b {
+    transition: none !important;
   }
 }
