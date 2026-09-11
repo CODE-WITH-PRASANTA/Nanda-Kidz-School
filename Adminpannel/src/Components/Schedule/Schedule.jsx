@@ -4,9 +4,9 @@ import {
   Settings, Edit3, Plus, Info, FileText, Printer, Mail, Copy, X, Clock3, Save
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import './ClassesTime.css';
+import './Schedule.css';
 
-// --- Header and Navigation ---
+// --- Header Component ---
 const Header = () => (
   <header className="ct-header">
     <div className="ct-brand-container">
@@ -34,7 +34,7 @@ const FilterDropdown = ({ label, options, value, onChange }) => (
   <div className="ct-filter-group">
     <label className="ct-filter-label">{label}</label>
     <div className="ct-select-wrapper">
-      <select className="ct-select" value={value} onChange={(e) => onChange(e.target.value)}>
+      <select className="ct-select" value={value} onChange={(e) => onChange && onChange(e.target.value)}>
         {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
       </select>
       <ChevronDown size={18} className="ct-select-icon" />
@@ -146,15 +146,15 @@ const ManageModal = ({ isOpen, onClose, selectedClass, setSelectedClass }) => {
   );
 };
 
-// --- Main Dashboard Component ---
-const ClassesTime = () => {
+// --- Main Schedule Component ---
+const Schedule = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedClass, setSelectedClass] = useState("Class 5 - A");
 
   const days = ["Time / Day", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  
+
   const [periods, setPeriods] = useState([
     { time: "08:00 AM - 08:45 AM", label: "Period 1", entries: ["English", "Mathematics", "Science", "English", "Mathematics", "EVS"] },
     { time: "08:45 AM - 09:30 AM", label: "Period 2", entries: ["Mathematics", "Science", "English", "Mathematics", "Science", "Computer"] },
@@ -181,7 +181,6 @@ const ClassesTime = () => {
   };
 
   const handleAddPeriod = (newEntry) => {
-    // Basic handler example appending to matching period label or adding dynamic rows
     alert(`Period ${newEntry.period} for ${newEntry.day} (${newEntry.subject}) saved successfully!`);
   };
 
@@ -205,7 +204,7 @@ const ClassesTime = () => {
           <StatCard icon={Users} title="Total Teachers" value="32" subtitle="All Teachers" />
         </section>
 
-        {/* Filter/Action Row */}
+        {/* Filter / Action Section */}
         <section className="ct-filter-section">
           <div className="ct-filters-container">
             <FilterDropdown label="Class" options={["Class 5 - A", "Class 5 - B", "Class 6 - A"]} value={selectedClass} onChange={setSelectedClass} />
@@ -331,4 +330,4 @@ const ClassesTime = () => {
   );
 };
 
-export default ClassesTime;
+export default Schedule;
