@@ -53,6 +53,11 @@ const LatestNews = () => {
     navigate(`/blog/${id}`);
   };
 
+  const handleReadMoreClick = () => {
+    navigate("/about");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const openLightbox = (e, item) => {
     e.stopPropagation();
     setLightboxItem(item);
@@ -182,7 +187,7 @@ const LatestNews = () => {
                   className="news-read-more-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleCardClick(item.id);
+                    handleReadMoreClick();
                   }}
                 >
                   Read More

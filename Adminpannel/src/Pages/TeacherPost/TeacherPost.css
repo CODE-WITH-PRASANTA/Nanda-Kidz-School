@@ -1,0 +1,1883 @@
+/* =========================================================
+   TEACHER POST - MAIN
+========================================================= */
+
+.TeacherPost {
+  width: 100%;
+  min-height: 100vh;
+  padding: 28px 22px;
+  background: #f6f8fc;
+  box-sizing: border-box;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.TeacherPost *,
+.TeacherPost *::before,
+.TeacherPost *::after {
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN WRAPPER
+========================================================= */
+
+.TeacherPost-wrapper {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: minmax(360px, 0.82fr) minmax(650px, 1.5fr);
+
+  gap: 22px;
+  align-items: start;
+}
+
+
+/* =========================================================
+   COMMON CARD
+========================================================= */
+
+.TeacherPost-form-card,
+.TeacherPost-list-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e6ebf2;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.055);
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.TeacherPost-form-card {
+  padding: 22px;
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.TeacherPost-form-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  padding-bottom: 17px;
+  margin-bottom: 19px;
+
+  border-bottom: 1px solid #edf0f5;
+}
+
+.TeacherPost-header-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: #eef5ff;
+  color: #2867e8;
+
+  font-size: 17px;
+}
+
+.TeacherPost-form-header h2,
+.TeacherPost-list-title-wrap h2 {
+  margin: 0;
+
+  color: #172033;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.TeacherPost-form-header p,
+.TeacherPost-list-title-wrap p {
+  margin: 4px 0 0;
+
+  color: #8791a3;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.TeacherPost-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.TeacherPost-form-row {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.TeacherPost-form-group {
+  width: 100%;
+  min-width: 0;
+}
+
+.TeacherPost-form-group label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #3d485a;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.TeacherPost-form-group label span {
+  color: #ef4444;
+}
+
+.TeacherPost-form-group input,
+.TeacherPost-form-group select,
+.TeacherPost-form-group textarea {
+  width: 100%;
+
+  border: 1px solid #dce3ec;
+  outline: none;
+
+  background: #ffffff;
+
+  color: #253044;
+
+  font-family: inherit;
+  font-size: 12px;
+
+  border-radius: 8px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.TeacherPost-form-group input,
+.TeacherPost-form-group select {
+  height: 42px;
+  padding: 0 12px;
+}
+
+.TeacherPost-form-group textarea {
+  min-height: 95px;
+  padding: 11px 12px;
+
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.TeacherPost-form-group input::placeholder,
+.TeacherPost-form-group textarea::placeholder {
+  color: #a5adba;
+}
+
+.TeacherPost-form-group input:focus,
+.TeacherPost-form-group select:focus,
+.TeacherPost-form-group textarea:focus {
+  border-color: #6695ed;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+
+/* =========================================================
+   PROFILE IMAGE SECTION
+========================================================= */
+
+.TeacherPost-profile-image-section {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.TeacherPost-profile-image-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.TeacherPost-profile-image-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #354052;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.TeacherPost-profile-image-title svg {
+  color: #2867e8;
+  font-size: 13px;
+}
+
+.TeacherPost-profile-image-required {
+  padding: 4px 9px;
+
+  border-radius: 20px;
+
+  background: #f0f6ff;
+  color: #2867e8;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   PROFILE UPLOAD CARD
+========================================================= */
+
+.TeacherPost-profile-upload-card {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 17px;
+
+  padding: 17px;
+
+  border: 1px solid #dce5f0;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f7faff 0%,
+      #ffffff 100%
+    );
+
+  transition: all 0.25s ease;
+}
+
+.TeacherPost-profile-upload-card:hover {
+  border-color: #c5d5eb;
+
+  box-shadow:
+    0 8px 24px rgba(37, 99, 235, 0.07);
+}
+
+
+/* =========================================================
+   PROFILE PREVIEW
+========================================================= */
+
+.TeacherPost-profile-preview-wrapper {
+  position: relative;
+
+  width: 88px;
+  min-width: 88px;
+  height: 88px;
+}
+
+.TeacherPost-profile-preview {
+  width: 88px;
+  height: 88px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e5efff,
+      #f5f8ff
+    );
+
+  border: 4px solid #ffffff;
+
+  box-shadow:
+    0 0 0 1px #d8e1ec,
+    0 8px 20px rgba(15, 23, 42, 0.09);
+}
+
+.TeacherPost-profile-preview-img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+.TeacherPost-profile-placeholder {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #6d8fca;
+
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.TeacherPost-profile-placeholder svg {
+  font-size: 27px;
+  color: #9badc6;
+}
+
+
+/* =========================================================
+   CAMERA BUTTON
+========================================================= */
+
+.TeacherPost-profile-camera {
+  position: absolute;
+
+  right: -1px;
+  bottom: 0;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+
+  background: #2867e8;
+  color: #ffffff;
+
+  font-size: 10px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 12px rgba(37, 99, 235, 0.28);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.TeacherPost-profile-camera:hover {
+  background: #1855d1;
+  transform: scale(1.08);
+}
+
+.TeacherPost-profile-camera input {
+  display: none;
+}
+
+
+/* =========================================================
+   PROFILE UPLOAD CONTENT
+========================================================= */
+
+.TeacherPost-profile-upload-content {
+  min-width: 0;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.TeacherPost-profile-upload-content h4 {
+  margin: 0;
+
+  color: #182235;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.TeacherPost-profile-upload-content p {
+  margin: 0;
+
+  color: #7d8797;
+
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+
+/* =========================================================
+   PROFILE BUTTONS
+========================================================= */
+
+.TeacherPost-profile-upload-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 5px;
+}
+
+.TeacherPost-profile-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  min-height: 31px;
+
+  padding: 6px 12px;
+
+  border-radius: 7px;
+
+  background: #2867e8;
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.TeacherPost-profile-upload-btn:hover {
+  background: #1855d1;
+
+  box-shadow:
+    0 5px 12px rgba(37, 99, 235, 0.2);
+}
+
+.TeacherPost-profile-upload-btn svg {
+  font-size: 10px;
+}
+
+.TeacherPost-profile-upload-btn input {
+  display: none;
+}
+
+
+/* =========================================================
+   REMOVE BUTTON
+========================================================= */
+
+.TeacherPost-profile-remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-height: 31px;
+
+  padding: 6px 10px;
+
+  border: 1px solid #fecaca;
+  border-radius: 7px;
+
+  background: #fff7f7;
+  color: #dc2626;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.TeacherPost-profile-remove-btn:hover {
+  background: #fee2e2;
+}
+
+
+/* =========================================================
+   SELECTED FILE
+========================================================= */
+
+.TeacherPost-selected-file {
+  max-width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 2px;
+
+  color: #16803c;
+
+  font-size: 9px;
+}
+
+.TeacherPost-selected-file svg {
+  min-width: 10px;
+  font-size: 10px;
+}
+
+.TeacherPost-selected-file span {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.TeacherPost-profile-upload-hint {
+  color: #9aa3b2;
+
+  font-size: 8px;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   SOCIAL SECTION
+========================================================= */
+
+.TeacherPost-social-section {
+  width: 100%;
+
+  padding-top: 2px;
+}
+
+.TeacherPost-social-heading {
+  margin-bottom: 9px;
+}
+
+.TeacherPost-social-heading strong {
+  display: block;
+
+  color: #3d485a;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.TeacherPost-social-heading span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #9aa3b2;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   SOCIAL GRID
+========================================================= */
+
+.TeacherPost-social-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 9px;
+}
+
+
+/* =========================================================
+   SOCIAL INPUT
+========================================================= */
+
+.TeacherPost-social-input {
+  position: relative;
+
+  width: 100%;
+}
+
+.TeacherPost-social-input input {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 10px 0 34px;
+
+  border: 1px solid #dce3ec;
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #334155;
+
+  font-family: inherit;
+
+  font-size: 10px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.TeacherPost-social-input input::placeholder {
+  color: #a7afbb;
+}
+
+.TeacherPost-social-input input:focus {
+  border-color: #6695ed;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.07);
+}
+
+.TeacherPost-social-input .social-icon {
+  position: absolute;
+
+  left: 11px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  z-index: 2;
+
+  font-size: 12px;
+
+  pointer-events: none;
+}
+
+
+/* Social icon variations */
+
+.TeacherPost-social-input.facebook .social-icon {
+  color: #1877f2;
+}
+
+.TeacherPost-social-input.linkedin .social-icon {
+  color: #0a66c2;
+}
+
+.TeacherPost-social-input.twitter .social-icon {
+  color: #1d9bf0;
+}
+
+.TeacherPost-social-input.instagram .social-icon {
+  color: #e4405f;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.TeacherPost-form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 9px;
+
+  padding-top: 4px;
+}
+
+.TeacherPost-btn-reset,
+.TeacherPost-btn-save {
+  height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 8px;
+
+  padding: 0 16px;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.TeacherPost-btn-reset {
+  border: 1px solid #dce3ec;
+
+  background: #ffffff;
+
+  color: #687386;
+}
+
+.TeacherPost-btn-reset:hover {
+  background: #f7f9fc;
+}
+
+.TeacherPost-btn-save {
+  border: 1px solid #2867e8;
+
+  background: #2867e8;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 12px rgba(37, 99, 235, 0.16);
+}
+
+.TeacherPost-btn-save:hover {
+  background: #1855d1;
+}
+
+
+/* =========================================================
+   LIST CARD
+========================================================= */
+
+.TeacherPost-list-card {
+  padding: 22px;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   LIST HEADER
+========================================================= */
+
+.TeacherPost-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 18px;
+}
+
+.TeacherPost-list-title-wrap {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  min-width: 0;
+}
+
+.TeacherPost-header-icon.sm {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+
+  border-radius: 11px;
+
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   TOP CONTROLS
+========================================================= */
+
+.TeacherPost-top-controls {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.TeacherPost-search-box {
+  position: relative;
+
+  width: 245px;
+}
+
+.TeacherPost-search-box svg {
+  position: absolute;
+
+  left: 11px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #99a3b3;
+
+  font-size: 11px;
+}
+
+.TeacherPost-search-box input {
+  width: 100%;
+  height: 40px;
+
+  padding: 0 10px 0 32px;
+
+  border: 1px solid #dce3ec;
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  color: #344054;
+
+  font-family: inherit;
+
+  font-size: 10px;
+}
+
+.TeacherPost-search-box input:focus {
+  border-color: #6695ed;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.07);
+}
+
+.TeacherPost-add-top-btn {
+  height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding: 0 13px;
+
+  border: 1px solid #2867e8;
+  border-radius: 8px;
+
+  background: #2867e8;
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.TeacherPost-add-top-btn:hover {
+  background: #1855d1;
+}
+
+.TeacherPost-add-top-btn svg {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLE CONTAINER
+========================================================= */
+
+.TeacherPost-table-container {
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  border: 1px solid #edf0f4;
+  border-radius: 11px;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+.TeacherPost-table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.TeacherPost-table-container::-webkit-scrollbar-track {
+  background: #f4f6f9;
+}
+
+.TeacherPost-table-container::-webkit-scrollbar-thumb {
+  background: #c8d0dc;
+  border-radius: 20px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.TeacherPost-table {
+  width: 100%;
+  min-width: 850px;
+
+  border-collapse: collapse;
+
+  table-layout: auto;
+}
+
+.TeacherPost-table th {
+  padding: 12px 11px;
+
+  border-bottom: 1px solid #e9edf3;
+
+  background: #f8fafc;
+
+  color: #748094;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.TeacherPost-table td {
+  padding: 12px 11px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  color: #4b5567;
+
+  font-size: 10px;
+
+  vertical-align: middle;
+}
+
+.TeacherPost-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.TeacherPost-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.TeacherPost-table tbody tr:hover {
+  background: #fbfcfe;
+}
+
+.font-medium {
+  color: #697487 !important;
+  font-weight: 600;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+
+/* =========================================================
+   TABLE PROFILE
+========================================================= */
+
+.TeacherPost-table-avatar {
+  width: 38px;
+  height: 38px;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #e4edff,
+      #f2f6ff
+    );
+
+  color: #4772bb;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.TeacherPost-table-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+
+/* =========================================================
+   TABLE NAME
+========================================================= */
+
+.TeacherPost-table-name {
+  color: #202b3d;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.TeacherPost-table-sub {
+  max-width: 180px;
+
+  margin-top: 3px;
+
+  overflow: hidden;
+
+  color: #98a1af;
+
+  font-size: 8px;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   DESIGNATION
+========================================================= */
+
+.TeacherPost-designation-badge {
+  display: inline-block;
+
+  padding: 5px 8px;
+
+  border-radius: 6px;
+
+  background: #f1f5ff;
+
+  color: #526eaa;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ROLE
+========================================================= */
+
+.TeacherPost-role-pill {
+  display: inline-block;
+
+  padding: 5px 8px;
+
+  border-radius: 20px;
+
+  background: #f5f3ff;
+
+  color: #6d5bb5;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.TeacherPost-status-tag {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 5px 8px;
+
+  border-radius: 20px;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.TeacherPost-status-tag.active {
+  background: #ecfdf3;
+  color: #16803c;
+}
+
+.TeacherPost-status-tag.inactive {
+  background: #fff1f2;
+  color: #d13c4b;
+}
+
+.status-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+
+/* =========================================================
+   TABLE SOCIAL
+========================================================= */
+
+.TeacherPost-table-socials {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.TeacherPost-table-socials a {
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f1f3f6;
+
+  color: #a2a9b4;
+
+  font-size: 9px;
+
+  text-decoration: none;
+
+  transition: all 0.2s ease;
+}
+
+.TeacherPost-table-socials a.available {
+  background: #eef4ff;
+  color: #3970d7;
+}
+
+.TeacherPost-table-socials a:hover {
+  transform: translateY(-1px);
+
+  background: #2867e8;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.TeacherPost-action-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 5px;
+}
+
+.TeacherPost-action-btn {
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.TeacherPost-action-btn.edit {
+  border: 1px solid #d7e5ff;
+
+  background: #f2f6ff;
+
+  color: #3471d8;
+}
+
+.TeacherPost-action-btn.edit:hover {
+  background: #3471d8;
+  color: #ffffff;
+}
+
+.TeacherPost-action-btn.delete {
+  border: 1px solid #ffd9dc;
+
+  background: #fff5f5;
+
+  color: #e0525c;
+}
+
+.TeacherPost-action-btn.delete:hover {
+  background: #e0525c;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   NO DATA
+========================================================= */
+
+.TeacherPost-no-data {
+  height: 180px;
+
+  text-align: center !important;
+
+  color: #98a1af !important;
+}
+
+.TeacherPost-no-data svg {
+  display: block;
+
+  margin: 0 auto 8px;
+
+  color: #b8c1ce;
+
+  font-size: 25px;
+}
+
+.TeacherPost-no-data span {
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.TeacherPost-pagination-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding-top: 15px;
+}
+
+.TeacherPost-pagination-info {
+  color: #8b95a5;
+
+  font-size: 9px;
+}
+
+.TeacherPost-pagination-buttons {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+}
+
+.TeacherPost-page-btn,
+.TeacherPost-page-number {
+  min-width: 29px;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+
+  font-size: 9px;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.TeacherPost-page-btn {
+  border: 1px solid #dfe4eb;
+
+  background: #ffffff;
+
+  color: #6d7788;
+}
+
+.TeacherPost-page-btn:hover:not(:disabled) {
+  border-color: #2867e8;
+
+  color: #2867e8;
+}
+
+.TeacherPost-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.TeacherPost-page-number {
+  border: 1px solid transparent;
+
+  background: transparent;
+
+  color: #6d7788;
+}
+
+.TeacherPost-page-number:hover {
+  background: #f0f5ff;
+  color: #2867e8;
+}
+
+.TeacherPost-page-number.active {
+  border-color: #2867e8;
+
+  background: #2867e8;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 4px 10px rgba(37, 99, 235, 0.17);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media screen and (max-width: 1200px) {
+
+  .TeacherPost {
+    padding: 22px 16px;
+  }
+
+  .TeacherPost-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .TeacherPost-form-card,
+  .TeacherPost-list-card {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media screen and (max-width: 768px) {
+
+  .TeacherPost {
+    padding: 16px 12px;
+  }
+
+  .TeacherPost-wrapper {
+    gap: 16px;
+  }
+
+  .TeacherPost-form-card,
+  .TeacherPost-list-card {
+    padding: 17px;
+    border-radius: 15px;
+  }
+
+
+  /* Header */
+
+  .TeacherPost-form-header {
+    margin-bottom: 17px;
+  }
+
+  .TeacherPost-form-header h2,
+  .TeacherPost-list-title-wrap h2 {
+    font-size: 16px;
+  }
+
+
+  /* Form */
+
+  .TeacherPost-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+
+  /* Profile */
+
+  .TeacherPost-profile-upload-card {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .TeacherPost-profile-preview-wrapper,
+  .TeacherPost-profile-preview {
+    width: 76px;
+    min-width: 76px;
+    height: 76px;
+  }
+
+  .TeacherPost-profile-placeholder {
+    font-size: 26px;
+  }
+
+
+  /* List */
+
+  .TeacherPost-list-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .TeacherPost-top-controls {
+    width: 100%;
+  }
+
+  .TeacherPost-search-box {
+    flex: 1;
+    width: auto;
+  }
+
+  .TeacherPost-add-top-btn {
+    flex-shrink: 0;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media screen and (max-width: 600px) {
+
+  .TeacherPost {
+    width: 100%;
+    padding: 10px 7px;
+
+    overflow-x: hidden;
+  }
+
+  .TeacherPost-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 12px;
+  }
+
+  .TeacherPost-form-card,
+  .TeacherPost-list-card {
+    width: 100%;
+
+    padding: 13px;
+
+    border-radius: 13px;
+  }
+
+
+  /* Header */
+
+  .TeacherPost-form-header {
+    gap: 9px;
+
+    padding-bottom: 14px;
+    margin-bottom: 15px;
+  }
+
+  .TeacherPost-header-icon {
+    width: 37px;
+    height: 37px;
+    min-width: 37px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+  }
+
+  .TeacherPost-form-header h2,
+  .TeacherPost-list-title-wrap h2 {
+    font-size: 14px;
+  }
+
+  .TeacherPost-form-header p,
+  .TeacherPost-list-title-wrap p {
+    font-size: 9px;
+  }
+
+
+  /* Form */
+
+  .TeacherPost-form {
+    gap: 12px;
+  }
+
+  .TeacherPost-form-row {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .TeacherPost-form-group label {
+    font-size: 10px;
+  }
+
+  .TeacherPost-form-group input,
+  .TeacherPost-form-group select {
+    height: 41px;
+
+    font-size: 11px;
+  }
+
+  .TeacherPost-form-group textarea {
+    min-height: 88px;
+
+    font-size: 11px;
+  }
+
+
+  /* Profile heading */
+
+  .TeacherPost-profile-image-title {
+    font-size: 10px;
+  }
+
+  .TeacherPost-profile-image-required {
+    font-size: 7px;
+
+    padding: 3px 7px;
+  }
+
+
+  /* Profile card */
+
+  .TeacherPost-profile-upload-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 11px;
+
+    border-radius: 11px;
+  }
+
+  .TeacherPost-profile-preview-wrapper,
+  .TeacherPost-profile-preview {
+    width: 66px;
+    min-width: 66px;
+    height: 66px;
+  }
+
+  .TeacherPost-profile-preview {
+    border-width: 3px;
+  }
+
+  .TeacherPost-profile-placeholder {
+    font-size: 23px;
+  }
+
+  .TeacherPost-profile-placeholder svg {
+    font-size: 21px;
+  }
+
+  .TeacherPost-profile-camera {
+    width: 24px;
+    height: 24px;
+
+    border-width: 2px;
+
+    font-size: 8px;
+  }
+
+  .TeacherPost-profile-upload-content h4 {
+    font-size: 10px;
+  }
+
+  .TeacherPost-profile-upload-content p {
+    font-size: 8px;
+  }
+
+  .TeacherPost-profile-upload-btn,
+  .TeacherPost-profile-remove-btn {
+    min-height: 29px;
+
+    padding: 5px 8px;
+
+    font-size: 8px;
+  }
+
+  .TeacherPost-profile-upload-hint {
+    font-size: 7px;
+  }
+
+  .TeacherPost-selected-file {
+    font-size: 7px;
+  }
+
+
+  /* Social */
+
+  .TeacherPost-social-heading strong {
+    font-size: 10px;
+  }
+
+  .TeacherPost-social-heading span {
+    font-size: 8px;
+  }
+
+  .TeacherPost-social-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .TeacherPost-social-input input {
+    height: 40px;
+
+    font-size: 9px;
+  }
+
+
+  /* Buttons */
+
+  .TeacherPost-form-actions {
+    flex-direction: column-reverse;
+
+    width: 100%;
+
+    gap: 7px;
+  }
+
+  .TeacherPost-btn-reset,
+  .TeacherPost-btn-save {
+    width: 100%;
+
+    height: 42px;
+
+    font-size: 10px;
+  }
+
+
+  /* List header */
+
+  .TeacherPost-list-title-wrap {
+    gap: 8px;
+  }
+
+  .TeacherPost-header-icon.sm {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+
+    border-radius: 9px;
+  }
+
+
+  /* Search */
+
+  .TeacherPost-top-controls {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    gap: 7px;
+  }
+
+  .TeacherPost-search-box {
+    width: 100%;
+  }
+
+  .TeacherPost-search-box input {
+    height: 41px;
+
+    font-size: 9px;
+  }
+
+  .TeacherPost-add-top-btn {
+    width: 100%;
+    height: 41px;
+
+    font-size: 9px;
+  }
+
+
+  /* Table */
+
+  .TeacherPost-table-container {
+    width: 100%;
+    max-width: 100%;
+
+    overflow-x: auto;
+  }
+
+  .TeacherPost-table {
+    width: 850px;
+    min-width: 850px;
+  }
+
+  .TeacherPost-table th {
+    padding: 10px 9px;
+
+    font-size: 8px;
+  }
+
+  .TeacherPost-table td {
+    padding: 10px 9px;
+
+    font-size: 9px;
+  }
+
+  .TeacherPost-table-avatar {
+    width: 34px;
+    height: 34px;
+
+    font-size: 10px;
+  }
+
+  .TeacherPost-table-name {
+    font-size: 10px;
+  }
+
+  .TeacherPost-table-sub {
+    font-size: 7px;
+  }
+
+  .TeacherPost-designation-badge,
+  .TeacherPost-role-pill,
+  .TeacherPost-status-tag {
+    font-size: 7px;
+  }
+
+  .TeacherPost-table-socials a {
+    width: 22px;
+    height: 22px;
+
+    font-size: 8px;
+  }
+
+  .TeacherPost-action-btn {
+    width: 27px;
+    height: 27px;
+
+    font-size: 9px;
+  }
+
+
+  /* Pagination */
+
+  .TeacherPost-pagination-footer {
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+  }
+
+  .TeacherPost-pagination-info {
+    font-size: 8px;
+
+    text-align: center;
+  }
+
+  .TeacherPost-pagination-buttons {
+    justify-content: center;
+  }
+
+  .TeacherPost-page-btn,
+  .TeacherPost-page-number {
+    min-width: 28px;
+    height: 28px;
+
+    font-size: 8px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media screen and (max-width: 380px) {
+
+  .TeacherPost {
+    padding: 7px 5px;
+  }
+
+  .TeacherPost-form-card,
+  .TeacherPost-list-card {
+    padding: 11px;
+  }
+
+  .TeacherPost-profile-upload-card {
+    gap: 8px;
+
+    padding: 9px;
+  }
+
+  .TeacherPost-profile-preview-wrapper,
+  .TeacherPost-profile-preview {
+    width: 57px;
+    min-width: 57px;
+    height: 57px;
+  }
+
+  .TeacherPost-profile-placeholder {
+    font-size: 19px;
+  }
+
+  .TeacherPost-profile-camera {
+    width: 21px;
+    height: 21px;
+
+    font-size: 7px;
+  }
+
+  .TeacherPost-profile-upload-content h4 {
+    font-size: 9px;
+  }
+
+  .TeacherPost-profile-upload-content p {
+    font-size: 7px;
+  }
+
+  .TeacherPost-profile-upload-btn,
+  .TeacherPost-profile-remove-btn {
+    min-height: 26px;
+
+    padding: 4px 6px;
+
+    font-size: 7px;
+  }
+
+  .TeacherPost-profile-upload-hint {
+    font-size: 6.5px;
+  }
+
+}

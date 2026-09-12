@@ -3,18 +3,9 @@ import "./HomeKindergarten.css";
 
 import boyImg from "../../assets/aboutus.webp";
 import owlImg from "../../assets/who-we-are-shape1.png";
-import founderSign from "../../assets/nanda image .png";
+import founderImg from "../../assets/NandaMam.webp";
 
 const HomeKindergarten = () => {
-  const handleReadMoreClick = (e) => {
-    e.preventDefault();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   const features = [
     {
       id: 1,
@@ -123,33 +114,30 @@ const HomeKindergarten = () => {
             ))}
           </div>
 
-          {/* Local SEO Content */}
-          
           {/* Action Row */}
           <div className="hk-action-row">
 
-            <button
-              type="button"
+            <a
+              href="/about"
               className="hk-btn-primary"
-              onClick={handleReadMoreClick}
             >
               Read More
-            </button>
+            </a>
 
             {/* Founder Profile */}
             <div className="hk-founder-badge-card">
 
               <div className="hk-founder-avatar-wrap">
                 <img
-                  src={founderSign}
-                  alt="Mrs. Nanda Mishra - Founder and Director of Nanda Kidz"
+                  src={founderImg}
+                  alt="Dr. Achman Nanda - Founder and Director of Nanda Kidz"
                   className="hk-founder-img"
                 />
               </div>
 
               <div className="hk-founder-info">
                 <h4 className="hk-founder-name">
-                  Mrs. Nanda Mishra
+                  Dr. Achman Nanda
                 </h4>
 
                 <p className="hk-founder-title">

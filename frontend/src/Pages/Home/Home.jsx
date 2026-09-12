@@ -6,7 +6,7 @@ import Homecoursecategory from '../../Components/Homecoursecategory/Homecourseca
 import HomeTailoredClasses from '../../Components/HomeTailoredClasses/HomeTailoredClasses';
 import HomeQualityEducation from '../../Components/HomeQualityEducation/HomeQualityEducation';
 import HomeOurPrograms from '../../Components/HomeOurPrograms/HomeOurPrograms';
-import Homecompanypartner from '../../Components/Homecompanypartner/Homecompanypartner';
+
 import HomeKindergarten from '../../Components/HomeKindergarten/HomeKindergarten';
 import PopularClasses from '../../Components/PopularClasses/PopularClasses';
 import CoreValues from '../../Components/CoreValues/CoreValues';
@@ -199,8 +199,7 @@ const Home = () => {
         {/* Programs */}
         <HomeOurPrograms />
 
-        {/* Partners */}
-        <Homecompanypartner />
+       
 
       </main>
     </>

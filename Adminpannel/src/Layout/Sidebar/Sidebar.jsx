@@ -31,6 +31,7 @@ import {
   BookMarked,
   Clock,
   Award,
+  Send, // Icon for teacher posts
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -112,6 +113,9 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
             { text: 'Manage Posts', path: '/blog/management' },
           ],
         },
+        // --- NEW: Single link for Teacher Post added here ---
+        { type: 'link', icon: Send, text: 'Teacher Post', path: '/teacher-posts' },
+        // ---------------------------------------------------
         { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
         { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
         { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },

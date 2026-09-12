@@ -22,6 +22,7 @@ import ParentsInquiry from "./Components/ParentsInquiry/ParentsInquiry";
 import SubjectManagement from "./Components/SubjectManagement/SubjectManagement";
 import Schedule from "./Components/Schedule/Schedule";
 import Classandsection from "./Components/Classandsection/Classandsection";
+import TeacherPost from "./Pages/TeacherPost/TeacherPost";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -93,6 +94,7 @@ function App() {
 
           {/* Gallery */}
           <Route path="gallery-management" element={<GalleryManagement />} />
+          <Route path="/teacher-posts"element={<TeacherPost/>}/>
         </Route>
 
         {/* 404 Fallback */}

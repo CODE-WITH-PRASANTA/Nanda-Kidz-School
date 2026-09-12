@@ -18,7 +18,7 @@ const Topbar = () => {
         <div className="topbar-info-wrapper">
           <div className="topbar-info-item">
             <FaMapMarkerAlt className="topbar-icon" />
-            <span className="topbar-text">East Madison Street, Baltimore</span>
+            <span className="topbar-text">K-5, HIG-424, Kalinga Vihar LIG, Kalinganagar, Bhubaneswar, Odisha - 751028</span>
           </div>
           <div className="topbar-info-item">
             <FaEnvelope className="topbar-icon" />

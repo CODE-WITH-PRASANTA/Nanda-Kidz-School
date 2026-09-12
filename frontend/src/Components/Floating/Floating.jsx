@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './Floating.css';
 
-import bgTop from '../../assets/nan1.png';
+import logoImg from '../../assets/nanda image .png';
 
 import { 
   X, 
@@ -10,8 +10,6 @@ import {
   Cake, 
   MessageSquare, 
   Send, 
-  Phone, 
-  MessageCircle,
   Sparkles
 } from 'lucide-react';
 
@@ -90,25 +88,19 @@ const Floating = ({ onClose }) => {
           <X size={18} />
         </button>
 
-        {/* Compact Glass Header with circular framed photo */}
+        {/* Premium Header Layout using official logo and complete school identity */}
         <div className="floating-header">
           <div className="floating-avatar-frame">
-            <img src={bgTop} alt="Nanda Kidz" className="floating-avatar-img" />
+            <img src={logoImg} alt="Nanda Kidz – The Little Kingdom" className="floating-avatar-img" />
             <span className="floating-avatar-sparkle"><Sparkles size={14} /></span>
           </div>
 
           <div className="floating-header-text">
-            <div className="brand-logo-wrapper">
-              <div className="brand-logo-text">
-                <span className="letter-n">N</span>
-                <span className="letter-a">A</span>
-                <span className="letter-n2">N</span>
-                <span className="letter-d">D</span>
-                <span className="letter-a2">A</span>
-              </div>
-              <div className="brand-subtext">KIDZ</div>
+            <div className="brand-school-badge">
+              <span>The Little Kingdom</span>
             </div>
-            <div className="brand-tagline">Preschool &amp; Daycare</div>
+            <div className="brand-logo-title">NANDA KIDZ</div>
+            <div className="brand-subtext">A Play School • Since 2011</div>
           </div>
         </div>
 
@@ -205,35 +197,6 @@ const Floating = ({ onClose }) => {
                 <span>Submit Enquiry</span>
               </button>
             </form>
-
-            <div className="form-divider">
-              <span className="divider-heart">♥</span>
-            </div>
-
-            <p className="contact-quick-label">Prefer to talk instead?</p>
-
-            <div className="contact-actions">
-              <a href="tel:+919876543210" className="contact-action-btn call-btn" title="Call Us">
-                <span className="contact-action-icon">
-                  <Phone size={18} />
-                </span>
-                <span className="contact-action-text">
-                  <span className="contact-action-title">Call Us</span>
-                  <span className="contact-action-sub">Speak directly</span>
-                </span>
-              </a>
-
-              <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="contact-action-btn whatsapp-btn" title="WhatsApp Us">
-                <span className="contact-action-icon">
-                  <span className="whatsapp-pulse"></span>
-                  <MessageCircle size={18} />
-                </span>
-                <span className="contact-action-text">
-                  <span className="contact-action-title">WhatsApp</span>
-                  <span className="contact-action-sub">Quick chat</span>
-                </span>
-              </a>
-            </div>
           </div>
         </div>
 

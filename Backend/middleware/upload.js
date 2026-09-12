@@ -3,101 +3,209 @@ const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
 
-// Ensure upload directory exists
-const uploadDir = path.join(__dirname, "uploads");
+/* =========================================================
+   UPLOAD DIRECTORY
+========================================================= */
+
+const uploadDir = path.join(__dirname, "../uploads");
+
 if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
+  fs.mkdirSync(uploadDir, {
+    recursive: true,
+  });
 }
 
-// 1. Storage strategy: Memory Storage (process image in buffer before writing to disk)
+/* =========================================================
+   MULTER STORAGE
+========================================================= */
+
 const storage = multer.memoryStorage();
 
-// 2. Filter: Allow image types only
+/* =========================================================
+   FILE FILTER
+========================================================= */
+
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only image files (JPEG, PNG, WebP, etc.) are allowed!"), false);
+  if (!file || !file.mimetype) {
+    return cb(new Error("Invalid image file."), false);
   }
+
+  if (file.mimetype.startsWith("image/")) {
+    return cb(null, true);
+  }
+
+  return cb(
+    new Error(
+      "Only image files are allowed. Please upload JPG, JPEG, PNG or WEBP."
+    ),
+    false
+  );
 };
 
-// 3. Multer middleware configuration
+/* =========================================================
+   MULTER CONFIGURATION
+========================================================= */
+
 const upload = multer({
   storage: storage,
+
   fileFilter: fileFilter,
+
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10 MB maximum size per file
+    fileSize: 10 * 1024 * 1024,
+    files: 15,
   },
 });
 
-/**
- * Middleware: Convert Single Uploaded Image to WebP
- */
+/* =========================================================
+   UNIQUE FILE NAME
+========================================================= */
+
+const generateFileName = (prefix = "image") => {
+  const timestamp = Date.now();
+
+  const randomNumber = Math.floor(
+    Math.random() * 1000000000
+  );
+
+  return `${prefix}-${timestamp}-${randomNumber}.webp`;
+};
+
+/* =========================================================
+   SINGLE IMAGE -> WEBP
+========================================================= */
+
 const convertSingleToWebp = async (req, res, next) => {
-  if (!req.file) return next();
-
   try {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const filename = `image-${uniqueSuffix}.webp`;
-    const outputPath = path.join(uploadDir, filename);
+    if (!req.file) {
+      return next();
+    }
 
-    // Convert to WebP using Sharp
+    const filename = generateFileName("image");
+
+    const outputPath = path.join(
+      uploadDir,
+      filename
+    );
+
     await sharp(req.file.buffer)
-      .webp({ quality: 80 }) // Compress to 80% quality
+      .rotate()
+      .webp({
+        quality: 80,
+      })
       .toFile(outputPath);
 
-    // Attach processed file metadata to request
+    const stats = fs.statSync(outputPath);
+
     req.processedFile = {
+      originalName: req.file.originalname,
       filename: filename,
       path: `/uploads/${filename}`,
-      size: fs.statSync(outputPath).size,
+      url: `/uploads/${filename}`,
+      size: stats.size,
       mimetype: "image/webp",
     };
 
     next();
   } catch (error) {
-    return res.status(500).json({ error: "Single image conversion failed: " + error.message });
+    console.error(
+      "SINGLE IMAGE CONVERSION ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Image conversion failed.",
+      error: error.message,
+    });
   }
 };
 
-/**
- * Middleware: Convert Bulk/Multiple Uploaded Images to WebP
- */
-const convertMultipleToWebp = async (req, res, next) => {
-  if (!req.files || req.files.length === 0) return next();
+/* =========================================================
+   MULTIPLE IMAGES -> WEBP
+========================================================= */
 
+const convertMultipleToWebp = async (req, res, next) => {
   try {
+    if (!req.files || req.files.length === 0) {
+      return next();
+    }
+
     req.processedFiles = [];
 
-    // Process all images concurrently using Promise.all
-    await Promise.all(
-      req.files.map(async (file, index) => {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        const filename = `bulk-${index + 1}-${uniqueSuffix}.webp`;
-        const outputPath = path.join(uploadDir, filename);
+    for (let i = 0; i < req.files.length; i++) {
+      const file = req.files[i];
 
-        await sharp(file.buffer)
-          .webp({ quality: 80 })
-          .toFile(outputPath);
+      const filename = generateFileName(
+        `image-${i + 1}`
+      );
 
-        req.processedFiles.push({
-          originalName: file.originalname,
-          filename: filename,
-          path: `/uploads/${filename}`,
-          size: fs.statSync(outputPath).size,
-          mimetype: "image/webp",
-        });
-      })
-    );
+      const outputPath = path.join(
+        uploadDir,
+        filename
+      );
+
+      await sharp(file.buffer)
+        .rotate()
+        .webp({
+          quality: 80,
+        })
+        .toFile(outputPath);
+
+      const stats = fs.statSync(outputPath);
+
+      req.processedFiles.push({
+        originalName: file.originalname,
+        filename: filename,
+        path: `/uploads/${filename}`,
+        url: `/uploads/${filename}`,
+        size: stats.size,
+        mimetype: "image/webp",
+      });
+    }
 
     next();
   } catch (error) {
-    return res.status(500).json({ error: "Bulk image conversion failed: " + error.message });
+    console.error(
+      "MULTIPLE IMAGE CONVERSION ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Multiple image conversion failed.",
+      error: error.message,
+    });
   }
 };
 
-module.exports = {
-  upload,
-  convertSingleToWebp,
-  convertMultipleToWebp,
-};
+/* =========================================================
+   EXPORT
+========================================================= */
+
+/*
+   IMPORTANT:
+
+   Export multer directly so this works:
+
+   const upload = require("../middleware/upload");
+
+   upload.single(...)
+
+   At the same time, attach the other functions so this
+   also works:
+
+   const {
+      upload,
+      convertSingleToWebp,
+      convertMultipleToWebp
+   } = require("./middleware/upload");
+*/
+
+module.exports = upload;
+
+module.exports.upload = upload;
+module.exports.convertSingleToWebp =
+  convertSingleToWebp;
+module.exports.convertMultipleToWebp =
+  convertMultipleToWebp;

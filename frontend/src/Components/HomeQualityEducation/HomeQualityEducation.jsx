@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HomeQualityEducation.css';
 import studenImg from '../../assets/Education.webp';
 
 const HomeQualityEducation = () => {
+  const navigate = useNavigate();
+
   const skillsData = [
     {
       label: 'Education Skills :',
@@ -20,6 +23,12 @@ const HomeQualityEducation = () => {
       color: '#ff8a00',
     },
   ];
+
+  const handleMoreAboutUsClick = (e) => {
+    e.preventDefault();
+    navigate('/about');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <section className="hq-section" aria-labelledby="quality-education-title">
@@ -116,8 +125,9 @@ const HomeQualityEducation = () => {
           </div>
 
           {/* CTA */}
-          <a
-            href="#more"
+          <button
+            type="button"
+            onClick={handleMoreAboutUsClick}
             className="hq-btn-cta"
             aria-label="Learn more about Nanda Kidz"
           >
@@ -140,7 +150,7 @@ const HomeQualityEducation = () => {
 
               <polyline points="7 7 17 7 17 17"></polyline>
             </svg>
-          </a>
+          </button>
 
         </div>
       </div>

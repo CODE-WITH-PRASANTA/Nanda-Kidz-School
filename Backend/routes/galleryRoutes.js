@@ -1,11 +1,58 @@
-const express = require('express');
-const router = express.Router();
-const { getData, createItem, updateItem, deleteItem, createAlbum } = require('../controllers/galleryController');
+const express = require("express");
 
-router.get('/', getData);
-router.item = router.post('/item', createItem);
-router.put('/item/:id', updateItem);
-router.delete('/item/:id', deleteItem);
-router.post('/album', createAlbum);
+const router = express.Router();
+
+const upload = require("../middleware/upload");
+
+const {
+  convertSingleToWebp,
+} = require("../middleware/upload");
+
+const {
+  getGalleries,
+  createGallery,
+  updateGallery,
+  deleteGallery,
+} = require("../controllers/galleryController");
+
+/* =========================================================
+   GET ALL GALLERY
+========================================================= */
+
+router.get(
+  "/",
+  getGalleries
+);
+
+/* =========================================================
+   CREATE GALLERY
+========================================================= */
+
+router.post(
+  "/",
+  upload.single("image"),
+  convertSingleToWebp,
+  createGallery
+);
+
+/* =========================================================
+   UPDATE GALLERY
+========================================================= */
+
+router.put(
+  "/:id",
+  upload.single("image"),
+  convertSingleToWebp,
+  updateGallery
+);
+
+/* =========================================================
+   DELETE GALLERY
+========================================================= */
+
+router.delete(
+  "/:id",
+  deleteGallery
+);
 
 module.exports = router;

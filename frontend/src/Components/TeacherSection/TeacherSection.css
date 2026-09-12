@@ -1,5 +1,5 @@
 /* =========================================================
-   MAIN SECTION
+   MAIN SECTION STYLING
 ========================================================= */
 
 .TeacherSection {
@@ -37,7 +37,6 @@
   width: min(1400px, 100%);
   margin: 0 auto;
 }
-
 
 /* =========================================================
    SECTION HEADING
@@ -88,7 +87,6 @@
   margin-top: 11px;
 }
 
-
 /* =========================================================
    TEACHER GRID
 ========================================================= */
@@ -98,7 +96,6 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 55px 30px;
 }
-
 
 /* =========================================================
    TEACHER CARD
@@ -110,8 +107,8 @@
   align-items: center;
   min-width: 0;
   text-align: center;
+  cursor: pointer;
 }
-
 
 /* =========================================================
    IMAGE WRAPPER
@@ -124,16 +121,10 @@
   margin: 0 auto 20px;
   padding: 7px;
   border-radius: 50%;
-  background:
-    linear-gradient(
-      135deg,
-      #17835f,
-      #f1b647
-    );
+  background: linear-gradient(135deg, #17835f, #f1b647);
   box-shadow:
     0 16px 40px rgba(23, 63, 52, 0.13),
     0 0 0 7px rgba(23, 131, 95, 0.035);
-  cursor: pointer;
   transition:
     transform 0.4s ease,
     box-shadow 0.4s ease;
@@ -145,7 +136,6 @@
     0 23px 48px rgba(23, 63, 52, 0.17),
     0 0 0 8px rgba(23, 131, 95, 0.05);
 }
-
 
 /* =========================================================
    IMAGE CIRCLE
@@ -177,7 +167,6 @@
   filter: saturate(1.06);
 }
 
-
 /* =========================================================
    IMAGE OVERLAY
 ========================================================= */
@@ -186,12 +175,11 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background:
-    linear-gradient(
-      to top,
-      rgba(23, 63, 52, 0.66),
-      rgba(23, 63, 52, 0.02) 58%
-    );
+  background: linear-gradient(
+    to top,
+    rgba(23, 63, 52, 0.66),
+    rgba(23, 63, 52, 0.02) 58%
+  );
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -199,7 +187,6 @@
 .TeacherSection-image-wrapper:hover .TeacherSection-image-overlay {
   opacity: 1;
 }
-
 
 /* =========================================================
    SOCIAL ICONS
@@ -250,7 +237,6 @@
   background: #eab047;
 }
 
-
 /* =========================================================
    TEACHER INFO
 ========================================================= */
@@ -283,8 +269,12 @@
   margin-top: 10px;
   border-radius: 10px;
   background: #f2b544;
+  transition: width 0.3s ease;
 }
 
+.TeacherSection-card:hover .TeacherSection-card-line {
+  width: 50px;
+}
 
 /* =========================================================
    BOTTOM CONTENT
@@ -302,12 +292,11 @@
   padding: 43px 45px;
   border: 1px solid rgba(23, 131, 95, 0.1);
   border-radius: 28px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(23, 131, 95, 0.055),
-      rgba(242, 181, 68, 0.065)
-    );
+  background: linear-gradient(
+    135deg,
+    rgba(23, 131, 95, 0.055),
+    rgba(242, 181, 68, 0.065)
+  );
 }
 
 .TeacherSection-bottom-label {
@@ -340,7 +329,6 @@
   color: #31594d;
   font-weight: 750;
 }
-
 
 /* =========================================================
    LOCATION CARD
@@ -425,7 +413,6 @@
   line-height: 1;
 }
 
-
 /* =========================================================
    MESSAGE
 ========================================================= */
@@ -453,6 +440,181 @@
   line-height: 1.75;
 }
 
+/* =========================================================
+   INTERACTIVE TEACHER BIO MODAL (UI)
+========================================================= */
+
+.TeacherModal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 39, 32, 0.65);
+  backdrop-filter: blur(5px);
+  animation: fadeInModal 0.3s ease forwards;
+}
+
+.TeacherModal-content {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 35px;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  animation: scaleUpModal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.TeacherModal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f1f5f3;
+  color: #173f34;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.TeacherModal-close:hover {
+  background: #e06a46;
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+.TeacherModal-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #edf2f0;
+}
+
+.TeacherModal-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #17835f;
+  flex-shrink: 0;
+}
+
+.TeacherModal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  margin-bottom: 6px;
+  border-radius: 20px;
+  background: rgba(23, 131, 95, 0.1);
+  color: #17835f;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.TeacherModal-header h3 {
+  margin: 0;
+  color: #173f34;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.TeacherModal-role-sub {
+  margin: 4px 0 0;
+  color: #e06a46;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.TeacherModal-body {
+  padding: 20px 0;
+}
+
+.TeacherModal-meta-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  color: #687771;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.TeacherModal-meta-row span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #17835f;
+}
+
+.TeacherModal-subheading {
+  margin: 0 0 8px;
+  color: #173f34;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.TeacherModal-bio {
+  margin: 0;
+  color: #55635e;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.TeacherModal-note {
+  margin: 15px 0 0;
+  padding: 12px 15px;
+  border-left: 3px solid #f2b544;
+  background: rgba(242, 181, 68, 0.08);
+  color: #4a4332;
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.TeacherModal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 15px;
+  border-top: 1px solid #edf2f0;
+}
+
+.TeacherModal-action-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 10px;
+  background: #173f34;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.TeacherModal-action-btn:hover {
+  background: #17835f;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUpModal {
+  from { opacity: 0; transform: scale(0.92) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
 
 /* =========================================================
    LARGE TABLET
@@ -469,7 +631,6 @@
     height: 260px;
   }
 }
-
 
 /* =========================================================
    TABLET
@@ -499,7 +660,6 @@
     padding: 30px;
   }
 }
-
 
 /* =========================================================
    MOBILE
@@ -588,8 +748,22 @@
   .TeacherSection-message {
     margin-top: 25px;
   }
-}
 
+  .TeacherModal-content {
+    padding: 25px 20px;
+  }
+
+  .TeacherModal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .TeacherModal-img {
+    width: 75px;
+    height: 75px;
+  }
+}
 
 /* =========================================================
    SMALL MOBILE
@@ -614,21 +788,16 @@
   }
 }
 
-
 /* =========================================================
-   ACCESSIBILITY
+   ACCESSIBILITY & REDUCED MOTION
 ========================================================= */
 
 .TeacherSection-icon:focus-visible,
-.TeacherSection-location-button:focus-visible {
+.TeacherSection-location-button:focus-visible,
+.TeacherSection-card:focus-visible {
   outline: 2px solid #17835f;
   outline-offset: 4px;
 }
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .TeacherSection *,
@@ -636,5 +805,6 @@
   .TeacherSection *::after {
     transition: none !important;
     scroll-behavior: auto;
+    animation: none !important;
   }
 }

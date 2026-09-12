@@ -1,5 +1,27 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+
+// Ultimate ScrollToTop Helper Component
+const ScrollToTop = () => {
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    // 1. Scroll window directly to top
+    window.scrollTo(0, 0);
+
+    // 2. Clear scroll on document elements (fixes body/html lock issues)
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    // 3. Reset any common scrollable app containers if they exist
+    const scrollableContainers = document.querySelectorAll(".app, main, #root");
+    scrollableContainers.forEach((container) => {
+      if (container) container.scrollTop = 0;
+    });
+  }, [pathname, search]);
+
+  return null;
+};
 
 // Layout Components
 import Topbar from "./Components/Topbar/Topbar";
@@ -17,7 +39,7 @@ import ClassDetails from "./Pages/ClassDetails/ClassDetails";
 import Shop from "./Pages/Shop/Shop";
 import Gallery from "./Pages/Gallery/Gallery";
 import Pricing from "./Pages/Pricing/Pricing";
-import Price from "./Pages/Price/Price"; // Make sure this path exists in your project
+import Price from "./Pages/Price/Price"; 
 import TimeTable from "./Pages/TimeTable/TimeTable";
 import Teacher from "./Pages/Teacher/Teacher";
 import TeacherDetails from "./Pages/TeacherDetails/TeacherDetails";
@@ -29,6 +51,9 @@ import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 const App = () => {
   return (
     <BrowserRouter>
+      {/* Forces an automatic jump to top on any URL change */}
+      <ScrollToTop />
+
       {/* Global Header Elements */}
       <Topbar />
       <Navbar />
