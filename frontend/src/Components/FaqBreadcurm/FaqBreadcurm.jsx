@@ -1,6 +1,6 @@
 import React from 'react';
 import './FaqBreadcurm.css';
-import bgImage from "../../assets/bcurm.png"; // Import your hero image here
+import bgImage from "../../assets/bcurm.webp"; // Import your hero image here
 
 const FaqBanner = () => {
   return (
