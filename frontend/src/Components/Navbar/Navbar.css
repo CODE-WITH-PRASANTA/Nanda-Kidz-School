@@ -256,14 +256,8 @@
 
 .navbar-sidebar-drawer.open {
   right: 0;
-<<<<<<< HEAD
   visibility: visible;
   pointer-events: auto;
-=======
-  overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
->>>>>>> 4644094766e3291ae07f604618af82568d9a8fda
 }
 
 

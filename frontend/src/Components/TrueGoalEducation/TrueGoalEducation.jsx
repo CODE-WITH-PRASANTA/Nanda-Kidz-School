@@ -1,41 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  FaSearch, 
-  FaCheck, 
-  FaBookmark, 
-  FaFacebookF, 
-  FaTwitter, 
-  FaInstagram, 
-  FaChevronLeft, 
-  FaChevronRight,
-  FaUser,
-  FaCalendarAlt
-} from 'react-icons/fa';
-import API, { IMG_URL } from "../../api/axios";
 
-// Static UI assets fallback
-import avatarImg from '../../assets/blog-5.jpg';
-import './TrueGoalEducation.css';
+import {
+  FaSearch,
+  FaFacebookF,
+  FaTwitter,
+  FaInstagram,
+  FaChevronLeft,
+  FaChevronRight,
+  FaCalendarAlt,
+  FaUser,
+  FaArrowRight,
+} from "react-icons/fa";
+
+import API, { IMG_URL } from "../../api/axios";
+import "./TrueGoalEducation.css";
 
 const TrueGoalEducation = ({ postId }) => {
   const navigate = useNavigate();
-  
-  // Blog Data States
+
   const [blog, setBlog] = useState(null);
   const [popularPosts, setPopularPosts] = useState([]);
+  const [allPublishedBlogs, setAllPublishedBlogs] = useState([]); // Store all published for category counts
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [activeFilter, setActiveFilter] = useState(null); // Tracks category selection
+  const [activeFilter, setActiveFilter] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [breadcrumb, setBreadcrumb] = useState('Home / Blog Details');
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Fetch the specific blog post and popular sidebar posts on load or when postId changes
+  // =========================================================
+  // FETCH INITIAL DATA (SINGLE POST & ALL PUBLISHED FOR COUNTS)
+  // =========================================================
+
   useEffect(() => {
     if (postId) {
       fetchSinglePost(postId);
-      fetchPopularPosts();
-      setActiveFilter(null); // Reset grid view filter when viewing single post
+      fetchPublishedBlogs();
+      setActiveFilter(null);
     }
   }, [postId]);
 
@@ -43,118 +43,247 @@ const TrueGoalEducation = ({ postId }) => {
     try {
       setLoading(true);
       const response = await API.get(`/blogs/${id}`);
-      if (response.data && response.data.success) {
-        const postData = response.data.data;
-        setBlog(postData);
-        setBreadcrumb(`Home / Blog Details / ${postData.category || 'Article'}`);
+      if (response.data?.success) {
+        setBlog(response.data.data);
+      } else {
+        setBlog(null);
       }
     } catch (error) {
-      console.error("Error fetching blog post details:", error);
+      console.error("Error fetching blog post:", error);
+      setBlog(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchPopularPosts = async () => {
+  const fetchPublishedBlogs = async () => {
     try {
       const response = await API.get("/blogs?status=Published");
-      if (response.data && response.data.success) {
-        setPopularPosts(response.data.data.slice(0, 5)); // Grab top 5 for sidebar
+      if (response.data?.success) {
+        const posts = response.data.data;
+        setAllPublishedBlogs(posts);
+        setPopularPosts(posts.slice(0, 5));
       }
     } catch (error) {
-      console.error("Error fetching popular sidebar posts:", error);
+      console.error("Error fetching published posts:", error);
     }
   };
 
-  const fetchBlogsByCategory = async (categoryValue) => {
+  // Helper to get dynamic count for each category
+  const getCategoryCount = (categoryName) => {
+    return allPublishedBlogs.filter(
+      (item) => item.category?.toLowerCase() === categoryName.toLowerCase()
+    ).length;
+  };
+
+  // =========================================================
+  // SEARCH / CATEGORY FILTERING
+  // =========================================================
+
+  const fetchBlogsByCategoryOrSearch = async (
+    filterValue,
+    isSearch = false
+  ) => {
     try {
       setLoading(true);
-      const response = await API.get("/blogs?status=Published");
-      if (response.data && response.data.success) {
-        const allPublished = response.data.data;
-        // Filter by category
-        const matches = allPublished.filter(
-          (item) => item.category?.toLowerCase() === categoryValue.toLowerCase()
+
+      const matches = allPublishedBlogs.filter((item) => {
+        if (isSearch) {
+          const search = filterValue.toLowerCase().trim();
+          return (
+            item.title?.toLowerCase().includes(search) ||
+            item.author?.toLowerCase().includes(search) ||
+            item.category?.toLowerCase().includes(search) ||
+            item.excerpt?.toLowerCase().includes(search)
+          );
+        }
+
+        return (
+          item.category?.toLowerCase() === filterValue.toLowerCase()
         );
-        setFilteredBlogs(matches);
-      }
+      });
+
+      setFilteredBlogs(matches);
     } catch (error) {
       console.error("Error filtering blogs:", error);
+      setFilteredBlogs([]);
     } finally {
       setLoading(false);
     }
   };
+
+  // =========================================================
+  // IMAGE URL
+  // =========================================================
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "";
-    if (imagePath.startsWith("blob:") || imagePath.startsWith("http")) {
+    if (
+      imagePath.startsWith("blob:") ||
+      imagePath.startsWith("http://") ||
+      imagePath.startsWith("https://")
+    ) {
       return imagePath;
     }
     return `${IMG_URL || "http://localhost:5000"}${imagePath}`;
   };
 
+  // =========================================================
+  // DATE FORMAT
+  // =========================================================
+
   const formatDate = (dateString) => {
-    if (!dateString) return "September 31, 2026";
-    return new Date(dateString).toLocaleDateString("en-US", {
+    if (!dateString) return "September 13, 2026";
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
+      return "September 13, 2026";
+    }
+    return date.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",
     });
   };
 
+  // =========================================================
+  // BACK TO BLOGS
+  // =========================================================
+
+  const handleBackToBlogs = () => {
+    setActiveFilter(null);
+    navigate("/blogs");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // =========================================================
+  // SEARCH
+  // =========================================================
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/blogs?search=${encodeURIComponent(searchQuery)}`);
-    }
+    if (!searchQuery.trim()) return;
+
+    setActiveFilter(`Search: "${searchQuery}"`);
+    fetchBlogsByCategoryOrSearch(searchQuery, true);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
+
+  // =========================================================
+  // CATEGORY CLICK
+  // =========================================================
 
   const handleSidebarClick = (categoryName) => {
     setActiveFilter(categoryName);
-    setBreadcrumb(`Home / Blogs / ${categoryName}`);
-    fetchBlogsByCategory(categoryName);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    fetchBlogsByCategoryOrSearch(categoryName, false);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  if (loading) {
-    return <div style={{ textAlign: "center", padding: "100px", fontSize: "1.2rem", color: "#64748b" }}>Loading content...</div>;
+  // =========================================================
+  // LOADING
+  // =========================================================
+
+  if (loading && !blog) {
+    return (
+      <div className="tge-loading-screen">
+        <div className="tge-loader"></div>
+        <p>Loading article...</p>
+      </div>
+    );
   }
 
-  // If user clicked a category filter, display results in Grid View
+  // =========================================================
+  // FILTERED BLOG VIEW (GRID)
+  // =========================================================
+
   if (activeFilter) {
     return (
       <div className="tge-page-container">
+        {/* BREADCRUMB */}
         <div className="tge-breadcrumb-bar">
-          <p className="tge-breadcrumb-text">{breadcrumb} ({filteredBlogs.length} results)</p>
+          <div className="tge-container">
+            <p className="tge-breadcrumb-text">
+              <span>Home</span>
+              <span>/</span>
+              <span>Blogs</span>
+              <span>/</span>
+              <strong>{activeFilter}</strong>
+            </p>
+          </div>
         </div>
 
-        <div className="tge-main-wrapper" style={{ display: "block", padding: "20px" }}>
-          <button 
-            onClick={() => setActiveFilter(null)} 
-            style={{ marginBottom: "20px", padding: "8px 16px", background: "#2563eb", color: "#fff", border: "none", borderRadius: "8px", cursor: "pointer" }}
+        <div className="tge-container tge-filter-wrapper">
+          {/* BACK TO ARTICLE */}
+          <button
+            type="button"
+            className="tge-back-article"
+            onClick={() => setActiveFilter(null)}
           >
-            ← Back to Article
+            <FaChevronLeft />
+            <span>Back to Article</span>
           </button>
 
+          {/* FILTER HEADER */}
+          <div className="tge-filter-header">
+            <span className="tge-small-label">BLOG COLLECTION</span>
+            <h1>{activeFilter}</h1>
+            <p>
+              Explore our latest articles, insights and educational resources.
+            </p>
+          </div>
+
+          {/* EMPTY */}
           {filteredBlogs.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "50px", color: "#64748b" }}>No blog posts found for "{activeFilter}".</div>
+            <div className="tge-empty-state">
+              <h3>No articles found</h3>
+              <p>We couldn't find any blog posts matching your selection.</p>
+            </div>
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
+            <div className="tge-blog-grid">
               {filteredBlogs.map((post) => (
-                <div 
-                  key={post._id} 
+                <article
+                  key={post._id}
+                  className="tge-grid-card"
                   onClick={() => navigate(`/blog/${post._id}`)}
-                  style={{ background: "#fff", border: "1px solid #e3e9f5", borderRadius: "12px", overflow: "hidden", cursor: "pointer", boxShadow: "0 4px 12px rgba(0,0,0,0.05)" }}
                 >
-                  <div style={{ height: "180px", overflow: "hidden" }}>
-                    <img src={getImageUrl(post.image)} alt={post.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <div className="tge-grid-image">
+                    {post.image && (
+                      <img
+                        src={getImageUrl(post.image)}
+                        alt={post.title || "Blog article"}
+                      />
+                    )}
+                    <span className="tge-grid-category">
+                      {post.category || "Article"}
+                    </span>
                   </div>
-                  <div style={{ padding: "16px" }}>
-                    <span style={{ fontSize: "0.75rem", fontWeight: "700", color: "#2563eb", background: "#e4edff", padding: "3px 10px", borderRadius: "999px" }}>{post.category}</span>
-                    <h3 style={{ fontSize: "1.1rem", margin: "10px 0", color: "#0b2f6b" }}>{post.title}</h3>
-                    <p style={{ fontSize: "0.85rem", color: "#64748b", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{post.excerpt}</p>
+
+                  <div className="tge-grid-content">
+                    <div className="tge-grid-meta">
+                      <FaCalendarAlt />
+                      <span>
+                        {formatDate(post.publishDate || post.date)}
+                      </span>
+                    </div>
+
+                    <h3>{post.title}</h3>
+
+                    {post.excerpt && <p>{post.excerpt}</p>}
+
+                    <span className="tge-read-more">
+                      Read Article
+                      <FaArrowRight />
+                    </span>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           )}
@@ -163,188 +292,199 @@ const TrueGoalEducation = ({ postId }) => {
     );
   }
 
+  // =========================================================
+  // ARTICLE NOT FOUND
+  // =========================================================
+
   if (!blog) {
-    return <div style={{ textAlign: "center", padding: "100px", fontSize: "1.2rem", color: "#e0392f" }}>Requested article could not be found.</div>;
+    return (
+      <div className="tge-not-found">
+        <h2>Article Not Found</h2>
+        <p>The requested article could not be found.</p>
+        <button type="button" onClick={handleBackToBlogs}>
+          Back to Blogs
+        </button>
+      </div>
+    );
   }
+
+  // =========================================================
+  // MAIN BLOG DETAILS
+  // =========================================================
 
   return (
     <div className="tge-page-container">
-      {/* Dynamic Breadcrumb Bar */}
+      {/* BREADCRUMB */}
       <div className="tge-breadcrumb-bar">
-        <p className="tge-breadcrumb-text">{breadcrumb}</p>
+        <div className="tge-container">
+          <p className="tge-breadcrumb-text">
+            <span>Home</span>
+            <span>/</span>
+            <span>Blogs</span>
+            <span>/</span>
+            <strong>{blog.category || "Article"}</strong>
+          </p>
+        </div>
       </div>
 
-      <div className="tge-main-wrapper">
-        {/* LEFT COLUMN: Main Blog Content & Comments */}
-        <div className="tge-left-column">
-          {/* Main Feature Image */}
-          {blog.image && (
-            <div className="tge-main-image-wrapper">
-              <img 
-                src={getImageUrl(blog.image)} 
-                alt={blog.title} 
-                className="tge-main-image"
-              />
-            </div>
-          )}
-
-          {/* Meta Information */}
-          <div className="tge-post-meta">
-            <span>Posted On: <strong className="tge-text-dark">{formatDate(blog.publishDate || blog.date)}</strong></span>
-            <span className="tge-meta-separator">–</span>
-            <span>Posted By: <strong className="tge-text-dark">{blog.author || "Admin"}</strong></span>
-            <span className="tge-meta-separator">–</span>
-            <span>Category: <strong className="tge-text-dark">{blog.category}</strong></span>
-          </div>
-
-          {/* Post Title */}
-          <h1 className="tge-post-title">
-            {blog.title}
-          </h1>
-
-          {/* Excerpt / Short Summary */}
-          {blog.excerpt && (
-            <p className="tge-paragraph" style={{ fontWeight: "500", fontSize: "1.1rem" }}>
-              {blog.excerpt}
-            </p>
-          )}
-
-          {/* Render Full TinyMCE HTML Content safely */}
-          <div 
-            className="tge-paragraph" 
-            dangerouslySetInnerHTML={{ __html: blog.content }} 
-          />
-
-          {/* Highlight Quote Box */}
-          <blockquote className="tge-quote-box">
-            "Education is the most powerful weapon which you can use to change the world."
-          </blockquote>
-
-          {/* Offer Checklist Section */}
-          <h2 className="tge-section-title">Four Major Elements That We Offer:</h2>
-          <ul className="tge-check-list">
-            <li>
-              <span className="tge-check-icon light"><FaCheck /></span>
-              Your child’s interests, likes, and individual learning pace
-            </li>
-            <li>
-              <span className="tge-check-icon light"><FaCheck /></span>
-              Daily routines, patterns of engagement, and wellbeing
-            </li>
-            <li>
-              <span className="tge-check-icon light"><FaCheck /></span>
-              Safe classroom environment and interactive activities
-            </li>
-            <li>
-              <span className="tge-check-icon filled"><FaCheck /></span>
-              Continuous communication and progress updates for parents.
-            </li>
-          </ul>
-
-          {/* Tags & Social Share Footer */}
-          <div className="tge-post-footer">
-            <div className="tge-footer-tags">
-              <FaBookmark className="tge-bookmark-icon" />
-              <span>{blog.category}, Preschool, Children</span>
-            </div>
-            <div className="tge-social-share">
-              <span>Share:</span>
-              <button className="tge-social-btn" aria-label="Share on Facebook"><FaFacebookF /></button>
-              <button className="tge-social-btn" aria-label="Share on Twitter"><FaTwitter /></button>
-              <button className="tge-social-btn" aria-label="Share on Instagram"><FaInstagram /></button>
-            </div>
-          </div>
-
-          {/* Post Navigation Controls */}
-          <div className="tge-post-nav">
-            <button className="tge-nav-btn" onClick={() => navigate('/blogs')}><FaChevronLeft /> Back to Blogs</button>
-            <button className="tge-nav-btn" onClick={() => navigate('/blogs')}>More Articles <FaChevronRight /></button>
-          </div>
-
-          {/* Comments Section */}
-          <div className="tge-comments-section">
-            <h3 className="tge-comments-title">Comments:</h3>
-
-            <div className="tge-comment-card">
-              <img src={avatarImg} alt="John Jones" className="tge-avatar" />
-              <div className="tge-comment-content">
-                <h4>John Jones</h4>
-                <p className="tge-comment-date">April 24, 2026 at 10:59 am</p>
-                <p className="tge-comment-body">This article provides wonderful insight into modern early learning frameworks!</p>
-                <button className="tge-reply-btn">Reply</button>
-              </div>
-            </div>
-          </div>
-
-          {/* Leave a Reply Form Section */}
-          <div className="tge-reply-form-wrapper">
-            <h3 className="tge-form-title">Leave a Reply</h3>
-            <p className="tge-form-subtitle">Your email address will not be published. Required fields are marked <span className="tge-required">*</span></p>
-            
-            <form onSubmit={(e) => { e.preventDefault(); alert("Comment submitted successfully!"); }}>
-              <div className="tge-form-row">
-                <input type="text" placeholder="Your Name*" required className="tge-input" />
-                <input type="email" placeholder="Your Email*" required className="tge-input" />
-              </div>
-              <input type="text" placeholder="Website" className="tge-input full-width" />
-              <textarea placeholder="Your Comment..." rows="5" className="tge-textarea" required></textarea>
-              
-              <div className="tge-checkbox-row">
-                <input type="checkbox" id="save-info" />
-                <label htmlFor="save-info">Save my name, email, and website in this browser for the next time I comment.</label>
-              </div>
-
-              <button type="submit" className="tge-submit-btn">Post A Comment</button>
-            </form>
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: Sticky Sidebar */}
-        <aside className="tge-right-column">
-          {/* Search Widget */}
-          <div className="tge-sidebar-card">
-            <h3 className="tge-sidebar-title">Search</h3>
-            <form onSubmit={handleSearchSubmit} className="tge-search-box">
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="tge-search-input" 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button type="submit" className="tge-search-btn" aria-label="Search"><FaSearch /></button>
-            </form>
-          </div>
-
-          {/* Popular Posts Widget (Dynamic from DB) */}
-          <div className="tge-sidebar-card">
-            <h3 className="tge-sidebar-title">Popular Posts</h3>
-            <div className="tge-popular-list">
-              {popularPosts.map((item) => (
-                <div key={item._id} className="tge-popular-item" onClick={() => navigate(`/blog/${item._id}`)}>
-                  <img src={getImageUrl(item.image)} alt={item.title} className="tge-popular-img" />
-                  <div className="tge-popular-info">
-                    <span className="tge-popular-date">{formatDate(item.publishDate || item.date)}</span>
-                    <h4 className="tge-popular-heading">{item.title}</h4>
-                  </div>
+      <div className="tge-container">
+        <div className="tge-main-wrapper">
+          {/* LEFT COLUMN */}
+          <main className="tge-left-column">
+            {/* FEATURE IMAGE */}
+            {blog.image && (
+              <div className="tge-main-image-wrapper">
+                <img
+                  src={getImageUrl(blog.image)}
+                  alt={blog.title || "Blog article"}
+                  className="tge-main-image"
+                />
+                <div className="tge-image-overlay">
+                  <span>{blog.category || "Article"}</span>
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            )}
 
-          {/* Categories Widget */}
-          <div className="tge-sidebar-card">
-            <h3 className="tge-sidebar-title">Categories</h3>
-            <ul className="tge-categories-list">
-              {['Education', 'Technology', 'Wellness', 'Design', 'Research', 'Analytics'].map((cat, idx) => (
-                <li key={idx} className="tge-category-item" onClick={() => handleSidebarClick(cat)}>
-                  <span className="tge-orange-dot"></span>
-                  {cat}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </aside>
+            {/* META */}
+            <div className="tge-post-meta">
+              <div>
+                <FaCalendarAlt />
+                <span>
+                  {formatDate(blog.publishDate || blog.date)}
+                </span>
+              </div>
+
+              <div>
+                <FaUser />
+                <span>{blog.author || "Admin"}</span>
+              </div>
+
+              {blog.category && (
+                <div className="tge-meta-category">{blog.category}</div>
+              )}
+            </div>
+
+            {/* TITLE */}
+            <h1 className="tge-post-title">{blog.title}</h1>
+
+            {/* EXCERPT */}
+            {blog.excerpt && (
+              <div className="tge-post-excerpt">{blog.excerpt}</div>
+            )}
+
+            {/* DATABASE CONTENT */}
+            <div
+              className="tge-blog-content"
+              dangerouslySetInnerHTML={{
+                __html: blog.content || "",
+              }}
+            />
+          </main>
+
+          {/* RIGHT SIDEBAR */}
+          <aside className="tge-right-column">
+            {/* SEARCH */}
+            <div className="tge-sidebar-card">
+              <div className="tge-sidebar-heading">
+                <span className="tge-sidebar-line"></span>
+                <h3>Search Articles</h3>
+              </div>
+
+              <form onSubmit={handleSearchSubmit} className="tge-search-box">
+                <input
+                  type="text"
+                  placeholder="Search articles..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="tge-search-input"
+                />
+                <button type="submit" className="tge-search-btn">
+                  <FaSearch />
+                </button>
+              </form>
+            </div>
+
+            {/* POPULAR POSTS */}
+            <div className="tge-sidebar-card">
+              <div className="tge-sidebar-heading">
+                <span className="tge-sidebar-line"></span>
+                <h3>Popular Posts</h3>
+              </div>
+
+              <div className="tge-popular-list">
+                {popularPosts.map((item) => (
+                  <div
+                    key={item._id}
+                    className="tge-popular-item"
+                    onClick={() => navigate(`/blog/${item._id}`)}
+                  >
+                    <div className="tge-popular-image">
+                      <img
+                        src={getImageUrl(item.image)}
+                        alt={item.title || "Popular post"}
+                      />
+                    </div>
+                    <div className="tge-popular-info">
+                      <span className="tge-popular-date">
+                        {formatDate(item.publishDate || item.date)}
+                      </span>
+                      <h4 className="tge-popular-heading">{item.title}</h4>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CATEGORIES WITH DYNAMIC NUMBER COUNTS */}
+            <div className="tge-sidebar-card">
+              <div className="tge-sidebar-heading">
+                <span className="tge-sidebar-line"></span>
+                <h3>Categories</h3>
+              </div>
+
+              <ul className="tge-categories-list">
+                {[
+                  "Education",
+                  "Technology",
+                  "Wellness",
+                  "Design",
+                  "Research",
+                  "Analytics",
+                ].map((cat) => {
+                  const count = getCategoryCount(cat);
+                  return (
+                    <li
+                      key={cat}
+                      onClick={() => handleSidebarClick(cat)}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span className="tge-category-dot"></span>
+                        <span>{cat}</span>
+                      </div>
+                      <span
+                        style={{
+                          background: "#f4f8ff",
+                          color: "#1848c1",
+                          padding: "2px 8px",
+                          borderRadius: "12px",
+                          fontSize: "0.78rem",
+                          fontWeight: "700",
+                        }}
+                      >
+                        ({count < 10 ? `0${count}` : count})
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );

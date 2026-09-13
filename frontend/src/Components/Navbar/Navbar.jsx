@@ -6,7 +6,6 @@ import { CgMenuGridO } from "react-icons/cg";
 import {
   FaFacebookF,
   FaInstagram,
-  FaYoutube,
   FaMapMarkerAlt,
   FaPhoneAlt,
 } from "react-icons/fa";
@@ -451,30 +450,23 @@ const Navbar = () => {
             <div className="navbar-sidebar-socials">
 
               <a
-                href="#"
+                href="https://www.facebook.com/share/v/1GqXQdyJML/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="facebook-link"
                 aria-label="Nanda Kidz Facebook"
-                onClick={(e) => e.preventDefault()}
               >
                 <FaFacebookF />
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/reel/DcvR2h6PWwk/?igsi=Z3Vwd2xwc2Q4cHMx"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="instagram-link"
                 aria-label="Nanda Kidz Instagram"
-                onClick={(e) => e.preventDefault()}
               >
                 <FaInstagram />
-              </a>
-
-              <a
-                href="#"
-                className="youtube-link"
-                aria-label="Nanda Kidz YouTube"
-                onClick={(e) => e.preventDefault()}
-              >
-                <FaYoutube />
               </a>
 
             </div>
