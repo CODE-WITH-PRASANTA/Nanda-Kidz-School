@@ -20,6 +20,10 @@ const contactRoutes = require("./routes/contactRoutes");
 const enquiryRoutes = require("./routes/enquiryRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 
+const testimonialRoutes = require(
+  "./routes/testimonialRoutes"
+);
+
 
 // Database Connection
 connectDB();
@@ -63,6 +67,10 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/blogs", blogRoutes);
+app.use(
+  "/api/testimonials",
+  testimonialRoutes
+);
 
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)

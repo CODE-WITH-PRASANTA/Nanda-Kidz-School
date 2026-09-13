@@ -175,13 +175,11 @@ const Sidebar = ({
             },
           ],
         },
-<<<<<<< HEAD
         { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
         { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
         { type: 'link', icon: Library, text: 'Library', path: '/library' },
         { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
         { type: 'link', icon: Library, text: 'Order', path: '/order' },
-=======
 
         {
           type: 'link',
@@ -217,7 +215,6 @@ const Sidebar = ({
           text: 'Order',
           path: '/order',
         },
->>>>>>> b9039e9 (pull)
       ],
     },
 
@@ -246,14 +243,12 @@ const Sidebar = ({
             },
           ],
         },
-<<<<<<< HEAD
         { type: 'link', icon: Send, text: 'Teacher Post', path: '/teacher-posts' },
         { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
         { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
         { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
         { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
         { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
-=======
 
         {
           type: 'link',
@@ -300,7 +295,6 @@ const Sidebar = ({
           text: 'Testimonials',
           path: '/testimonials',
         },
->>>>>>> b9039e9 (pull)
       ],
     },
 

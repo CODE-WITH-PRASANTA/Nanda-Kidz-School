@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
 import "./Testimonials.css";
 
 import {
@@ -16,177 +22,27 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 
+// =====================================================
+// API
+// =====================================================
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 const Testimonials = () => {
-  /* =========================================================
-     TESTIMONIAL DATA
-  ========================================================= */
+  // =====================================================
+  // TESTIMONIAL DATA
+  // =====================================================
 
-  const [testimonials, setTestimonials] = useState([
-    {
-      id: 1,
-      name: "Priya Mohanty",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "A wonderful place for little ones to begin their learning journey. The child-proofed classrooms feel safe and welcoming, while the teachers are caring and attentive to every child.",
-      status: "Published",
-      createdAt: "2025-09-12T10:30:00",
-    },
-    {
-      id: 2,
-      name: "Rahul Das",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "We are very happy with the learning environment. The classrooms are clean, hygienic, and well maintained. The open play areas give children plenty of space to learn, play, and explore.",
-      status: "Published",
-      createdAt: "2025-09-10T16:15:00",
-    },
-    {
-      id: 3,
-      name: "Sneha Patnaik",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "The teachers understand how young children learn. Activities are fun and engaging, and the school gives equal importance to learning, creativity, play, and good habits.",
-      status: "Unpublished",
-      createdAt: "2025-09-08T11:20:00",
-    },
-    {
-      id: 4,
-      name: "Amit Kumar",
-      designation: "Guardian",
-      rating: 4,
-      review:
-        "Good infrastructure and supportive staff. My child enjoys coming to school every day.",
-      status: "Published",
-      createdAt: "2025-09-05T09:45:00",
-    },
-    {
-      id: 5,
-      name: "Pooja Sahoo",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "A safe and nurturing place for kids. Highly recommended!",
-      status: "Unpublished",
-      createdAt: "2025-09-01T14:10:00",
-    },
-    {
-      id: 6,
-      name: "Ananya Sahu",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "The school has created a warm and positive atmosphere for children. My child has become more confident, social, and independent.",
-      status: "Published",
-      createdAt: "2025-08-28T12:30:00",
-    },
-    {
-      id: 7,
-      name: "Suman Mishra",
-      designation: "Guardian",
-      rating: 4,
-      review:
-        "I really appreciate the attention given to cleanliness and safety. The staff are friendly and approachable.",
-      status: "Unpublished",
-      createdAt: "2025-08-24T15:20:00",
-    },
-    {
-      id: 8,
-      name: "Ritika Nayak",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "The caring teachers, safe classrooms, and enjoyable activities make this nursery a great choice.",
-      status: "Published",
-      createdAt: "2025-08-20T10:15:00",
-    },
-    {
-      id: 9,
-      name: "Debashis Rout",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "The school provides a balanced environment where children can learn at their own pace.",
-      status: "Published",
-      createdAt: "2025-08-18T09:30:00",
-    },
-    {
-      id: 10,
-      name: "Neha Behera",
-      designation: "Parent",
-      rating: 4,
-      review:
-        "A lovely learning environment with friendly teachers and safe classrooms.",
-      status: "Unpublished",
-      createdAt: "2025-08-15T17:00:00",
-    },
-    {
-      id: 11,
-      name: "Rakesh Das",
-      designation: "Guardian",
-      rating: 5,
-      review:
-        "Very happy with the school environment and teaching methods.",
-      status: "Published",
-      createdAt: "2025-08-12T11:45:00",
-    },
-    {
-      id: 12,
-      name: "Sweta Mohanty",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "The teachers are very supportive and caring towards children.",
-      status: "Published",
-      createdAt: "2025-08-09T13:10:00",
-    },
-    {
-      id: 13,
-      name: "Kunal Nayak",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "Excellent atmosphere and very helpful teachers. My child loves school.",
-      status: "Unpublished",
-      createdAt: "2025-08-05T10:20:00",
-    },
-    {
-      id: 14,
-      name: "Madhuri Das",
-      designation: "Guardian",
-      rating: 4,
-      review:
-        "Clean classrooms and very good care for children.",
-      status: "Published",
-      createdAt: "2025-08-01T14:30:00",
-    },
-    {
-      id: 15,
-      name: "Sanjay Sahu",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "A very positive learning environment for young children.",
-      status: "Published",
-      createdAt: "2025-07-28T12:10:00",
-    },
-    {
-      id: 16,
-      name: "Meera Mohanty",
-      designation: "Parent",
-      rating: 5,
-      review:
-        "The staff are caring and the school facilities are excellent.",
-      status: "Unpublished",
-      createdAt: "2025-07-25T09:50:00",
-    },
-  ]);
+  const [testimonials, setTestimonials] = useState([]);
 
-  /* =========================================================
-     FILTER STATES
-  ========================================================= */
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState("");
+
+  // =====================================================
+  // FILTER STATES
+  // =====================================================
 
   const [search, setSearch] = useState("");
 
@@ -196,45 +52,97 @@ const Testimonials = () => {
   const [dateFilter, setDateFilter] =
     useState("All Time");
 
-  /* =========================================================
-     PAGINATION
-  ========================================================= */
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
   const entriesPerPage = 6;
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  /* =========================================================
-     SELECTION
-  ========================================================= */
+  // =====================================================
+  // SELECTION
+  // =====================================================
 
   const [selectedIds, setSelectedIds] = useState([]);
 
   const selectAllRef = useRef(null);
 
-  /* =========================================================
-     ACTION MENU
-  ========================================================= */
+  // =====================================================
+  // ACTION MENU
+  // =====================================================
 
   const [openMenu, setOpenMenu] = useState(null);
 
-  /* =========================================================
-     INITIALS
-  ========================================================= */
+  // =====================================================
+  // FETCH ALL TESTIMONIALS
+  // =====================================================
 
-  const getInitials = (name) => {
-    return name
+  const fetchTestimonials = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/testimonials/admin`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Failed to fetch testimonials."
+        );
+      }
+
+      setTestimonials(data.testimonials || []);
+
+      setCurrentPage(1);
+      setSelectedIds([]);
+    } catch (error) {
+      console.error(
+        "FETCH TESTIMONIALS ERROR:",
+        error
+      );
+
+      setTestimonials([]);
+
+      setError(
+        error.message ||
+          "Unable to load testimonials."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // =====================================================
+  // INITIAL LOAD
+  // =====================================================
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, []);
+
+  // =====================================================
+  // INITIALS
+  // =====================================================
+
+  const getInitials = (name = "") => {
+    return String(name)
       .trim()
       .split(/\s+/)
+      .filter(Boolean)
       .map((word) => word.charAt(0))
       .join("")
       .slice(0, 2)
       .toUpperCase();
   };
 
-  /* =========================================================
-     AVATAR COLOR
-  ========================================================= */
+  // =====================================================
+  // AVATAR COLORS
+  // =====================================================
 
   const avatarColors = [
     "Testimonials__avatar--orange",
@@ -245,21 +153,52 @@ const Testimonials = () => {
   ];
 
   const getAvatarColor = (id) => {
-    return avatarColors[id % avatarColors.length];
+    const value = String(id || "");
+
+    let hash = 0;
+
+    for (let i = 0; i < value.length; i++) {
+      hash =
+        value.charCodeAt(i) +
+        ((hash << 5) - hash);
+    }
+
+    return avatarColors[
+      Math.abs(hash) % avatarColors.length
+    ];
   };
 
-  /* =========================================================
-     DATE FORMAT
-  ========================================================= */
+  // =====================================================
+  // DATE FORMAT
+  // =====================================================
 
   const formatDate = (dateString) => {
+    if (!dateString) {
+      return {
+        date: "-",
+        time: "-",
+      };
+    }
+
     const date = new Date(dateString);
 
-    const day = String(date.getDate()).padStart(2, "0");
+    if (Number.isNaN(date.getTime())) {
+      return {
+        date: "-",
+        time: "-",
+      };
+    }
 
-    const month = date.toLocaleString("en-US", {
-      month: "short",
-    });
+    const day = String(
+      date.getDate()
+    ).padStart(2, "0");
+
+    const month = date.toLocaleString(
+      "en-US",
+      {
+        month: "short",
+      }
+    );
 
     const year = date.getFullYear();
 
@@ -269,12 +208,14 @@ const Testimonials = () => {
       date.getMinutes()
     ).padStart(2, "0");
 
-    const ampm = hours >= 12 ? "PM" : "AM";
+    const ampm =
+      hours >= 12 ? "PM" : "AM";
 
     hours = hours % 12 || 12;
 
     return {
       date: `${day} ${month} ${year}`,
+
       time: `${String(hours).padStart(
         2,
         "0"
@@ -282,17 +223,31 @@ const Testimonials = () => {
     };
   };
 
-  /* =========================================================
-     DATE FILTER
-  ========================================================= */
+  // =====================================================
+  // DATE FILTER
+  // =====================================================
 
   const isDateMatch = (dateString) => {
     if (dateFilter === "All Time") {
       return true;
     }
 
-    const createdDate = new Date(dateString);
+    if (!dateString) {
+      return false;
+    }
+
+    const createdDate =
+      new Date(dateString);
+
     const now = new Date();
+
+    if (
+      Number.isNaN(
+        createdDate.getTime()
+      )
+    ) {
+      return false;
+    }
 
     if (dateFilter === "Today") {
       return (
@@ -304,7 +259,9 @@ const Testimonials = () => {
     if (dateFilter === "Last 7 Days") {
       const date = new Date();
 
-      date.setDate(date.getDate() - 7);
+      date.setDate(
+        date.getDate() - 7
+      );
 
       return createdDate >= date;
     }
@@ -312,14 +269,17 @@ const Testimonials = () => {
     if (dateFilter === "Last 30 Days") {
       const date = new Date();
 
-      date.setDate(date.getDate() - 30);
+      date.setDate(
+        date.getDate() - 30
+      );
 
       return createdDate >= date;
     }
 
     if (dateFilter === "This Month") {
       return (
-        createdDate.getMonth() === now.getMonth() &&
+        createdDate.getMonth() ===
+          now.getMonth() &&
         createdDate.getFullYear() ===
           now.getFullYear()
       );
@@ -328,34 +288,45 @@ const Testimonials = () => {
     return true;
   };
 
-  /* =========================================================
-     FILTER DATA
-  ========================================================= */
+  // =====================================================
+  // FILTER DATA
+  // =====================================================
 
   const filteredTestimonials = useMemo(() => {
     return testimonials.filter((item) => {
       const searchValue =
         search.toLowerCase().trim();
 
+      const name =
+        String(item.name || "")
+          .toLowerCase();
+
+      const designation =
+        String(
+          item.designation || ""
+        ).toLowerCase();
+
+      const description =
+        String(
+          item.description || ""
+        ).toLowerCase();
+
       const matchesSearch =
         !searchValue ||
-        item.name
-          .toLowerCase()
-          .includes(searchValue) ||
-        item.designation
-          .toLowerCase()
-          .includes(searchValue) ||
-        item.review
-          .toLowerCase()
-          .includes(searchValue);
+        name.includes(searchValue) ||
+        designation.includes(
+          searchValue
+        ) ||
+        description.includes(
+          searchValue
+        );
 
       const matchesStatus =
         statusFilter === "All Status" ||
         item.status === statusFilter;
 
-      const matchesDate = isDateMatch(
-        item.createdAt
-      );
+      const matchesDate =
+        isDateMatch(item.createdAt);
 
       return (
         matchesSearch &&
@@ -370,9 +341,9 @@ const Testimonials = () => {
     dateFilter,
   ]);
 
-  /* =========================================================
-     PAGINATION CALCULATION
-  ========================================================= */
+  // =====================================================
+  // PAGINATION CALCULATION
+  // =====================================================
 
   const totalPages = Math.ceil(
     filteredTestimonials.length /
@@ -400,13 +371,13 @@ const Testimonials = () => {
       endIndex
     );
 
-  /* =========================================================
-     CURRENT PAGE SELECTED
-  ========================================================= */
+  // =====================================================
+  // CURRENT PAGE SELECTED
+  // =====================================================
 
   const currentPageIds =
     currentTestimonials.map(
-      (item) => item.id
+      (item) => item._id
     );
 
   const selectedCurrentPageCount =
@@ -424,9 +395,9 @@ const Testimonials = () => {
     selectedCurrentPageCount <
       currentTestimonials.length;
 
-  /* =========================================================
-     SELECT ALL IN CURRENT PAGE
-  ========================================================= */
+  // =====================================================
+  // SELECT ALL REF
+  // =====================================================
 
   useEffect(() => {
     if (selectAllRef.current) {
@@ -434,6 +405,10 @@ const Testimonials = () => {
         isSomeCurrentPageSelected;
     }
   }, [isSomeCurrentPageSelected]);
+
+  // =====================================================
+  // SELECT ALL
+  // =====================================================
 
   const handleSelectAll = () => {
     if (isAllCurrentPageSelected) {
@@ -455,9 +430,9 @@ const Testimonials = () => {
     }
   };
 
-  /* =========================================================
-     SINGLE SELECT
-  ========================================================= */
+  // =====================================================
+  // SINGLE SELECT
+  // =====================================================
 
   const handleSingleSelect = (id) => {
     setSelectedIds((prev) => {
@@ -472,9 +447,9 @@ const Testimonials = () => {
     });
   };
 
-  /* =========================================================
-     SEARCH
-  ========================================================= */
+  // =====================================================
+  // SEARCH
+  // =====================================================
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -486,9 +461,9 @@ const Testimonials = () => {
     setOpenMenu(null);
   };
 
-  /* =========================================================
-     STATUS FILTER
-  ========================================================= */
+  // =====================================================
+  // STATUS FILTER
+  // =====================================================
 
   const handleStatusFilter = (value) => {
     setStatusFilter(value);
@@ -500,9 +475,9 @@ const Testimonials = () => {
     setOpenMenu(null);
   };
 
-  /* =========================================================
-     DATE FILTER
-  ========================================================= */
+  // =====================================================
+  // DATE FILTER
+  // =====================================================
 
   const handleDateFilter = (value) => {
     setDateFilter(value);
@@ -514,9 +489,9 @@ const Testimonials = () => {
     setOpenMenu(null);
   };
 
-  /* =========================================================
-     RESET
-  ========================================================= */
+  // =====================================================
+  // RESET
+  // =====================================================
 
   const handleReset = () => {
     setSearch("");
@@ -532,68 +507,150 @@ const Testimonials = () => {
     setOpenMenu(null);
   };
 
-  /* =========================================================
-     CHANGE STATUS
-  ========================================================= */
+  // =====================================================
+  // REFRESH
+  // =====================================================
 
-  const handleStatusChange = (
+  const handleRefresh = () => {
+    setOpenMenu(null);
+    fetchTestimonials();
+  };
+
+  // =====================================================
+  // CHANGE STATUS - BACKEND
+  // =====================================================
+
+  const handleStatusChange = async (
     id,
     newStatus
   ) => {
-    setTestimonials((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              status: newStatus,
-            }
-          : item
-      )
-    );
+    try {
+      setOpenMenu(null);
 
-    setOpenMenu(null);
+      const response = await fetch(
+        `${API_BASE_URL}/api/testimonials/${id}/status`,
+        {
+          method: "PATCH",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            status: newStatus,
+          }),
+        }
+      );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Failed to update testimonial status."
+        );
+      }
+
+      setTestimonials((prev) =>
+        prev.map((item) =>
+          item._id === id
+            ? {
+                ...item,
+                status:
+                  data.testimonial
+                    ?.status ||
+                  newStatus,
+              }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error(
+        "UPDATE TESTIMONIAL STATUS ERROR:",
+        error
+      );
+
+      alert(
+        error.message ||
+          "Failed to update testimonial status."
+      );
+    }
   };
 
-  /* =========================================================
-     DELETE SINGLE
-  ========================================================= */
+  // =====================================================
+  // DELETE SINGLE - BACKEND
+  // =====================================================
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const item = testimonials.find(
       (testimonial) =>
-        testimonial.id === id
+        testimonial._id === id
     );
 
-    if (!item) return;
+    if (!item) {
+      return;
+    }
 
-    const confirmed = window.confirm(
-      `Are you sure you want to delete "${item.name}" testimonial?`
-    );
+    const confirmed =
+      window.confirm(
+        `Are you sure you want to delete "${item.name}" testimonial?`
+      );
 
     if (!confirmed) {
       return;
     }
 
-    setTestimonials((prev) =>
-      prev.filter(
-        (testimonial) =>
-          testimonial.id !== id
-      )
-    );
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/testimonials/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-    setSelectedIds((prev) =>
-      prev.filter(
-        (selectedId) =>
-          selectedId !== id
-      )
-    );
+      const data =
+        await response.json();
 
-    setOpenMenu(null);
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+            "Failed to delete testimonial."
+        );
+      }
+
+      setTestimonials((prev) =>
+        prev.filter(
+          (testimonial) =>
+            testimonial._id !== id
+        )
+      );
+
+      setSelectedIds((prev) =>
+        prev.filter(
+          (selectedId) =>
+            selectedId !== id
+        )
+      );
+
+      setOpenMenu(null);
+    } catch (error) {
+      console.error(
+        "DELETE TESTIMONIAL ERROR:",
+        error
+      );
+
+      alert(
+        error.message ||
+          "Failed to delete testimonial."
+      );
+    }
   };
 
-  /* =========================================================
-     PAGINATION
-  ========================================================= */
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
   const goToPage = (page) => {
     if (
@@ -610,9 +667,9 @@ const Testimonials = () => {
     setOpenMenu(null);
   };
 
-  /* =========================================================
-     PAGE NUMBERS
-  ========================================================= */
+  // =====================================================
+  // PAGE NUMBERS
+  // =====================================================
 
   const getPageNumbers = () => {
     const pages = [];
@@ -665,9 +722,9 @@ const Testimonials = () => {
     ];
   };
 
-  /* =========================================================
-     CLOSE MENU
-  ========================================================= */
+  // =====================================================
+  // CLOSE MENU
+  // =====================================================
 
   const handleOutsideClick = () => {
     if (openMenu !== null) {
@@ -675,32 +732,26 @@ const Testimonials = () => {
     }
   };
 
-  /* =========================================================
-     RENDER
-  ========================================================= */
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
     <div
       className="Testimonials"
       onClick={handleOutsideClick}
     >
-
       {/* =====================================================
           HEADER
       ===================================================== */}
 
       <div className="Testimonials__header">
-
         <div className="Testimonials__header-content">
-
           <h1 className="Testimonials__title">
             Testimonials
           </h1>
-
         </div>
-
       </div>
-
 
       {/* =====================================================
           MAIN CARD
@@ -717,7 +768,6 @@ const Testimonials = () => {
           {/* SEARCH */}
 
           <div className="Testimonials__search">
-
             <FaSearch />
 
             <input
@@ -726,14 +776,11 @@ const Testimonials = () => {
               onChange={handleSearch}
               placeholder="Search by name or designation..."
             />
-
           </div>
-
 
           {/* STATUS */}
 
           <div className="Testimonials__select-wrapper">
-
             <select
               value={statusFilter}
               onChange={(e) =>
@@ -742,28 +789,25 @@ const Testimonials = () => {
                 )
               }
             >
-              <option>
+              <option value="All Status">
                 All Status
               </option>
 
-              <option>
+              <option value="published">
                 Published
               </option>
 
-              <option>
+              <option value="unpublished">
                 Unpublished
               </option>
             </select>
 
             <FaChevronDown />
-
           </div>
-
 
           {/* DATE */}
 
           <div className="Testimonials__select-wrapper Testimonials__select-wrapper--date">
-
             <FaCalendarAlt className="Testimonials__calendar-icon" />
 
             <select
@@ -774,31 +818,29 @@ const Testimonials = () => {
                 )
               }
             >
-              <option>
+              <option value="All Time">
                 All Time
               </option>
 
-              <option>
+              <option value="Today">
                 Today
               </option>
 
-              <option>
+              <option value="Last 7 Days">
                 Last 7 Days
               </option>
 
-              <option>
+              <option value="Last 30 Days">
                 Last 30 Days
               </option>
 
-              <option>
+              <option value="This Month">
                 This Month
               </option>
             </select>
 
             <FaChevronDown />
-
           </div>
-
 
           {/* RESET */}
 
@@ -816,17 +858,14 @@ const Testimonials = () => {
 
         </div>
 
-
         {/* ===================================================
             SELECTED INFO
         =================================================== */}
 
         {selectedIds.length > 0 && (
-
           <div className="Testimonials__selection-bar">
 
             <div className="Testimonials__selection-info">
-
               <span className="Testimonials__selection-count">
                 {selectedIds.length}
               </span>
@@ -838,7 +877,6 @@ const Testimonials = () => {
                   : ""}{" "}
                 selected
               </span>
-
             </div>
 
             <button
@@ -852,9 +890,7 @@ const Testimonials = () => {
             </button>
 
           </div>
-
         )}
-
 
         {/* ===================================================
             TABLE
@@ -865,13 +901,11 @@ const Testimonials = () => {
           <table className="Testimonials__table">
 
             <thead>
-
               <tr>
 
                 {/* SELECT ALL */}
 
                 <th className="Testimonials__th--check">
-
                   <label className="Testimonials__checkbox">
 
                     <input
@@ -888,9 +922,7 @@ const Testimonials = () => {
                     <span className="Testimonials__checkbox-custom"></span>
 
                   </label>
-
                 </th>
-
 
                 {/* NUMBER */}
 
@@ -898,13 +930,11 @@ const Testimonials = () => {
                   #
                 </th>
 
-
                 {/* NAME */}
 
                 <th>
                   Name
                 </th>
-
 
                 {/* DESIGNATION */}
 
@@ -912,13 +942,11 @@ const Testimonials = () => {
                   Designation
                 </th>
 
-
                 {/* RATING */}
 
                 <th>
                   Rating
                 </th>
-
 
                 {/* REVIEW */}
 
@@ -926,20 +954,17 @@ const Testimonials = () => {
                   Review
                 </th>
 
-
                 {/* STATUS */}
 
                 <th>
                   Status
                 </th>
 
-
                 {/* DATE */}
 
                 <th>
                   Created At
                 </th>
-
 
                 {/* ACTION */}
 
@@ -948,13 +973,78 @@ const Testimonials = () => {
                 </th>
 
               </tr>
-
             </thead>
-
 
             <tbody>
 
-              {currentTestimonials.length > 0 ? (
+              {/* =================================================
+                  LOADING
+              ================================================= */}
+
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan="10"
+                    className="Testimonials__empty"
+                  >
+                    <div className="Testimonials__empty-content">
+                      <FaSyncAlt />
+
+                      <h3>
+                        Loading testimonials...
+                      </h3>
+
+                      <p>
+                        Please wait while testimonials are loading.
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+
+              ) : error ? (
+
+                /* =================================================
+                    ERROR
+                ================================================= */
+
+                <tr>
+                  <td
+                    colSpan="10"
+                    className="Testimonials__empty"
+                  >
+                    <div className="Testimonials__empty-content">
+
+                      <FaExclamationTriangle />
+
+                      <h3>
+                        Failed to load testimonials
+                      </h3>
+
+                      <p>
+                        {error}
+                      </p>
+
+                      <button
+                        type="button"
+                        className="Testimonials__reset"
+                        onClick={handleRefresh}
+                      >
+                        <FaSyncAlt />
+
+                        <span>
+                          Try Again
+                        </span>
+                      </button>
+
+                    </div>
+                  </td>
+                </tr>
+
+              ) : currentTestimonials.length > 0 ? (
+
+                /* =================================================
+                    TESTIMONIAL ROWS
+                ================================================= */
 
                 currentTestimonials.map(
                   (item, index) => {
@@ -966,13 +1056,17 @@ const Testimonials = () => {
 
                     const isSelected =
                       selectedIds.includes(
-                        item.id
+                        item._id
+                      );
+
+                    const rating =
+                      Number(
+                        item.rating
                       );
 
                     return (
-
                       <tr
-                        key={item.id}
+                        key={item._id}
                         className={
                           isSelected
                             ? "Testimonials__row--selected"
@@ -993,7 +1087,7 @@ const Testimonials = () => {
                               }
                               onChange={() =>
                                 handleSingleSelect(
-                                  item.id
+                                  item._id
                                 )
                               }
                             />
@@ -1004,7 +1098,6 @@ const Testimonials = () => {
 
                         </td>
 
-
                         {/* NUMBER */}
 
                         <td className="Testimonials__number">
@@ -1012,7 +1105,6 @@ const Testimonials = () => {
                             index +
                             1}
                         </td>
-
 
                         {/* NAME */}
 
@@ -1022,7 +1114,7 @@ const Testimonials = () => {
 
                             <div
                               className={`Testimonials__avatar ${getAvatarColor(
-                                item.id
+                                item._id
                               )}`}
                             >
                               {getInitials(
@@ -1038,7 +1130,6 @@ const Testimonials = () => {
 
                         </td>
 
-
                         {/* DESIGNATION */}
 
                         <td>
@@ -1049,7 +1140,6 @@ const Testimonials = () => {
 
                         </td>
 
-
                         {/* RATING */}
 
                         <td>
@@ -1058,17 +1148,14 @@ const Testimonials = () => {
 
                             {[1, 2, 3, 4, 5].map(
                               (star) => (
-
                                 <FaStar
                                   key={star}
                                   className={
-                                    star <=
-                                    item.rating
+                                    star <= rating
                                       ? "Testimonials__star Testimonials__star--active"
                                       : "Testimonials__star Testimonials__star--inactive"
                                   }
                                 />
-
                               )
                             )}
 
@@ -1076,27 +1163,27 @@ const Testimonials = () => {
 
                         </td>
 
-
                         {/* REVIEW */}
 
                         <td className="Testimonials__review-cell">
 
                           <p
                             className="Testimonials__review"
-                            title={item.review}
+                            title={
+                              item.description
+                            }
                           >
-                            {item.review}
+                            {item.description}
                           </p>
 
                         </td>
-
 
                         {/* STATUS */}
 
                         <td>
 
                           {item.status ===
-                          "Published" ? (
+                          "published" ? (
 
                             <span className="Testimonials__status Testimonials__status--published">
 
@@ -1120,7 +1207,6 @@ const Testimonials = () => {
 
                         </td>
 
-
                         {/* DATE */}
 
                         <td>
@@ -1128,17 +1214,20 @@ const Testimonials = () => {
                           <div className="Testimonials__date">
 
                             <span>
-                              {formattedDate.date}
+                              {
+                                formattedDate.date
+                              }
                             </span>
 
                             <small>
-                              {formattedDate.time}
+                              {
+                                formattedDate.time
+                              }
                             </small>
 
                           </div>
 
                         </td>
-
 
                         {/* ACTION */}
 
@@ -1159,43 +1248,39 @@ const Testimonials = () => {
                                 type="button"
                                 className={`Testimonials__action-button ${
                                   openMenu ===
-                                  item.id
+                                  item._id
                                     ? "Testimonials__action-button--active"
                                     : ""
                                 }`}
                                 onClick={() =>
                                   setOpenMenu(
                                     openMenu ===
-                                      item.id
+                                      item._id
                                       ? null
-                                      : item.id
+                                      : item._id
                                   )
                                 }
                                 aria-label="More options"
                               >
-
                                 <FaEllipsisV />
-
                               </button>
-
 
                               {/* DROPDOWN */}
 
                               {openMenu ===
-                                item.id && (
-
+                                item._id && (
                                 <div className="Testimonials__action-menu">
 
                                   {item.status ===
-                                  "Published" ? (
+                                  "published" ? (
 
                                     <button
                                       type="button"
                                       className="Testimonials__menu-item Testimonials__menu-item--unpublish"
                                       onClick={() =>
                                         handleStatusChange(
-                                          item.id,
-                                          "Unpublished"
+                                          item._id,
+                                          "unpublished"
                                         )
                                       }
                                     >
@@ -1211,8 +1296,8 @@ const Testimonials = () => {
                                       className="Testimonials__menu-item Testimonials__menu-item--publish"
                                       onClick={() =>
                                         handleStatusChange(
-                                          item.id,
-                                          "Published"
+                                          item._id,
+                                          "published"
                                         )
                                       }
                                     >
@@ -1224,11 +1309,9 @@ const Testimonials = () => {
                                   )}
 
                                 </div>
-
                               )}
 
                             </div>
-
 
                             {/* DELETE */}
 
@@ -1237,7 +1320,7 @@ const Testimonials = () => {
                               className="Testimonials__delete-button"
                               onClick={() =>
                                 handleDelete(
-                                  item.id
+                                  item._id
                                 )
                               }
                               aria-label={`Delete ${item.name}`}
@@ -1250,20 +1333,21 @@ const Testimonials = () => {
                         </td>
 
                       </tr>
-
                     );
                   }
                 )
 
               ) : (
 
-                <tr>
+                /* =================================================
+                    NO DATA
+                ================================================= */
 
+                <tr>
                   <td
-                    colSpan="9"
+                    colSpan="10"
                     className="Testimonials__empty"
                   >
-
                     <div className="Testimonials__empty-content">
 
                       <FaExclamationTriangle />
@@ -1273,15 +1357,11 @@ const Testimonials = () => {
                       </h3>
 
                       <p>
-                        Try changing your
-                        search or filter
-                        options.
+                        Try changing your search or filter options.
                       </p>
 
                     </div>
-
                   </td>
-
                 </tr>
 
               )}
@@ -1291,7 +1371,6 @@ const Testimonials = () => {
           </table>
 
         </div>
-
 
         {/* ===================================================
             FOOTER / PAGINATION
@@ -1305,20 +1384,28 @@ const Testimonials = () => {
             0 ? (
               <>
                 Showing{" "}
+
                 <strong>
                   {startIndex + 1}
                 </strong>{" "}
+
                 to{" "}
+
                 <strong>
                   {Math.min(
                     endIndex,
                     filteredTestimonials.length
                   )}
                 </strong>{" "}
+
                 of{" "}
+
                 <strong>
-                  {filteredTestimonials.length}
+                  {
+                    filteredTestimonials.length
+                  }
                 </strong>{" "}
+
                 entries
               </>
             ) : (
@@ -1327,11 +1414,9 @@ const Testimonials = () => {
 
           </div>
 
-
           {/* PAGINATION */}
 
           {totalPages > 0 && (
-
             <div className="Testimonials__pagination">
 
               {/* PREVIOUS */}
@@ -1351,14 +1436,12 @@ const Testimonials = () => {
                 <FaChevronLeft />
               </button>
 
-
               {/* PAGE NUMBERS */}
 
               {getPageNumbers().map(
                 (page, index) => {
 
                   if (page === "...") {
-
                     return (
                       <span
                         key={`dots-${index}`}
@@ -1367,11 +1450,9 @@ const Testimonials = () => {
                         ...
                       </span>
                     );
-
                   }
 
                   return (
-
                     <button
                       type="button"
                       key={page}
@@ -1387,11 +1468,9 @@ const Testimonials = () => {
                     >
                       {page}
                     </button>
-
                   );
                 }
               )}
-
 
               {/* NEXT */}
 
@@ -1412,13 +1491,11 @@ const Testimonials = () => {
               </button>
 
             </div>
-
           )}
 
         </div>
 
       </div>
-
     </div>
   );
 };

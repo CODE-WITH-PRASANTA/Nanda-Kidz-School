@@ -27,6 +27,9 @@ import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
 import ColdLead from "./Pages/ColdLead/ColdLead";
 import Order from "./Pages/Order/Order";
 
+import TeacherPost from "./Pages/TeacherPost/TeacherPost";
+import Floatingleads from "./Pages/Floatingleads/Floatingleads";
+
 // =====================================================
 // AUTH
 // =====================================================
@@ -47,37 +50,21 @@ import ParentsInquiry from "./Components/ParentsInquiry/ParentsInquiry";
 import SubjectManagement from "./Components/SubjectManagement/SubjectManagement";
 import Schedule from "./Components/Schedule/Schedule";
 import Classandsection from "./Components/Classandsection/Classandsection";
-<<<<<<< HEAD
-import TeacherPost from "./Pages/TeacherPost/TeacherPost";
-import ColdLead from "./Pages/ColdLead/ColdLead";
-import Order from "./Pages/Order/Order";
-import Floatingleads from "./Pages/Floatingleads/Floatingleads";
-=======
 
 // ⭐ Testimonials
 import Testimonials from "./Components/Testimonials/Testimonials";
->>>>>>> b9039e9 (pull)
 
 function App() {
-
   // =====================================================
   // AUTHENTICATION STATE
   // =====================================================
 
-  const [isAuthenticated, setIsAuthenticated] =
-    useState(() => {
-
-      return (
-        localStorage.getItem(
-          "isAuthenticated"
-        ) === "true" ||
-
-        sessionStorage.getItem(
-          "isAuthenticated"
-        ) === "true"
-      );
-
-    });
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return (
+      localStorage.getItem("isAuthenticated") === "true" ||
+      sessionStorage.getItem("isAuthenticated") === "true"
+    );
+  });
 
   // =====================================================
   // LOGIN SUCCESS
@@ -92,14 +79,8 @@ function App() {
   // =====================================================
 
   const handleLogout = () => {
-
-    localStorage.removeItem(
-      "isAuthenticated"
-    );
-
-    sessionStorage.removeItem(
-      "isAuthenticated"
-    );
+    localStorage.removeItem("isAuthenticated");
+    sessionStorage.removeItem("isAuthenticated");
 
     setIsAuthenticated(false);
   };
@@ -109,9 +90,7 @@ function App() {
   // =====================================================
 
   return (
-
     <BrowserRouter>
-
       <Routes>
 
         {/* =================================================
@@ -121,24 +100,11 @@ function App() {
         <Route
           path="/login"
           element={
-
             isAuthenticated ? (
-
-              <Navigate
-                to="/dashboard"
-                replace
-              />
-
+              <Navigate to="/dashboard" replace />
             ) : (
-
-              <LoginForm
-                onLoginSuccess={
-                  handleLoginSuccess
-                }
-              />
-
+              <LoginForm onLoginSuccess={handleLoginSuccess} />
             )
-
           }
         />
 
@@ -149,21 +115,9 @@ function App() {
         <Route
           path="/"
           element={
-
-            <ProtectedRoute
-              isAuthenticated={
-                isAuthenticated
-              }
-            >
-
-              <MainLayout
-                onLogout={
-                  handleLogout
-                }
-              />
-
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <MainLayout onLogout={handleLogout} />
             </ProtectedRoute>
-
           }
         >
 
@@ -181,22 +135,8 @@ function App() {
             }
           />
 
-<<<<<<< HEAD
-          {/* Blog */}
-          <Route path="blog-management" element={<BlogManagement />} />
-          <Route path="blog-management/posts" element={<BlogPost />} />
-          <Route path="/subjects" element={<SubjectManagement/>} />
-       <Route path="blog/post" element={<BlogPost />} />
-<Route path="blog/post/:id" element={<BlogPost />} />
-<Route path="blog/management" element={<BlogManagement />} />
-          <Route path="/floating-enquiries" element={<Floatingleads/>}/>
-
-          {/* Gallery */}
-          <Route path="gallery-management" element={<GalleryManagement />} />
-          <Route path="/teacher-posts"element={<TeacherPost/>}/>
-=======
           {/* =================================================
-              CORE MODULES
+              DASHBOARD
           ================================================= */}
 
           <Route
@@ -204,15 +144,27 @@ function App() {
             element={<DashBoard />}
           />
 
+          {/* =================================================
+              STUDENTS
+          ================================================= */}
+
           <Route
             path="students"
             element={<StudentPage />}
           />
 
+          {/* =================================================
+              ADMISSIONS
+          ================================================= */}
+
           <Route
             path="admissions"
             element={<AdmissionForm />}
           />
+
+          {/* =================================================
+              TEACHERS
+          ================================================= */}
 
           <Route
             path="teachers"
@@ -225,14 +177,31 @@ function App() {
           />
 
           <Route
+            path="teacher-posts"
+            element={<TeacherPost />}
+          />
+
+          {/* =================================================
+              FEES
+          ================================================= */}
+
+          <Route
             path="fees-payments"
             element={<FeeCollections />}
           />
+
+          {/* =================================================
+              PARENTS
+          ================================================= */}
 
           <Route
             path="parents"
             element={<ParentsInquiry />}
           />
+
+          {/* =================================================
+              CLASS & SCHEDULE
+          ================================================= */}
 
           <Route
             path="class-schedules"
@@ -292,23 +261,13 @@ function App() {
           />
 
           <Route
-            path="blog/management"
-            element={<BlogManagement />}
+            path="blog/post/:id"
+            element={<BlogPost />}
           />
 
-          {/* =================================================
-              ⭐ TESTIMONIALS
-              
-              Sidebar:
-              /testimonials
-
-              Component:
-              Testimonials.jsx
-          ================================================= */}
-
           <Route
-            path="testimonials"
-            element={<Testimonials />}
+            path="blog/management"
+            element={<BlogManagement />}
           />
 
           {/* =================================================
@@ -318,6 +277,24 @@ function App() {
           <Route
             path="gallery-management"
             element={<GalleryManagement />}
+          />
+
+          {/* =================================================
+              FLOATING ENQUIRIES
+          ================================================= */}
+
+          <Route
+            path="floating-enquiries"
+            element={<Floatingleads />}
+          />
+
+          {/* =================================================
+              TESTIMONIALS
+          ================================================= */}
+
+          <Route
+            path="testimonials"
+            element={<Testimonials />}
           />
 
           {/* =================================================
@@ -337,7 +314,6 @@ function App() {
             path="order"
             element={<Order />}
           />
->>>>>>> b9039e9 (pull)
 
         </Route>
 
@@ -348,7 +324,6 @@ function App() {
         <Route
           path="*"
           element={
-
             <Navigate
               to={
                 isAuthenticated
@@ -357,14 +332,11 @@ function App() {
               }
               replace
             />
-
           }
         />
 
       </Routes>
-
     </BrowserRouter>
-
   );
 }
 
