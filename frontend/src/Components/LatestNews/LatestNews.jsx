@@ -1,48 +1,48 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './LatestNews.css';
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import "./LatestNews.css";
 
-// Import your assets from your local assets folder
-import newsImg1 from '../../assets/c-1.webp';
-import newsImg2 from '../../assets/c-3.webp';
-import newsImg3 from '../../assets/c-8.webp';
+// Local assets
+import newsImg1 from "../../assets/c-1.webp";
+import newsImg2 from "../../assets/c-3.webp";
+import newsImg3 from "../../assets/c-8.webp";
 
 const blogData = [
   {
     id: 1,
     image: newsImg1,
-    admin: 'Jack John',
-    date: '25 Dec 2026',
-    title: 'Red Green Color Blindness',
+    admin: "Nanda Kidz",
+    date: "Early Learning",
+    title: "A Happy Beginning to Your Child's School Journey",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      "At Nanda Kidz, children learn through play, stories, music, creative activities, and friendly classroom experiences that make their first school years enjoyable and meaningful.",
   },
   {
     id: 2,
     image: newsImg2,
-    admin: 'Glims Bond',
-    date: '26 Dec 2026',
-    title: '8 Ways to Learning Lesson',
+    admin: "Nanda Kidz",
+    date: "Parent Guide",
+    title: "Choosing the Right Nursery School for Your Child",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      "Finding a nursery school is an important decision for parents. A warm environment, caring teachers, engaging activities, and a child-friendly approach can make a big difference.",
   },
   {
     id: 3,
     image: newsImg3,
-    admin: 'Smith Broke',
-    date: '27 Dec 2026',
-    title: 'Full-Day Session With Activities',
+    admin: "Nanda Kidz",
+    date: "School Activities",
+    title: "Learning, Playing and Growing Together",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      "Every activity at Nanda Kidz gives children a chance to explore something new, build confidence, make friends, and develop important skills at their own pace.",
   },
 ];
 
-// Helper: initials for the admin avatar badge
+// Helper for admin avatar initials
 const getInitials = (name) =>
   name
-    .split(' ')
+    .split(" ")
     .map((part) => part[0])
-    .join('')
+    .join("")
     .toUpperCase();
 
 const LatestNews = () => {
@@ -62,34 +62,57 @@ const LatestNews = () => {
     setLightboxItem(null);
   }, []);
 
-  // Close on Escape key
+  // Close image preview with Escape
   useEffect(() => {
     if (!lightboxItem) return;
 
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === "Escape") {
+        closeLightbox();
+      }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden'; // lock scroll while open
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Prevent page scrolling while preview is open
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
     };
   }, [lightboxItem, closeLightbox]);
 
   return (
-    <section className="latest-news-section">
+    <section
+      className="latest-news-section"
+      aria-labelledby="latest-news-heading"
+    >
       <div className="latest-news-container">
-        {/* Header Section */}
+
+        {/* Section Header */}
         <div className="latest-news-header">
-          <span className="latest-news-subtitle">News and Blog</span>
-          <h2 className="latest-news-title">Latest News</h2>
+          <span className="latest-news-subtitle">
+            From Nanda Kidz
+          </span>
+
+          <h1
+            id="latest-news-heading"
+            className="latest-news-title"
+          >
+            Best Kids School in Bhubaneswar
+          </h1>
+
           <div className="latest-news-underline"></div>
+
+          <p className="latest-news-intro">
+            Discover helpful ideas, school activities, and early learning
+            stories from Nanda Kidz — a child-friendly place where little
+            learners can play, explore, learn, and grow with confidence.
+          </p>
         </div>
 
-        {/* Cards Grid */}
+        {/* Blog Cards */}
         <div className="latest-news-grid">
           {blogData.map((item) => (
             <article
@@ -97,7 +120,7 @@ const LatestNews = () => {
               className="news-card"
               onClick={() => handleCardClick(item.id)}
             >
-              {/* Image Container with Zoom Animation + Click-to-Pop */}
+              {/* Image */}
               <div
                 className="news-image-wrapper"
                 onClick={(e) => openLightbox(e, item)}
@@ -105,35 +128,54 @@ const LatestNews = () => {
                 tabIndex={0}
                 aria-label={`View larger image for ${item.title}`}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter') openLightbox(e, item);
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    openLightbox(e, item);
+                  }
                 }}
               >
                 <img
                   src={item.image}
-                  alt={item.title}
+                  alt={`${item.title} - Nanda Kidz`}
                   className="news-image"
                   width="370"
                   height="250"
                   loading="lazy"
                 />
-                <div className="news-image-overlay">
-                  <span className="news-image-zoom-icon">⤢</span>
-                </div>
-                <span className="news-date-badge">{item.date}</span>
-              </div>
 
-              {/* Content Section */}
-              <div className="news-content">
-                <div className="news-meta">
-                  <span className="news-meta-item news-meta-admin">
-                    <span className="meta-avatar">{getInitials(item.admin)}</span>
-                    <span className="meta-value">{item.admin}</span>
+                <div className="news-image-overlay">
+                  <span className="news-image-zoom-icon">
+                    ⤢
                   </span>
                 </div>
 
-                <h3 className="news-card-title">{item.title}</h3>
+                <span className="news-date-badge">
+                  {item.date}
+                </span>
+              </div>
 
-                <p className="news-description">{item.description}</p>
+              {/* Card Content */}
+              <div className="news-content">
+
+                <div className="news-meta">
+                  <span className="news-meta-item news-meta-admin">
+                    <span className="meta-avatar">
+                      {getInitials(item.admin)}
+                    </span>
+
+                    <span className="meta-value">
+                      {item.admin}
+                    </span>
+                  </span>
+                </div>
+
+                <h2 className="news-card-title">
+                  {item.title}
+                </h2>
+
+                <p className="news-description">
+                  {item.description}
+                </p>
 
                 <button
                   type="button"
@@ -144,19 +186,67 @@ const LatestNews = () => {
                   }}
                 >
                   Read More
-                  <span className="news-read-more-arrow">→</span>
+                  <span className="news-read-more-arrow">
+                    →
+                  </span>
                 </button>
               </div>
             </article>
           ))}
         </div>
+
+        {/* SEO Supporting Content */}
+        <div className="latest-news-seo-content">
+          <div className="latest-news-seo-line"></div>
+
+          <h2>
+            Choosing a Play School Near Khandagiri, Bhubaneswar
+          </h2>
+
+          <p>
+            Parents looking for the <strong>best kids school in
+            Bhubaneswar</strong> often want more than just a classroom.
+            Children need a place where they feel comfortable, cared for,
+            and encouraged to learn in their own way. Nanda Kidz focuses on
+            creating a joyful early-learning experience through play,
+            creativity, stories, activities, and everyday interaction.
+          </p>
+
+          <p>
+            If you are comparing a <strong>top best nursery school in
+            Bhubaneswar</strong>, look for an environment that supports
+            your child's social, emotional, creative, and learning needs.
+            Our approach is designed to help children become comfortable
+            with school while gradually developing communication, curiosity,
+            confidence, and independence.
+          </p>
+
+          <p>
+            Parents searching for a <strong>best play school in Bhubaneswar
+            with fees</strong> can also consider what is included beyond
+            the basic classroom experience. A good early-learning program
+            should provide meaningful activities, caring guidance, a safe
+            environment, and opportunities for children to learn through
+            real experiences.
+          </p>
+
+          <p>
+            Located for families searching for a{" "}
+            <strong>play school near Khandagiri, Bhubaneswar</strong>,
+            Nanda Kidz aims to make the early years of education happy,
+            comfortable, and full of discovery.
+          </p>
+        </div>
       </div>
 
-      {/* Lightbox / Image Pop Modal */}
+      {/* Lightbox */}
       {lightboxItem && (
         <div
           className="news-lightbox-backdrop"
           onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
         >
           <div
             className="news-lightbox-content"
@@ -173,13 +263,16 @@ const LatestNews = () => {
 
             <img
               src={lightboxItem.image}
-              alt={lightboxItem.title}
+              alt={`${lightboxItem.title} - Nanda Kidz`}
               className="news-lightbox-image"
             />
 
             <div className="news-lightbox-caption">
-              <h4>{lightboxItem.title}</h4>
-              <span>{lightboxItem.date}</span>
+              <h3>{lightboxItem.title}</h3>
+
+              <span>
+                {lightboxItem.date}
+              </span>
             </div>
           </div>
         </div>

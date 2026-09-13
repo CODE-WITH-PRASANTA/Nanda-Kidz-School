@@ -1,203 +1,385 @@
-import React, { useEffect, useState, useRef } from 'react';
-import './HeroSection.css';
+import React, { useEffect, useState, useRef } from "react";
+import "./HeroSection.css";
 
-// Import all background, decorative, and children elements
-import bgImage from '../../assets/bg-1.jpg';
-import child1 from '../../assets/c-1.webp';
-import child2 from '../../assets/c-2.webp';
-import child3 from '../../assets/c-3.webp';
-import child4 from '../../assets/c-4.webp';
-import child5 from '../../assets/c-5.webp';
-import child6 from '../../assets/c-6.webp';
-import child7 from '../../assets/c-7.webp';
-import child8 from '../../assets/c-8.webp';
-import child9 from '../../assets/c-9.webp';
+// Background
+import bgImage from "../../assets/bg-1.jpg";
 
-// Decorative vectors overlapping the grid
-import giraffeAsset from '../../assets/jeeraf.png';
-import flowerBlue from '../../assets/flower.png';
+// Children images
+import child1 from "../../assets/c-1.webp";
+import child2 from "../../assets/c-2.webp";
+import child3 from "../../assets/c-3.webp";
+import child4 from "../../assets/c-4.webp";
+import child5 from "../../assets/c-5.webp";
+import child6 from "../../assets/c-6.webp";
+import child7 from "../../assets/c-7.webp";
+import child8 from "../../assets/c-8.webp";
+import child9 from "../../assets/c-9.webp";
 
-/* Balanced 4-image columns (was 3 left / 5 right, which left a large
-   empty gap under the shorter columns). Each entry carries its own
-   height class (defined in HeroSection.css) and alt text. */
+// Decorative assets
+import giraffeAsset from "../../assets/jeeraf.png";
+import flowerBlue from "../../assets/flower.png";
+
 const LEFT_COLUMN_IMAGES = [
-  { src: child7, alt: 'Kids hugging', heightClass: 'img-child7' },
-  { src: child1, alt: 'Classroom learning', heightClass: 'img-child1' },
-  { src: child3, alt: 'Child drawing', heightClass: 'img-child3' },
-  { src: child9, alt: 'Girl blowing bubbles', heightClass: 'img-child9' },
+  {
+    src: child7,
+    alt: "Children enjoying time together at Nanda Kidz",
+    heightClass: "img-child7",
+  },
+  {
+    src: child1,
+    alt: "Children learning in the classroom",
+    heightClass: "img-child1",
+  },
+  {
+    src: child3,
+    alt: "Child enjoying a creative drawing activity",
+    heightClass: "img-child3",
+  },
+  {
+    src: child9,
+    alt: "Girl enjoying bubbles and outdoor play",
+    heightClass: "img-child9",
+  },
 ];
 
 const RIGHT_COLUMN_IMAGES = [
-  { src: child8, alt: 'Kids with tablet', heightClass: 'img-child8' },
-  { src: child2, alt: 'Girl playing flute', heightClass: 'img-child2' },
-  { src: child5, alt: 'Smiling girl', heightClass: 'img-child5' },
-  { src: child6, alt: 'Kids playing percussion instruments', heightClass: 'img-child6' },
+  {
+    src: child8,
+    alt: "Children learning with a tablet",
+    heightClass: "img-child8",
+  },
+  {
+    src: child2,
+    alt: "Girl enjoying a musical activity",
+    heightClass: "img-child2",
+  },
+  {
+    src: child5,
+    alt: "Happy child at Nanda Kidz",
+    heightClass: "img-child5",
+  },
+  {
+    src: child6,
+    alt: "Children enjoying music and creative activities",
+    heightClass: "img-child6",
+  },
 ];
 
 const HeroSection = () => {
-  // Target position (where the user actually scrolled to)
   const scrollTarget = useRef(0);
-  // Current interpolated position (smoothly catches up to target)
   const scrollCurrent = useRef(0);
+  const cardRefs = useRef([]);
 
   const [animatedY, setAnimatedY] = useState(0);
   const [activeModalImage, setActiveModalImage] = useState(null);
   const [revealedCards, setRevealedCards] = useState({});
 
-  const cardRefs = useRef([]);
-
+  /* -------------------------------------------------------
+     Smooth Parallax Scroll
+  ------------------------------------------------------- */
   useEffect(() => {
     const handleScroll = () => {
       scrollTarget.current = window.scrollY;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
-    // Smooth Lerp Rendering Loop
     let animationFrameId;
+
     const renderLoop = () => {
-      scrollCurrent.current += (scrollTarget.current - scrollCurrent.current) * 0.08;
+      scrollCurrent.current +=
+        (scrollTarget.current - scrollCurrent.current) * 0.08;
+
       setAnimatedY(scrollCurrent.current);
+
       animationFrameId = window.requestAnimationFrame(renderLoop);
     };
 
     animationFrameId = window.requestAnimationFrame(renderLoop);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
-  // Staggered scroll-reveal for each card
+  /* -------------------------------------------------------
+     Card Scroll Reveal
+  ------------------------------------------------------- */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = Number(entry.target.dataset.cardIndex);
-            setRevealedCards((prev) => (prev[idx] ? prev : { ...prev, [idx]: true }));
-            observer.unobserve(entry.target);
-          }
+          if (!entry.isIntersecting) return;
+
+          const index = Number(entry.target.dataset.cardIndex);
+
+          setRevealedCards((prev) => {
+            if (prev[index]) return prev;
+
+            return {
+              ...prev,
+              [index]: true,
+            };
+          });
+
+          observer.unobserve(entry.target);
         });
       },
-      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -60px 0px",
+      }
     );
 
-    cardRefs.current.forEach((el) => el && observer.observe(el));
+    cardRefs.current.forEach((element) => {
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
     return () => observer.disconnect();
   }, []);
 
-  // Multipliers for the scrolling layers
+  /* -------------------------------------------------------
+     Parallax Values
+  ------------------------------------------------------- */
   const imageGridScrollOffset = animatedY * 0.45;
   const backgroundScrollOffset = animatedY * 0.25;
 
+  /* -------------------------------------------------------
+     Modal
+  ------------------------------------------------------- */
   const handleCardClick = (imgSrc, altText) => {
-    setActiveModalImage({ src: imgSrc, alt: altText });
+    setActiveModalImage({
+      src: imgSrc,
+      alt: altText,
+    });
   };
 
   const closeModal = () => {
     setActiveModalImage(null);
   };
 
-  const setCardRef = (index) => (el) => {
-    cardRefs.current[index] = el;
+  /* Close modal with Escape key */
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    if (activeModalImage) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [activeModalImage]);
+
+  const setCardRef = (index) => (element) => {
+    cardRefs.current[index] = element;
   };
 
-  const renderCard = (item, index, extraClass = '') => (
+  /* -------------------------------------------------------
+     Reusable Image Card
+  ------------------------------------------------------- */
+  const renderCard = (item, index, extraClass = "") => (
     <div
-      key={item.alt}
+      key={`${item.alt}-${index}`}
       ref={setCardRef(index)}
       data-card-index={index}
       className={`HeroSection-card ${item.heightClass} ${extraClass} ${
-        revealedCards[index] ? 'is-revealed' : ''
+        revealedCards[index] ? "is-revealed" : ""
       }`}
-      style={{ '--reveal-delay': `${index * 80}ms` }}
+      style={{
+        "--reveal-delay": `${index * 80}ms`,
+      }}
       onClick={() => handleCardClick(item.src, item.alt)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          handleCardClick(item.src, item.alt);
+        }
+      }}
+      aria-label={`View ${item.alt}`}
     >
       <img src={item.src} alt={item.alt} />
+
       <div className="HeroSection-eyeOverlay">
         <div className="cartoon-eye-icon">👀</div>
+        <span>Take a closer look</span>
       </div>
     </div>
   );
 
   return (
-    <div
+    <section
       className="HeroSection"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundPositionY: `${backgroundScrollOffset}px`,
       }}
     >
-      {/* Decorative Assets */}
-      <img src={giraffeAsset} className="HeroSection-giraffe" alt="" />
+      {/* ---------------------------------------------------
+          Decorative Elements
+      --------------------------------------------------- */}
+      <img
+        src={giraffeAsset}
+        className="HeroSection-giraffe"
+        alt=""
+        aria-hidden="true"
+      />
+
       <img
         src={flowerBlue}
         className="HeroSection-flower"
-        style={{ transform: `translateY(${imageGridScrollOffset * 0.8}px)` }}
+        style={{
+          transform: `translateY(${imageGridScrollOffset * 0.8}px)`,
+        }}
         alt=""
+        aria-hidden="true"
       />
 
-      {/* Synced Layout Wrapper Container with Lerped Parallax */}
+      {/* ---------------------------------------------------
+          Main Hero Layout
+      --------------------------------------------------- */}
       <div
         className="HeroSection-gridWrapper"
-        style={{ transform: `translateY(${imageGridScrollOffset}px)` }}
+        style={{
+          transform: `translateY(${imageGridScrollOffset}px)`,
+        }}
       >
-
-        {/* Left Column Stack */}
+        {/* LEFT IMAGE COLUMN */}
         <div className="HeroSection-col LeftCol">
-          {LEFT_COLUMN_IMAGES.map((item, i) =>
-            renderCard(item, i, i === 0 ? 'rounded-tr-lg' : '')
+          {LEFT_COLUMN_IMAGES.map((item, index) =>
+            renderCard(
+              item,
+              index,
+              index === 0 ? "rounded-tr-lg" : ""
+            )
           )}
         </div>
 
-        {/* Center Text & Tall Content Section */}
+        {/* CENTER CONTENT */}
         <div className="HeroSection-centerContent">
           <div className="HeroSection-textBlock">
-            <span className="HeroSection-subtitle">Nanda Kidz</span>
+            <span className="HeroSection-subtitle">
+              Nanda Kidz • The Little Kingdom
+            </span>
+
             <h1 className="HeroSection-title MainTitle">
-              The Little <br />
-              <span className="HeroSection-titleGreen">Kingdom</span>
+              Welcome to Nanda Kidz:
+              <br />
+              <span className="HeroSection-titleGreen">
+                The Little Kingdom
+              </span>
             </h1>
+
+            <p className="HeroSection-description">
+              A cheerful place where little minds can learn, play,
+              discover new things, and grow with confidence. At Nanda
+              Kidz, every day is filled with simple joys, creative
+              activities, friendly faces, and meaningful early
+              learning experiences.
+            </p>
+
+            <p className="HeroSection-description secondary">
+              We believe childhood should be full of curiosity,
+              imagination, laughter, and opportunities to explore.
+              Our little kingdom is created to give children a
+              comfortable beginning to their learning journey.
+            </p>
+
+            <div className="HeroSection-highlights">
+              <span>🌱 Learn</span>
+              <span>🎨 Create</span>
+              <span>🧸 Play</span>
+              <span>💛 Grow</span>
+            </div>
           </div>
 
-          {/* Centered Tall Card */}
+          {/* CENTER IMAGE */}
           {renderCard(
-            { src: child4, alt: 'Girl full body playing', heightClass: 'img-child4' },
+            {
+              src: child4,
+              alt: "Girl enjoying a playful learning activity at Nanda Kidz",
+              heightClass: "img-child4",
+            },
             LEFT_COLUMN_IMAGES.length
           )}
         </div>
 
-        {/* Right Column Stack */}
+        {/* RIGHT IMAGE COLUMN */}
         <div className="HeroSection-col RightCol">
-          {RIGHT_COLUMN_IMAGES.map((item, i) =>
-            renderCard(item, LEFT_COLUMN_IMAGES.length + 1 + i)
+          {RIGHT_COLUMN_IMAGES.map((item, index) =>
+            renderCard(
+              item,
+              LEFT_COLUMN_IMAGES.length + 1 + index
+            )
           )}
         </div>
-
       </div>
 
-      {/* Animated Cartoon Eye Popup Modal Format */}
+      {/* ---------------------------------------------------
+          Image Preview Modal
+      --------------------------------------------------- */}
       {activeModalImage && (
-        <div className="HeroSection-modalBackdrop" onClick={closeModal}>
-          <div className="HeroSection-modalContainer animate-popIn" onClick={(e) => e.stopPropagation()}>
-            <div className="HeroSection-modalCloseBtn" onClick={closeModal}>&times;</div>
+        <div
+          className="HeroSection-modalBackdrop"
+          onClick={closeModal}
+          role="presentation"
+        >
+          <div
+            className="HeroSection-modalContainer animate-popIn"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="HeroSection-modalCloseBtn"
+              onClick={closeModal}
+              aria-label="Close image preview"
+            >
+              &times;
+            </button>
+
             <div className="HeroSection-modalFrame">
-              <div className="cartoon-preview-badge">✨ Magic View ✨</div>
-              <img src={activeModalImage.src} alt={activeModalImage.alt} className="HeroSection-modalImage" />
-              <div className="cartoon-eye-decoration left-eye">
-                <div className="eyeball"><div className="pupil"></div></div>
+              <div className="cartoon-preview-badge">
+                ✨ Magic View ✨
               </div>
+
+              <img
+                src={activeModalImage.src}
+                alt={activeModalImage.alt}
+                className="HeroSection-modalImage"
+              />
+
+              <div className="cartoon-eye-decoration left-eye">
+                <div className="eyeball">
+                  <div className="pupil"></div>
+                </div>
+              </div>
+
               <div className="cartoon-eye-decoration right-eye">
-                <div className="eyeball"><div className="pupil"></div></div>
+                <div className="eyeball">
+                  <div className="pupil"></div>
+                </div>
               </div>
             </div>
-            <p className="HeroSection-modalCaption">{activeModalImage.alt}</p>
+
+            <p className="HeroSection-modalCaption">
+              {activeModalImage.alt}
+            </p>
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

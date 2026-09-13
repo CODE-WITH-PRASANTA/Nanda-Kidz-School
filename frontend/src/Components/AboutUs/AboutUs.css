@@ -1,372 +1,763 @@
+/* ==========================================================
+   NANDA KIDZ - ABOUT US
+   Premium Play School About Section
+========================================================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
 
-/* =======================================
-   DESIGN TOKENS & PALETTE
-   ======================================= */
-:root {
-  --primary-pink: #ea68a6;
-  --primary-pink-shadow: rgba(234, 104, 166, 0.28);
-  --hover-purple: #8c44db;
-  --text-dark: #1e1b2e;
-  --text-muted: #555555;
-  --bg-cream: #fbf7ed;
-  --font-heading: 'Fredoka', sans-serif;
-  --font-body: 'Poppins', sans-serif;
-}
 
-/* Base Layout Container */
+/* ==========================================================
+   DESIGN VARIABLES
+========================================================== */
+
 .about-us-container {
+  --about-pink: #ea68a6;
+  --about-pink-light: #f472b6;
+  --about-pink-shadow: rgba(234, 104, 166, 0.28);
+
+  --about-purple: #8c44db;
+  --about-purple-light: #ddd6fe;
+
+  --about-text-dark: #1e1b2e;
+  --about-text-muted: #555555;
+
+  --about-cream: #fbf7ed;
+  --about-white: #ffffff;
+
+  --about-heading-font: 'Fredoka', sans-serif;
+  --about-body-font: 'Poppins', sans-serif;
+
+  position: relative;
+
   width: 100%;
   min-height: 100vh;
+
   padding: 100px 24px;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  background-color: var(--bg-cream);
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fbf7ed 0%,
+      #fffaf5 55%,
+      #fdf8f3 100%
+    );
+
   overflow: hidden;
-  position: relative;
+
+  box-sizing: border-box;
+
+  font-family: var(--about-body-font);
+}
+
+
+/* ==========================================================
+   BOX SIZING
+========================================================== */
+
+.about-us-container *,
+.about-us-container *::before,
+.about-us-container *::after {
   box-sizing: border-box;
 }
 
-/* Ambient background glow blobs */
+
+/* ==========================================================
+   AMBIENT BACKGROUND
+========================================================== */
+
 .about-ambient {
   position: absolute;
+
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.3;
+
   pointer-events: none;
+
+  filter: blur(80px);
+
+  opacity: 0.3;
+
   z-index: 0;
 }
 
 .about-ambient--1 {
   width: 380px;
   height: 380px;
-  background: radial-gradient(circle, #fbcfe8 0%, transparent 70%);
+
   top: -40px;
   left: -60px;
+
+  background:
+    radial-gradient(
+      circle,
+      #fbcfe8 0%,
+      transparent 70%
+    );
 }
 
 .about-ambient--2 {
   width: 350px;
   height: 350px;
-  background: radial-gradient(circle, #ddd6fe 0%, transparent 70%);
-  bottom: -20px;
+
   right: -40px;
+  bottom: -20px;
+
+  background:
+    radial-gradient(
+      circle,
+      #ddd6fe 0%,
+      transparent 70%
+    );
 }
+
+
+/* ==========================================================
+   MAIN CONTENT
+========================================================== */
 
 .about-us-content {
-  max-width: 1240px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 60px;
-  align-items: center;
   position: relative;
+
   z-index: 2;
+
+  width: 100%;
+  max-width: 1240px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1.1fr);
+
+  gap: 65px;
+
+  align-items: center;
 }
 
-/* =======================================
-   LEFT SECTION: ORGANIC ANIMATED BLOB
-   ======================================= */
+
+/* ==========================================================
+   LEFT IMAGE SECTION
+========================================================== */
+
 .image-section {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Shooting Star Decoration */
+
+/* ==========================================================
+   DECORATIVE STAR
+========================================================== */
+
 .decorative-star {
   position: absolute;
+
   top: -55px;
   left: -10px;
+
   width: 140px;
   height: auto;
+
   z-index: 10;
+
   pointer-events: none;
-  animation: floatStar 4s ease-in-out infinite;
+
+  animation:
+    floatStar 4s ease-in-out infinite;
 }
+
+
+/* ==========================================================
+   STAR ANIMATION
+========================================================== */
 
 @keyframes floatStar {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(4deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(4deg);
+  }
 }
 
-/* Blob Outer Container */
+
+/* ==========================================================
+   BLOB WRAPPER
+========================================================== */
+
 .blob-wrapper {
   position: relative;
+
   width: 480px;
   height: 400px;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
-/* Organic Pink Frame Border */
+
+/* ==========================================================
+   MAIN PINK FRAME
+========================================================== */
+
 .blob-border {
+  position: relative;
+
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #f472b6, var(--primary-pink));
+
   padding: 24px;
-  border-radius: 48% 52% 43% 57% / 60% 40% 60% 40%;
+
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
-  box-shadow: 0 16px 40px var(--primary-pink-shadow);
-  animation: organicMorph 7s ease-in-out infinite alternate;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--about-pink-light),
+      var(--about-pink)
+    );
+
+  border-radius:
+    48% 52% 43% 57% /
+    60% 40% 60% 40%;
+
+  box-shadow:
+    0 16px 40px var(--about-pink-shadow);
+
+  animation:
+    organicMorph 7s ease-in-out infinite alternate;
 }
 
-/* Inner Clipped Image Container */
+
+/* ==========================================================
+   IMAGE CONTAINER
+========================================================== */
+
 .blob-image-container {
+  position: relative;
+
   width: 100%;
   height: 100%;
-  background: #ffffff;
-  border-radius: 46% 54% 41% 59% / 58% 42% 58% 42%;
+
   overflow: hidden;
-  position: relative;
-  animation: organicMorphInner 7s ease-in-out infinite alternate;
+
+  background: var(--about-white);
+
+  border-radius:
+    46% 54% 41% 59% /
+    58% 42% 58% 42%;
+
+  animation:
+    organicMorphInner 7s ease-in-out infinite alternate;
 }
+
+
+/* ==========================================================
+   STUDENT IMAGE
+========================================================== */
 
 .student-image {
+  display: block;
+
   width: 100%;
   height: 100%;
+
   object-fit: cover;
-  display: block;
-  transition: transform 0.6s ease;
+
+  transition:
+    transform 0.6s ease;
 }
 
 .blob-wrapper:hover .student-image {
   transform: scale(1.06);
 }
 
-/* Image shine effect on hover */
+
+/* ==========================================================
+   IMAGE SHINE
+========================================================== */
+
 .blob-image-shine {
   position: absolute;
+
   top: 0;
   left: -75%;
+
   width: 50%;
   height: 100%;
-  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.4), transparent);
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+
   transform: skewX(-20deg);
-  transition: left 0.8s ease;
+
+  transition:
+    left 0.8s ease;
+
+  pointer-events: none;
 }
 
 .blob-wrapper:hover .blob-image-shine {
   left: 130%;
 }
 
-/* Floating Experience Glassmorphism Badge */
+
+/* ==========================================================
+   EXPERIENCE BADGE
+========================================================== */
+
 .about-experience-badge {
   position: absolute;
-  bottom: 15px;
+
   left: -15px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(10px);
-  padding: 12px 20px;
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(30, 27, 46, 0.12);
+  bottom: 15px;
+
+  z-index: 8;
+
   display: flex;
   align-items: center;
-  gap: 12px;
-  z-index: 8;
-  border: 1px solid rgba(234, 104, 166, 0.2);
-  animation: floatBadge 4s ease-in-out infinite alternate;
-}
 
-@keyframes floatBadge {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
+  gap: 12px;
+
+  padding: 12px 20px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
+
+  border:
+    1px solid rgba(234, 104, 166, 0.2);
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 12px 30px rgba(30, 27, 46, 0.12);
+
+  backdrop-filter: blur(10px);
+
+  animation:
+    floatBadge 4s ease-in-out infinite alternate;
 }
 
 .about-experience-badge .badge-icon {
   font-size: 26px;
+
+  line-height: 1;
 }
 
 .about-experience-badge strong {
   display: block;
-  font-family: var(--font-heading);
+
+  color: var(--about-text-dark);
+
+  font-family: var(--about-heading-font);
+
   font-size: 15px;
-  color: var(--text-dark);
+  font-weight: 700;
 }
 
 .about-experience-badge small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--about-pink);
+
   font-size: 11.5px;
-  color: var(--primary-pink);
   font-weight: 600;
 }
 
-/* Floating Dots Base Styling */
+
+/* ==========================================================
+   BADGE ANIMATION
+========================================================== */
+
+@keyframes floatBadge {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+
+/* ==========================================================
+   DECORATIVE DOTS
+========================================================== */
+
 .blob-dot {
   position: absolute;
-  background-color: var(--primary-pink);
-  border-radius: 50%;
+
   z-index: 5;
+
+  border-radius: 50%;
+
+  background-color: var(--about-pink);
 }
 
 .top-dot {
-  width: 65px;
-  height: 65px;
   top: -40px;
   left: 45%;
-  animation: topDotPulse 3.5s ease-in-out infinite alternate;
+
+  width: 65px;
+  height: 65px;
+
+  animation:
+    topDotPulse 3.5s ease-in-out infinite alternate;
 }
 
 .bottom-dot {
+  right: -25px;
+  bottom: 50px;
+
   width: 45px;
   height: 45px;
-  bottom: 50px;
-  right: -25px;
-  animation: bottomDotFloat 4s ease-in-out infinite alternate;
+
+  animation:
+    bottomDotFloat 4s ease-in-out infinite alternate;
 }
 
-/* =======================================
-   KEYFRAME ANIMATIONS
-   ======================================= */
+
+/* ==========================================================
+   DOT ANIMATIONS
+========================================================== */
+
+@keyframes topDotPulse {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    transform: translateY(-12px) scale(1.08);
+  }
+}
+
+@keyframes bottomDotFloat {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(10px, -10px);
+  }
+}
+
+
+/* ==========================================================
+   ORGANIC MORPH
+========================================================== */
+
 @keyframes organicMorph {
   0% {
-    border-radius: 48% 52% 43% 57% / 60% 40% 60% 40%;
-    transform: scale(1) rotate(0deg);
+    border-radius:
+      48% 52% 43% 57% /
+      60% 40% 60% 40%;
+
+    transform:
+      scale(1)
+      rotate(0deg);
   }
+
   50% {
-    border-radius: 55% 45% 52% 48% / 48% 55% 45% 52%;
-    transform: scale(1.02) rotate(1deg);
+    border-radius:
+      55% 45% 52% 48% /
+      48% 55% 45% 52%;
+
+    transform:
+      scale(1.02)
+      rotate(1deg);
   }
+
   100% {
-    border-radius: 42% 58% 38% 62% / 62% 38% 62% 38%;
-    transform: scale(0.98) rotate(-1deg);
+    border-radius:
+      42% 58% 38% 62% /
+      62% 38% 62% 38%;
+
+    transform:
+      scale(0.98)
+      rotate(-1deg);
   }
 }
 
 @keyframes organicMorphInner {
-  0% { border-radius: 46% 54% 41% 59% / 58% 42% 58% 42%; }
-  50% { border-radius: 53% 47% 50% 50% / 46% 53% 47% 50%; }
-  100% { border-radius: 40% 60% 36% 64% / 60% 40% 60% 40%; }
+  0% {
+    border-radius:
+      46% 54% 41% 59% /
+      58% 42% 58% 42%;
+  }
+
+  50% {
+    border-radius:
+      53% 47% 50% 50% /
+      46% 53% 47% 50%;
+  }
+
+  100% {
+    border-radius:
+      40% 60% 36% 64% /
+      60% 40% 60% 40%;
+  }
 }
 
-@keyframes topDotPulse {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-12px) scale(1.08); }
-}
 
-@keyframes bottomDotFloat {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(10px, -10px); }
-}
+/* ==========================================================
+   RIGHT CONTENT
+========================================================== */
 
-/* =======================================
-   RIGHT SECTION: TEXT & CONTENT
-   ======================================= */
 .text-section {
   position: relative;
+
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
+
   align-items: flex-start;
 }
 
-/* Decorative Rocket Image */
+
+/* ==========================================================
+   ROCKET
+========================================================== */
+
 .decorative-rocket {
   position: absolute;
+
   top: -95px;
   right: 40px;
+
   width: 95px;
   height: auto;
+
   pointer-events: none;
-  animation: floatRocket 5s ease-in-out infinite;
+
+  animation:
+    floatRocket 5s ease-in-out infinite;
 }
 
 @keyframes floatRocket {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(-6deg); }
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+
+  50% {
+    transform:
+      translateY(-10px)
+      rotate(-6deg);
+  }
 }
 
-/* Subtitle Header */
+
+/* ==========================================================
+   SUBTITLE
+========================================================== */
+
 .subtitle-wrapper {
   display: flex;
   align-items: center;
+
   gap: 10px;
-  margin-bottom: 14px;
+
+  margin-bottom: 16px;
+
+  padding:
+    6px
+    18px
+    6px
+    10px;
+
   background: #fef1eb;
-  padding: 6px 18px 6px 10px;
+
   border-radius: 30px;
 }
 
 .cap-icon {
   width: 32px;
   height: 32px;
+
   object-fit: contain;
 }
 
 .subtitle {
-  color: var(--primary-pink);
-  font-family: var(--font-heading);
+  color: var(--about-pink);
+
+  font-family: var(--about-heading-font);
+
+  font-size: 1.1rem;
   font-weight: 700;
-  font-size: 1.15rem;
+
   letter-spacing: 1.2px;
 }
 
-/* Typography */
+
+/* ==========================================================
+   MAIN HEADING
+========================================================== */
+
 .main-heading {
-  font-family: var(--font-heading);
-  font-size: 3rem;
+  max-width: 700px;
+
+  margin: 0 0 20px;
+
+  color: var(--about-text-dark);
+
+  font-family: var(--about-heading-font);
+
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+
   font-weight: 700;
-  color: var(--text-dark);
-  line-height: 1.22;
-  margin: 0 0 20px 0;
-  letter-spacing: -0.5px;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.6px;
+
+  text-transform: capitalize;
 }
 
 .heading-highlight {
-  color: var(--primary-pink);
+  color: var(--about-pink);
 }
+
+
+/* ==========================================================
+   DESCRIPTION
+========================================================== */
 
 .description {
-  font-family: var(--font-body);
+  width: 100%;
+  max-width: 600px;
+
+  margin: 0 0 14px;
+
+  color: var(--about-text-muted);
+
+  font-family: var(--about-body-font);
+
   font-size: 15px;
-  color: var(--text-muted);
-  line-height: 1.75;
-  margin-bottom: 34px;
-  max-width: 520px;
+
+  line-height: 1.8;
 }
 
-/* Action Row & Button */
+.description strong {
+  color: var(--about-pink);
+
+  font-weight: 700;
+}
+
+
+/* ==========================================================
+   ACTION ROW
+========================================================== */
+
 .about-action-row {
   display: flex;
   align-items: center;
+
   gap: 24px;
+
   flex-wrap: wrap;
+
+  margin-top: 14px;
 }
 
+
+/* ==========================================================
+   EXPLORE BUTTON
+========================================================== */
+
 .read-more-btn {
-  background-color: var(--primary-pink);
-  color: #ffffff;
-  border: none;
-  padding: 15px 36px;
-  border-radius: 50px;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  cursor: pointer;
+  position: relative;
+
   display: inline-flex;
   align-items: center;
+
   gap: 10px;
-  position: relative;
+
+  padding: 15px 36px;
+
   overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 22px var(--primary-pink-shadow);
+
+  background: var(--about-pink);
+
+  color: var(--about-white);
+
+  border: none;
+  border-radius: 50px;
+
+  font-family: var(--about-heading-font);
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 22px var(--about-pink-shadow);
+
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .btn-shine {
   position: absolute;
+
   top: 0;
   left: -75%;
+
   width: 50%;
   height: 100%;
-  background: linear-gradient(115deg, transparent, rgba(255,255,255,0.4), transparent);
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+
   transform: skewX(-20deg);
-  transition: left 0.7s ease;
+
+  transition:
+    left 0.7s ease;
+}
+
+.read-more-btn:hover {
+  background: var(--about-purple);
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 28px rgba(140, 68, 219, 0.35);
 }
 
 .read-more-btn:hover .btn-shine {
@@ -375,33 +766,45 @@
 
 .arrow-icon {
   font-size: 1.1rem;
-  transition: transform 0.3s ease;
-}
 
-.read-more-btn:hover {
-  background-color: var(--hover-purple);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(140, 68, 219, 0.35);
+  transition:
+    transform 0.3s ease;
 }
 
 .read-more-btn:hover .arrow-icon {
-  transform: translate(3px, -3px);
+  transform:
+    translate(3px, -3px);
 }
 
-/* Stats Pill */
+
+/* ==========================================================
+   STATS PILL
+========================================================== */
+
 .about-stats-pill {
   display: flex;
   align-items: center;
+
   gap: 12px;
-  background: #ffffff;
+
   padding: 8px 16px;
+
+  background: var(--about-white);
+
+  border:
+    1px solid #f0e6d8;
+
   border-radius: 50px;
-  box-shadow: 0 6px 20px rgba(30, 27, 46, 0.05);
-  border: 1px solid #f0e6d8;
+
+  box-shadow:
+    0 6px 20px rgba(30, 27, 46, 0.05);
 }
 
 .stat-avatars {
   display: flex;
+
+  align-items: center;
+
   font-size: 16px;
 }
 
@@ -415,47 +818,190 @@
 }
 
 .stat-text strong {
+  color: var(--about-text-dark);
+
+  font-family: var(--about-heading-font);
+
   font-size: 13px;
-  font-family: var(--font-heading);
-  color: var(--text-dark);
+  font-weight: 700;
 }
 
 .stat-text span {
-  font-size: 11px;
   color: #777777;
+
+  font-size: 11px;
 }
 
-/* =======================================
-   RESPONSIVE ADAPTATIONS
-   ======================================= */
+
+/* ==========================================================
+   LOCATION BOX
+========================================================== */
+
+.about-location-box {
+  width: 100%;
+  max-width: 600px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 13px;
+
+  margin-top: 28px;
+
+  padding: 15px 18px;
+
+  background:
+    rgba(255, 255, 255, 0.75);
+
+  border:
+    1px solid rgba(234, 104, 166, 0.16);
+
+  border-radius: 16px;
+
+  box-shadow:
+    0 8px 24px rgba(30, 27, 46, 0.04);
+}
+
+.location-icon {
+  flex: 0 0 38px;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fef1eb;
+
+  border-radius: 50%;
+
+  font-size: 17px;
+}
+
+.location-content {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.location-label {
+  margin-bottom: 3px;
+
+  color: var(--about-pink);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.1px;
+}
+
+.location-content p {
+  margin: 0;
+
+  color: var(--about-text-muted);
+
+  font-size: 12.5px;
+
+  line-height: 1.55;
+}
+
+.location-phone {
+  width: fit-content;
+
+  margin-top: 5px;
+
+  color: var(--about-text-dark);
+
+  font-size: 12.5px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease;
+}
+
+.location-phone:hover {
+  color: var(--about-pink);
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
 @media (max-width: 992px) {
+  .about-us-container {
+    min-height: auto;
+
+    padding: 85px 24px;
+  }
+
   .about-us-content {
     grid-template-columns: 1fr;
-    gap: 70px;
+
+    gap: 75px;
+
+    max-width: 760px;
+  }
+
+  .image-section {
+    order: 1;
   }
 
   .text-section {
+    order: 2;
+
     align-items: center;
+
     text-align: center;
+  }
+
+  .main-heading {
+    max-width: 720px;
+  }
+
+  .description {
+    max-width: 650px;
   }
 
   .about-action-row {
     justify-content: center;
   }
 
+  .about-location-box {
+    text-align: left;
+  }
+
   .decorative-rocket {
-    top: -60px;
-    right: 10px;
+    top: -65px;
+    right: 0;
+
     width: 75px;
   }
 
   .blob-wrapper {
-    width: 400px;
-    height: 330px;
+    width: 410px;
+    height: 340px;
   }
 }
 
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
 @media (max-width: 576px) {
+  .about-us-container {
+    padding: 65px 16px;
+  }
+
+  .about-us-content {
+    gap: 55px;
+  }
+
   .blob-wrapper {
     width: 310px;
     height: 260px;
@@ -465,32 +1011,165 @@
     padding: 16px;
   }
 
-  .main-heading {
-    font-size: 2.1rem;
+  .decorative-star {
+    top: -32px;
+    left: -5px;
+
+    width: 95px;
+  }
+
+  .decorative-rocket {
+    top: -55px;
+    right: 0;
+
+    width: 58px;
   }
 
   .top-dot {
+    top: -25px;
+
     width: 45px;
     height: 45px;
-    top: -24px;
   }
 
   .bottom-dot {
-    width: 30px;
-    height: 30px;
     right: -10px;
     bottom: 30px;
-  }
 
-  .decorative-star {
-    width: 100px;
-    top: -30px;
-    left: -10px;
+    width: 30px;
+    height: 30px;
   }
 
   .about-experience-badge {
     left: 0;
-    bottom: 10px;
-    padding: 8px 14px;
+    bottom: 8px;
+
+    padding: 9px 13px;
+
+    gap: 8px;
+  }
+
+  .about-experience-badge .badge-icon {
+    font-size: 21px;
+  }
+
+  .about-experience-badge strong {
+    font-size: 13px;
+  }
+
+  .about-experience-badge small {
+    font-size: 10px;
+  }
+
+  .subtitle-wrapper {
+    padding-right: 14px;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .cap-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .main-heading {
+    font-size: 2.15rem;
+
+    line-height: 1.2;
+  }
+
+  .description {
+    font-size: 14px;
+
+    line-height: 1.75;
+  }
+
+  .about-action-row {
+    width: 100%;
+
+    flex-direction: column;
+
+    gap: 16px;
+  }
+
+  .read-more-btn {
+    padding: 14px 30px;
+  }
+
+  .about-stats-pill {
+    max-width: 100%;
+  }
+
+  .about-location-box {
+    margin-top: 22px;
+
+    padding: 13px;
+
+    gap: 10px;
+  }
+
+  .location-content p {
+    font-size: 12px;
+  }
+}
+
+
+/* ==========================================================
+   EXTRA SMALL DEVICES
+========================================================== */
+
+@media (max-width: 380px) {
+  .about-us-container {
+    padding: 55px 12px;
+  }
+
+  .blob-wrapper {
+    width: 275px;
+    height: 235px;
+  }
+
+  .blob-border {
+    padding: 13px;
+  }
+
+  .main-heading {
+    font-size: 1.9rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .about-experience-badge {
+    left: -5px;
+  }
+
+  .about-experience-badge strong {
+    font-size: 12px;
+  }
+
+  .about-experience-badge small {
+    font-size: 9px;
+  }
+
+  .about-stats-pill {
+    padding: 7px 12px;
+  }
+}
+
+
+/* ==========================================================
+   REDUCED MOTION
+========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .about-us-container *,
+  .about-us-container *::before,
+  .about-us-container *::after {
+    animation: none !important;
+
+    transition: none !important;
   }
 }

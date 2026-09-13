@@ -92,12 +92,14 @@ const OurTeachers = () => {
   };
 
   return (
-    <section className="our-teachers">
+    <section className="our-teachers" aria-labelledby="our-teachers-heading">
       <div className="our-teachers__container">
         {/* Header Section */}
         <div className="our-teachers__header">
           <span className="our-teachers__subtitle">Our Core Faculty</span>
-          <h2 className="our-teachers__title">Meet Our Expert Teachers</h2>
+          <h1 id="our-teachers-heading" className="our-teachers__title">
+            the founder’s educational background, vision, and hands-on guidance for toddlers.
+          </h1>
         </div>
 
         {/* Teachers Grid */}
@@ -107,13 +109,14 @@ const OurTeachers = () => {
               {/* Restructured Avatar/Blob/Social Container */}
               <div className="our-teachers__avatar-container">
                 {/* 1. The Morphing Animated Blob Background */}
-                <div className="our-teachers__blob-bg"></div>
+                <div className="our-teachers__blob-bg" aria-hidden="true"></div>
 
                 {/* 2. Main Circular Clipped Image */}
                 <img
                   src={teacher.image}
                   alt={teacher.name}
                   className="our-teachers__image"
+                  loading="lazy"
                 />
 
                 {/* 3. Sliding Social Icons Bar */}
@@ -148,6 +151,7 @@ const OurTeachers = () => {
                   </a>
                   {/* Bio Details Trigger Button */}
                   <button
+                    type="button"
                     onClick={() => openBioModal(teacher)}
                     className="our-teachers__social-link our-teachers__bio-btn"
                     aria-label="View Bio Description"
@@ -163,6 +167,7 @@ const OurTeachers = () => {
                 <h3 className="our-teachers__name">{teacher.name}</h3>
                 <p className="our-teachers__role">{teacher.role}</p>
                 <button 
+                  type="button"
                   className="our-teachers__read-more-trigger"
                   onClick={() => openBioModal(teacher)}
                 >
@@ -176,12 +181,12 @@ const OurTeachers = () => {
 
       {/* Interactive Cartoon Bio Popup Modal */}
       {activeBioTeacher && (
-        <div className="our-teachers__modal-backdrop" onClick={closeBioModal}>
+        <div className="our-teachers__modal-backdrop" onClick={closeBioModal} role="dialog" aria-modal="true">
           <div 
             className="our-teachers__modal-content animate-popIn" 
             onClick={(e) => e.stopPropagation()}
           >
-            <button className="our-teachers__modal-close" onClick={closeBioModal}>
+            <button type="button" className="our-teachers__modal-close" onClick={closeBioModal} aria-label="Close modal">
               <FaTimes />
             </button>
 
@@ -197,10 +202,10 @@ const OurTeachers = () => {
                 <p className="our-teachers__modal-bio">{activeBioTeacher.bio}</p>
                 
                 <div className="our-teachers__modal-socials-row">
-                  <a href={activeBioTeacher.socials.facebook} className="modal-soc"><FaFacebookF /></a>
-                  <a href={activeBioTeacher.socials.twitter} className="modal-soc"><FaTwitter /></a>
-                  <a href={activeBioTeacher.socials.linkedin} className="modal-soc"><FaLinkedinIn /></a>
-                  <a href={activeBioTeacher.socials.instagram} className="modal-soc"><FaInstagram /></a>
+                  <a href={activeBioTeacher.socials.facebook} className="modal-soc" aria-label="Facebook"><FaFacebookF /></a>
+                  <a href={activeBioTeacher.socials.twitter} className="modal-soc" aria-label="Twitter"><FaTwitter /></a>
+                  <a href={activeBioTeacher.socials.linkedin} className="modal-soc" aria-label="LinkedIn"><FaLinkedinIn /></a>
+                  <a href={activeBioTeacher.socials.instagram} className="modal-soc" aria-label="Instagram"><FaInstagram /></a>
                 </div>
               </div>
             </div>

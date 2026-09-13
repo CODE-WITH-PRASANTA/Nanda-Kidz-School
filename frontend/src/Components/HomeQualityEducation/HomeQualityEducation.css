@@ -1,40 +1,41 @@
-/* ==========================================================================
-   Layout Structures & Resets
-   ========================================================================== */
+/* =========================================================
+   HOME QUALITY EDUCATION
+========================================================= */
+
 .hq-section {
-  padding: 80px 20px;
+  width: 100%;
+  padding: 90px 20px;
   overflow: hidden;
-  background-color: #ffffff;
+  background: #ffffff;
+  box-sizing: border-box;
 }
 
 .hq-container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
   align-items: center;
+  gap: 70px;
 }
 
-/* Responsive configurations for small viewports */
-@media (max-width: 992px) {
-  .hq-container {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-}
+/* =========================================================
+   LEFT IMAGE AREA
+========================================================= */
 
-/* ==========================================================================
-   Left Column: Blob & Image Assembly
-   ========================================================================== */
 .hq-image-side {
   position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   opacity: 0;
-  /* Smooth horizontal glide entry curve */
-  animation: hqFadeInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  animation: hqFadeInLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
 
 .hq-image-frame {
@@ -42,149 +43,337 @@
   width: 100%;
   max-width: 450px;
   aspect-ratio: 1 / 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+/* Main image */
 
 .hq-student-img {
   position: relative;
+
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+
   z-index: 3;
-  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+
+  border-radius:
+    60% 40% 30% 70% /
+    60% 30% 70% 40%;
+
+  filter: saturate(1.03);
+
+  box-shadow:
+    0 20px 45px rgba(17, 17, 17, 0.12);
+
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
 }
+
+.hq-image-frame:hover .hq-student-img {
+  transform: scale(1.025);
+
+  box-shadow:
+    0 25px 55px rgba(17, 17, 17, 0.16);
+}
+
+/* =========================================================
+   DECORATIVE GRADIENT BLOB
+========================================================= */
 
 .hq-blob-bg {
   position: absolute;
+
   top: -10px;
   left: -10px;
+
   width: 104%;
   height: 104%;
-  background: linear-gradient(45deg, #ff8a00, #bc00dd);
-  border-radius: 30% 70% 70% 30% / 50% 60% 40% 50%;
+
+  background:
+    linear-gradient(
+      45deg,
+      #ff8a00,
+      #bc00dd
+    );
+
+  border-radius:
+    30% 70% 70% 30% /
+    50% 60% 40% 50%;
+
   z-index: 1;
+
   opacity: 0.15;
+
   transform-origin: center;
-  /* Infinite, elegant slow background rotation loop */
-  animation: hqRotateBlob 25s linear infinite;
+
+  animation:
+    hqRotateBlob 25s linear infinite;
 }
+
+/* =========================================================
+   DECORATIVE RING
+========================================================= */
 
 .hq-outline-ring {
   position: absolute;
-  border: 2px dashed rgba(188, 0, 221, 0.3);
+
+  border:
+    2px dashed
+    rgba(188, 0, 221, 0.3);
+
   border-radius: 50%;
+
   z-index: 2;
+
   transform-origin: center;
 }
 
-.ring-2 { 
-  width: 120%; 
-  height: 120%; 
-  top: -10%; 
-  left: -10%; 
-  /* Slow counter-rotation loop moving opposite to the blob color layer */
-  animation: hqRotateRingInverse 30s linear infinite;
+.ring-2 {
+  width: 120%;
+  height: 120%;
+
+  top: -10%;
+  left: -10%;
+
+  animation:
+    hqRotateRingInverse 30s linear infinite;
 }
 
-/* ==========================================================================
-   Right Column: Typography Entrance Sequencing
-   ========================================================================== */
+/* =========================================================
+   RIGHT CONTENT
+========================================================= */
+
 .hq-content-side {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+
+  gap: 30px;
 }
 
-/* Hide elements initially to secure absolute animation control styling */
+/* =========================================================
+   ANIMATION ELEMENTS
+========================================================= */
+
 .hq-tagline,
 .hq-title,
 .hq-desc,
 .hq-skills-box,
 .hq-btn-cta {
   opacity: 0;
-  animation: hqFadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  animation:
+    hqFadeInUp
+    1s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
 
-.hq-tagline    { color: #bc00dd; font-weight: 700; font-size: 14px; letter-spacing: 2px; animation-delay: 0.2s; display: block; margin-bottom: 8px;}
-.hq-title      { font-size: 42px; line-height: 1.2; color: #111111; font-weight: 800; animation-delay: 0.3s; margin: 0;}
-.hq-desc       { font-size: 16px; line-height: 1.6; color: #666666; animation-delay: 0.4s; margin-top: 16px;}
-.hq-skills-box { animation-delay: 0.5s; display: flex; flex-direction: column; gap: 20px;}
-.hq-btn-cta    { animation-delay: 0.8s; }
+/* =========================================================
+   HEADER
+========================================================= */
 
-/* ==========================================================================
-   Skillset Progress Meters
-   ========================================================================== */
+.hq-tagline {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #bc00dd;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  animation-delay: 0.2s;
+}
+
+.hq-title {
+  max-width: 650px;
+
+  margin: 0;
+
+  color: #111111;
+
+  font-size: 42px;
+  line-height: 1.18;
+
+  font-weight: 800;
+
+  text-transform: capitalize;
+
+  animation-delay: 0.3s;
+}
+
+.hq-desc {
+  max-width: 620px;
+
+  margin: 16px 0 0;
+
+  color: #666666;
+
+  font-size: 16px;
+  line-height: 1.75;
+
+  animation-delay: 0.4s;
+}
+
+.hq-fee-text {
+  margin-top: 10px;
+
+  animation-delay: 0.45s;
+}
+
+.hq-fee-text strong {
+  color: #bc00dd;
+  font-weight: 700;
+}
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
+.hq-skills-box {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+
+  animation-delay: 0.55s;
+}
+
 .hq-skill-row {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+
+  gap: 9px;
 }
 
 .hq-skill-meta {
   display: flex;
   justify-content: space-between;
-  font-weight: 600;
-  font-size: 15px;
+  align-items: center;
+
+  gap: 20px;
+
   color: #222222;
+
+  font-size: 15px;
+  font-weight: 600;
 }
+
+.hq-label {
+  line-height: 1.4;
+}
+
+.hq-percentage {
+  color: #555555;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   PROGRESS TRACK
+========================================================= */
 
 .hq-meter-track {
   width: 100%;
   height: 8px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
+
   overflow: hidden;
+
+  background-color: #f0f0f0;
+
+  border-radius: 20px;
 }
 
 .hq-meter-fill {
-  height: 100%;
   width: 0%;
-  border-radius: 4px;
-  /* Uses dynamic inline CSS targets mapped from your array render details */
-  animation: hqFillMeter 1.6s cubic-bezier(0.1, 1, 0.1, 1) forwards;
+  height: 100%;
+
+  border-radius: 20px;
+
+  animation:
+    hqFillMeter
+    1.6s
+    cubic-bezier(0.1, 1, 0.1, 1)
+    forwards;
 }
 
-/* ==========================================================================
-   Call to Action Interactive States
-   ========================================================================== */
+/* =========================================================
+   CTA BUTTON
+========================================================= */
+
 .hq-btn-cta {
+  align-self: flex-start;
+
   display: inline-flex;
   align-items: center;
+
   gap: 12px;
-  align-self: flex-start;
+
   padding: 14px 28px;
+
   background-color: #111111;
+
   color: #ffffff;
+
   text-decoration: none;
-  font-weight: 600;
+
   font-size: 14px;
+  font-weight: 600;
+
   letter-spacing: 1px;
+
   border-radius: 50px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  animation-delay: 0.8s;
 }
 
 .hq-btn-arrow {
   width: 16px;
   height: 16px;
-  transition: transform 0.3s ease;
+
+  transition:
+    transform 0.3s ease;
 }
 
 .hq-btn-cta:hover {
   background-color: #bc00dd;
-  transform: translateY(-2px);
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 25px rgba(188, 0, 221, 0.2);
 }
 
 .hq-btn-cta:hover .hq-btn-arrow {
   transform: translate(3px, -3px);
 }
 
-/* ==========================================================================
-   Global Smooth Entrance & Rotation Keyframe Blocks
-   ========================================================================== */
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
 @keyframes hqFadeInLeft {
   0% {
     opacity: 0;
     transform: translateX(-40px);
   }
+
   100% {
     opacity: 1;
     transform: translateX(0);
@@ -196,6 +385,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -206,6 +396,7 @@
   0% {
     width: 0%;
   }
+
   100% {
     width: var(--target-width);
   }
@@ -215,6 +406,7 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -224,7 +416,157 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(-360deg);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 992px) {
+  .hq-section {
+    padding: 75px 20px;
+  }
+
+  .hq-container {
+    grid-template-columns: 1fr;
+
+    gap: 55px;
+
+    max-width: 750px;
+  }
+
+  .hq-image-side {
+    order: 1;
+  }
+
+  .hq-content-side {
+    order: 2;
+  }
+
+  .hq-image-frame {
+    max-width: 430px;
+  }
+
+  .hq-title {
+    font-size: 38px;
+  }
+
+  .hq-desc {
+    max-width: 100%;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .hq-section {
+    padding: 60px 16px;
+  }
+
+  .hq-container {
+    gap: 45px;
+  }
+
+  .hq-image-frame {
+    max-width: 320px;
+  }
+
+  .hq-title {
+    font-size: 31px;
+    line-height: 1.2;
+  }
+
+  .hq-tagline {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
+
+  .hq-desc {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .hq-content-side {
+    gap: 25px;
+  }
+
+  .hq-skills-box {
+    gap: 17px;
+  }
+
+  .hq-skill-meta {
+    font-size: 14px;
+  }
+
+  .hq-btn-cta {
+    width: fit-content;
+
+    padding: 13px 22px;
+
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .hq-section {
+    padding: 50px 14px;
+  }
+
+  .hq-image-frame {
+    max-width: 280px;
+  }
+
+  .hq-title {
+    font-size: 28px;
+  }
+
+  .hq-desc {
+    font-size: 14px;
+  }
+
+  .hq-btn-cta {
+    padding: 12px 20px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hq-image-side,
+  .hq-tagline,
+  .hq-title,
+  .hq-desc,
+  .hq-skills-box,
+  .hq-btn-cta {
+    opacity: 1;
+    animation: none;
+  }
+
+  .hq-blob-bg,
+  .hq-outline-ring,
+  .hq-meter-fill {
+    animation: none;
+  }
+
+  .hq-meter-fill {
+    width: var(--target-width);
+  }
+
+  .hq-student-img,
+  .hq-btn-cta,
+  .hq-btn-arrow {
+    transition: none;
   }
 }

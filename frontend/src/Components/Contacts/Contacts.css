@@ -1,170 +1,682 @@
-/* सेक्शन रैपर (Exact ऑफ-व्हाइट बैकग्राउंड) */
+/* =========================================================
+   MAIN SECTION
+========================================================= */
+
 .contacts-wrapper {
   position: relative;
   width: 100%;
-  background-color: #FAF8F5; /* Reference Image exact warm off-white color */
-  padding: 100px 20px 140px;
   overflow: hidden;
-  box-sizing: border-box;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding: 95px 20px 145px;
+  background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgba(23, 131, 95, 0.055),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 70%,
+      rgba(242, 181, 68, 0.07),
+      transparent 30%
+    ),
+    #faf8f5;
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
-/* मुख्य कंटेनर */
+.contacts-wrapper *,
+.contacts-wrapper *::before,
+.contacts-wrapper *::after {
+  box-sizing: border-box;
+}
+
 .contacts-container {
-  max-width: 1140px;
-  margin: 0 auto;
   position: relative;
   z-index: 5;
+  width: min(1200px, 100%);
+  margin: 0 auto;
 }
 
-/* 3-कॉलम ग्रिड लेआउट */
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.contacts-header {
+  max-width: 900px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.contacts-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  padding: 8px 18px;
+  border: 1px solid rgba(23, 131, 95, 0.14);
+  border-radius: 50px;
+  background: rgba(23, 131, 95, 0.07);
+  color: #17835f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.contacts-header h1 {
+  margin: 0;
+  color: #2d2d2d;
+  font-size: clamp(31px, 4.2vw, 51px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.contacts-intro {
+  max-width: 790px;
+  margin: 19px auto 0;
+  color: #70706c;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+
+/* =========================================================
+   CONTACT GRID
+========================================================= */
+
 .contacts-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
 }
 
-/* कार्ड स्टाइल्स */
+
+/* =========================================================
+   CONTACT CARD
+========================================================= */
+
 .contact-card {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 315px;
+  padding: 35px 28px;
+  border: 1px solid rgba(45, 45, 45, 0.06);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
   text-align: center;
+  box-shadow: 0 14px 35px rgba(45, 45, 45, 0.055);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
+.contact-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(23, 131, 95, 0.14);
+  box-shadow: 0 22px 45px rgba(45, 45, 45, 0.09);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
 .contact-icon-wrapper {
-  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 21px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(23, 131, 95, 0.07),
+      rgba(242, 181, 68, 0.1)
+    );
 }
 
 .contact-icon {
-  max-height: 100%;
   width: auto;
+  max-width: 52px;
+  height: auto;
+  max-height: 52px;
   object-fit: contain;
 }
 
+
+/* =========================================================
+   CONTACT CONTENT
+========================================================= */
+
 .contact-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #2D2D2D;
-  margin: 0 0 14px 0;
-  letter-spacing: -0.3px;
+  margin: 0 0 11px;
+  color: #2d2d2d;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.3;
 }
 
 .contact-description {
-  font-size: 0.95rem;
-  color: #666666;
-  line-height: 1.6;
-  margin: 0 0 18px 0;
-  max-width: 300px;
-}
-
-.contact-email {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #2D2D2D;
-  text-decoration: underline;
-  margin-bottom: 6px;
-  transition: color 0.2s ease;
-}
-
-.contact-email:hover {
-  color: #EC75AD;
-}
-
-.contact-phone {
-  font-size: 0.85rem;
-  color: #888888;
+  max-width: 310px;
   margin: 0;
-  letter-spacing: 0.2px;
+  color: #70706c;
+  font-size: 13px;
+  line-height: 1.75;
 }
 
-/* --- डेकोरेटिव इलस्ट्रेशन्स --- */
+.contact-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  margin-top: auto;
+  padding: 0 17px;
+  border-radius: 10px;
+  background: rgba(23, 131, 95, 0.07);
+  color: #17835f;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
 
-/* ऊपर बाईं ओर मधुमक्खी (Bee) */
+.contact-action:hover {
+  transform: translateY(-2px);
+  background: #17835f;
+  color: #ffffff;
+}
+
+.contact-location-action {
+  background: rgba(242, 181, 68, 0.13);
+  color: #a46a00;
+}
+
+.contact-location-action:hover {
+  background: #e9ae43;
+  color: #2d2d2d;
+}
+
+
+/* =========================================================
+   LOCATION SECTION
+========================================================= */
+
+.contacts-location-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.contacts-location-content {
+  padding: 42px 45px;
+  border-radius: 27px;
+  background:
+    linear-gradient(
+      135deg,
+      #173f34,
+      #175845
+    );
+  box-shadow: 0 18px 44px rgba(23, 63, 52, 0.13);
+}
+
+.contacts-location-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #f4bf54;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.contacts-location-content h2 {
+  max-width: 650px;
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(26px, 3vw, 37px);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.contacts-location-content > p {
+  max-width: 700px;
+  margin: 17px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.contacts-location-content > p strong {
+  color: #ffffff;
+  font-weight: 750;
+}
+
+.contacts-address {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contacts-address span {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.contacts-address strong {
+  max-width: 670px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.contacts-map-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  min-width: 190px;
+  min-height: 46px;
+  margin-top: 23px;
+  padding: 0 17px;
+  border-radius: 10px;
+  background: #f2b544;
+  color: #173f34;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.contacts-map-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+}
+
+.contacts-map-button span {
+  font-size: 17px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   NEIGHBORHOOD CARD
+========================================================= */
+
+.contacts-neighborhood-card {
+  padding: 37px 30px;
+  border: 1px solid rgba(23, 63, 52, 0.07);
+  border-radius: 27px;
+  background: #ffffff;
+  box-shadow: 0 15px 35px rgba(45, 45, 45, 0.07);
+}
+
+.contacts-neighborhood-small {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #17835f;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.contacts-neighborhood-card h3 {
+  margin: 0;
+  color: #2d2d2d;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.contacts-neighborhood-card > p {
+  margin: 12px 0 0;
+  color: #777773;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.contacts-area-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.contacts-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 45px;
+  padding: 0 13px;
+  border: 1px solid #e9eeeb;
+  border-radius: 10px;
+  background: #fbfdfc;
+  color: #36594e;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.contacts-area:hover {
+  transform: translateY(-2px);
+  border-color: rgba(23, 131, 95, 0.22);
+  background: rgba(23, 131, 95, 0.055);
+}
+
+.contacts-area b {
+  color: #17835f;
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   PARENT NOTE
+========================================================= */
+
+.contacts-parent-note {
+  max-width: 850px;
+  margin: 35px auto 0;
+  text-align: center;
+}
+
+.contacts-parent-note span {
+  display: block;
+  margin-bottom: 6px;
+  color: #17835f;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.contacts-parent-note p {
+  margin: 0;
+  color: #777773;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   DECORATIVE BEE
+========================================================= */
+
 .decor-bee {
   position: absolute;
-  top: 30px;
+  top: 35px;
   left: 8%;
-  width: 90px;
-  height: auto;
   z-index: 2;
+  width: 82px;
+  height: auto;
   pointer-events: none;
+  opacity: 0.95;
+  animation: beeFloat 4.5s ease-in-out infinite;
 }
 
-/* नीचे दाईं ओर घास (Grass) */
+@keyframes beeFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-9px) rotate(2deg);
+  }
+}
+
+
+/* =========================================================
+   DECORATIVE GRASS
+========================================================= */
+
 .decor-grass {
   position: absolute;
-  bottom: 80px;
-  right: 12%;
-  width: 65px;
-  height: auto;
+  right: 9%;
+  bottom: 85px;
   z-index: 2;
+  width: 62px;
+  height: auto;
   pointer-events: none;
 }
 
-/* --- बॉटम वेव डिवाइडर --- */
+
+/* =========================================================
+   WAVE
+========================================================= */
+
 .wave-divider {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
+  z-index: 3;
   width: 100%;
   overflow: hidden;
   line-height: 0;
-  z-index: 3;
 }
 
 .wave-svg {
-  position: relative;
   display: block;
   width: 100%;
   height: 80px;
 }
 
-/* --- रिस्पॉन्सिव मीडिया क्वेरीज़ --- */
-@media (max-width: 992px) {
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media screen and (max-width: 1050px) {
+  .contacts-location-section {
+    grid-template-columns: 1fr;
+  }
+
+  .contacts-location-content {
+    padding: 37px;
+  }
+}
+
+@media screen and (max-width: 900px) {
   .contacts-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
   }
 
   .decor-bee {
     left: 4%;
-    width: 75px;
+    width: 68px;
   }
 
   .decor-grass {
-    right: 5%;
-    width: 55px;
+    right: 4%;
+    width: 52px;
   }
 }
 
-@media (max-width: 640px) {
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media screen and (max-width: 640px) {
   .contacts-wrapper {
-    padding: 70px 16px 100px;
+    padding: 60px 15px 105px;
+  }
+
+  .contacts-header {
+    margin-bottom: 36px;
+  }
+
+  .contacts-label {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+  }
+
+  .contacts-header h1 {
+    font-size: 29px;
+    line-height: 1.2;
+  }
+
+  .contacts-intro {
+    margin-top: 15px;
+    font-size: 13px;
+    line-height: 1.75;
   }
 
   .contacts-grid {
     grid-template-columns: 1fr;
-    gap: 45px;
+    gap: 17px;
+  }
+
+  .contact-card {
+    min-height: auto;
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+
+  .contact-icon-wrapper {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 17px;
+    border-radius: 18px;
+  }
+
+  .contact-title {
+    font-size: 18px;
+  }
+
+  .contact-description {
+    font-size: 12px;
+  }
+
+  .contact-action {
+    margin-top: 18px;
+    width: 100%;
+  }
+
+  .contacts-location-section {
+    margin-top: 38px;
+  }
+
+  .contacts-location-content {
+    padding: 30px 21px;
+    border-radius: 21px;
+  }
+
+  .contacts-location-content h2 {
+    font-size: 25px;
+  }
+
+  .contacts-location-content > p {
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .contacts-address strong {
+    font-size: 12px;
+  }
+
+  .contacts-map-button {
+    width: 100%;
+  }
+
+  .contacts-neighborhood-card {
+    padding: 27px 20px;
+    border-radius: 21px;
+  }
+
+  .contacts-neighborhood-card h3 {
+    font-size: 21px;
+  }
+
+  .contacts-area-list {
+    grid-template-columns: 1fr;
+  }
+
+  .contacts-parent-note {
+    margin-top: 25px;
+  }
+
+  .contacts-parent-note p {
+    font-size: 12px;
   }
 
   .decor-bee {
     top: 15px;
     left: 2%;
-    width: 60px;
+    width: 53px;
   }
 
   .decor-grass {
+    right: 2%;
     bottom: 50px;
-    right: 3%;
-    width: 45px;
+    width: 43px;
   }
 
   .wave-svg {
     height: 50px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media screen and (max-width: 380px) {
+  .contacts-header h1 {
+    font-size: 26px;
+  }
+
+  .contacts-location-content {
+    padding: 26px 17px;
+  }
+
+  .contacts-neighborhood-card {
+    padding: 25px 17px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .decor-bee,
+  .contact-card,
+  .contact-action,
+  .contacts-area,
+  .contacts-map-button {
+    animation: none !important;
+    transition: none !important;
   }
 }

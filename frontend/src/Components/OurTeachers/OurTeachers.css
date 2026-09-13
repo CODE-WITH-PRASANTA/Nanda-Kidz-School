@@ -29,11 +29,12 @@
 
 .our-teachers__title {
   font-family: 'Fredoka', sans-serif;
-  font-size: 46px;
+  font-size: clamp(28px, 3.5vw, 42px);
   font-weight: 700;
   color: #210d48;
-  margin: 0;
-  line-height: 1.2;
+  margin: 0 auto;
+  max-width: 900px;
+  line-height: 1.25;
 }
 
 /* Responsive Grid Layout */

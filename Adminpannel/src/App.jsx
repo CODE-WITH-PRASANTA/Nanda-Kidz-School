@@ -22,6 +22,8 @@ import ParentsInquiry from "./Components/ParentsInquiry/ParentsInquiry";
 import SubjectManagement from "./Components/SubjectManagement/SubjectManagement";
 import Schedule from "./Components/Schedule/Schedule";
 import Classandsection from "./Components/Classandsection/Classandsection";
+import ColdLead from "./Pages/ColdLead/ColdLead";
+import Order from "./Pages/Order/Order";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -93,6 +95,9 @@ function App() {
 
           {/* Gallery */}
           <Route path="gallery-management" element={<GalleryManagement />} />
+
+          <Route path="/coldlead" element={<ColdLead />} />
+          <Route path="/order" element={<Order />} />
         </Route>
 
         {/* 404 Fallback */}

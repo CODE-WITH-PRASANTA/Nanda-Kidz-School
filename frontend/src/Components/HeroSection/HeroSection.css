@@ -1,50 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Courier+Prime:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;500;600;700&family=Courier+Prime:wght@700&display=swap");
+
+/* =========================================================
+   HERO SECTION
+========================================================= */
 
 .HeroSection {
   position: relative;
   width: 100%;
   min-height: 100vh;
+
   background-size: cover;
-  background-position: center 0px;
+  background-position: center 0;
   background-repeat: no-repeat;
   background-color: #faf7f2;
+
   overflow: hidden;
+
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 60px 40px 90px 40px;
+
+  padding: 65px 40px 100px;
   box-sizing: border-box;
+
   will-change: background-position;
 }
 
-.HeroSection-title {
-  font-family: 'Short Stack', 'Fredoka One', cursive, Sans-serif;
-  font-size: 85px;
-  font-weight: 400;
-  text-transform: none;
-  font-style: normal;
-  text-decoration: none;
-  line-height: 0.95;
-  letter-spacing: -1px;
-  color: #363b3e;
-  margin: 6px 0 0 0;
+/* Soft overlay */
+.HeroSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      rgba(255, 255, 255, 0.72),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(250, 247, 242, 0.25)
+    );
+
+  pointer-events: none;
+  z-index: 0;
 }
 
-.HeroSection-titleGreen {
-  color: #72b28c;
-}
+/* =========================================================
+   MAIN GRID
+========================================================= */
 
 .HeroSection-gridWrapper {
   display: grid;
   grid-template-columns: 0.8fr 1.3fr 0.8fr;
   gap: 32px;
-  max-width: 1300px;
+
   width: 100%;
+  max-width: 1320px;
+
   position: relative;
   z-index: 2;
+
   margin-top: 20px;
+
   will-change: transform;
 }
+
+/* =========================================================
+   SIDE COLUMNS
+========================================================= */
 
 .HeroSection-col {
   display: flex;
@@ -52,24 +78,248 @@
   gap: 30px;
 }
 
-/* Card Rules for Full Cover Proportional Layout & Interactive Overlay */
+.LeftCol {
+  padding-top: 15px;
+}
+
+.RightCol {
+  padding-top: 35px;
+}
+
+/* =========================================================
+   CENTER CONTENT
+========================================================= */
+
+.HeroSection-centerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+
+  padding-top: 15px;
+
+  position: relative;
+  min-width: 0;
+}
+
+.HeroSection-textBlock {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+
+  margin-bottom: 8px;
+}
+
+/* Soft green glow behind heading */
+.HeroSection-textBlock::before {
+  content: "";
+
+  position: absolute;
+
+  top: -65px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 390px;
+  height: 390px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(114, 178, 140, 0.17) 0%,
+      rgba(114, 178, 140, 0.07) 35%,
+      transparent 70%
+    );
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
+.HeroSection-subtitle {
+  display: inline-block;
+
+  font-family: "Courier Prime", monospace;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  color: #c98a70;
+
+  margin-bottom: 8px;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   MAIN H1
+========================================================= */
+
+.HeroSection-title {
+  font-family: "Fredoka", sans-serif;
+
+  font-size: clamp(48px, 5.4vw, 78px);
+
+  font-weight: 500;
+
+  line-height: 0.98;
+
+  letter-spacing: -2px;
+
+  color: #363b3e;
+
+  margin: 8px 0 22px;
+
+  text-transform: none;
+}
+
+.HeroSection-titleGreen {
+  color: #72b28c;
+
+  display: inline-block;
+
+  position: relative;
+}
+
+/* Hand-drawn underline */
+.HeroSection-titleGreen::after {
+  content: "";
+
+  position: absolute;
+
+  left: 3%;
+  right: 3%;
+  bottom: -10px;
+
+  height: 7px;
+
+  border-radius: 50%;
+
+  border-top: 3px solid rgba(201, 138, 112, 0.65);
+
+  transform: rotate(-2deg);
+}
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.HeroSection-description {
+  max-width: 610px;
+
+  margin: 0 auto 12px;
+
+  font-family: "Fredoka", sans-serif;
+
+  font-size: 15px;
+  line-height: 1.8;
+
+  font-weight: 400;
+
+  color: #666b6d;
+}
+
+.HeroSection-description.secondary {
+  font-size: 14px;
+  color: #777b7d;
+}
+
+/* =========================================================
+   HIGHLIGHTS
+========================================================= */
+
+.HeroSection-highlights {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin: 20px auto 18px;
+}
+
+.HeroSection-highlights span {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 14px;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.8);
+
+  border: 1px solid rgba(114, 178, 140, 0.2);
+
+  box-shadow: 0 5px 15px rgba(70, 90, 80, 0.07);
+
+  font-family: "Fredoka", sans-serif;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  color: #4f5954;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.HeroSection-highlights span:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 9px 20px rgba(70, 90, 80, 0.12);
+}
+
+/* =========================================================
+   IMAGE CARDS
+========================================================= */
+
 .HeroSection-card {
   width: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
-  background-color: #fff;
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 
-  /* Scroll-reveal baseline (JS toggles .is-revealed to trigger the animation) */
+  position: relative;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #fff;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 9px 28px rgba(45, 54, 50, 0.07);
+
   opacity: 0;
+
   transform: translateY(48px) scale(0.96);
+
+  outline: none;
+
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease;
 }
 
 .HeroSection-card.is-revealed {
-  animation: heroCardReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation:
+    heroCardReveal
+    0.75s cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+
   animation-delay: var(--reveal-delay, 0ms);
 }
 
@@ -78,6 +328,7 @@
     opacity: 0;
     transform: translateY(48px) scale(0.96);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -85,321 +336,910 @@
 }
 
 .HeroSection-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 14px 32px rgba(114, 178, 140, 0.25);
+  transform: translateY(-7px) scale(1.02);
+
+  box-shadow:
+    0 18px 38px rgba(114, 178, 140, 0.2);
 }
+
+.HeroSection-card:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(114, 178, 140, 0.25),
+    0 15px 35px rgba(114, 178, 140, 0.2);
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .HeroSection-card img {
   width: 100%;
   height: 100%;
+
+  display: block;
+
   object-fit: cover;
   object-position: center;
-  display: block;
-  transition: transform 0.5s ease;
+
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .HeroSection-card:hover img {
-  transform: scale(1.06);
+  transform: scale(1.07);
 }
 
-/* Eye Hover Overlay Animation */
+/* =========================================================
+   IMAGE HEIGHTS
+========================================================= */
+
+.img-child7 {
+  height: 175px;
+}
+
+.img-child1 {
+  height: 205px;
+}
+
+.img-child3 {
+  height: 220px;
+}
+
+.img-child9 {
+  height: 185px;
+}
+
+.img-child8 {
+  height: 175px;
+}
+
+.img-child2 {
+  height: 205px;
+}
+
+.img-child5 {
+  height: 220px;
+}
+
+.img-child6 {
+  height: 190px;
+}
+
+/* Main center image */
+
+.img-child4 {
+  width: 90%;
+  max-width: 350px;
+
+  height: 440px;
+
+  margin-top: 38px;
+
+  border-radius: 30px;
+
+  box-shadow:
+    0 20px 45px rgba(54, 59, 62, 0.13);
+}
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
 .HeroSection-eyeOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(54, 59, 62, 0.35);
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(54, 59, 62, 0.05),
+      rgba(54, 59, 62, 0.48)
+    );
+
   display: flex;
+
+  flex-direction: column;
+
   align-items: center;
   justify-content: center;
+
+  gap: 8px;
+
   opacity: 0;
-  transition: opacity 0.3s ease;
+
+  transition:
+    opacity 0.3s ease;
+
   backdrop-filter: blur(2px);
 }
 
-.HeroSection-card:hover .HeroSection-eyeOverlay {
+.HeroSection-card:hover .HeroSection-eyeOverlay,
+.HeroSection-card:focus-visible .HeroSection-eyeOverlay {
   opacity: 1;
 }
 
 .cartoon-eye-icon {
-  font-size: 38px;
-  background: #ffffff;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 62px;
+  height: 62px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  animation: eyeBounce 1.2s infinite ease-in-out;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  font-size: 34px;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.2);
+
+  animation:
+    eyeBounce
+    1.2s
+    infinite
+    ease-in-out;
+}
+
+.HeroSection-eyeOverlay span {
+  color: #fff;
+
+  font-family: "Fredoka", sans-serif;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  letter-spacing: 0.3px;
 }
 
 @keyframes eyeBounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.1); }
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-6px) scale(1.08);
+  }
 }
 
-/* Precise Heights ensuring images cover containers fully.
-   Left/right columns rebalanced to 4 images each (was 3 vs 5),
-   so both columns now finish at roughly the same height and no
-   longer leave a large empty gap under the shorter side. */
-.img-child7 { height: 175px; }
-.img-child1 { height: 205px; }
-.img-child3 { height: 220px; }
-.img-child9 { height: 185px; }
-
-.img-child4 {
-  width: 90%;
-  max-width: 340px;
-  height: 440px;
-  margin-top: 45px;
-  border-radius: 28px;
-}
-
-.img-child8 { height: 175px; }
-.img-child2 { height: 205px; }
-.img-child5 { height: 220px; }
-.img-child6 { height: 190px; }
-
-.HeroSection-centerContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding-top: 30px;
-  position: relative;
-}
-
-.HeroSection-textBlock {
-  margin-bottom: 5px;
-  position: relative;
-}
-
-.HeroSection-textBlock::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(114, 178, 140, 0.16) 0%, transparent 70%);
-  z-index: -1;
-  pointer-events: none;
-}
-
-.HeroSection-subtitle {
-  font-family: 'Courier Prime', monospace;
-  font-size: 13px;
-  letter-spacing: 3.5px;
-  color: #c98a70;
-  font-weight: 700;
-}
+/* =========================================================
+   DECORATIVE GIRAFFE
+========================================================= */
 
 .HeroSection-giraffe {
   position: absolute;
+
   top: 12px;
   right: 25%;
+
   height: 165px;
-  z-index: 1;
+
+  z-index: 3;
+
   pointer-events: none;
-  animation: heroGiraffeFloat 5s ease-in-out infinite;
+
+  animation:
+    heroGiraffeFloat
+    5s
+    ease-in-out
+    infinite;
 }
 
 @keyframes heroGiraffeFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(-2deg); }
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
 }
+
+/* =========================================================
+   FLOWER
+========================================================= */
 
 .HeroSection-flower {
   position: absolute;
+
   top: 28%;
   left: 32%;
+
   width: 95px;
-  z-index: 3;
+
+  z-index: 4;
+
   pointer-events: none;
+
   will-change: transform;
-  animation: heroFlowerSway 4.5s ease-in-out infinite;
+
+  animation:
+    heroFlowerSway
+    4.5s
+    ease-in-out
+    infinite;
 }
 
 @keyframes heroFlowerSway {
-  0%, 100% { rotate: 0deg; }
-  50% { rotate: 8deg; }
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+
+  50% {
+    rotate: 8deg;
+  }
 }
 
-/* --- Eye-Catching Pop-Up Modal Design --- */
+/* =========================================================
+   MODAL BACKDROP
+========================================================= */
+
 .HeroSection-modalBackdrop {
   position: fixed;
-  top: 0;
-  left: 0;
+
+  inset: 0;
+
   width: 100vw;
   height: 100vh;
-  background: rgba(20, 17, 14, 0.7);
-  backdrop-filter: blur(8px);
+
+  background: rgba(25, 23, 20, 0.74);
+
+  backdrop-filter: blur(9px);
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   z-index: 99999;
+
   padding: 20px;
+
+  box-sizing: border-box;
 }
 
+/* =========================================================
+   MODAL
+========================================================= */
+
 .HeroSection-modalContainer {
-  background: #fbf8f3;
-  padding: 24px;
-  border-radius: 32px;
-  max-width: 540px;
-  width: 100%;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
   position: relative;
+
+  width: 100%;
+  max-width: 560px;
+
+  padding: 24px;
+
+  border-radius: 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fffdf9,
+      #f8f3eb
+    );
+
   border: 4px solid #a9814f;
+
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.3);
+
   text-align: center;
 }
 
 @keyframes popIn {
-  0% { transform: scale(0.7); opacity: 0; }
-  70% { transform: scale(1.03); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+
+  70% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .animate-popIn {
-  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation:
+    popIn
+    0.35s
+    cubic-bezier(0.34, 1.56, 0.64, 1)
+    forwards;
 }
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
 
 .HeroSection-modalCloseBtn {
   position: absolute;
-  top: -16px;
-  right: -16px;
-  background: #e27575;
-  color: white;
+
+  top: -17px;
+  right: -17px;
+
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  font-size: 26px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #e27575;
+
+  color: #fff;
+
+  font-size: 27px;
+  line-height: 1;
+
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease, background 0.2s ease;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.2);
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+
   z-index: 10;
 }
 
 .HeroSection-modalCloseBtn:hover {
-  transform: scale(1.15) rotate(90deg);
+  transform: scale(1.12) rotate(90deg);
+
   background: #c75c5c;
 }
 
+/* =========================================================
+   MODAL FRAME
+========================================================= */
+
 .HeroSection-modalFrame {
   position: relative;
-  border-radius: 20px;
+
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+
+  border-radius: 22px;
+
   background: #fff;
+
   border: 3px solid #72b28c;
+
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .HeroSection-modalImage {
-  width: 100%;
-  max-height: 420px;
-  object-fit: contain;
   display: block;
+
+  width: 100%;
+
+  max-height: 440px;
+
+  object-fit: contain;
+
   background: #111;
 }
 
+/* =========================================================
+   MODAL BADGE
+========================================================= */
+
 .cartoon-preview-badge {
   position: absolute;
+
   top: 14px;
   left: 14px;
-  background: #ebc352;
-  color: #201c18;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-family: 'Fredoka One', cursive;
-  font-size: 12px;
-  letter-spacing: 1px;
+
   z-index: 5;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+
+  padding: 7px 14px;
+
+  border-radius: 20px;
+
+  background: #ebc352;
+
+  color: #201c18;
+
+  font-family: "Fredoka", sans-serif;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Animated Cartoon Eyes on Modal */
+/* =========================================================
+   CARTOON EYES
+========================================================= */
+
 .cartoon-eye-decoration {
   position: absolute;
+
   top: -24px;
+
   width: 48px;
   height: 48px;
-  background: white;
-  border: 3px solid #201c18;
-  border-radius: 50%;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  border: 3px solid #201c18;
+
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.15);
+
   z-index: 6;
 }
 
-.left-eye { left: 32%; }
-.right-eye { right: 32%; }
+.left-eye {
+  left: 32%;
+}
+
+.right-eye {
+  right: 32%;
+}
 
 .eyeball {
+  position: relative;
+
   width: 20px;
   height: 20px;
-  background: #201c18;
+
   border-radius: 50%;
-  position: relative;
-  animation: lookAround 4s infinite ease-in-out;
+
+  background: #201c18;
+
+  animation:
+    lookAround
+    4s
+    infinite
+    ease-in-out;
 }
 
 .pupil {
-  width: 6px;
-  height: 6px;
-  background: white;
-  border-radius: 50%;
   position: absolute;
+
   top: 3px;
   left: 3px;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #fff;
 }
 
 @keyframes lookAround {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(-4px, 2px); }
-  50% { transform: translate(4px, -2px); }
-  75% { transform: translate(2px, 3px); }
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-4px, 2px);
+  }
+
+  50% {
+    transform: translate(4px, -2px);
+  }
+
+  75% {
+    transform: translate(2px, 3px);
+  }
 }
+
+/* =========================================================
+   MODAL CAPTION
+========================================================= */
 
 .HeroSection-modalCaption {
-  margin-top: 16px;
-  font-family: 'Fredoka One', cursive;
+  margin: 16px 0 2px;
+
+  font-family: "Fredoka", sans-serif;
+
   font-size: 18px;
+  font-weight: 600;
+
+  line-height: 1.4;
+
   color: #363b3e;
-  letter-spacing: 0.5px;
 }
 
-/* Reduced Motion: skip entrance/float animations, show everything immediately */
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .HeroSection {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .HeroSection-gridWrapper {
+    grid-template-columns: 0.9fr 1.2fr 0.9fr;
+
+    gap: 20px;
+  }
+
+  .HeroSection-title {
+    font-size: 58px;
+  }
+
+  .HeroSection-description {
+    font-size: 14px;
+  }
+
+  .img-child4 {
+    height: 390px;
+  }
+
+  .HeroSection-giraffe {
+    right: 20%;
+    height: 135px;
+  }
+
+  .HeroSection-flower {
+    width: 75px;
+  }
+}
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 900px) {
+  .HeroSection {
+    padding-top: 50px;
+  }
+
+  .HeroSection-gridWrapper {
+    grid-template-columns: 0.85fr 1.3fr 0.85fr;
+
+    gap: 16px;
+  }
+
+  .HeroSection-title {
+    font-size: 48px;
+    letter-spacing: -1.5px;
+  }
+
+  .HeroSection-subtitle {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  .HeroSection-description {
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .HeroSection-highlights {
+    gap: 6px;
+  }
+
+  .HeroSection-highlights span {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+
+  .img-child7,
+  .img-child8 {
+    height: 145px;
+  }
+
+  .img-child1,
+  .img-child2 {
+    height: 175px;
+  }
+
+  .img-child3,
+  .img-child5 {
+    height: 190px;
+  }
+
+  .img-child9,
+  .img-child6 {
+    height: 160px;
+  }
+
+  .img-child4 {
+    height: 340px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .HeroSection {
+    min-height: auto;
+
+    padding: 55px 18px 75px;
+
+    overflow: hidden;
+  }
+
+  .HeroSection-gridWrapper {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+
+    transform: none !important;
+
+    max-width: 520px;
+  }
+
+  /* Center section first */
+  .HeroSection-centerContent {
+    grid-row: 1;
+
+    padding-top: 10px;
+  }
+
+  /* Left images */
+  .LeftCol {
+    grid-row: 2;
+
+    padding-top: 0;
+  }
+
+  /* Right images */
+  .RightCol {
+    grid-row: 3;
+
+    padding-top: 0;
+  }
+
+  .HeroSection-col {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+  }
+
+  .HeroSection-title {
+    font-size: clamp(38px, 10vw, 52px);
+
+    line-height: 1;
+
+    letter-spacing: -1.2px;
+
+    margin-bottom: 22px;
+  }
+
+  .HeroSection-subtitle {
+    font-size: 10px;
+
+    letter-spacing: 2px;
+  }
+
+  .HeroSection-description {
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    padding: 0 8px;
+  }
+
+  .HeroSection-description.secondary {
+    font-size: 12.5px;
+  }
+
+  .HeroSection-highlights {
+    margin-top: 17px;
+  }
+
+  .HeroSection-highlights span {
+    font-size: 11px;
+
+    padding: 6px 11px;
+  }
+
+  .img-child7,
+  .img-child1,
+  .img-child3,
+  .img-child9,
+  .img-child8,
+  .img-child2,
+  .img-child5,
+  .img-child6 {
+    height: 180px;
+  }
+
+  .img-child4 {
+    width: 100%;
+
+    max-width: 420px;
+
+    height: 430px;
+
+    margin-top: 28px;
+
+    border-radius: 25px;
+  }
+
+  .HeroSection-giraffe {
+    height: 105px;
+
+    top: 15px;
+
+    right: 3%;
+  }
+
+  .HeroSection-flower {
+    display: none;
+  }
+
+  .HeroSection-textBlock::before {
+    width: 280px;
+    height: 280px;
+  }
+
+  .HeroSection-modalContainer {
+    padding: 17px;
+
+    border-width: 3px;
+
+    border-radius: 25px;
+  }
+
+  .HeroSection-modalImage {
+    max-height: 65vh;
+  }
+
+  .cartoon-eye-decoration {
+    display: none;
+  }
+
+  .HeroSection-modalCaption {
+    font-size: 15px;
+  }
+
+  .HeroSection-modalCloseBtn {
+    width: 40px;
+    height: 40px;
+
+    top: -14px;
+    right: -10px;
+
+    font-size: 24px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .HeroSection {
+    padding: 45px 14px 60px;
+  }
+
+  .HeroSection-gridWrapper {
+    gap: 20px;
+  }
+
+  .HeroSection-title {
+    font-size: 35px;
+
+    letter-spacing: -0.8px;
+  }
+
+  .HeroSection-subtitle {
+    font-size: 9px;
+
+    letter-spacing: 1.5px;
+  }
+
+  .HeroSection-description {
+    font-size: 12.5px;
+
+    padding: 0 3px;
+  }
+
+  .HeroSection-highlights {
+    gap: 5px;
+  }
+
+  .HeroSection-highlights span {
+    font-size: 10px;
+
+    padding: 5px 9px;
+  }
+
+  .HeroSection-col {
+    gap: 12px;
+  }
+
+  .img-child7,
+  .img-child1,
+  .img-child3,
+  .img-child9,
+  .img-child8,
+  .img-child2,
+  .img-child5,
+  .img-child6 {
+    height: 155px;
+  }
+
+  .img-child4 {
+    height: 370px;
+
+    margin-top: 20px;
+  }
+
+  .HeroSection-giraffe {
+    height: 85px;
+
+    right: 0;
+  }
+
+  .HeroSection-card {
+    border-radius: 16px;
+  }
+
+  .cartoon-eye-icon {
+    width: 52px;
+    height: 52px;
+
+    font-size: 28px;
+  }
+
+  .HeroSection-eyeOverlay span {
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
   .HeroSection-card {
     opacity: 1;
+
     transform: none;
+
     animation: none !important;
   }
+
   .HeroSection-giraffe,
-  .HeroSection-flower {
+  .HeroSection-flower,
+  .cartoon-eye-icon,
+  .eyeball {
     animation: none !important;
   }
-}
 
-/* Responsive Scaling Breakdowns Matrix */
-@media (max-width: 1024px) {
-  .HeroSection-title { font-size: 64px; }
-  .HeroSection-gridWrapper { grid-template-columns: 0.9fr 1.2fr 0.9fr; gap: 20px; }
-  .img-child4 { height: 380px; }
-}
-
-@media (max-width: 768px) {
-  .HeroSection { min-height: auto; overflow-y: visible; padding: 40px 20px 60px; }
-  .HeroSection-gridWrapper { grid-template-columns: 1fr; gap: 24px; transform: none !important; }
-  .HeroSection-centerContent { grid-row: 1; }
-  .img-child4 { height: 400px; width: 100%; max-width: none; }
-  .HeroSection-flower { display: none; }
-  .HeroSection-giraffe { height: 110px; right: 6%; }
+  .HeroSection-card,
+  .HeroSection-card img,
+  .HeroSection-highlights span,
+  .HeroSection-modalCloseBtn {
+    transition: none !important;
+  }
 }

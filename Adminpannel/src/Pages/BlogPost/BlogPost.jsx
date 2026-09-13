@@ -1,469 +1,803 @@
-import React, { useState, useRef } from 'react';
-import './BlogPost.css';
+import React, { useState } from "react";
+import { Editor } from "@tinymce/tinymce-react";
 import {
-  Save,
-  Eye,
-  Send,
-  Calendar as CalendarIcon,
-  Bold,
-  Italic,
-  Underline,
-  Strikethrough,
-  List,
-  ListOrdered,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  Quote,
-  Link,
-  Image as ImageIcon,
-  Code,
-  Undo,
-  Redo,
-  Upload,
-  Heart,
-  MessageSquare,
-  Share2,
-  Monitor,
-  Tablet,
-  Smartphone,
-  ChevronDown,
-  X
-} from 'lucide-react';
+  FaPlus,
+  FaSearch,
+  FaEdit,
+  FaTrash,
+  FaImage,
+  FaCalendarAlt,
+  FaUndo,
+  FaPaperPlane,
+  FaTimes,
+} from "react-icons/fa";
+import "./BlogPost.css";
 
 const BlogPost = () => {
-  // Device View State
-  const [deviceView, setDeviceView] = useState('desktop');
-
-  // Form & Live Preview State
-  const [blogTitle, setBlogTitle] = useState('Why Early Education is Important for Kids');
-  const [blogSlug, setBlogSlug] = useState('why-early-education-is-important-for-kids');
-  const [category, setCategory] = useState('Education');
-  const [author, setAuthor] = useState('Admin User');
-  const [status, setStatus] = useState('Publish');
-
-  // Calendar Date & Time State
-  const [publishDate, setPublishDate] = useState('2025-05-29');
-  const [publishTime, setPublishTime] = useState('10:30');
-
-  // Tags State
-  const [tags, setTags] = useState(['education', 'kids', 'learning', 'earlyeducation']);
-  const [tagInput, setTagInput] = useState('');
-
-  // Featured Image State
-  const [featuredImage, setFeaturedImage] = useState(
-    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80'
-  );
-
-  // Content Text Editor Ref & State
-  const editorRef = useRef(null);
-  const [contentHTML, setContentHTML] = useState(
-    'Early education lays the foundation for a child\'s future success. It helps in the overall development of cognitive skills, social behavior, and emotional well-being.<br/><br/>At our school, we focus on providing a safe, fun, and engaging environment where every child can grow and shine.'
-  );
-
-  // Likes Counter
-  const [likesCount, setLikesCount] = useState(12);
-  const [isLiked, setIsLiked] = useState(false);
-
-  // TEXT EDITOR FORMAT COMMAND HANDLER
-  const executeCommand = (command, value = null) => {
-    document.execCommand(command, false, value);
-    if (editorRef.current) {
-      setContentHTML(editorRef.current.innerHTML);
-    }
+  const initialForm = {
+    title: "",
+    slug: "",
+    image: "",
+    excerpt: "",
+    content: "",
+    category: "",
+    publishDate: "",
+    status: "Published",
   };
 
-  const handleEditorInput = () => {
-    if (editorRef.current) {
-      setContentHTML(editorRef.current.innerHTML);
-    }
+  const [formData, setFormData] = useState(initialForm);
+  const [blogs, setBlogs] = useState([
+    {
+      id: 1,
+      title: "Determining The True Goal of Good Education is Difficult.",
+      slug: "determining-the-true-goal-of-good-education",
+      image:
+        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=500&q=80",
+      category: "Education",
+      author: "John Anderson",
+      date: "2026-09-10",
+      status: "Published",
+    },
+    {
+      id: 2,
+      title: "The Data Surrounding Higher Education",
+      slug: "the-data-surrounding-higher-education",
+      image:
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=500&q=80",
+      category: "Education",
+      author: "Sarah Wilson",
+      date: "2026-06-10",
+      status: "Published",
+    },
+    {
+      id: 3,
+      title: "Conversion Rate the Sales Funnel Optimization",
+      slug: "conversion-rate-sales-funnel-optimization",
+      image:
+        "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=500&q=80",
+      category: "Business",
+      author: "Michael Thomas",
+      date: "2026-06-21",
+      status: "Draft",
+    },
+    {
+      id: 4,
+      title: "Business Data is changing the world's Energy",
+      slug: "business-data-is-changing-the-world-energy",
+      image:
+        "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=500&q=80",
+      category: "Technology",
+      author: "Emily Davis",
+      date: "2026-06-30",
+      status: "Published",
+    },
+    {
+      id: 5,
+      title: "The Billionaire Guide On Design That Will Get You Rich",
+      slug: "the-billionaire-guide-on-design",
+      image:
+        "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=500&q=80",
+      category: "Design",
+      author: "David Miller",
+      date: "2026-05-10",
+      status: "Published",
+    },
+    {
+      id: 6,
+      title: "The Data-Driven Approach To Understanding Your Users",
+      slug: "data-driven-approach-understanding-users",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500&q=80",
+      category: "Analytics",
+      author: "Jessica Brown",
+      date: "2026-05-21",
+      status: "Published",
+    },
+  ]);
+
+  const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [editingId, setEditingId] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "title"
+        ? {
+            slug: value
+              .toLowerCase()
+              .trim()
+              .replace(/[^\w\s-]/g, "")
+              .replace(/\s+/g, "-"),
+          }
+        : {}),
+    }));
   };
 
-  // Tags Handler
-  const handleTagKeyDown = (e) => {
-    if (e.key === 'Enter' && tagInput.trim()) {
-      e.preventDefault();
-      if (!tags.includes(tagInput.trim().toLowerCase())) {
-        setTags([...tags, tagInput.trim().toLowerCase()]);
-      }
-      setTagInput('');
-    }
+  const handleEditorChange = (content) => {
+    setFormData((prev) => ({
+      ...prev,
+      content,
+    }));
   };
 
-  const removeTag = (tagToRemove) => {
-    setTags(tags.filter((t) => t !== tagToRemove));
-  };
-
-  // Featured Image Upload Handler
-  const handleImageUpload = (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setFeaturedImage(imageUrl);
+
+      setFormData((prev) => ({
+        ...prev,
+        image: imageUrl,
+      }));
     }
   };
 
-  // Auto Generate Slug
-  const handleTitleChange = (e) => {
-    const val = e.target.value;
-    setBlogTitle(val);
-    setBlogSlug(
-      val
-        .toLowerCase()
-        .replace(/[^a-z0-9 -]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
+  const removeImage = () => {
+    setFormData((prev) => ({
+      ...prev,
+      image: "",
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!formData.title || !formData.category || !formData.content) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    if (editingId) {
+      setBlogs((prev) =>
+        prev.map((blog) =>
+          blog.id === editingId
+            ? {
+                ...blog,
+                ...formData,
+                author: blog.author,
+                date: formData.publishDate || blog.date,
+              }
+            : blog
+        )
+      );
+
+      alert("Blog updated successfully.");
+    } else {
+      const newBlog = {
+        id: Date.now(),
+        ...formData,
+        author: "Admin",
+        date: formData.publishDate || new Date().toISOString().split("T")[0],
+      };
+
+      setBlogs((prev) => [newBlog, ...prev]);
+
+      alert("Blog published successfully.");
+    }
+
+    handleReset();
+  };
+
+  const handleReset = () => {
+    setFormData(initialForm);
+    setEditingId(null);
+  };
+
+  const handleEdit = (blog) => {
+    setEditingId(blog.id);
+
+    setFormData({
+      title: blog.title,
+      slug: blog.slug,
+      image: blog.image,
+      excerpt: blog.excerpt || "",
+      content:
+        blog.content ||
+        "<p>Write your blog content here...</p>",
+      category: blog.category,
+      publishDate: blog.date,
+      status: blog.status,
+    });
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this blog post?"
     );
+
+    if (confirmDelete) {
+      setBlogs((prev) => prev.filter((blog) => blog.id !== id));
+
+      if (editingId === id) {
+        handleReset();
+      }
+    }
   };
 
-  const handleSaveDraft = () => {
-    alert('ड्राफ्ट सफलतापूर्वक सेव कर लिया गया!');
-  };
+  const filteredBlogs = blogs.filter((blog) => {
+    const matchesSearch =
+      blog.title.toLowerCase().includes(search.toLowerCase()) ||
+      blog.author.toLowerCase().includes(search.toLowerCase());
 
-  const handlePublish = () => {
-    alert(`ब्लॉग सफलतापूर्वक ${status === 'Scheduled' ? 'शेड्यूल' : 'पब्लिश'} हो गया!`);
+    const matchesCategory =
+      categoryFilter === "All" || blog.category === categoryFilter;
+
+    const matchesStatus =
+      statusFilter === "All" || blog.status === statusFilter;
+
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
+
+  const categories = [
+    "Education",
+    "Business",
+    "Technology",
+    "Design",
+    "Analytics",
+    "Research",
+  ];
+
+  const formatDate = (date) => {
+    if (!date) return "-";
+
+    return new Date(date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    });
   };
 
   return (
-    <div className="blog-create-container">
-      {/* Top Header Bar */}
-      <div className="top-action-header">
-        <div className="breadcrumb-path">
-          Dashboard &nbsp;&gt;&nbsp; Blog Management &nbsp;&gt;&nbsp; <span>Add New Blog</span>
-        </div>
-        <div className="top-buttons-group">
-          <button className="btn-secondary" onClick={handleSaveDraft}>
-            <Save size={15} /> Save as Draft
-          </button>
-          <button className="btn-secondary">
-            <Eye size={15} /> Preview
-          </button>
-          <button className="btn-primary" onClick={handlePublish}>
-            <Send size={15} /> Publish Blog
-          </button>
-        </div>
+    <div className="BlogPost">
+      {/* Header */}
+      <div className="BlogPost-header">
+       
+
+        
       </div>
 
-      {/* Main Grid Layout */}
-      <div className="blog-grid-layout">
-        {/* Left Form Column */}
-        <div className="left-form-column">
-          <div className="form-section-card">
-            <h2 className="section-heading">Blog Information</h2>
+      {/* Main Content */}
+      <div className="BlogPost-layout">
+        {/* ================= FORM ================= */}
+        <section className="BlogPost-form-card">
+          <div className="BlogPost-card-header">
+            <div className="BlogPost-card-title-wrapper">
+              <div className="BlogPost-card-icon">
+                <FaEdit />
+              </div>
 
+              <div>
+                <h2>
+                  {editingId ? "Edit Blog Post" : "Create Blog Post"}
+                </h2>
+                <p>
+                  {editingId
+                    ? "Update your existing blog post"
+                    : "Fill in the details to publish a new blog post"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <form
+            className="BlogPost-form"
+            onSubmit={handleSubmit}
+          >
             {/* Title */}
-            <div className="form-group">
+            <div className="BlogPost-field">
               <label>
-                Blog Title <span className="req">*</span>
-                <span className="char-count">{blogTitle.length}/100</span>
+                Post Title <span>*</span>
               </label>
+
               <input
                 type="text"
-                className="input-field"
-                placeholder="Enter an attractive title for your blog..."
-                value={blogTitle}
-                onChange={handleTitleChange}
-                maxLength={100}
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                placeholder="Enter blog title here..."
               />
             </div>
 
-            {/* Slug & Category */}
-            <div className="form-row">
-              <div className="form-group">
-                <label>Slug (URL) <span className="req">*</span></label>
-                <div className="slug-input-wrapper">
-                  <span className="slug-prefix">https://yourschool.com/blog/</span>
+            {/* Slug */}
+            <div className="BlogPost-field">
+              <label>
+                Slug <span>*</span>
+              </label>
+
+              <input
+                type="text"
+                name="slug"
+                value={formData.slug}
+                onChange={handleInputChange}
+                placeholder="enter-blog-title"
+              />
+
+              <small>
+                URL friendly version of the title
+              </small>
+            </div>
+
+            {/* Image */}
+            <div className="BlogPost-field">
+              <label>
+                Featured Image <span>*</span>
+              </label>
+
+              {!formData.image ? (
+                <label className="BlogPost-image-upload">
                   <input
-                    type="text"
-                    value={blogSlug}
-                    onChange={(e) => setBlogSlug(e.target.value)}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    onChange={handleImageChange}
                   />
+
+                  <FaImage className="BlogPost-upload-icon" />
+
+                  <strong>Drag & drop or click to select</strong>
+
+                  <span>
+                    Supported formats: JPG, PNG, WEBP
+                  </span>
+                </label>
+              ) : (
+                <div className="BlogPost-image-preview">
+                  <img
+                    src={formData.image}
+                    alt="Featured"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={removeImage}
+                    className="BlogPost-remove-image"
+                  >
+                    <FaTimes />
+                  </button>
                 </div>
-                <span className="input-helper-text">Use lowercase letters, numbers and hyphens only.</span>
+              )}
+            </div>
+
+            {/* Excerpt */}
+            <div className="BlogPost-field">
+              <div className="BlogPost-label-row">
+                <label>
+                  Short Description <span>*</span>
+                </label>
+
+                <small>
+                  {formData.excerpt.length}/200
+                </small>
               </div>
 
-              <div className="form-group">
-                <label>Category <span className="req">*</span></label>
+              <textarea
+                name="excerpt"
+                value={formData.excerpt}
+                onChange={handleInputChange}
+                maxLength={200}
+                rows="4"
+                placeholder="Write a short description about the blog..."
+              />
+            </div>
+
+            {/* TinyMCE */}
+            <div className="BlogPost-field">
+              <label>
+                Blog Description / Content <span>*</span>
+              </label>
+
+              <div className="BlogPost-editor">
+                <Editor
+                  apiKey="no-api-key"
+                  value={formData.content}
+                  onEditorChange={handleEditorChange}
+                  init={{
+                    height: 330,
+                    menubar: true,
+                    branding: false,
+                    plugins:
+                      "advlist autolink lists link image charmap preview anchor " +
+                      "searchreplace visualblocks code fullscreen insertdatetime media table " +
+                      "help wordcount",
+                    toolbar:
+                      "undo redo | blocks | " +
+                      "bold italic underline | " +
+                      "alignleft aligncenter alignright alignjustify | " +
+                      "bullist numlist outdent indent | " +
+                      "link image media | code fullscreen",
+                    content_style:
+                      "body { font-family: Arial, sans-serif; font-size:16px; line-height:1.7; color:#4b5563; padding:10px; }",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Category */}
+            <div className="BlogPost-field">
+              <label>
+                Category <span>*</span>
+              </label>
+
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleInputChange}
+              >
+                <option value="">Select Category</option>
+
+                {categories.map((category) => (
+                  <option
+                    key={category}
+                    value={category}
+                  >
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Date + Status */}
+            <div className="BlogPost-form-row">
+              <div className="BlogPost-field">
+                <label>
+                  <FaCalendarAlt />
+                  Publish Date <span>*</span>
+                </label>
+
+                <input
+                  type="date"
+                  name="publishDate"
+                  value={formData.publishDate}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="BlogPost-field">
+                <label>
+                  Status <span>*</span>
+                </label>
+
                 <select
-                  className="select-field"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
                 >
-                  <option value="Education">Education</option>
-                  <option value="Activities">Activities</option>
-                  <option value="Development">Development</option>
-                  <option value="Events">Events</option>
+                  <option value="Published">
+                    Published
+                  </option>
+
+                  <option value="Draft">
+                    Draft
+                  </option>
                 </select>
               </div>
             </div>
 
-            {/* Image & Tags */}
-            <div className="form-row">
-              <div className="form-group">
-                <label>Featured Image <span className="req">*</span></label>
-                <label className="upload-drop-zone">
-                  <div className="upload-icon-box">
-                    <Upload size={20} />
-                  </div>
-                  <span className="upload-title">Click to upload or drag & drop</span>
-                  <span className="upload-subtitle">Recommended size: 1200x628px (16:9)</span>
-                  <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
-                </label>
-              </div>
-
-              <div className="form-group">
-                <label>Tags</label>
-                <div className="tags-input-container">
-                  {tags.map((tag, i) => (
-                    <span key={i} className="tag-badge">
-                      #{tag}
-                      <button type="button" onClick={() => removeTag(tag)}><X size={12} /></button>
-                    </span>
-                  ))}
-                  <input
-                    type="text"
-                    className="tag-input-text"
-                    placeholder="Add tags (e.g. education, kids)"
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={handleTagKeyDown}
-                  />
-                </div>
-                <span className="input-helper-text">Press Enter to add multiple tags</span>
-              </div>
-            </div>
-
-            {/* FULLY FUNCTIONAL RICH TEXT EDITOR */}
-            <div className="form-group">
-              <label>Content <span className="req">*</span></label>
-              <div className="editor-box">
-                <div className="editor-toolbar">
-                  <select
-                    className="select-field"
-                    style={{ padding: '4px 8px', fontSize: '12px' }}
-                    onChange={(e) => executeCommand('formatBlock', e.target.value)}
-                  >
-                    <option value="p">Paragraph</option>
-                    <option value="h1">Heading 1</option>
-                    <option value="h2">Heading 2</option>
-                    <option value="h3">Heading 3</option>
-                  </select>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('bold')} title="Bold"><Bold size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('italic')} title="Italic"><Italic size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('underline')} title="Underline"><Underline size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('strikeThrough')} title="Strikethrough"><Strikethrough size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('insertUnorderedList')} title="Bullet List"><List size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('insertOrderedList')} title="Numbered List"><ListOrdered size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('justifyLeft')} title="Align Left"><AlignLeft size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('justifyCenter')} title="Align Center"><AlignCenter size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('justifyRight')} title="Align Right"><AlignRight size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('formatBlock', 'blockquote')} title="Quote"><Quote size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('undo')} title="Undo"><Undo size={14} /></button>
-                  <button type="button" className="toolbar-btn" onClick={() => executeCommand('redo')} title="Redo"><Redo size={14} /></button>
-                </div>
-
-                <div
-                  ref={editorRef}
-                  className="editor-content-editable"
-                  contentEditable
-                  suppressContentEditableWarning
-                  onInput={handleEditorInput}
-                  dangerouslySetInnerHTML={{ __html: contentHTML }}
-                />
-
-                <div className="editor-footer">
-                  <span>Characters: {contentHTML.replace(/<[^>]*>/g, '').length}</span>
-                  <span>POWERED BY TINY</span>
-                </div>
-              </div>
-            </div>
-
-            {/* SEO Settings */}
-            <div className="accordion-bar" style={{ borderTop: 'none', marginTop: '16px' }}>
-              <span>SEO Settings</span>
-              <ChevronDown size={16} />
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Meta Title</label>
-                <input type="text" className="input-field" placeholder="Enter meta title (max 60 characters)" />
-              </div>
-              <div className="form-group">
-                <label>Meta Description</label>
-                <input type="text" className="input-field" placeholder="Enter meta description (max 160 characters)" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: Live Preview & Publish Settings */}
-        <div className="right-preview-column">
-          {/* Live Preview Box */}
-          <div className="form-section-card">
-            <div className="section-heading">
-              <span>Live Preview</span>
-              <div className="device-switcher">
-                <button
-                  className={`device-btn ${deviceView === 'desktop' ? 'active' : ''}`}
-                  onClick={() => setDeviceView('desktop')}
-                >
-                  <Monitor size={14} />
-                </button>
-                <button
-                  className={`device-btn ${deviceView === 'tablet' ? 'active' : ''}`}
-                  onClick={() => setDeviceView('tablet')}
-                >
-                  <Tablet size={14} />
-                </button>
-                <button
-                  className={`device-btn ${deviceView === 'mobile' ? 'active' : ''}`}
-                  onClick={() => setDeviceView('mobile')}
-                >
-                  <Smartphone size={14} />
-                </button>
-              </div>
-            </div>
-
-            <div className={`preview-card-wrapper view-${deviceView}`}>
-              <div className="preview-blog-container">
-                <div>
-                  <span className="preview-category-badge">{category}</span>
-                  <span className="preview-read-time">• 5 min read</span>
-                  <span className="preview-date-top">
-                    <CalendarIcon size={12} /> {new Date(publishDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
-                  </span>
-                </div>
-
-                <h3 className="preview-blog-title">{blogTitle || 'Blog Title Preview'}</h3>
-
-                <div className="preview-author-row">
-                  <img
-                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-                    alt="Author"
-                    className="preview-author-avatar"
-                  />
-                  <span>By {author}</span>
-                </div>
-
-                {featuredImage && (
-                  <img src={featuredImage} alt="Featured Preview" className="preview-featured-img" />
-                )}
-
-                <div
-                  className="preview-blog-body"
-                  dangerouslySetInnerHTML={{ __html: contentHTML }}
-                />
-
-                <div className="preview-tags-row">
-                  {tags.map((t, idx) => (
-                    <span key={idx} className="preview-tag-item">#{t}</span>
-                  ))}
-                </div>
-
-                <div className="preview-actions-bar">
-                  <div
-                    className="action-item"
-                    onClick={() => {
-                      setIsLiked(!isLiked);
-                      setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-                    }}
-                  >
-                    <Heart size={14} fill={isLiked ? '#7c3aed' : 'none'} color={isLiked ? '#7c3aed' : '#64748b'} />
-                    <span>{likesCount}</span>
-                  </div>
-                  <div className="action-item">
-                    <MessageSquare size={14} />
-                    <span>3</span>
-                  </div>
-                  <div className="action-item" style={{ marginLeft: 'auto' }}>
-                    <Share2 size={14} />
-                    <span>Share</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Publish Settings Box */}
-          <div className="form-section-card">
-            <h2 className="section-heading" style={{ fontSize: '16px' }}>Publish Settings</h2>
-
-            <div className="form-group">
-              <label>Status</label>
-              <div className="radio-options-group">
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="status"
-                    checked={status === 'Draft'}
-                    onChange={() => setStatus('Draft')}
-                  />
-                  Draft
-                </label>
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="status"
-                    checked={status === 'Publish'}
-                    onChange={() => setStatus('Publish')}
-                  />
-                  Publish
-                </label>
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="status"
-                    checked={status === 'Scheduled'}
-                    onChange={() => setStatus('Scheduled')}
-                  />
-                  Scheduled
-                </label>
-              </div>
-            </div>
-
-            {/* Calendar & Time Picker */}
-            <div className="form-group">
-              <label>Publish Date & Time</label>
-              <div className="date-time-row">
-                <input
-                  type="date"
-                  className="date-picker-input"
-                  value={publishDate}
-                  onChange={(e) => setPublishDate(e.target.value)}
-                />
-                <input
-                  type="time"
-                  className="time-picker-input"
-                  value={publishTime}
-                  onChange={(e) => setPublishTime(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Author</label>
-              <select
-                className="select-field"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
+            {/* Buttons */}
+            <div className="BlogPost-form-actions">
+              <button
+                type="button"
+                className="BlogPost-reset-button"
+                onClick={handleReset}
               >
-                <option value="Admin User">Admin User</option>
-                <option value="John Doe">John Doe</option>
-                <option value="Jane Smith">Jane Smith</option>
-              </select>
-            </div>
+                <FaUndo />
+                Reset
+              </button>
 
-            <div className="accordion-bar">
-              <span>Social Media Preview</span>
-              <ChevronDown size={16} />
-            </div>
+              <button
+                type="submit"
+                className="BlogPost-submit-button"
+              >
+                <FaPaperPlane />
 
-            <div className="accordion-bar">
-              <span>Advanced Options</span>
-              <ChevronDown size={16} />
+                {editingId
+                  ? "Update Blog Post"
+                  : "Publish Blog Post"}
+              </button>
+            </div>
+          </form>
+        </section>
+
+        {/* ================= TABLE ================= */}
+        <section className="BlogPost-table-card">
+          <div className="BlogPost-table-header">
+            <div className="BlogPost-table-title-wrapper">
+              <div className="BlogPost-table-icon">
+                <FaEdit />
+              </div>
+
+              <div>
+                <h2>Blog Posts</h2>
+                <p>Manage all your published blog posts</p>
+              </div>
             </div>
           </div>
-        </div>
+
+          {/* Filters */}
+          <div className="BlogPost-filters">
+            <div className="BlogPost-search">
+              <FaSearch />
+
+              <input
+                type="text"
+                placeholder="Search blogs..."
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+              />
+            </div>
+
+            <select
+              value={categoryFilter}
+              onChange={(e) =>
+                setCategoryFilter(e.target.value)
+              }
+            >
+              <option value="All">
+                All Categories
+              </option>
+
+              {categories.map((category) => (
+                <option
+                  key={category}
+                  value={category}
+                >
+                  {category}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={statusFilter}
+              onChange={(e) =>
+                setStatusFilter(e.target.value)
+              }
+            >
+              <option value="All">
+                All Status
+              </option>
+
+              <option value="Published">
+                Published
+              </option>
+
+              <option value="Draft">
+                Draft
+              </option>
+            </select>
+          </div>
+
+          {/* Desktop Table */}
+          <div className="BlogPost-table-wrapper">
+            <table className="BlogPost-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Author</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {filteredBlogs.length > 0 ? (
+                  filteredBlogs.map((blog, index) => (
+                    <tr key={blog.id}>
+                      <td>{index + 1}</td>
+
+                      <td>
+                        <img
+                          src={blog.image}
+                          alt={blog.title}
+                          className="BlogPost-blog-image"
+                        />
+                      </td>
+
+                      <td>
+                        <div className="BlogPost-blog-title">
+                          {blog.title}
+                        </div>
+
+                        <div className="BlogPost-blog-slug">
+                          /{blog.slug}
+                        </div>
+                      </td>
+
+                      <td>
+                        <span
+                          className={`BlogPost-category BlogPost-category-${blog.category.toLowerCase()}`}
+                        >
+                          {blog.category}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className="BlogPost-author">
+                          {blog.author}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div className="BlogPost-date">
+                          <FaCalendarAlt />
+                          {formatDate(blog.date)}
+                        </div>
+                      </td>
+
+                      <td>
+                        <span
+                          className={`BlogPost-status ${
+                            blog.status === "Published"
+                              ? "BlogPost-status-published"
+                              : "BlogPost-status-draft"
+                          }`}
+                        >
+                          {blog.status}
+                        </span>
+                      </td>
+
+                      <td>
+                        <div className="BlogPost-actions">
+                          <button
+                            type="button"
+                            className="BlogPost-edit-button"
+                            onClick={() =>
+                              handleEdit(blog)
+                            }
+                            title="Edit"
+                          >
+                            <FaEdit />
+                          </button>
+
+                          <button
+                            type="button"
+                            className="BlogPost-delete-button"
+                            onClick={() =>
+                              handleDelete(blog.id)
+                            }
+                            title="Delete"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="8"
+                      className="BlogPost-no-data"
+                    >
+                      No blog posts found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="BlogPost-mobile-list">
+            {filteredBlogs.length > 0 ? (
+              filteredBlogs.map((blog, index) => (
+                <div
+                  className="BlogPost-mobile-card"
+                  key={blog.id}
+                >
+                  <div className="BlogPost-mobile-top">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="BlogPost-mobile-image"
+                    />
+
+                    <div className="BlogPost-mobile-info">
+                      <span className="BlogPost-mobile-number">
+                        #{index + 1}
+                      </span>
+
+                      <h3>{blog.title}</h3>
+
+                      <span
+                        className={`BlogPost-category BlogPost-category-${blog.category.toLowerCase()}`}
+                      >
+                        {blog.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="BlogPost-mobile-details">
+                    <span>
+                      <strong>Author:</strong>{" "}
+                      {blog.author}
+                    </span>
+
+                    <span>
+                      <strong>Date:</strong>{" "}
+                      {formatDate(blog.date)}
+                    </span>
+
+                    <span>
+                      <strong>Status:</strong>{" "}
+                      <span
+                        className={`BlogPost-status ${
+                          blog.status === "Published"
+                            ? "BlogPost-status-published"
+                            : "BlogPost-status-draft"
+                        }`}
+                      >
+                        {blog.status}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className="BlogPost-mobile-actions">
+                    <button
+                      type="button"
+                      className="BlogPost-edit-button"
+                      onClick={() =>
+                        handleEdit(blog)
+                      }
+                    >
+                      <FaEdit />
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      className="BlogPost-delete-button"
+                      onClick={() =>
+                        handleDelete(blog.id)
+                      }
+                    >
+                      <FaTrash />
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="BlogPost-mobile-no-data">
+                No blog posts found.
+              </div>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className="BlogPost-table-footer">
+            <span>
+              Showing {filteredBlogs.length} of{" "}
+              {blogs.length} entries
+            </span>
+
+            <div className="BlogPost-pagination">
+              <button type="button">‹</button>
+              <button
+                type="button"
+                className="BlogPost-pagination-active"
+              >
+                1
+              </button>
+              <button type="button">›</button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

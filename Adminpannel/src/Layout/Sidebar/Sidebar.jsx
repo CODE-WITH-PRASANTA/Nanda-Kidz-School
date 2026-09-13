@@ -97,6 +97,8 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
         { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
         { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
         { type: 'link', icon: Library, text: 'Library', path: '/library' },
+         { type: 'link', icon: 'Bus', text: 'Cold Lead', path: '/coldlead' },
+          { type: 'link', icon: Library, text: 'Order', path: '/order' },
       ],
     },
     {
