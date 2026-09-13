@@ -2,9 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 
-const upload = require("../middleware/upload");
-
 const {
+  upload,
   convertSingleToWebp,
 } = require("../middleware/upload");
 
@@ -19,10 +18,7 @@ const {
    GET ALL GALLERY
 ========================================================= */
 
-router.get(
-  "/",
-  getGalleries
-);
+router.get("/", getGalleries);
 
 /* =========================================================
    CREATE GALLERY
@@ -50,9 +46,6 @@ router.put(
    DELETE GALLERY
 ========================================================= */
 
-router.delete(
-  "/:id",
-  deleteGallery
-);
+router.delete("/:id", deleteGallery);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./TeacherPost.css";
+import API, { IMG_URL } from "../../api/axios";
 
 import {
   FaUserPlus,
@@ -19,90 +20,9 @@ import {
   FaUpload,
   FaTimes,
   FaCheckCircle,
+  FaSpinner,
   FaImage,
 } from "react-icons/fa";
-
-/* =========================================================
-   INITIAL DATA
-========================================================= */
-
-const initialTeachers = [
-  {
-    id: 1,
-    name: "Glims Bond",
-    designation: "Music Teacher",
-    role: "Teacher",
-    status: "Active",
-    email: "glims.bond@school.com",
-    phone: "+91 98765 43210",
-    bio: "Passionate music educator specializing in vocal and rhythm training for early learners.",
-    fb: "#",
-    linkedin: "#",
-    twitter: "#",
-    instagram: "#",
-    image: null,
-  },
-  {
-    id: 2,
-    name: "Sherlock Bin",
-    designation: "Art Teacher",
-    role: "Teacher",
-    status: "Active",
-    email: "sherlock.bin@school.com",
-    phone: "+91 98765 43211",
-    bio: "Focuses on developing creative imagination through drawing and clay craft.",
-    fb: "#",
-    linkedin: "#",
-    twitter: "#",
-    instagram: "#",
-    image: null,
-  },
-  {
-    id: 3,
-    name: "Priestly Herbart",
-    designation: "Math Teacher",
-    role: "Teacher",
-    status: "Active",
-    email: "priestly.h@school.com",
-    phone: "+91 98765 43212",
-    bio: "Makes early arithmetic fun and interactive using logic puzzles and blocks.",
-    fb: "#",
-    linkedin: "#",
-    twitter: "#",
-    instagram: "#",
-    image: null,
-  },
-  {
-    id: 4,
-    name: "Smith Broke",
-    designation: "English Teacher",
-    role: "Teacher",
-    status: "Inactive",
-    email: "smith.broke@school.com",
-    phone: "+91 98765 43213",
-    bio: "Specializes in phonics, storytelling, and communicative language skills.",
-    fb: "#",
-    linkedin: "#",
-    twitter: "#",
-    instagram: "#",
-    image: null,
-  },
-  {
-    id: 5,
-    name: "David Miller",
-    designation: "Science Teacher",
-    role: "Teacher",
-    status: "Active",
-    email: "david.miller@school.com",
-    phone: "+91 98765 43214",
-    bio: "Encourages inquiry-based experiential learning and nature exploration.",
-    fb: "#",
-    linkedin: "#",
-    twitter: "#",
-    instagram: "#",
-    image: null,
-  },
-];
 
 /* =========================================================
    EMPTY FORM
@@ -120,9 +40,29 @@ const EMPTY_FORM = {
   linkedin: "",
   twitter: "",
   instagram: "",
-  imageName: "",
   imageFile: null,
   imagePreview: "",
+};
+
+/* =========================================================
+   IMAGE URL HELPER
+========================================================= */
+
+const getImageUrl = (image) => {
+  if (!image) {
+    return "";
+  }
+
+  // Full URL already
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://")
+  ) {
+    return image;
+  }
+
+  // MongoDB stores /uploads/teacher-xxxxx.webp
+  return `${IMG_URL}${image.startsWith("/") ? "" : "/"}${image}`;
 };
 
 /* =========================================================
@@ -130,17 +70,101 @@ const EMPTY_FORM = {
 ========================================================= */
 
 const TeacherPost = () => {
-  const [teachers, setTeachers] = useState(initialTeachers);
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
-
   const [editingId, setEditingId] = useState(null);
-
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [formData, setFormData] = useState({
+    ...EMPTY_FORM,
+  });
 
   const itemsPerPage = 4;
+
+  /* =========================================================
+     FETCH ALL TEACHERS
+  ========================================================= */
+
+  const fetchTeachers = async () => {
+    try {
+      setLoading(true);
+
+      const response = await API.get("/teachers");
+
+      console.log(
+        "================================="
+      );
+      console.log("TEACHERS API RESPONSE");
+      console.log(response.data);
+      console.log(
+        "================================="
+      );
+
+      if (response.data?.success) {
+        /*
+          Supports both:
+
+          {
+            success: true,
+            data: [...]
+          }
+
+          OR
+
+          {
+            success: true,
+            teachers: [...]
+          }
+        */
+
+        const teacherData =
+          Array.isArray(response.data.data)
+            ? response.data.data
+            : Array.isArray(response.data.teachers)
+            ? response.data.teachers
+            : [];
+
+        setTeachers(teacherData);
+      } else {
+        setTeachers([]);
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching teachers:",
+        error
+      );
+
+      if (error.response) {
+        console.error(
+          "Status:",
+          error.response.status
+        );
+
+        console.error(
+          "Response:",
+          error.response.data
+        );
+      }
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to load team members from server."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* =========================================================
+     LOAD DATA
+  ========================================================= */
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
 
   /* =========================================================
      INPUT CHANGE
@@ -156,36 +180,66 @@ const TeacherPost = () => {
   };
 
   /* =========================================================
-     IMAGE UPLOAD
+     IMAGE CHANGE
   ========================================================= */
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
-    /* File size validation */
-    if (file.size > 2 * 1024 * 1024) {
-      alert("Please select an image smaller than 2MB.");
+    /* ---------------------------------------------
+       IMAGE TYPE
+    --------------------------------------------- */
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/webp",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert(
+        "Please select JPG, JPEG, PNG or WEBP image."
+      );
+
       e.target.value = "";
       return;
     }
 
-    /* Image type validation */
-    if (!file.type.startsWith("image/")) {
-      alert("Please select a valid image file.");
+    /* ---------------------------------------------
+       IMAGE SIZE
+    --------------------------------------------- */
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert(
+        "Please select an image smaller than 10MB."
+      );
+
       e.target.value = "";
       return;
     }
 
-    const previewUrl = URL.createObjectURL(file);
+    /* ---------------------------------------------
+       PREVIEW
+    --------------------------------------------- */
 
-    setFormData((prev) => ({
-      ...prev,
-      imageFile: file,
-      imageName: file.name,
-      imagePreview: previewUrl,
-    }));
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setFormData((prev) => ({
+        ...prev,
+        imageFile: file,
+        imagePreview: reader.result,
+      }));
+    };
+
+    reader.readAsDataURL(file);
+
+    e.target.value = "";
   };
 
   /* =========================================================
@@ -193,105 +247,338 @@ const TeacherPost = () => {
   ========================================================= */
 
   const handleRemoveImage = () => {
-    if (formData.imagePreview && formData.imagePreview.startsWith("blob:")) {
-      URL.revokeObjectURL(formData.imagePreview);
-    }
-
     setFormData((prev) => ({
       ...prev,
       imageFile: null,
-      imageName: "",
       imagePreview: "",
     }));
   };
 
   /* =========================================================
-     RESET
+     RESET FORM
   ========================================================= */
 
   const handleReset = () => {
-    setFormData({ ...EMPTY_FORM });
+    setFormData({
+      ...EMPTY_FORM,
+    });
+
     setEditingId(null);
   };
 
   /* =========================================================
-     SUBMIT
+     CREATE / UPDATE TEACHER
   ========================================================= */
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name.trim() || !formData.designation.trim()) {
-      alert("Please fill in required fields: Name and Designation.");
+    /* ---------------------------------------------
+       VALIDATION
+    --------------------------------------------- */
+
+    if (!formData.name.trim()) {
+      alert("Please enter teacher name.");
       return;
     }
 
-    const dataToSave = {
-      name: formData.name,
-      designation: formData.designation,
-      email: formData.email,
-      phone: formData.phone,
-      role: formData.role,
-      status: formData.status,
-      bio: formData.bio,
-      fb: formData.fb,
-      linkedin: formData.linkedin,
-      twitter: formData.twitter,
-      instagram: formData.instagram,
-      image: formData.imagePreview || null,
-      imageName: formData.imageName,
-    };
-
-    if (editingId !== null) {
-      setTeachers((prev) =>
-        prev.map((teacher) =>
-          teacher.id === editingId
-            ? {
-                ...teacher,
-                ...dataToSave,
-              }
-            : teacher
-        )
-      );
-
-      alert("Team member updated successfully.");
-    } else {
-      const newTeacher = {
-        id: Date.now(),
-        ...dataToSave,
-      };
-
-      setTeachers((prev) => [newTeacher, ...prev]);
-
-      alert("Team member added successfully.");
+    if (!formData.designation.trim()) {
+      alert("Please enter designation.");
+      return;
     }
 
-    handleReset();
-    setCurrentPage(1);
+    try {
+      setSubmitting(true);
+
+      const data = new FormData();
+
+      /* ---------------------------------------------
+         BASIC INFORMATION
+      --------------------------------------------- */
+
+      data.append(
+        "name",
+        formData.name.trim()
+      );
+
+      data.append(
+        "designation",
+        formData.designation.trim()
+      );
+
+      data.append(
+        "email",
+        formData.email.trim()
+      );
+
+      data.append(
+        "phone",
+        formData.phone.trim()
+      );
+
+      data.append(
+        "role",
+        formData.role
+      );
+
+      data.append(
+        "status",
+        formData.status
+      );
+
+      data.append(
+        "bio",
+        formData.bio.trim()
+      );
+
+      /* ---------------------------------------------
+         SOCIAL LINKS
+      --------------------------------------------- */
+
+      data.append(
+        "fb",
+        formData.fb.trim()
+      );
+
+      data.append(
+        "linkedin",
+        formData.linkedin.trim()
+      );
+
+      data.append(
+        "twitter",
+        formData.twitter.trim()
+      );
+
+      data.append(
+        "instagram",
+        formData.instagram.trim()
+      );
+
+      /* ---------------------------------------------
+         IMAGE
+
+         IMPORTANT:
+         Backend uses:
+
+         upload.single("image")
+
+         Therefore:
+
+         data.append("image", formData.imageFile)
+      --------------------------------------------- */
+
+      if (formData.imageFile) {
+        data.append(
+          "image",
+          formData.imageFile
+        );
+      }
+
+      /* ---------------------------------------------
+         DEBUG FORMDATA
+      --------------------------------------------- */
+
+      console.log(
+        "================================="
+      );
+
+      console.log(
+        editingId
+          ? "UPDATING TEACHER"
+          : "CREATING TEACHER"
+      );
+
+      console.log(
+        "Image selected:",
+        formData.imageFile
+          ? formData.imageFile.name
+          : "No new image"
+      );
+
+      for (const [key, value] of data.entries()) {
+        console.log(
+          key,
+          value instanceof File
+            ? {
+                name: value.name,
+                type: value.type,
+                size: value.size,
+              }
+            : value
+        );
+      }
+
+      console.log(
+        "================================="
+      );
+
+      let response;
+
+      /* =====================================================
+         UPDATE
+      ===================================================== */
+
+      if (editingId) {
+        response = await API.put(
+          `/teachers/${editingId}`,
+          data
+        );
+
+        console.log(
+          "UPDATE TEACHER RESPONSE:",
+          response.data
+        );
+
+        if (response.data?.success) {
+          alert(
+            "Team member updated successfully."
+          );
+
+          await fetchTeachers();
+
+          handleReset();
+        } else {
+          alert(
+            response.data?.message ||
+              "Teacher update failed."
+          );
+        }
+      }
+
+      /* =====================================================
+         CREATE
+      ===================================================== */
+
+      else {
+        response = await API.post(
+          "/teachers",
+          data
+        );
+
+        console.log(
+          "CREATE TEACHER RESPONSE:",
+          response.data
+        );
+
+        if (response.data?.success) {
+          alert(
+            "Team member added successfully."
+          );
+
+          await fetchTeachers();
+
+          handleReset();
+
+          setCurrentPage(1);
+        } else {
+          alert(
+            response.data?.message ||
+              "Teacher creation failed."
+          );
+        }
+      }
+    } catch (error) {
+      console.error(
+        "================================="
+      );
+
+      console.error(
+        "TEACHER SUBMISSION ERROR:",
+        error
+      );
+
+      if (error.response) {
+        console.error(
+          "Status:",
+          error.response.status
+        );
+
+        console.error(
+          "Response:",
+          error.response.data
+        );
+      }
+
+      console.error(
+        "================================="
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to save team member."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   /* =========================================================
-     EDIT
+     EDIT TEACHER
   ========================================================= */
 
   const handleEdit = (teacher) => {
-    setEditingId(teacher.id);
+    if (!teacher?._id) {
+      return;
+    }
+
+    console.log(
+      "EDIT TEACHER:",
+      teacher
+    );
+
+    console.log(
+      "TEACHER IMAGE:",
+      teacher.image
+    );
+
+    console.log(
+      "TEACHER IMAGE URL:",
+      getImageUrl(teacher.image)
+    );
+
+    setEditingId(teacher._id);
 
     setFormData({
       name: teacher.name || "",
-      designation: teacher.designation || "",
+
+      designation:
+        teacher.designation || "",
+
       email: teacher.email || "",
+
       phone: teacher.phone || "",
-      role: teacher.role || "Teacher",
-      status: teacher.status || "Active",
+
+      role:
+        teacher.role || "Teacher",
+
+      status:
+        teacher.status || "Active",
+
       bio: teacher.bio || "",
+
       fb: teacher.fb || "",
-      linkedin: teacher.linkedin || "",
-      twitter: teacher.twitter || "",
-      instagram: teacher.instagram || "",
-      imageName: teacher.imageName || "",
+
+      linkedin:
+        teacher.linkedin || "",
+
+      twitter:
+        teacher.twitter || "",
+
+      instagram:
+        teacher.instagram || "",
+
+      /*
+        Important:
+        Existing image is NOT a File.
+
+        It is only used for preview.
+      */
+
       imageFile: null,
-      imagePreview: teacher.image || "",
+
+      imagePreview:
+        getImageUrl(teacher.image),
     });
 
     window.scrollTo({
@@ -301,62 +588,87 @@ const TeacherPost = () => {
   };
 
   /* =========================================================
-     DELETE
+     DELETE TEACHER
   ========================================================= */
 
-  const handleDelete = (id) => {
-    const confirmDelete = window.confirm(
+  const handleDelete = async (id) => {
+    if (!id) {
+      return;
+    }
+
+    const confirmed = window.confirm(
       "Are you sure you want to delete this team member?"
     );
 
-    if (!confirmDelete) return;
+    if (!confirmed) {
+      return;
+    }
 
-    setTeachers((prev) => prev.filter((teacher) => teacher.id !== id));
+    try {
+      setLoading(true);
 
-    setCurrentPage(1);
+      const response =
+        await API.delete(
+          `/teachers/${id}`
+        );
+
+      console.log(
+        "DELETE TEACHER RESPONSE:",
+        response.data
+      );
+
+      if (response.data?.success) {
+        alert(
+          "Team member deleted successfully."
+        );
+
+        await fetchTeachers();
+
+        setCurrentPage(1);
+
+        /*
+          If deleted teacher was being edited,
+          reset the form.
+        */
+
+        if (editingId === id) {
+          handleReset();
+        }
+      } else {
+        alert(
+          response.data?.message ||
+            "Teacher deletion failed."
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Delete Teacher Error:",
+        error
+      );
+
+      if (error.response) {
+        console.error(
+          "Delete Status:",
+          error.response.status
+        );
+
+        console.error(
+          "Delete Response:",
+          error.response.data
+        );
+      }
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to delete team member."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   /* =========================================================
-     SEARCH
-  ========================================================= */
-
-  const filteredTeachers = teachers.filter((teacher) => {
-    const search = searchTerm.toLowerCase();
-
-    return (
-      teacher.name.toLowerCase().includes(search) ||
-      teacher.designation.toLowerCase().includes(search) ||
-      teacher.email.toLowerCase().includes(search) ||
-      teacher.role.toLowerCase().includes(search)
-    );
-  });
-
-  /* =========================================================
-     PAGINATION
-  ========================================================= */
-
-  const totalPages =
-    Math.ceil(filteredTeachers.length / itemsPerPage) || 1;
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-
-  const currentTableData = filteredTeachers.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
-
-  /* =========================================================
-     KEEP PAGE VALID
-  ========================================================= */
-
-  useEffect(() => {
-    if (currentPage > totalPages) {
-      setCurrentPage(totalPages);
-    }
-  }, [currentPage, totalPages]);
-
-  /* =========================================================
-     SCROLL TO FORM
+     ADD NEW
   ========================================================= */
 
   const handleAddNew = () => {
@@ -369,21 +681,97 @@ const TeacherPost = () => {
   };
 
   /* =========================================================
+     SEARCH
+  ========================================================= */
+
+  const filteredTeachers =
+    teachers.filter((teacher) => {
+      const search =
+        searchTerm
+          .toLowerCase()
+          .trim();
+
+      if (!search) {
+        return true;
+      }
+
+      return (
+        (teacher.name || "")
+          .toLowerCase()
+          .includes(search) ||
+
+        (teacher.designation || "")
+          .toLowerCase()
+          .includes(search) ||
+
+        (teacher.email || "")
+          .toLowerCase()
+          .includes(search) ||
+
+        (teacher.phone || "")
+          .toLowerCase()
+          .includes(search) ||
+
+        (teacher.role || "")
+          .toLowerCase()
+          .includes(search) ||
+
+        (teacher.status || "")
+          .toLowerCase()
+          .includes(search)
+      );
+    });
+
+  /* =========================================================
+     PAGINATION
+  ========================================================= */
+
+  const totalPages =
+    Math.ceil(
+      filteredTeachers.length /
+        itemsPerPage
+    ) || 1;
+
+  const startIndex =
+    (currentPage - 1) *
+    itemsPerPage;
+
+  const currentTableData =
+    filteredTeachers.slice(
+      startIndex,
+      startIndex + itemsPerPage
+    );
+
+  /* =========================================================
+     PAGE VALIDATION
+  ========================================================= */
+
+  useEffect(() => {
+    if (
+      currentPage > totalPages
+    ) {
+      setCurrentPage(totalPages);
+    }
+  }, [
+    currentPage,
+    totalPages,
+  ]);
+
+  /* =========================================================
      RENDER
   ========================================================= */
 
   return (
     <div className="TeacherPost">
-
       <div className="TeacherPost-wrapper">
 
-        {/* =====================================================
+        {/* =================================================
             FORM CARD
-        ===================================================== */}
+        ================================================= */}
 
         <div className="TeacherPost-form-card">
 
-          {/* Header */}
+          {/* HEADER */}
 
           <div className="TeacherPost-form-header">
 
@@ -393,13 +781,13 @@ const TeacherPost = () => {
 
             <div>
               <h2>
-                {editingId !== null
+                {editingId
                   ? "Edit Team Member"
                   : "Add Team Member"}
               </h2>
 
               <p>
-                {editingId !== null
+                {editingId
                   ? "Update team member information"
                   : "Fill in the details to add a new team member"}
               </p>
@@ -407,7 +795,7 @@ const TeacherPost = () => {
 
           </div>
 
-          {/* Form */}
+          {/* FORM */}
 
           <form
             onSubmit={handleSubmit}
@@ -415,7 +803,7 @@ const TeacherPost = () => {
           >
 
             {/* =================================================
-                PROFILE IMAGE SECTION
+                PROFILE IMAGE
             ================================================= */}
 
             <div className="TeacherPost-profile-image-section">
@@ -424,7 +812,9 @@ const TeacherPost = () => {
 
                 <div className="TeacherPost-profile-image-title">
                   <FaUser />
-                  <span>Profile Photo</span>
+                  <span>
+                    Profile Photo
+                  </span>
                 </div>
 
                 <span className="TeacherPost-profile-image-required">
@@ -435,7 +825,7 @@ const TeacherPost = () => {
 
               <div className="TeacherPost-profile-upload-card">
 
-                {/* Preview */}
+                {/* PREVIEW */}
 
                 <div className="TeacherPost-profile-preview-wrapper">
 
@@ -443,23 +833,36 @@ const TeacherPost = () => {
 
                     {formData.imagePreview ? (
                       <img
-                        src={formData.imagePreview}
+                        src={
+                          formData.imagePreview
+                        }
                         alt="Profile Preview"
                         className="TeacherPost-profile-preview-img"
+                        onError={(e) => {
+                          console.error(
+                            "PROFILE IMAGE LOAD ERROR:",
+                            formData.imagePreview
+                          );
+
+                          e.currentTarget.style.display =
+                            "none";
+                        }}
                       />
                     ) : (
                       <div className="TeacherPost-profile-placeholder">
+
                         {formData.name ? (
-                          formData.name.charAt(0).toUpperCase()
+                          formData.name
+                            .charAt(0)
+                            .toUpperCase()
                         ) : (
                           <FaUser />
                         )}
+
                       </div>
                     )}
 
                   </div>
-
-                  {/* Camera */}
 
                   <label className="TeacherPost-profile-camera">
 
@@ -468,14 +871,16 @@ const TeacherPost = () => {
                     <input
                       type="file"
                       accept="image/png,image/jpeg,image/jpg,image/webp"
-                      onChange={handleImageChange}
+                      onChange={
+                        handleImageChange
+                      }
                     />
 
                   </label>
 
                 </div>
 
-                {/* Upload Information */}
+                {/* UPLOAD CONTENT */}
 
                 <div className="TeacherPost-profile-upload-content">
 
@@ -484,8 +889,8 @@ const TeacherPost = () => {
                   </h4>
 
                   <p>
-                    Add a professional profile photo for this
-                    team member.
+                    Add a professional profile
+                    photo for this team member.
                   </p>
 
                   <div className="TeacherPost-profile-upload-actions">
@@ -501,7 +906,9 @@ const TeacherPost = () => {
                       <input
                         type="file"
                         accept="image/png,image/jpeg,image/jpg,image/webp"
-                        onChange={handleImageChange}
+                        onChange={
+                          handleImageChange
+                        }
                       />
 
                     </label>
@@ -510,7 +917,9 @@ const TeacherPost = () => {
                       <button
                         type="button"
                         className="TeacherPost-profile-remove-btn"
-                        onClick={handleRemoveImage}
+                        onClick={
+                          handleRemoveImage
+                        }
                       >
                         <FaTimes />
                         Remove
@@ -519,21 +928,25 @@ const TeacherPost = () => {
 
                   </div>
 
-                  {formData.imageName && (
+                  {formData.imageFile && (
                     <div className="TeacherPost-selected-file">
 
                       <FaCheckCircle />
 
-                      <span title={formData.imageName}>
-                        {formData.imageName}
+                      <span>
+                        {
+                          formData
+                            .imageFile
+                            .name
+                        }
                       </span>
 
                     </div>
                   )}
 
                   <span className="TeacherPost-profile-upload-hint">
-                    JPG, PNG or WEBP · Maximum 2MB ·
-                    Recommended 400 × 400px
+                    JPG, PNG or WEBP · Maximum
+                    10MB
                   </span>
 
                 </div>
@@ -558,8 +971,12 @@ const TeacherPost = () => {
                   type="text"
                   name="name"
                   placeholder="Enter full name"
-                  value={formData.name}
-                  onChange={handleInputChange}
+                  value={
+                    formData.name
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
 
@@ -568,15 +985,20 @@ const TeacherPost = () => {
               <div className="TeacherPost-form-group">
 
                 <label>
-                  Designation <span>*</span>
+                  Designation{" "}
+                  <span>*</span>
                 </label>
 
                 <input
                   type="text"
                   name="designation"
                   placeholder="Enter designation"
-                  value={formData.designation}
-                  onChange={handleInputChange}
+                  value={
+                    formData.designation
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                   required
                 />
 
@@ -592,28 +1014,40 @@ const TeacherPost = () => {
 
               <div className="TeacherPost-form-group">
 
-                <label>Email</label>
+                <label>
+                  Email
+                </label>
 
                 <input
                   type="email"
                   name="email"
                   placeholder="Enter email address"
-                  value={formData.email}
-                  onChange={handleInputChange}
+                  value={
+                    formData.email
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                 />
 
               </div>
 
               <div className="TeacherPost-form-group">
 
-                <label>Phone</label>
+                <label>
+                  Phone
+                </label>
 
                 <input
                   type="text"
                   name="phone"
                   placeholder="Enter phone number"
-                  value={formData.phone}
-                  onChange={handleInputChange}
+                  value={
+                    formData.phone
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                 />
 
               </div>
@@ -628,12 +1062,18 @@ const TeacherPost = () => {
 
               <div className="TeacherPost-form-group">
 
-                <label>Role</label>
+                <label>
+                  Role
+                </label>
 
                 <select
                   name="role"
-                  value={formData.role}
-                  onChange={handleInputChange}
+                  value={
+                    formData.role
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                 >
                   <option value="Teacher">
                     Teacher
@@ -656,12 +1096,18 @@ const TeacherPost = () => {
 
               <div className="TeacherPost-form-group">
 
-                <label>Status</label>
+                <label>
+                  Status
+                </label>
 
                 <select
                   name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
+                  value={
+                    formData.status
+                  }
+                  onChange={
+                    handleInputChange
+                  }
                 >
                   <option value="Active">
                     Active
@@ -690,8 +1136,12 @@ const TeacherPost = () => {
                 name="bio"
                 rows="4"
                 placeholder="Write a short bio about the team member..."
-                value={formData.bio}
-                onChange={handleInputChange}
+                value={
+                  formData.bio
+                }
+                onChange={
+                  handleInputChange
+                }
               />
 
             </div>
@@ -705,20 +1155,23 @@ const TeacherPost = () => {
               <div className="TeacherPost-social-heading">
 
                 <div>
+
                   <strong>
                     Social Media Links
                   </strong>
 
                   <span>
-                    Add profile links for this team member
+                    Add profile links for this
+                    team member
                   </span>
+
                 </div>
 
               </div>
 
               <div className="TeacherPost-social-grid">
 
-                {/* Facebook */}
+                {/* FACEBOOK */}
 
                 <div className="TeacherPost-social-input facebook">
 
@@ -728,13 +1181,17 @@ const TeacherPost = () => {
                     type="text"
                     name="fb"
                     placeholder="Facebook URL"
-                    value={formData.fb}
-                    onChange={handleInputChange}
+                    value={
+                      formData.fb
+                    }
+                    onChange={
+                      handleInputChange
+                    }
                   />
 
                 </div>
 
-                {/* LinkedIn */}
+                {/* LINKEDIN */}
 
                 <div className="TeacherPost-social-input linkedin">
 
@@ -744,13 +1201,17 @@ const TeacherPost = () => {
                     type="text"
                     name="linkedin"
                     placeholder="LinkedIn URL"
-                    value={formData.linkedin}
-                    onChange={handleInputChange}
+                    value={
+                      formData.linkedin
+                    }
+                    onChange={
+                      handleInputChange
+                    }
                   />
 
                 </div>
 
-                {/* Twitter */}
+                {/* TWITTER */}
 
                 <div className="TeacherPost-social-input twitter">
 
@@ -760,13 +1221,17 @@ const TeacherPost = () => {
                     type="text"
                     name="twitter"
                     placeholder="Twitter URL"
-                    value={formData.twitter}
-                    onChange={handleInputChange}
+                    value={
+                      formData.twitter
+                    }
+                    onChange={
+                      handleInputChange
+                    }
                   />
 
                 </div>
 
-                {/* Instagram */}
+                {/* INSTAGRAM */}
 
                 <div className="TeacherPost-social-input instagram">
 
@@ -776,8 +1241,12 @@ const TeacherPost = () => {
                     type="text"
                     name="instagram"
                     placeholder="Instagram URL"
-                    value={formData.instagram}
-                    onChange={handleInputChange}
+                    value={
+                      formData.instagram
+                    }
+                    onChange={
+                      handleInputChange
+                    }
                   />
 
                 </div>
@@ -795,7 +1264,12 @@ const TeacherPost = () => {
               <button
                 type="button"
                 className="TeacherPost-btn-reset"
-                onClick={handleReset}
+                onClick={
+                  handleReset
+                }
+                disabled={
+                  submitting
+                }
               >
                 <FaUndo />
                 Reset
@@ -804,12 +1278,25 @@ const TeacherPost = () => {
               <button
                 type="submit"
                 className="TeacherPost-btn-save"
+                disabled={
+                  submitting
+                }
               >
-                <FaSave />
 
-                {editingId !== null
+                {submitting ? (
+                  <FaSpinner className="fa-spin" />
+                ) : (
+                  <FaSave />
+                )}
+
+                {submitting
+                  ? editingId
+                    ? "Updating..."
+                    : "Saving..."
+                  : editingId
                   ? "Update Member"
                   : "Save Member"}
+
               </button>
 
             </div>
@@ -818,13 +1305,13 @@ const TeacherPost = () => {
 
         </div>
 
-        {/* =====================================================
+        {/* =================================================
             LIST CARD
-        ===================================================== */}
+        ================================================= */}
 
         <div className="TeacherPost-list-card">
 
-          {/* List Header */}
+          {/* LIST HEADER */}
 
           <div className="TeacherPost-list-header">
 
@@ -835,20 +1322,23 @@ const TeacherPost = () => {
               </div>
 
               <div>
+
                 <h2>
                   Team Members List
                 </h2>
 
                 <p>
-                  View and manage all team members
+                  View and manage all team
+                  members
                 </p>
+
               </div>
 
             </div>
 
             <div className="TeacherPost-top-controls">
 
-              {/* Search */}
+              {/* SEARCH */}
 
               <div className="TeacherPost-search-box">
 
@@ -857,21 +1347,28 @@ const TeacherPost = () => {
                 <input
                   type="text"
                   placeholder="Search by name, designation..."
-                  value={searchTerm}
+                  value={
+                    searchTerm
+                  }
                   onChange={(e) => {
-                    setSearchTerm(e.target.value);
+                    setSearchTerm(
+                      e.target.value
+                    );
+
                     setCurrentPage(1);
                   }}
                 />
 
               </div>
 
-              {/* Add */}
+              {/* ADD NEW */}
 
               <button
                 type="button"
                 className="TeacherPost-add-top-btn"
-                onClick={handleAddNew}
+                onClick={
+                  handleAddNew
+                }
               >
                 <FaUserPlus />
                 Add New
@@ -908,192 +1405,349 @@ const TeacherPost = () => {
 
               <tbody>
 
-                {currentTableData.length > 0 ? (
-                  currentTableData.map((teacher, index) => (
+                {/* LOADING */}
 
-                    <tr key={teacher.id}>
+                {loading ? (
+                  <tr>
 
-                      <td className="font-medium">
-                        {startIndex + index + 1}
-                      </td>
+                    <td
+                      colSpan="8"
+                      className="TeacherPost-no-data"
+                    >
 
-                      {/* Profile */}
+                      <FaSpinner className="fa-spin" />
 
-                      <td>
+                      <span>
+                        Loading team members...
+                      </span>
 
-                        <div className="TeacherPost-table-avatar">
+                    </td>
 
-                          {teacher.image ? (
-                            <img
-                              src={teacher.image}
-                              alt={teacher.name}
-                            />
-                          ) : (
-                            teacher.name
-                              .charAt(0)
-                              .toUpperCase()
-                          )}
+                  </tr>
+                ) : currentTableData.length >
+                  0 ? (
 
-                        </div>
+                  /* DATA */
 
-                      </td>
+                  currentTableData.map(
+                    (teacher, index) => {
 
-                      {/* Name */}
+                      const teacherImage =
+                        getImageUrl(
+                          teacher.image
+                        );
 
-                      <td>
-
-                        <div className="TeacherPost-table-name">
-                          {teacher.name}
-                        </div>
-
-                        <div className="TeacherPost-table-sub">
-                          {teacher.email || "No email"}
-                        </div>
-
-                      </td>
-
-                      {/* Designation */}
-
-                      <td>
-
-                        <span className="TeacherPost-designation-badge">
-                          {teacher.designation}
-                        </span>
-
-                      </td>
-
-                      {/* Role */}
-
-                      <td>
-
-                        <span className="TeacherPost-role-pill">
-                          {teacher.role}
-                        </span>
-
-                      </td>
-
-                      {/* Status */}
-
-                      <td>
-
-                        <span
-                          className={`TeacherPost-status-tag ${
-                            teacher.status === "Active"
-                              ? "active"
-                              : "inactive"
-                          }`}
+                      return (
+                        <tr
+                          key={
+                            teacher._id
+                          }
                         >
-                          <span className="status-dot"></span>
 
-                          {teacher.status}
+                          {/* NUMBER */}
 
-                        </span>
+                          <td className="font-medium">
+                            {startIndex +
+                              index +
+                              1}
+                          </td>
 
-                      </td>
+                          {/* PROFILE */}
 
-                      {/* Social */}
+                          <td>
 
-                      <td>
+                            <div className="TeacherPost-table-avatar">
 
-                        <div className="TeacherPost-table-socials">
+                              {teacherImage ? (
+                                <img
+                                  src={
+                                    teacherImage
+                                  }
+                                  alt={
+                                    teacher.name ||
+                                    "Teacher"
+                                  }
+                                  className="TeacherPost-table-avatar-img"
+                                  onError={(
+                                    e
+                                  ) => {
 
-                          <a
-                            href={teacher.fb || "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            title="Facebook"
-                            className={
-                              teacher.fb && teacher.fb !== "#"
-                                ? "available"
-                                : ""
-                            }
-                          >
-                            <FaFacebookF />
-                          </a>
+                                    console.error(
+                                      "TABLE IMAGE LOAD ERROR:",
+                                      teacherImage
+                                    );
 
-                          <a
-                            href={teacher.linkedin || "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            title="LinkedIn"
-                            className={
-                              teacher.linkedin &&
-                              teacher.linkedin !== "#"
-                                ? "available"
-                                : ""
-                            }
-                          >
-                            <FaLinkedinIn />
-                          </a>
+                                    e.currentTarget.style.display =
+                                      "none";
 
-                          <a
-                            href={teacher.twitter || "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            title="Twitter"
-                            className={
-                              teacher.twitter &&
-                              teacher.twitter !== "#"
-                                ? "available"
-                                : ""
-                            }
-                          >
-                            <FaTwitter />
-                          </a>
+                                    const fallback =
+                                      e.currentTarget
+                                        .parentElement
+                                        ?.querySelector(
+                                          ".TeacherPost-table-avatar-fallback"
+                                        );
 
-                          <a
-                            href={teacher.instagram || "#"}
-                            target="_blank"
-                            rel="noreferrer"
-                            title="Instagram"
-                            className={
-                              teacher.instagram &&
-                              teacher.instagram !== "#"
-                                ? "available"
-                                : ""
-                            }
-                          >
-                            <FaInstagram />
-                          </a>
+                                    if (
+                                      fallback
+                                    ) {
+                                      fallback.style.display =
+                                        "flex";
+                                    }
 
-                        </div>
+                                  }}
+                                />
+                              ) : null}
 
-                      </td>
+                              <div
+                                className="TeacherPost-table-avatar-fallback"
+                                style={{
+                                  display:
+                                    teacherImage
+                                      ? "none"
+                                      : "flex",
+                                }}
+                              >
 
-                      {/* Actions */}
+                                {teacher.name
+                                  ?.charAt(
+                                    0
+                                  )
+                                  ?.toUpperCase() || (
+                                  <FaUser />
+                                )}
 
-                      <td className="text-right">
+                              </div>
 
-                        <div className="TeacherPost-action-group">
+                            </div>
 
-                          <button
-                            type="button"
-                            className="TeacherPost-action-btn edit"
-                            onClick={() => handleEdit(teacher)}
-                            title="Edit Member"
-                          >
-                            <FaEdit />
-                          </button>
+                          </td>
 
-                          <button
-                            type="button"
-                            className="TeacherPost-action-btn delete"
-                            onClick={() =>
-                              handleDelete(teacher.id)
-                            }
-                            title="Delete Member"
-                          >
-                            <FaTrashAlt />
-                          </button>
+                          {/* NAME */}
 
-                        </div>
+                          <td>
 
-                      </td>
+                            <div className="TeacherPost-table-name">
+                              {teacher.name ||
+                                "N/A"}
+                            </div>
 
-                    </tr>
+                            <div className="TeacherPost-table-sub">
+                              {teacher.email ||
+                                "No email"}
+                            </div>
 
-                  ))
+                          </td>
+
+                          {/* DESIGNATION */}
+
+                          <td>
+
+                            <span className="TeacherPost-designation-badge">
+                              {teacher.designation ||
+                                "N/A"}
+                            </span>
+
+                          </td>
+
+                          {/* ROLE */}
+
+                          <td>
+
+                            <span className="TeacherPost-role-pill">
+                              {teacher.role ||
+                                "Teacher"}
+                            </span>
+
+                          </td>
+
+                          {/* STATUS */}
+
+                          <td>
+
+                            <span
+                              className={`TeacherPost-status-tag ${
+                                teacher.status ===
+                                "Active"
+                                  ? "active"
+                                  : "inactive"
+                              }`}
+                            >
+
+                              <span className="status-dot"></span>
+
+                              {teacher.status ||
+                                "Inactive"}
+
+                            </span>
+
+                          </td>
+
+                          {/* SOCIAL */}
+
+                          <td>
+
+                            <div className="TeacherPost-table-socials">
+
+                              {/* FACEBOOK */}
+
+                              <a
+                                href={
+                                  teacher.fb ||
+                                  "#"
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                                title="Facebook"
+                                className={
+                                  teacher.fb
+                                    ? "available"
+                                    : ""
+                                }
+                                onClick={(
+                                  e
+                                ) => {
+                                  if (
+                                    !teacher.fb
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              >
+                                <FaFacebookF />
+                              </a>
+
+                              {/* LINKEDIN */}
+
+                              <a
+                                href={
+                                  teacher.linkedin ||
+                                  "#"
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                                title="LinkedIn"
+                                className={
+                                  teacher.linkedin
+                                    ? "available"
+                                    : ""
+                                }
+                                onClick={(
+                                  e
+                                ) => {
+                                  if (
+                                    !teacher.linkedin
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              >
+                                <FaLinkedinIn />
+                              </a>
+
+                              {/* TWITTER */}
+
+                              <a
+                                href={
+                                  teacher.twitter ||
+                                  "#"
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                                title="Twitter"
+                                className={
+                                  teacher.twitter
+                                    ? "available"
+                                    : ""
+                                }
+                                onClick={(
+                                  e
+                                ) => {
+                                  if (
+                                    !teacher.twitter
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              >
+                                <FaTwitter />
+                              </a>
+
+                              {/* INSTAGRAM */}
+
+                              <a
+                                href={
+                                  teacher.instagram ||
+                                  "#"
+                                }
+                                target="_blank"
+                                rel="noreferrer"
+                                title="Instagram"
+                                className={
+                                  teacher.instagram
+                                    ? "available"
+                                    : ""
+                                }
+                                onClick={(
+                                  e
+                                ) => {
+                                  if (
+                                    !teacher.instagram
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                              >
+                                <FaInstagram />
+                              </a>
+
+                            </div>
+
+                          </td>
+
+                          {/* ACTIONS */}
+
+                          <td className="text-right">
+
+                            <div className="TeacherPost-action-group">
+
+                              <button
+                                type="button"
+                                className="TeacherPost-action-btn edit"
+                                onClick={() =>
+                                  handleEdit(
+                                    teacher
+                                  )
+                                }
+                                title="Edit Member"
+                              >
+                                <FaEdit />
+                              </button>
+
+                              <button
+                                type="button"
+                                className="TeacherPost-action-btn delete"
+                                onClick={() =>
+                                  handleDelete(
+                                    teacher._id
+                                  )
+                                }
+                                title="Delete Member"
+                              >
+                                <FaTrashAlt />
+                              </button>
+
+                            </div>
+
+                          </td>
+
+                        </tr>
+                      );
+                    }
+                  )
+
                 ) : (
+
+                  /* NO DATA */
 
                   <tr>
 
@@ -1101,11 +1755,12 @@ const TeacherPost = () => {
                       colSpan="8"
                       className="TeacherPost-no-data"
                     >
+
                       <FaImage />
 
                       <span>
-                        No team members found matching
-                        your search.
+                        No team members found
+                        matching your search.
                       </span>
 
                     </td>
@@ -1129,35 +1784,57 @@ const TeacherPost = () => {
             <div className="TeacherPost-pagination-info">
 
               Showing{" "}
-              {filteredTeachers.length > 0
+
+              {filteredTeachers.length >
+              0
                 ? startIndex + 1
-                : 0}{" "}
-              to{" "}
+                : 0}
+
+              {" "}to{" "}
+
               {Math.min(
-                startIndex + itemsPerPage,
+                startIndex +
+                  itemsPerPage,
                 filteredTeachers.length
-              )}{" "}
-              of {filteredTeachers.length} entries
+              )}
+
+              {" "}of{" "}
+
+              {filteredTeachers.length}
+
+              {" "}entries
 
             </div>
 
             <div className="TeacherPost-pagination-buttons">
 
+              {/* PREVIOUS */}
+
               <button
                 type="button"
                 className="TeacherPost-page-btn"
                 onClick={() =>
-                  setCurrentPage((page) =>
-                    Math.max(page - 1, 1)
+                  setCurrentPage(
+                    (page) =>
+                      Math.max(
+                        page - 1,
+                        1
+                      )
                   )
                 }
-                disabled={currentPage === 1}
+                disabled={
+                  currentPage === 1
+                }
               >
                 <FaChevronLeft />
               </button>
 
+              {/* PAGE NUMBERS */}
+
               {Array.from(
-                { length: totalPages },
+                {
+                  length: totalPages,
+                },
                 (_, i) => i + 1
               ).map((page) => (
 
@@ -1170,7 +1847,9 @@ const TeacherPost = () => {
                       : ""
                   }`}
                   onClick={() =>
-                    setCurrentPage(page)
+                    setCurrentPage(
+                      page
+                    )
                   }
                 >
                   {page}
@@ -1178,16 +1857,23 @@ const TeacherPost = () => {
 
               ))}
 
+              {/* NEXT */}
+
               <button
                 type="button"
                 className="TeacherPost-page-btn"
                 onClick={() =>
-                  setCurrentPage((page) =>
-                    Math.min(page + 1, totalPages)
+                  setCurrentPage(
+                    (page) =>
+                      Math.min(
+                        page + 1,
+                        totalPages
+                      )
                   )
                 }
                 disabled={
-                  currentPage === totalPages
+                  currentPage ===
+                  totalPages
                 }
               >
                 <FaChevronRight />
@@ -1200,7 +1886,6 @@ const TeacherPost = () => {
         </div>
 
       </div>
-
     </div>
   );
 };

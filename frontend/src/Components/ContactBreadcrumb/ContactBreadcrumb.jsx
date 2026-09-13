@@ -1,6 +1,6 @@
 import React from 'react';
 import './ContactBreadcrumb.css';
-import bgImage from '../../assets/contact.jpg'; // Adjust path according to your src/assets structure
+import bgImage from '../../assets/contact.webp'; // Adjust path according to your src/assets structure
 
 const ContactBreadcrumb = () => {
   return (
@@ -9,8 +9,8 @@ const ContactBreadcrumb = () => {
       style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(${bgImage})` }}
     >
       <div className="ContactBreadcrumb-container">
-        <h1 className="ContactBreadcrumb-title">Contact 1</h1>
-        <p className="ContactBreadcrumb-subtitle">KINDERGARTEN WORDPRESS THEME</p>
+        <h1 className="ContactBreadcrumb-title">Contact </h1>
+        <p className="ContactBreadcrumb-subtitle">Nanda kidz's The Little KingDom</p>
       </div>
     </div>
   );

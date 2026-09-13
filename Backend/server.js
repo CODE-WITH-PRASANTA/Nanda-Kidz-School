@@ -12,6 +12,10 @@ const subjectRoutes = require('./routes/subjectRoutes');
 const classRoutes = require('./routes/classRoutes.js');
 const galleryRoutes = require('./routes/galleryRoutes');
 
+const teacherRoutes = require("./routes/teacherRoutes");
+
+
+
 
 // Database Connection
 connectDB();
@@ -48,6 +52,10 @@ app.post(
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/gallery', galleryRoutes);
+
+app.use("/api/teachers", teacherRoutes);
+
+
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)
 app.post(
