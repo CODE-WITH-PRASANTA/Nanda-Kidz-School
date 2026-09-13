@@ -32,6 +32,7 @@ import {
   Clock,
   Award,
   Send, // Icon for teacher posts
+  HelpCircle, // Icon for floating enquiries
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -98,6 +99,8 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
         { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
         { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
         { type: 'link', icon: Library, text: 'Library', path: '/library' },
+        { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
+        { type: 'link', icon: Library, text: 'Order', path: '/order' },
       ],
     },
     {
@@ -113,14 +116,18 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
             { text: 'Manage Posts', path: '/blog/management' },
           ],
         },
-        // --- NEW: Single link for Teacher Post added here ---
         { type: 'link', icon: Send, text: 'Teacher Post', path: '/teacher-posts' },
-        // ---------------------------------------------------
         { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
         { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
         { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
         { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
         { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
+      ],
+    },
+    {
+      category: 'Enquiries',
+      items: [
+        { type: 'link', icon: HelpCircle, text: 'Floating Enquiries', path: '/floating-enquiries' },
       ],
     },
     {
@@ -183,7 +190,7 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
 
           {showLabels && (
             <div className="Sidebar-brandText">
-              <h1>Kids School</h1>
+              <h1> Nanda Kidz  </h1>
               <span>Admin Panel</span>
             </div>
           )}

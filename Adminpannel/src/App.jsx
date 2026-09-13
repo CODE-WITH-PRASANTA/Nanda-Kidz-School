@@ -23,6 +23,9 @@ import SubjectManagement from "./Components/SubjectManagement/SubjectManagement"
 import Schedule from "./Components/Schedule/Schedule";
 import Classandsection from "./Components/Classandsection/Classandsection";
 import TeacherPost from "./Pages/TeacherPost/TeacherPost";
+import ColdLead from "./Pages/ColdLead/ColdLead";
+import Order from "./Pages/Order/Order";
+import Floatingleads from "./Pages/Floatingleads/Floatingleads";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -89,12 +92,17 @@ function App() {
           <Route path="blog-management" element={<BlogManagement />} />
           <Route path="blog-management/posts" element={<BlogPost />} />
           <Route path="/subjects" element={<SubjectManagement/>} />
-          <Route path="blog/post" element={<BlogPost />} />
-          <Route path="blog/management" element={<BlogManagement />} />
+       <Route path="blog/post" element={<BlogPost />} />
+<Route path="blog/post/:id" element={<BlogPost />} />
+<Route path="blog/management" element={<BlogManagement />} />
+          <Route path="/floating-enquiries" element={<Floatingleads/>}/>
 
           {/* Gallery */}
           <Route path="gallery-management" element={<GalleryManagement />} />
           <Route path="/teacher-posts"element={<TeacherPost/>}/>
+
+          <Route path="/coldlead" element={<ColdLead />} />
+          <Route path="/order" element={<Order />} />
         </Route>
 
         {/* 404 Fallback */}

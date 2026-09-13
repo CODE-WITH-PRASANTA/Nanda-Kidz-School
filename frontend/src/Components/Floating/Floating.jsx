@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import './Floating.css';
-
+import API from "../../api/axios"
 import logoImg from '../../assets/nanda image .png';
 
 import { 
@@ -10,11 +10,13 @@ import {
   Cake, 
   MessageSquare, 
   Send, 
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 
 const Floating = ({ onClose }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -48,13 +50,32 @@ const Floating = ({ onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Enquiry Submitted Successfully!');
-    handleClose();
+
+    if (!formData.name.trim() || !formData.address.trim() || !formData.age) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const response = await API.post('/enquiries', formData);
+
+      if (response.data && response.data.success) {
+        alert('Enquiry Submitted Successfully!');
+        handleClose();
+      } else {
+        alert(response.data?.message || 'Submission failed.');
+      }
+    } catch (error) {
+      console.error("Enquiry Submission Error:", error);
+      alert(error.response?.data?.message || 'Failed to connect to the server.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  // Progress: how many of the 3 required fields are filled
   const progress = useMemo(() => {
     const required = [formData.name, formData.address, formData.age];
     const filled = required.filter((v) => v && v.length > 0).length;
@@ -76,7 +97,6 @@ const Floating = ({ onClose }) => {
         className="floating-card" 
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Gradient border glow */}
         <div className="floating-card-glow"></div>
 
         <button 
@@ -88,7 +108,6 @@ const Floating = ({ onClose }) => {
           <X size={18} />
         </button>
 
-        {/* Premium Header Layout using official logo and complete school identity */}
         <div className="floating-header">
           <div className="floating-avatar-frame">
             <img src={logoImg} alt="Nanda Kidz – The Little Kingdom" className="floating-avatar-img" />
@@ -111,7 +130,6 @@ const Floating = ({ onClose }) => {
           </p>
         </div>
 
-        {/* Progress Indicator */}
         <div className="floating-progress-row">
           <div className="floating-progress-track">
             <div
@@ -122,12 +140,9 @@ const Floating = ({ onClose }) => {
           <span className="floating-progress-label">{progress}% complete</span>
         </div>
 
-        {/* Scrollable Form Body */}
         <div className="floating-scroll-body">
           <div className="floating-form-container">
             <form onSubmit={handleSubmit} className="floating-form">
-
-              {/* Child's Name — floating label style */}
               <div className="fl-field fl-purple">
                 <div className="fl-icon"><User size={16} /></div>
                 <input
@@ -142,7 +157,6 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-name">Child's Name <span className="required-star">★</span></label>
               </div>
 
-              {/* Address */}
               <div className="fl-field fl-green">
                 <div className="fl-icon"><MapPin size={16} /></div>
                 <input
@@ -157,7 +171,6 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-address">Address <span className="required-star">★</span></label>
               </div>
 
-              {/* Child's Age */}
               <div className="fl-field fl-orange">
                 <div className="fl-icon"><Cake size={16} /></div>
                 <select
@@ -177,7 +190,6 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-age">Child's Age <span className="required-star">★</span></label>
               </div>
 
-              {/* Message */}
               <div className="fl-field fl-pink fl-textarea-field">
                 <div className="fl-icon"><MessageSquare size={16} /></div>
                 <textarea
@@ -191,10 +203,14 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-message">Message (optional)</label>
               </div>
 
-              <button type="submit" className="submit-btn">
+              <button type="submit" className="submit-btn" disabled={submitting}>
                 <span className="submit-btn-shine"></span>
-                <Send size={18} className="submit-icon" />
-                <span>Submit Enquiry</span>
+                {submitting ? (
+                  <Loader2 size={18} className="submit-icon fa-spin" />
+                ) : (
+                  <Send size={18} className="submit-icon" />
+                )}
+                <span>{submitting ? 'Submitting...' : 'Submit Enquiry'}</span>
               </button>
             </form>
           </div>

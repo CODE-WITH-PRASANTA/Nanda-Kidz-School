@@ -13,6 +13,7 @@ import CoreValues from '../../Components/CoreValues/CoreValues';
 import OurTeachers from '../../Components/OurTeachers/OurTeachers';
 import Testimonial from '../../Components/Testimonial/Testimonial';
 import LatestNews from '../../Components/LatestNews/LatestNews';
+import AboutContact from '../../Components/AboutContact/AboutContact';
 
 const Home = () => {
   return (
@@ -186,6 +187,8 @@ const Home = () => {
 
         {/* Latest News */}
         <LatestNews />
+
+         <AboutContact />
 
         {/* Course Categories */}
         <Homecoursecategory />

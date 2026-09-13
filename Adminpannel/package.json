@@ -18,6 +18,8 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "@tinymce/tinymce-react": "^6.3.0",
+    "axios": "^1.19.0",
     "framer-motion": "^12.43.0",
     "lucide-react": "^1.27.0",
     "mongoose": "^9.10.0",

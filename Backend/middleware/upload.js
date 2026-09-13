@@ -1,4 +1,3 @@
-
 const multer = require("multer");
 const sharp = require("sharp");
 const path = require("path");
@@ -28,10 +27,7 @@ const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (!file || !file.mimetype) {
-    return cb(
-      new Error("Invalid image file."),
-      false
-    );
+    return cb(new Error("Invalid image file."), false);
   }
 
   if (file.mimetype.startsWith("image/")) {
@@ -104,11 +100,7 @@ const getUploadPrefix = (req, defaultPrefix = "gallery") => {
 // SINGLE IMAGE → WEBP
 // =========================================================
 
-const convertSingleToWebp = async (
-  req,
-  res,
-  next
-) => {
+const convertSingleToWebp = async (req, res, next) => {
   try {
     // ------------------------------------------
     // No image uploaded
@@ -122,26 +114,19 @@ const convertSingleToWebp = async (
     // Get prefix
     // ------------------------------------------
 
-    const prefix = getUploadPrefix(
-      req,
-      "gallery"
-    );
+    const prefix = getUploadPrefix(req, "gallery");
 
     // ------------------------------------------
     // Generate filename
     // ------------------------------------------
 
-    const filename =
-      generateFileName(prefix);
+    const filename = generateFileName(prefix);
 
     // ------------------------------------------
     // Full file path
     // ------------------------------------------
 
-    const outputPath = path.join(
-      uploadDir,
-      filename
-    );
+    const outputPath = path.join(uploadDir, filename);
 
     // ------------------------------------------
     // Convert image to WEBP
@@ -162,16 +147,14 @@ const convertSingleToWebp = async (
     // Get file information
     // ------------------------------------------
 
-    const stats =
-      fs.statSync(outputPath);
+    const stats = fs.statSync(outputPath);
 
     // ------------------------------------------
     // Save processed file information
     // ------------------------------------------
 
     req.processedFile = {
-      originalName:
-        req.file.originalname,
+      originalName: req.file.originalname,
 
       filename: filename,
 
@@ -199,8 +182,7 @@ const convertSingleToWebp = async (
     return res.status(500).json({
       success: false,
 
-      message:
-        "Image conversion failed.",
+      message: "Image conversion failed.",
 
       error: error.message,
     });
@@ -251,8 +233,7 @@ const convertTeacherImageToWebp = async (
     // Generate filename
     // ------------------------------------------
 
-    const filename =
-      generateFileName("teacher");
+    const filename = generateFileName("teacher");
 
     // ------------------------------------------
     // Full path
@@ -282,16 +263,14 @@ const convertTeacherImageToWebp = async (
     // File statistics
     // ------------------------------------------
 
-    const stats =
-      fs.statSync(outputPath);
+    const stats = fs.statSync(outputPath);
 
     // ------------------------------------------
     // Save processed Teacher image
     // ------------------------------------------
 
     req.processedFile = {
-      originalName:
-        req.file.originalname,
+      originalName: req.file.originalname,
 
       filename: filename,
 
@@ -319,8 +298,7 @@ const convertTeacherImageToWebp = async (
     return res.status(500).json({
       success: false,
 
-      message:
-        "Teacher image conversion failed.",
+      message: "Teacher image conversion failed.",
 
       error: error.message,
     });
@@ -374,10 +352,9 @@ const convertMultipleToWebp = async (
     ) {
       const file = req.files[i];
 
-      const filename =
-        generateFileName(
-          `${prefix}-${i + 1}`
-        );
+      const filename = generateFileName(
+        `${prefix}-${i + 1}`
+      );
 
       const outputPath = path.join(
         uploadDir,
@@ -403,16 +380,14 @@ const convertMultipleToWebp = async (
       // File information
       // ----------------------------------------
 
-      const stats =
-        fs.statSync(outputPath);
+      const stats = fs.statSync(outputPath);
 
       // ----------------------------------------
       // Add to processed files
       // ----------------------------------------
 
       req.processedFiles.push({
-        originalName:
-          file.originalname,
+        originalName: file.originalname,
 
         filename: filename,
 
@@ -450,6 +425,159 @@ const convertMultipleToWebp = async (
 };
 
 // =========================================================
+// BLOG SINGLE IMAGE → WEBP
+//
+// Added specifically for Blog posts.
+// Uses the exact same reliable structure.
+// =========================================================
+
+const convertBlogImageToWebp = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    // ------------------------------------------
+    // No new image uploaded
+    //
+    // Important for BLOG UPDATE.
+    // If the user edits a blog without selecting
+    // another image, keep the existing image.
+    // ------------------------------------------
+
+    if (!req.file) {
+      return next();
+    }
+
+    // ------------------------------------------
+    // Set Blog prefix
+    // ------------------------------------------
+
+    req.uploadPrefix = "blog";
+
+    // ------------------------------------------
+    // Generate filename
+    // ------------------------------------------
+
+    const filename = generateFileName("blog");
+
+    // ------------------------------------------
+    // Full output path
+    // ------------------------------------------
+
+    const outputPath = path.join(
+      uploadDir,
+      filename
+    );
+
+    // ------------------------------------------
+    // Convert image to WEBP
+    // ------------------------------------------
+
+    await sharp(req.file.buffer)
+      .rotate()
+      .resize({
+        width: 1200,
+        withoutEnlargement: true,
+      })
+      .webp({
+        quality: 82,
+      })
+      .toFile(outputPath);
+
+    // ------------------------------------------
+    // Get file information
+    // ------------------------------------------
+
+    const stats = fs.statSync(outputPath);
+
+    // ------------------------------------------
+    // Save processed Blog image
+    // ------------------------------------------
+
+    req.processedFile = {
+      originalName: req.file.originalname,
+
+      filename: filename,
+
+      path: `/uploads/${filename}`,
+
+      url: `/uploads/${filename}`,
+
+      size: stats.size,
+
+      mimetype: "image/webp",
+    };
+
+    console.log(
+      "BLOG IMAGE PROCESSED:",
+      req.processedFile
+    );
+
+    next();
+  } catch (error) {
+    console.error(
+      "BLOG IMAGE CONVERSION ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+
+      message: "Blog image conversion failed.",
+
+      error: error.message,
+    });
+  }
+};
+
+// =========================================================
+// MULTER ERROR HANDLER
+//
+// This keeps upload errors from becoming unclear
+// 500 errors.
+// =========================================================
+
+const handleUploadError = (err, req, res, next) => {
+  if (!err) {
+    return next();
+  }
+
+  console.error(
+    "UPLOAD ERROR:",
+    err
+  );
+
+  if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Image size cannot exceed 10 MB.",
+      });
+    }
+
+    if (err.code === "LIMIT_FILE_COUNT") {
+      return res.status(400).json({
+        success: false,
+        message:
+          "You can upload a maximum of 15 images.",
+      });
+    }
+
+    return res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+  }
+
+  return res.status(400).json({
+    success: false,
+    message: err.message || "Image upload failed.",
+  });
+};
+
+// =========================================================
 // EXPORT
 // =========================================================
 
@@ -461,5 +589,8 @@ module.exports = {
   convertMultipleToWebp,
 
   convertTeacherImageToWebp,
-};
 
+  convertBlogImageToWebp,
+
+  handleUploadError,
+};

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap");
 
 /* =========================================================
-   MAIN SECTION
+   CSS VARIABLES & GLOBAL RESETS
 ========================================================= */
 
 .Shopdetails {
@@ -15,10 +15,14 @@
   --shop-white: #ffffff;
 
   width: 100%;
-  padding: 85px 20px;
+  padding: clamp(45px, 7vw, 95px) clamp(16px, 4vw, 36px);
   background: var(--shop-white);
   box-sizing: border-box;
   overflow: hidden;
+}
+
+.Shopdetails * {
+  box-sizing: border-box;
 }
 
 .Shopdetails-container {
@@ -28,12 +32,12 @@
 }
 
 /* =========================================================
-   HEADER / SEO CONTENT
+   HEADER / SEO SECTION
 ========================================================= */
 
 .Shopdetails-header {
-  max-width: 850px;
-  margin: 0 auto 55px;
+  max-width: 820px;
+  margin: 0 auto clamp(35px, 5vw, 55px);
   text-align: center;
 }
 
@@ -41,13 +45,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 13px;
-  padding: 7px 17px;
+  margin-bottom: 12px;
+  padding: 6px 16px;
   border-radius: 30px;
-  background: rgba(114, 207, 219, 0.13);
+  background: rgba(114, 207, 219, 0.15);
   color: #4aaebb;
   font-family: "Open Sans", sans-serif;
-  font-size: 0.75rem;
+  font-size: clamp(0.68rem, 1.5vw, 0.75rem);
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -57,27 +61,26 @@
   margin: 0;
   color: var(--shop-heading);
   font-family: "Fredoka", sans-serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 600;
-  line-height: 1.15;
-  text-transform: none;
+  line-height: 1.2;
 }
 
 .Shopdetails-title-line {
-  width: 65px;
+  width: 60px;
   height: 4px;
-  margin: 19px auto 22px;
+  margin: 16px auto 20px;
   border-radius: 20px;
   background: var(--shop-primary);
 }
 
 .Shopdetails-description {
-  max-width: 760px;
-  margin: 0 auto 13px;
+  max-width: 740px;
+  margin: 0 auto 12px;
   color: var(--shop-text);
   font-family: "Open Sans", sans-serif;
-  font-size: 0.98rem;
-  line-height: 1.85;
+  font-size: clamp(0.88rem, 1.8vw, 0.98rem);
+  line-height: 1.8;
 }
 
 .Shopdetails-description.secondary {
@@ -90,13 +93,13 @@
 }
 
 /* =========================================================
-   PRODUCT GRID
+   AUTO-RESPONSIVE PRODUCT GRID
 ========================================================= */
 
 .Shopdetails-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 38px 30px;
+  gap: clamp(20px, 3vw, 36px);
 }
 
 /* =========================================================
@@ -109,15 +112,16 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: transform 0.3s ease;
+  border-radius: 24px;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease;
 }
 
 .Shopdetails-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
 }
 
 /* =========================================================
-   IMAGE
+   CARD IMAGE
 ========================================================= */
 
 .Shopdetails-image-wrapper {
@@ -125,18 +129,18 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: 24px;
+  border-radius: clamp(18px, 3vw, 24px);
   background: var(--shop-light);
   box-shadow:
-    0 10px 30px rgba(56, 66, 77, 0.07),
-    0 2px 8px rgba(56, 66, 77, 0.04);
+    0 10px 25px rgba(56, 66, 77, 0.06),
+    0 2px 6px rgba(56, 66, 77, 0.04);
 }
 
 .Shopdetails-image-wrapper::after {
   content: "";
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: inherit;
   pointer-events: none;
 }
@@ -146,13 +150,11 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  transition:
-    transform 0.55s ease,
-    filter 0.35s ease;
+  transition: transform 0.5s ease;
 }
 
 .Shopdetails-card:hover .Shopdetails-image {
-  transform: scale(1.06);
+  transform: scale(1.05);
 }
 
 /* =========================================================
@@ -161,30 +163,25 @@
 
 .Shopdetails-sale-badge {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   z-index: 2;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  padding: 7px 15px;
+  padding: 6px 14px;
   border-radius: 30px;
-
   background: var(--shop-secondary);
   color: var(--shop-white);
-
   font-family: "Open Sans", sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.5px;
-
-  box-shadow: 0 5px 15px rgba(114, 207, 219, 0.3);
+  box-shadow: 0 4px 12px rgba(114, 207, 219, 0.35);
 }
 
 /* =========================================================
-   CARD INFORMATION
+   CARD INFO & BUTTON
 ========================================================= */
 
 .Shopdetails-info {
@@ -192,22 +189,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px 0;
-  box-sizing: border-box;
+  padding: 16px 8px 0;
 }
 
 .Shopdetails-card-title {
-  margin: 0 0 7px;
+  margin: 0 0 6px;
   color: var(--shop-heading);
   font-family: "Fredoka", sans-serif;
-  font-size: 1.22rem;
+  font-size: clamp(1.08rem, 2vw, 1.25rem);
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.3;
 }
-
-/* =========================================================
-   RATING
-========================================================= */
 
 .Shopdetails-rating {
   display: flex;
@@ -225,27 +217,21 @@
   color: #d8dfe4;
 }
 
-/* =========================================================
-   PRICE
-========================================================= */
-
 .Shopdetails-price-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-
-  min-height: 25px;
-  margin-bottom: 16px;
-
+  gap: 8px;
+  min-height: 24px;
+  margin-bottom: 14px;
   font-family: "Open Sans", sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .Shopdetails-original-price {
   color: #aeb7bf;
   text-decoration: line-through;
-  font-size: 0.84rem;
+  font-size: 0.85rem;
 }
 
 .Shopdetails-price {
@@ -257,43 +243,30 @@
   text-decoration: none;
 }
 
-/* =========================================================
-   BUTTON
-========================================================= */
-
 .Shopdetails-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   min-width: 135px;
   padding: 11px 24px;
-
   border: 0;
   border-radius: 30px;
-
   background: var(--shop-primary);
   color: var(--shop-white);
-
   font-family: "Open Sans", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 1px;
-
+  letter-spacing: 0.8px;
   cursor: pointer;
-
-  box-shadow: 0 8px 18px rgba(242, 124, 84, 0.2);
-
-  transition:
-    background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+  box-shadow: 0 6px 16px rgba(242, 124, 84, 0.22);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
 }
 
 .Shopdetails-btn:hover {
   background: var(--shop-primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 11px 23px rgba(242, 124, 84, 0.28);
+  box-shadow: 0 9px 20px rgba(242, 124, 84, 0.3);
 }
 
 .Shopdetails-btn:active {
@@ -301,29 +274,26 @@
 }
 
 /* =========================================================
-   BOTTOM CONTENT
+   BOTTOM SEO / PARENT CONTENT
 ========================================================= */
 
 .Shopdetails-bottom-content {
   max-width: 850px;
-  margin: 75px auto 0;
-  padding: 42px 35px;
+  margin: clamp(45px, 6vw, 75px) auto 0;
+  padding: clamp(26px, 4vw, 42px) clamp(18px, 4vw, 36px);
   text-align: center;
-
   border: 1px solid var(--shop-border);
-  border-radius: 28px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(114, 207, 219, 0.07),
-      rgba(242, 124, 84, 0.06)
-    );
+  border-radius: clamp(18px, 3vw, 28px);
+  background: linear-gradient(
+    135deg,
+    rgba(114, 207, 219, 0.08),
+    rgba(242, 124, 84, 0.06)
+  );
 }
 
 .Shopdetails-bottom-label {
   display: block;
-  margin-bottom: 9px;
-
+  margin-bottom: 8px;
   color: #4aaebb;
   font-family: "Open Sans", sans-serif;
   font-size: 0.73rem;
@@ -333,20 +303,19 @@
 }
 
 .Shopdetails-bottom-content h2 {
-  margin: 0 0 17px;
-
+  margin: 0 0 14px;
   color: var(--shop-heading);
   font-family: "Fredoka", sans-serif;
-  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .Shopdetails-bottom-content p {
   margin: 0 auto 12px;
   color: var(--shop-text);
   font-family: "Open Sans", sans-serif;
-  font-size: 0.94rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.94rem);
   line-height: 1.8;
 }
 
@@ -355,156 +324,271 @@
 }
 
 /* =========================================================
-   LARGE TABLET
+   POPUP MODAL (STUDENT FORM)
 ========================================================= */
 
+.shop-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 3vw, 24px);
+  background-color: rgba(30, 36, 43, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: modalFadeIn 0.25s ease-out forwards;
+}
+
+.shop-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: clamp(18px, 3vw, 26px);
+  padding: clamp(22px, 5vw, 32px) clamp(18px, 4vw, 28px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  max-height: 92vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom scrollbar for modal */
+.shop-modal-container::-webkit-scrollbar {
+  width: 5px;
+}
+.shop-modal-container::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+.shop-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f1f4f7;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #68727d;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.shop-modal-close:hover {
+  background: var(--shop-primary);
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+.shop-modal-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.shop-modal-badge {
+  display: inline-block;
+  background: rgba(114, 207, 219, 0.16);
+  color: #279eb0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.shop-modal-header h3 {
+  margin: 4px 0;
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(1.2rem, 3vw, 1.45rem);
+  color: var(--shop-heading);
+}
+
+.shop-modal-price {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: var(--shop-primary);
+  margin: 0;
+}
+
+.shop-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.shop-modal-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.shop-modal-field {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.shop-modal-field label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 5px;
+}
+
+.shop-modal-field input,
+.shop-modal-field select,
+.shop-modal-field textarea {
+  width: 100%;
+  padding: 11px 13px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.88rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  outline: none;
+  background: #fcfdfe;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 42px;
+}
+
+.shop-modal-field textarea {
+  min-height: 75px;
+  resize: vertical;
+}
+
+.shop-modal-field input:focus,
+.shop-modal-field select:focus,
+.shop-modal-field textarea:focus {
+  border-color: var(--shop-primary);
+  box-shadow: 0 0 0 3px rgba(242, 124, 84, 0.16);
+  background: #ffffff;
+}
+
+.shop-modal-submit-btn {
+  margin-top: 6px;
+  width: 100%;
+  padding: 13px;
+  min-height: 46px;
+  background: #25d366;
+  color: #ffffff;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.28);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.shop-modal-submit-btn:hover {
+  background: #1eb956;
+  transform: translateY(-2px);
+}
+
+.shop-modal-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+========================================================= */
+
+/* Tablets & Small Laptops */
 @media (max-width: 992px) {
-  .Shopdetails {
-    padding: 70px 25px;
-  }
-
   .Shopdetails-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 35px 25px;
-  }
-
-  .Shopdetails-header {
-    margin-bottom: 45px;
+    gap: 28px 20px;
   }
 }
 
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 700px) {
-  .Shopdetails {
-    padding: 60px 20px;
-  }
-
-  .Shopdetails-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 30px 18px;
-  }
-
-  .Shopdetails-image-wrapper {
-    border-radius: 19px;
-  }
-
-  .Shopdetails-info {
-    padding-top: 15px;
-  }
-
-  .Shopdetails-card-title {
-    font-size: 1.05rem;
-  }
-
-  .Shopdetails-bottom-content {
-    margin-top: 55px;
-    padding: 35px 25px;
-    border-radius: 23px;
-  }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 576px) {
-  .Shopdetails {
-    padding: 50px 15px;
-  }
-
-  .Shopdetails-header {
-    margin-bottom: 35px;
-  }
-
-  .Shopdetails-eyebrow {
-    font-size: 0.68rem;
-    padding: 6px 13px;
-  }
-
-  .Shopdetails-title {
-    font-size: 1.85rem;
-  }
-
-  .Shopdetails-title-line {
-    margin: 15px auto 18px;
-  }
-
-  .Shopdetails-description {
-    font-size: 0.88rem;
-    line-height: 1.75;
-  }
-
+/* Standard Mobile & Small Tablets */
+@media (max-width: 640px) {
   .Shopdetails-grid {
     grid-template-columns: 1fr;
-    gap: 38px;
-  }
-
-  .Shopdetails-image-wrapper {
-    border-radius: 22px;
-  }
-
-  .Shopdetails-card-title {
-    font-size: 1.15rem;
-  }
-
-  .Shopdetails-bottom-content {
-    margin-top: 48px;
-    padding: 30px 20px;
-  }
-
-  .Shopdetails-bottom-content h2 {
-    font-size: 1.55rem;
-  }
-
-  .Shopdetails-bottom-content p {
-    font-size: 0.88rem;
-    line-height: 1.7;
-  }
-}
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 380px) {
-  .Shopdetails {
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .Shopdetails-title {
-    font-size: 1.65rem;
-  }
-
-  .Shopdetails-description {
-    font-size: 0.84rem;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .Shopdetails-btn {
-    min-width: 125px;
-    padding: 10px 20px;
+    width: 100%;
+    max-width: 220px;
   }
 }
 
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
+/* Form Row Stacking on Small Screens */
+@media (max-width: 520px) {
+  .shop-modal-row {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
 
+  .shop-modal-container {
+    padding: 22px 16px;
+  }
+
+  .shop-modal-close {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* Ultra Small Screens (<360px) */
+@media (max-width: 360px) {
+  .Shopdetails {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .shop-modal-submit-btn {
+    font-size: 0.82rem;
+    padding: 11px 8px;
+  }
+}
+
+/* Reduced Motion for Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .Shopdetails-card,
   .Shopdetails-image,
-  .Shopdetails-btn {
-    transition: none;
-  }
-
-  .Shopdetails-card:hover {
-    transform: none;
-  }
-
-  .Shopdetails-card:hover .Shopdetails-image {
-    transform: none;
+  .Shopdetails-btn,
+  .shop-modal-overlay,
+  .shop-modal-container {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
   }
 }
