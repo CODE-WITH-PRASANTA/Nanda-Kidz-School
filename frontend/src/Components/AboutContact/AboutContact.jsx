@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
 import "./AboutContact.css";
+import api from "../../api/axios";
 
 import {
   Send,
@@ -75,8 +77,14 @@ const INITIAL_FORM = {
 
 const AboutContact = () => {
   const [formData, setFormData] = useState(INITIAL_FORM);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  // ==========================================
+  // HANDLE INPUT CHANGE
+  // ==========================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,21 +95,68 @@ const AboutContact = () => {
     }));
   };
 
+  // ==========================================
+  // HANDLE FORM SUBMIT
+  // ==========================================
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Don't allow multiple submissions
+    if (isSubmitting) {
+      return;
+    }
+
+    // Reset old status
     setSubmitStatus(null);
+
     setIsSubmitting(true);
 
     try {
-      // Replace this with your backend API request when available.
-      await new Promise((resolve) => setTimeout(resolve, 700));
+      // ========================================
+      // SEND DATA TO BACKEND
+      // Using existing Axios API instance
+      // ========================================
+
+      const response = await api.post("/contacts", {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
+
+      console.log(
+        "Contact submitted successfully:",
+        response.data
+      );
+
+      // ========================================
+      // SUCCESS
+      // ========================================
 
       setSubmitStatus("success");
+
+      // Clear form after successful submission
       setFormData(INITIAL_FORM);
+
     } catch (error) {
-      console.error("Contact form error:", error);
+      // ========================================
+      // ERROR
+      // ========================================
+
+      console.error(
+        "Contact form submission failed:",
+        error
+      );
+
+      console.error(
+        "Backend response:",
+        error.response?.data
+      );
+
       setSubmitStatus("error");
+
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +164,9 @@ const AboutContact = () => {
 
   return (
     <section className="about-contact-section">
+
       {/* Decorative Background */}
+
       <div
         className="about-contact-glow-blob about-contact-glow-blob-1"
         aria-hidden="true"
@@ -126,13 +183,17 @@ const AboutContact = () => {
       />
 
       <div className="about-contact-container">
+
         <div className="about-contact-grid">
+
           {/* =====================================================
               LEFT SIDE - CONTACT INFORMATION
           ===================================================== */}
 
           <div className="about-contact-info">
+
             <div className="about-contact-info-header">
+
               <span
                 className="about-contact-plane-icon"
                 aria-hidden="true"
@@ -162,20 +223,25 @@ const AboutContact = () => {
                 Bhubaneswar, and talk with our team about your
                 child&apos;s early learning journey.
               </p>
+
             </div>
 
             {/* Contact Details */}
+
             <div className="about-contact-details-list">
+
               {CONTACT_DETAILS.map((item) => (
                 <div
                   className="about-contact-detail-item"
                   key={item.id}
                 >
+
                   <div className="about-contact-detail-icon">
                     {item.icon}
                   </div>
 
                   <div className="about-contact-detail-text">
+
                     <span className="about-contact-detail-label">
                       {item.label}
                     </span>
@@ -202,12 +268,16 @@ const AboutContact = () => {
                         {item.value}
                       </span>
                     )}
+
                   </div>
+
                 </div>
               ))}
+
             </div>
 
             {/* Get Directions */}
+
             <a
               href={MAP_URL}
               target="_blank"
@@ -219,7 +289,9 @@ const AboutContact = () => {
             </a>
 
             {/* Social Links */}
+
             <div className="about-contact-social-row">
+
               {SOCIAL_LINKS.map((social) => (
                 <a
                   key={social.id}
@@ -232,7 +304,9 @@ const AboutContact = () => {
                   {social.icon}
                 </a>
               ))}
+
             </div>
+
           </div>
 
           {/* =====================================================
@@ -240,12 +314,15 @@ const AboutContact = () => {
           ===================================================== */}
 
           <div className="about-contact-form-card">
+
             <div className="about-contact-form-header">
+
               <div className="about-contact-form-icon">
                 <Send size={18} />
               </div>
 
               <div>
+
                 <span className="about-contact-form-small-title">
                   We&apos;re Here to Help
                 </span>
@@ -253,7 +330,9 @@ const AboutContact = () => {
                 <h2 className="about-contact-form-title">
                   Send Us a Message
                 </h2>
+
               </div>
+
             </div>
 
             <p className="about-contact-form-intro">
@@ -262,18 +341,24 @@ const AboutContact = () => {
               will be happy to assist you.
             </p>
 
-            {/* Success Message */}
+            {/* ==========================================
+                SUCCESS MESSAGE
+            ========================================== */}
+
             {submitStatus === "success" && (
               <div
                 className="about-contact-form-alert success"
                 role="alert"
               >
-                Thank you! Your message has been received. We&apos;ll
-                get back to you soon.
+                Thank you! Your message has been received.
+                We&apos;ll get back to you soon.
               </div>
             )}
 
-            {/* Error Message */}
+            {/* ==========================================
+                ERROR MESSAGE
+            ========================================== */}
+
             {submitStatus === "error" && (
               <div
                 className="about-contact-form-alert error"
@@ -287,9 +372,13 @@ const AboutContact = () => {
               className="about-contact-form"
               onSubmit={handleSubmit}
             >
+
               {/* Name + Email */}
+
               <div className="about-contact-form-row">
+
                 <div className="about-contact-field">
+
                   <User
                     size={16}
                     className="about-contact-field-icon"
@@ -305,9 +394,11 @@ const AboutContact = () => {
                     autoComplete="name"
                     required
                   />
+
                 </div>
 
                 <div className="about-contact-field">
+
                   <input
                     type="email"
                     name="email"
@@ -317,12 +408,17 @@ const AboutContact = () => {
                     autoComplete="email"
                     required
                   />
+
                 </div>
+
               </div>
 
               {/* Phone + Subject */}
+
               <div className="about-contact-form-row">
+
                 <div className="about-contact-field">
+
                   <Phone
                     size={16}
                     className="about-contact-field-icon"
@@ -337,9 +433,11 @@ const AboutContact = () => {
                     onChange={handleChange}
                     autoComplete="tel"
                   />
+
                 </div>
 
                 <div className="about-contact-field">
+
                   <input
                     type="text"
                     name="subject"
@@ -347,11 +445,15 @@ const AboutContact = () => {
                     value={formData.subject}
                     onChange={handleChange}
                   />
+
                 </div>
+
               </div>
 
               {/* Message */}
+
               <div className="about-contact-field about-contact-field-textarea">
+
                 <PenLine
                   size={16}
                   className="about-contact-field-icon about-contact-field-icon-top"
@@ -366,26 +468,38 @@ const AboutContact = () => {
                   onChange={handleChange}
                   required
                 />
+
               </div>
 
               {/* Submit */}
+
               <button
                 type="submit"
                 className="about-contact-submit-btn"
                 disabled={isSubmitting}
               >
+
                 <Send size={16} />
 
                 <span>
-                  {isSubmitting ? "Sending..." : "Send Message"}
+                  {isSubmitting
+                    ? "Sending..."
+                    : "Send Message"}
                 </span>
+
               </button>
+
             </form>
+
           </div>
+
         </div>
+
       </div>
+
     </section>
   );
 };
 
 export default AboutContact;
+

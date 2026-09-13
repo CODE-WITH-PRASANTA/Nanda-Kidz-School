@@ -1,8 +1,24 @@
 import React, { useState } from "react";
 import "./Shopdetails.css";
-import { FaStar, FaRegStar, FaTimes } from "react-icons/fa";
 
-// Product / activity images
+import {
+  FaStar,
+  FaRegStar,
+  FaTimes,
+} from "react-icons/fa";
+
+import Swal from "sweetalert2";
+
+// =========================================================
+// AXIOS API
+// =========================================================
+
+import API from "../../api/axios";
+
+// =========================================================
+// PRODUCT / ACTIVITY IMAGES
+// =========================================================
+
 import img1 from "../../assets/shop1.webp";
 import img2 from "../../assets/shop2.webp";
 import img3 from "../../assets/shop3.webp";
@@ -15,6 +31,10 @@ import img9 from "../../assets/shop9.webp";
 import img10 from "../../assets/shop10.webp";
 import img11 from "../../assets/shop11.webp";
 import img12 from "../../assets/shop12.webp";
+
+// =========================================================
+// PRODUCTS
+// =========================================================
 
 const products = [
   {
@@ -108,8 +128,17 @@ const products = [
   },
 ];
 
+// =========================================================
+// COMPONENT
+// =========================================================
+
 const Shopdetails = () => {
+  // =======================================================
+  // STATE
+  // =======================================================
+
   const [selectedProduct, setSelectedProduct] = useState(null);
+
   const [formData, setFormData] = useState({
     studentName: "",
     age: "",
@@ -118,12 +147,13 @@ const Shopdetails = () => {
     address: "",
   });
 
-  const handleOpenModal = (product) => {
-    setSelectedProduct(product);
-  };
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleCloseModal = () => {
-    setSelectedProduct(null);
+  // =======================================================
+  // RESET FORM
+  // =======================================================
+
+  const resetForm = () => {
     setFormData({
       studentName: "",
       age: "",
@@ -133,37 +163,247 @@ const Shopdetails = () => {
     });
   };
 
+  // =======================================================
+  // OPEN MODAL
+  // =======================================================
+
+  const handleOpenModal = (product) => {
+    setSelectedProduct(product);
+
+    resetForm();
+  };
+
+  // =======================================================
+  // CLOSE MODAL
+  // =======================================================
+
+  const handleCloseModal = () => {
+    if (submitting) {
+      return;
+    }
+
+    setSelectedProduct(null);
+
+    resetForm();
+  };
+
+  // =======================================================
+  // INPUT CHANGE
+  // =======================================================
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+
+    setFormData((previousData) => ({
+      ...previousData,
       [name]: value,
     }));
   };
 
-  const handleSubmitOrder = (e) => {
+  // =======================================================
+  // SUBMIT ORDER
+  // =======================================================
+
+  const handleSubmitOrder = async (e) => {
     e.preventDefault();
 
-    if (!selectedProduct) return;
+    if (!selectedProduct) {
+      return;
+    }
 
-    // Prepare message for WhatsApp
-    const message =
-      `*🎒 New Order Inquiry - Nanda Kidz*\n\n` +
-      `*Product:* ${selectedProduct.title || ""}\n` +
-      `*Price:* ${selectedProduct.price || ""}\n\n` +
-      `*--- Student Details ---*\n` +
-      `*Student Name:* ${formData.studentName}\n` +
-      `*Age:* ${formData.age} years\n` +
-      `*Size / Requirement:* ${formData.size || "Not specified"}\n` +
-      `*Contact No:* ${formData.phone}\n` +
-      `*Address:* ${formData.address}`;
+    // =====================================================
+    // FRONTEND VALIDATION
+    // =====================================================
 
-    const whatsappUrl = `https://wa.me/919438013349?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
-    handleCloseModal();
+    const studentName = formData.studentName.trim();
+    const age = Number(formData.age);
+    const phone = formData.phone.trim();
+    const size = formData.size.trim();
+    const address = formData.address.trim();
+
+    if (!studentName) {
+      Swal.fire({
+        icon: "warning",
+        title: "Student Name Required",
+        text: "Please enter student's name.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    if (!age || age < 1 || age > 12) {
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid Age",
+        text: "Age must be between 1 and 12.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    if (!size) {
+      Swal.fire({
+        icon: "warning",
+        title: "Size / Grade Required",
+        text: "Please enter size / grade.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(phone)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid Mobile Number",
+        text: "Please enter a valid 10-digit mobile number.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    if (!address) {
+      Swal.fire({
+        icon: "warning",
+        title: "Address Required",
+        text: "Please enter delivery / home address.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    // =====================================================
+    // SAVE ORDER TO BACKEND
+    // =====================================================
+
+    try {
+      setSubmitting(true);
+
+      const orderData = {
+        productId: selectedProduct.id,
+        productTitle: selectedProduct.title,
+        price: selectedProduct.price,
+
+        studentName: studentName,
+        age: age,
+        size: size,
+        phone: phone,
+        address: address,
+      };
+
+      console.log("Sending Order:", orderData);
+
+      // ===================================================
+      // POST REQUEST
+      // http://localhost:5000/api/orders
+      // ===================================================
+
+      const response = await API.post(
+        "/orders",
+        orderData
+      );
+
+      console.log(
+        "Order API Response:",
+        response.data
+      );
+
+      // ===================================================
+      // GET SAVED ORDER
+      // ===================================================
+
+      const savedOrder = response.data?.order;
+
+      if (!savedOrder) {
+        throw new Error(
+          "Order was not returned by the server."
+        );
+      }
+
+      // ===================================================
+      // CLOSE POPUP AUTOMATICALLY
+      // AFTER SUCCESSFUL DATABASE SAVE
+      // ===================================================
+
+      setSelectedProduct(null);
+
+      // ===================================================
+      // RESET FORM
+      // ===================================================
+
+      resetForm();
+
+      // ===================================================
+      // STOP SUBMITTING STATE
+      // ===================================================
+
+      setSubmitting(false);
+
+      // ===================================================
+      // THANK YOU MESSAGE
+      // ===================================================
+
+      await Swal.fire({
+        icon: "success",
+        title: "Thank You! 🎉",
+        html: `
+          <div style="
+            font-size: 16px;
+            line-height: 1.7;
+          ">
+            <p style="margin-bottom: 8px;">
+              Your order has been submitted successfully.
+            </p>
+
+            <p style="margin: 0;">
+              <strong>Order ID:</strong>
+              ${savedOrder.orderId || ""}
+            </p>
+
+            <p style="margin-top: 8px;">
+              We have received your request and will
+              contact you shortly.
+            </p>
+          </div>
+        `,
+        confirmButtonText: "Done",
+        confirmButtonColor: "#0066ff",
+        allowOutsideClick: false,
+      });
+    } catch (error) {
+      console.error(
+        "Order submission error:",
+        error
+      );
+
+      // ===================================================
+      // BACKEND ERROR
+      // ===================================================
+
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to submit order. Please try again.";
+
+      setSubmitting(false);
+
+      Swal.fire({
+        icon: "error",
+        title: "Order Failed",
+        text: errorMessage,
+        confirmButtonText: "Try Again",
+        confirmButtonColor: "#0066ff",
+      });
+    }
   };
+
+  // =======================================================
+  // RATING
+  // =======================================================
 
   const renderRating = (rating) => {
     return (
@@ -173,21 +413,38 @@ const Shopdetails = () => {
       >
         {[...Array(5)].map((_, index) =>
           index < rating ? (
-            <FaStar key={index} className="Shopdetails-star-filled" />
+            <FaStar
+              key={index}
+              className="Shopdetails-star-filled"
+            />
           ) : (
-            <FaRegStar key={index} className="Shopdetails-star-empty" />
+            <FaRegStar
+              key={index}
+              className="Shopdetails-star-empty"
+            />
           )
         )}
       </div>
     );
   };
 
+  // =======================================================
+  // RETURN
+  // =======================================================
+
   return (
     <section className="Shopdetails">
       <div className="Shopdetails-container">
-        {/* SEO Heading & Introduction */}
+
+        {/* =================================================
+            HEADER
+        ================================================= */}
+
         <div className="Shopdetails-header">
-          <span className="Shopdetails-eyebrow">Learning Through Play</span>
+
+          <span className="Shopdetails-eyebrow">
+            Learning Through Play
+          </span>
 
           <h1 className="Shopdetails-title">
             play school near khandagiri, bhubaneswar
@@ -196,25 +453,44 @@ const Shopdetails = () => {
           <div className="Shopdetails-title-line"></div>
 
           <p className="Shopdetails-description">
-            At Nanda Kidz, children learn best when they are given the freedom
-            to explore, create and enjoy every new experience. Our activities are
-            designed to make early learning active, enjoyable and meaningful for
-            little learners.
+            At Nanda Kidz, children learn best when
+            they are given the freedom to explore,
+            create and enjoy every new experience.
+            Our activities are designed to make
+            early learning active, enjoyable and
+            meaningful for little learners.
           </p>
 
           <p className="Shopdetails-description secondary">
             If you are looking for the{" "}
-            <strong>best play school in bhubaneswar</strong>, Nanda Kidz offers
-            a caring environment where children can build confidence, develop
-            new skills and learn naturally through play.
+            <strong>
+              best play school in bhubaneswar
+            </strong>
+            , Nanda Kidz offers a caring environment
+            where children can build confidence,
+            develop new skills and learn naturally
+            through play.
           </p>
+
         </div>
 
-        {/* Activities / Products Grid */}
+        {/* =================================================
+            PRODUCTS GRID
+        ================================================= */}
+
         <div className="Shopdetails-grid">
+
           {products.map((item) => (
-            <article className="Shopdetails-card" key={item.id}>
+
+            <article
+              className="Shopdetails-card"
+              key={item.id}
+            >
+
+              {/* IMAGE */}
+
               <div className="Shopdetails-image-wrapper">
+
                 <img
                   src={item.image}
                   alt={`${item.title} activity at Nanda Kidz`}
@@ -223,16 +499,28 @@ const Shopdetails = () => {
                 />
 
                 {item.onSale && (
-                  <span className="Shopdetails-sale-badge">Sale!</span>
+                  <span className="Shopdetails-sale-badge">
+                    Sale!
+                  </span>
                 )}
+
               </div>
 
-              <div className="Shopdetails-info">
-                <h2 className="Shopdetails-card-title">{item.title}</h2>
+              {/* INFO */}
 
-                {item.rating && renderRating(item.rating)}
+              <div className="Shopdetails-info">
+
+                <h2 className="Shopdetails-card-title">
+                  {item.title}
+                </h2>
+
+                {item.rating &&
+                  renderRating(item.rating)}
+
+                {/* PRICE */}
 
                 <div className="Shopdetails-price-wrapper">
+
                   {item.originalPrice && (
                     <span className="Shopdetails-original-price">
                       {item.originalPrice}
@@ -241,78 +529,138 @@ const Shopdetails = () => {
 
                   <span
                     className={`Shopdetails-price ${
-                      item.originalPrice ? "Shopdetails-sale-price" : ""
+                      item.originalPrice
+                        ? "Shopdetails-sale-price"
+                        : ""
                     }`}
                   >
                     {item.price}
                   </span>
+
                 </div>
+
+                {/* ADD TO CART / ORDER */}
 
                 <button
                   type="button"
                   className="Shopdetails-btn"
-                  onClick={() => handleOpenModal(item)}
+                  onClick={() =>
+                    handleOpenModal(item)
+                  }
                 >
                   ADD TO CART
                 </button>
+
               </div>
+
             </article>
+
           ))}
+
         </div>
 
-        {/* Bottom SEO Content */}
+        {/* =================================================
+            BOTTOM SEO CONTENT
+        ================================================= */}
+
         <div className="Shopdetails-bottom-content">
+
           <span className="Shopdetails-bottom-label">
             A joyful start to learning
           </span>
 
-          <h2>Learning, Playing and Growing Together</h2>
+          <h2>
+            Learning, Playing and Growing Together
+          </h2>
 
           <p>
-            Every child has their own way of discovering the world. That is why
-            our learning activities encourage creativity, communication,
-            movement, problem-solving and social interaction in a relaxed and
+            Every child has their own way of
+            discovering the world. That is why our
+            learning activities encourage creativity,
+            communication, movement, problem-solving
+            and social interaction in a relaxed and
             friendly setting.
           </p>
 
           <p>
-            At Nanda Kidz – The Little Kingdom, we want children to look
-            forward to coming to school every day. Our approach combines
-            playful activities with early learning so that children can grow
-            with curiosity, confidence and joy.
+            At Nanda Kidz – The Little Kingdom, we
+            want children to look forward to coming
+            to school every day. Our approach combines
+            playful activities with early learning so
+            that children can grow with curiosity,
+            confidence and joy.
           </p>
+
         </div>
+
       </div>
 
-      {/* =========================================================
-          STUDENT DETAILS MODAL POPUP
-      ========================================================= */}
+      {/* ===================================================
+          STUDENT ORDER MODAL
+      =================================================== */}
+
       {selectedProduct !== null && (
-        <div className="shop-modal-overlay" onClick={handleCloseModal}>
+
+        <div
+          className="shop-modal-overlay"
+          onClick={handleCloseModal}
+        >
+
           <div
             className="shop-modal-container"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) =>
+              e.stopPropagation()
+            }
             role="dialog"
             aria-modal="true"
+            aria-labelledby="shop-modal-title"
           >
+
+            {/* CLOSE BUTTON */}
+
             <button
               type="button"
               className="shop-modal-close"
               onClick={handleCloseModal}
               aria-label="Close modal"
+              disabled={submitting}
             >
               <FaTimes />
             </button>
 
+            {/* MODAL HEADER */}
+
             <div className="shop-modal-header">
-              <span className="shop-modal-badge">Student Order Form</span>
-              <h3>{selectedProduct?.title}</h3>
-              <p className="shop-modal-price">{selectedProduct?.price}</p>
+
+              <span className="shop-modal-badge">
+                Student Order Form
+              </span>
+
+              <h3 id="shop-modal-title">
+                {selectedProduct?.title}
+              </h3>
+
+              <p className="shop-modal-price">
+                {selectedProduct?.price}
+              </p>
+
             </div>
 
-            <form onSubmit={handleSubmitOrder} className="shop-modal-form">
+            {/* FORM */}
+
+            <form
+              onSubmit={handleSubmitOrder}
+              className="shop-modal-form"
+            >
+
+              {/* STUDENT NAME */}
+
               <div className="shop-modal-field">
-                <label htmlFor="studentName">Student Name *</label>
+
+                <label htmlFor="studentName">
+                  Student Name *
+                </label>
+
                 <input
                   id="studentName"
                   type="text"
@@ -321,12 +669,21 @@ const Shopdetails = () => {
                   placeholder="Enter student's full name"
                   value={formData.studentName}
                   onChange={handleInputChange}
+                  disabled={submitting}
                 />
+
               </div>
 
+              {/* AGE + SIZE */}
+
               <div className="shop-modal-row">
+
                 <div className="shop-modal-field">
-                  <label htmlFor="age">Age *</label>
+
+                  <label htmlFor="age">
+                    Age *
+                  </label>
+
                   <input
                     id="age"
                     type="number"
@@ -337,12 +694,17 @@ const Shopdetails = () => {
                     placeholder="e.g. 4"
                     value={formData.age}
                     onChange={handleInputChange}
+                    disabled={submitting}
                   />
+
                 </div>
 
-                {/* Free Text Input for Size / Grade */}
                 <div className="shop-modal-field">
-                  <label htmlFor="size">Size / Grade *</label>
+
+                  <label htmlFor="size">
+                    Size / Grade *
+                  </label>
+
                   <input
                     id="size"
                     type="text"
@@ -351,26 +713,45 @@ const Shopdetails = () => {
                     placeholder="e.g. S, Medium, Age 4-5, LKG"
                     value={formData.size}
                     onChange={handleInputChange}
+                    disabled={submitting}
                   />
+
                 </div>
+
               </div>
 
+              {/* PHONE */}
+
               <div className="shop-modal-field">
-                <label htmlFor="phone">Parent Mobile Number *</label>
+
+                <label htmlFor="phone">
+                  Parent Mobile Number *
+                </label>
+
                 <input
                   id="phone"
                   type="tel"
                   name="phone"
                   required
                   pattern="[0-9]{10}"
+                  maxLength="10"
+                  inputMode="numeric"
                   placeholder="10-digit mobile number"
                   value={formData.phone}
                   onChange={handleInputChange}
+                  disabled={submitting}
                 />
+
               </div>
 
+              {/* ADDRESS */}
+
               <div className="shop-modal-field">
-                <label htmlFor="address">Delivery / Home Address *</label>
+
+                <label htmlFor="address">
+                  Delivery / Home Address *
+                </label>
+
                 <textarea
                   id="address"
                   name="address"
@@ -379,16 +760,44 @@ const Shopdetails = () => {
                   placeholder="House / Flat no, Street, Landmark, Area"
                   value={formData.address}
                   onChange={handleInputChange}
+                  disabled={submitting}
                 ></textarea>
+
               </div>
 
-              <button type="submit" className="shop-modal-submit-btn">
-                Confirm & Order on WhatsApp ↗
+              {/* SUBMIT */}
+
+              <button
+                type="submit"
+                className="shop-modal-submit-btn"
+                disabled={submitting}
+              >
+
+                {submitting ? (
+                  <>
+                    <span
+                      className="shop-modal-submit-spinner"
+                      aria-hidden="true"
+                    ></span>
+
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    Confirm Order
+                  </>
+                )}
+
               </button>
+
             </form>
+
           </div>
+
         </div>
+
       )}
+
     </section>
   );
 };
