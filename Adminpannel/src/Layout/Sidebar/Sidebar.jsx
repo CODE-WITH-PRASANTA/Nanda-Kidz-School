@@ -181,7 +181,7 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
 
           {showLabels && (
             <div className="Sidebar-brandText">
-              <h1>Kids School</h1>
+              <h1> Nanda Kidz  </h1>
               <span>Admin Panel</span>
             </div>
           )}
