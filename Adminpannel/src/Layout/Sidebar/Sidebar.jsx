@@ -32,8 +32,10 @@ import {
   BookMarked,
   Clock,
   Award,
-  Send, // Icon for teacher posts
-  HelpCircle, // Icon for floating enquiries
+  Send,
+  HelpCircle,
+  Sparkles,
+  Flame, // ⭐ Added Flame import here
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -74,6 +76,29 @@ const Sidebar = ({
           icon: Home,
           text: 'Dashboard',
           path: '/dashboard',
+        },
+      ],
+    },
+
+    // =====================================================
+    // ⭐ LATESTNESS
+    // =====================================================
+
+    {
+      category: 'Latestness',
+
+      items: [
+        {
+          type: 'link',
+          icon: Sparkles,
+          text: "What's New",
+          path: '/whats-new',
+        },
+        {
+          type: 'link',
+          icon: Flame,
+          text: 'Trending Updates',
+          path: '/trending-updates',
         },
       ],
     },
@@ -180,41 +205,6 @@ const Sidebar = ({
         { type: 'link', icon: Library, text: 'Library', path: '/library' },
         { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
         { type: 'link', icon: Library, text: 'Order', path: '/order' },
-
-        {
-          type: 'link',
-          icon: Wallet,
-          text: 'Fees & Payments',
-          path: '/fees-payments',
-        },
-
-        {
-          type: 'link',
-          icon: Bus,
-          text: 'Transport',
-          path: '/transport',
-        },
-
-        {
-          type: 'link',
-          icon: Library,
-          text: 'Library',
-          path: '/library',
-        },
-
-        {
-          type: 'link',
-          icon: Bus,
-          text: 'Cold Lead',
-          path: '/coldlead',
-        },
-
-        {
-          type: 'link',
-          icon: Library,
-          text: 'Order',
-          path: '/order',
-        },
       ],
     },
 
@@ -249,46 +239,6 @@ const Sidebar = ({
         { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
         { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
         { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
-
-        {
-          type: 'link',
-          icon: ImageIcon,
-          text: 'Gallery Management',
-          path: '/gallery-management',
-        },
-
-        {
-          type: 'link',
-          icon: CalendarDays,
-          text: 'Events',
-          path: '/events',
-        },
-
-        {
-          type: 'link',
-          icon: Bell,
-          text: 'Notice Board',
-          path: '/notice-board',
-        },
-
-        {
-          type: 'link',
-          icon: Mail,
-          text: 'Contact Messages',
-          path: '/contact-messages',
-        },
-
-        {
-          type: 'link',
-          icon: Globe,
-          text: 'Website Manage',
-          path: '/website-manage',
-        },
-
-        // =================================================
-        // ⭐ TESTIMONIALS - NORMAL SIDEBAR ITEM
-        // =================================================
-
         {
           type: 'link',
           icon: FileText,
