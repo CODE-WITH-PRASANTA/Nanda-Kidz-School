@@ -47,7 +47,7 @@ import Faq from "./Pages/Faq/Faq";
 import ContactUs from "./Pages/ContactUs/ContactUs";
 import Termandconditions from "./Pages/Termandconditions/Termandconditions";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
-import LatestNews from "../../Adminpannel/src/Pages/LatestNews/LatestNews";
+
 
 const App = () => {
   return (
@@ -96,7 +96,7 @@ const App = () => {
         <Route path="/termandcondition" element={<Termandconditions />} />
         <Route path="/privacy-policy" element={<Privacypolicy />} />
         <Route path="/privacypolicy" element={<Privacypolicy />} />
-        <Route path="/latestnews"element={<LatestNews/>}/>
+       
 
         {/* 404 Fallback for Unmatched Routes */}
         <Route path="*" element={<Navigate to="/" replace />} />

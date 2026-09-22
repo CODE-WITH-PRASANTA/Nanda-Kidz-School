@@ -1,0 +1,1157 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+.AdmissionList {
+  --al-primary: #5534f5;
+  --al-primary-hover: #4524e3;
+  --al-primary-light: #f0edff;
+  --al-surface: #ffffff;
+  --al-bg: #f8fafc;
+  --al-border: #e2e8f0;
+  --al-border-subtle: #edf2f7;
+  --al-text-main: #0f172a;
+  --al-text-muted: #64748b;
+  --al-radius: 12px;
+
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px 28px;
+  background-color: var(--al-bg);
+  background-image: radial-gradient(at 100% 0%, rgba(85, 52, 245, 0.04) 0px, transparent 45%);
+  color: var(--al-text-main);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.AdmissionList *,
+.AdmissionList *::before,
+.AdmissionList *::after {
+  box-sizing: border-box;
+}
+
+/* ================= HEADER ================= */
+
+.AdmissionList__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.AdmissionList__titleArea {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.AdmissionList__titleIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 22px;
+  background: linear-gradient(135deg, #6544ff, #4726e2);
+  box-shadow: 0 8px 18px rgba(85, 52, 245, 0.22);
+}
+
+.AdmissionList__titleArea h1 {
+  margin: 0 0 3px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--al-text-main);
+}
+
+.AdmissionList__titleArea p {
+  margin: 0;
+  color: var(--al-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.AdmissionList__addButton {
+  border: 0;
+  height: 42px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #6544ff, #4826dc);
+  box-shadow: 0 4px 14px rgba(72, 38, 220, 0.25);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.AdmissionList__addButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(72, 38, 220, 0.35);
+}
+
+/* ================= STATS ================= */
+
+.AdmissionList__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.AdmissionList__statCard {
+  background: #ffffff;
+  padding: 16px 18px;
+  border-radius: var(--al-radius);
+  border: 1px solid var(--al-border);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.AdmissionList__statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.AdmissionList__statIcon {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 19px;
+}
+
+.AdmissionList__statCard--purple .AdmissionList__statIcon { background: linear-gradient(135deg, #6343fa, #4829df); }
+.AdmissionList__statCard--green .AdmissionList__statIcon { background: linear-gradient(135deg, #10b981, #059669); }
+.AdmissionList__statCard--orange .AdmissionList__statIcon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.AdmissionList__statCard--pink .AdmissionList__statIcon { background: linear-gradient(135deg, #f43f5e, #e11d48); }
+
+.AdmissionList__statContent {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.AdmissionList__statContent > span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--al-text-muted);
+  margin-bottom: 2px;
+}
+
+.AdmissionList__statValue {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--al-text-main);
+  line-height: 1.1;
+}
+
+.AdmissionList__badgeGrowth {
+  font-size: 11px;
+  font-weight: 700;
+  color: #10b981;
+  background: #ecfdf5;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.AdmissionList__neutralRatio {
+  font-size: 11px;
+  font-weight: 700;
+  color: #d97706;
+  background: #fffbeb;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.AdmissionList__pinkRatio {
+  font-size: 11px;
+  font-weight: 700;
+  color: #e11d48;
+  background: #fff1f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.AdmissionList__statContent p {
+  margin: 3px 0 0;
+  color: #94a3b8;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+/* ================= FILTER ROW ================= */
+
+.AdmissionList__filterBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border: 1px solid var(--al-border);
+  border-radius: var(--al-radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.AdmissionList__searchBox {
+  flex: 2 1 220px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid var(--al-border);
+  border-radius: 8px;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.AdmissionList__searchBox:focus-within {
+  border-color: var(--al-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(85, 52, 245, 0.08);
+}
+
+.AdmissionList__searchBox svg {
+  color: #94a3b8;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.AdmissionList__searchBox input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--al-text-main);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.AdmissionList__searchBox input::placeholder {
+  color: #94a3b8;
+}
+
+.AdmissionList__select {
+  flex: 1 1 125px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--al-border);
+  border-radius: 8px;
+  background: #f8fafc;
+  color: var(--al-text-main);
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.AdmissionList__select:focus {
+  border-color: var(--al-primary);
+  background: #ffffff;
+}
+
+.AdmissionList__dateInput {
+  flex: 1 1 135px;
+  height: 40px;
+  position: relative;
+  border: 1px solid var(--al-border);
+  border-radius: 8px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+.AdmissionList__dateInput:focus-within {
+  border-color: var(--al-primary);
+  background: #ffffff;
+}
+
+.AdmissionList__dateInput label {
+  position: absolute;
+  left: 10px;
+  top: 3px;
+  color: #94a3b8;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.AdmissionList__dateInput input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 13px 10px 2px;
+  font-size: 12px;
+  color: var(--al-text-main);
+  cursor: pointer;
+}
+
+.AdmissionList__resetButton {
+  height: 40px;
+  padding: 0 16px;
+  flex: 0 0 auto;
+  border: 1px solid var(--al-border);
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: var(--al-text-muted);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.AdmissionList__resetButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: var(--al-primary);
+}
+
+/* ================= TABLE CARD ================= */
+
+.AdmissionList__tableCard {
+  border: 1px solid var(--al-border);
+  border-radius: var(--al-radius);
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px -4px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.AdmissionList__tableHeader {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--al-border-subtle);
+}
+
+.AdmissionList__tableTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.AdmissionList__tableIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6343fa, #4828df);
+  font-size: 16px;
+}
+
+.AdmissionList__tableTitle h2 {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 750;
+  color: var(--al-text-main);
+}
+
+.AdmissionList__tableTitle p {
+  margin: 0;
+  color: var(--al-text-muted);
+  font-size: 12px;
+}
+
+.AdmissionList__tableTools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.AdmissionList__toolButton {
+  height: 36px;
+  padding: 0 13px;
+  border: 1px solid var(--al-border);
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--al-text-muted);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.AdmissionList__toolButton:hover {
+  background: #f8fafc;
+  color: var(--al-primary);
+  border-color: #cbd5e1;
+}
+
+.AdmissionList__dropdownWrapper {
+  position: relative;
+}
+
+.AdmissionList__columnDropdown {
+  position: absolute;
+  z-index: 60;
+  right: 0;
+  top: calc(100% + 6px);
+  width: 190px;
+  padding: 8px;
+  border: 1px solid var(--al-border);
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.AdmissionList__columnDropdown label {
+  height: 34px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--al-text-main);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.AdmissionList__columnDropdown label:hover {
+  background: #f1f5f9;
+}
+
+/* ================= TABLE ================= */
+
+.AdmissionList__tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.AdmissionList__table {
+  width: 100%;
+  min-width: 1050px;
+  border-collapse: collapse;
+}
+
+.AdmissionList__table th {
+  height: 44px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--al-border);
+  background: #f8fafc;
+  color: #475569;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.AdmissionList__table td {
+  height: 54px;
+  padding: 6px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.AdmissionList__table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.AdmissionList__checkboxColumn {
+  width: 44px;
+  text-align: center !important;
+}
+
+.AdmissionList__table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--al-primary);
+  cursor: pointer;
+}
+
+.AdmissionList__student {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.AdmissionList__student strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--al-text-main);
+}
+
+.AdmissionList__avatar,
+.AdmissionList__largeAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.AdmissionList__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 11.5px;
+}
+
+.AdmissionList__avatar--purple { background: linear-gradient(135deg, #6343fa, #4829df); }
+.AdmissionList__avatar--pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+.AdmissionList__avatar--blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.AdmissionList__avatar--magenta { background: linear-gradient(135deg, #d946ef, #a21caf); }
+.AdmissionList__avatar--cyan { background: linear-gradient(135deg, #06b6d4, #0e7490); }
+.AdmissionList__avatar--violet { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+.AdmissionList__avatar--indigo { background: linear-gradient(135deg, #6366f1, #4338ca); }
+.AdmissionList__avatar--rose { background: linear-gradient(135deg, #f43f5e, #be123c); }
+
+.AdmissionList__admissionNo {
+  font-weight: 600;
+  color: #64748b !important;
+}
+
+.AdmissionList__gender {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.AdmissionList__gender--male {
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.AdmissionList__gender--female {
+  color: #db2777;
+  background: #fdf2f8;
+}
+
+.AdmissionList__parent {
+  display: flex;
+  flex-direction: column;
+}
+
+.AdmissionList__parent strong {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.AdmissionList__parent small {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+.AdmissionList__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.AdmissionList__status i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.AdmissionList__status--active { color: #059669; background: #ecfdf5; }
+.AdmissionList__status--active i { background: #10b981; }
+
+.AdmissionList__status--pending { color: #d97706; background: #fffbeb; }
+.AdmissionList__status--pending i { background: #f59e0b; }
+
+.AdmissionList__status--inactive { color: #dc2626; background: #fef2f2; }
+.AdmissionList__status--inactive i { background: #ef4444; }
+
+.AdmissionList__documents {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.AdmissionList__documents--complete { color: #059669; }
+.AdmissionList__documents--pending { color: #8b5cf6; }
+
+.AdmissionList__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.AdmissionList__action {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.AdmissionList__action svg {
+  font-size: 13px;
+}
+
+.AdmissionList__action--view { color: #2563eb; background: #eff6ff; }
+.AdmissionList__action--edit { color: #6366f1; background: #eef2ff; }
+.AdmissionList__action--delete { color: #ef4444; background: #fee2e2; }
+
+.AdmissionList__action:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.95);
+}
+
+.AdmissionList__empty {
+  height: 220px !important;
+  text-align: center !important;
+  color: var(--al-text-muted) !important;
+}
+
+.AdmissionList__empty svg {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #cbd5e1;
+}
+
+.AdmissionList__empty h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: #1e293b;
+}
+
+.AdmissionList__empty p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* ================= PAGINATION ================= */
+
+.AdmissionList__pagination {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--al-border);
+  font-size: 13px;
+  color: var(--al-text-muted);
+}
+
+.AdmissionList__pagination strong {
+  color: var(--al-text-main);
+}
+
+.AdmissionList__paginationRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.AdmissionList__paginationRight > button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: 1px solid var(--al-border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--al-text-main);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.AdmissionList__paginationRight > button:hover:not(:disabled) {
+  border-color: var(--al-primary);
+  color: var(--al-primary);
+}
+
+.AdmissionList__paginationRight > button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.AdmissionList__paginationRight .AdmissionList__page--active {
+  color: #ffffff !important;
+  border-color: var(--al-primary) !important;
+  background: var(--al-primary) !important;
+  font-weight: 700;
+}
+
+.AdmissionList__rowsSelect {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.AdmissionList__rowsSelect select {
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--al-border);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--al-text-main);
+  font-size: 12px;
+}
+
+/* ================= MODALS ================= */
+
+.AdmissionList__modalOverlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(4px);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.AdmissionList__modal {
+  width: min(720px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.2);
+  animation: modalScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleUp {
+  from { transform: scale(0.96) translateY(8px); }
+  to { transform: scale(1) translateY(0); }
+}
+
+.AdmissionList__modalHeader {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--al-border);
+}
+
+.AdmissionList__modalEyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--al-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.AdmissionList__modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--al-text-main);
+}
+
+.AdmissionList__closeButton {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--al-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--al-text-muted);
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.AdmissionList__closeButton:hover {
+  color: #ef4444;
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.AdmissionList__profileHeader {
+  margin: 20px 24px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid var(--al-border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.AdmissionList__largeAvatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  font-size: 20px;
+}
+
+.AdmissionList__largeAvatar--purple { background: linear-gradient(135deg, #6343fa, #4829df); }
+.AdmissionList__largeAvatar--pink { background: linear-gradient(135deg, #ec4899, #be185d); }
+.AdmissionList__largeAvatar--blue { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.AdmissionList__largeAvatar--magenta { background: linear-gradient(135deg, #d946ef, #a21caf); }
+.AdmissionList__largeAvatar--cyan { background: linear-gradient(135deg, #06b6d4, #0e7490); }
+.AdmissionList__largeAvatar--violet { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+.AdmissionList__largeAvatar--indigo { background: linear-gradient(135deg, #6366f1, #4338ca); }
+.AdmissionList__largeAvatar--rose { background: linear-gradient(135deg, #f43f5e, #be123c); }
+
+.AdmissionList__profileHeader h3 {
+  margin: 0 0 2px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.AdmissionList__profileHeader p {
+  margin: 0 0 8px;
+  color: var(--al-text-muted);
+  font-size: 12px;
+}
+
+.AdmissionList__detailGrid {
+  padding: 0 24px 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.AdmissionList__detailGrid > div {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--al-border);
+  background: #ffffff;
+}
+
+.AdmissionList__detailGrid span {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--al-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.AdmissionList__detailGrid strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--al-text-main);
+}
+
+.AdmissionList__detailFull {
+  grid-column: 1 / -1;
+}
+
+.AdmissionList__form {
+  padding: 20px 24px;
+}
+
+.AdmissionList__formSectionTitle {
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--al-border);
+  color: var(--al-primary);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.AdmissionList__formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.AdmissionList__formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.AdmissionList__formGroup--full {
+  grid-column: 1 / -1;
+}
+
+.AdmissionList__formGroup label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.AdmissionList__formGroup label b {
+  color: #ef4444;
+}
+
+.AdmissionList__formGroup input,
+.AdmissionList__formGroup select,
+.AdmissionList__formGroup textarea {
+  width: 100%;
+  border: 1px solid var(--al-border);
+  border-radius: 8px;
+  background: #f8fafc;
+  color: var(--al-text-main);
+  font-family: inherit;
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.AdmissionList__formGroup input:focus,
+.AdmissionList__formGroup select:focus,
+.AdmissionList__formGroup textarea:focus {
+  border-color: var(--al-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(85, 52, 245, 0.08);
+}
+
+.AdmissionList__calendarInput {
+  position: relative;
+}
+
+.AdmissionList__calendarInput svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--al-primary);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.AdmissionList__calendarInput input {
+  padding-left: 36px !important;
+}
+
+.AdmissionList__modalFooter {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--al-border);
+  background: #f8fafc;
+}
+
+.AdmissionList__secondaryButton,
+.AdmissionList__primaryButton,
+.AdmissionList__dangerButton {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.AdmissionList__secondaryButton {
+  border: 1px solid var(--al-border);
+  color: var(--al-text-muted);
+  background: #ffffff;
+}
+
+.AdmissionList__secondaryButton:hover {
+  background: #f1f5f9;
+  color: var(--al-text-main);
+}
+
+.AdmissionList__primaryButton {
+  border: none;
+  color: #ffffff;
+  background: var(--al-primary);
+  box-shadow: 0 2px 8px rgba(85, 52, 245, 0.22);
+}
+
+.AdmissionList__primaryButton:hover {
+  background: var(--al-primary-hover);
+}
+
+.AdmissionList__dangerButton {
+  border: none;
+  color: #ffffff;
+  background: #ef4444;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.22);
+}
+
+.AdmissionList__dangerButton:hover {
+  background: #dc2626;
+}
+
+.AdmissionList__deleteModal {
+  padding: 32px 24px 24px;
+  text-align: center;
+}
+
+.AdmissionList__deleteIcon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ef4444;
+  background: #fee2e2;
+  font-size: 22px;
+}
+
+.AdmissionList__deleteModal h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.AdmissionList__deleteModal > p {
+  max-width: 420px;
+  margin: 0 auto 20px;
+  color: var(--al-text-muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.AdmissionList__deleteInfo {
+  display: inline-flex;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding: 10px 18px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid var(--al-border);
+}
+
+.AdmissionList__deleteInfo span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.AdmissionList__deleteActions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 1200px) {
+  .AdmissionList__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .AdmissionList__filterBox {
+    flex-wrap: wrap;
+  }
+  .AdmissionList__searchBox {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .AdmissionList {
+    padding: 16px;
+  }
+  .AdmissionList__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .AdmissionList__stats {
+    grid-template-columns: 1fr;
+  }
+  .AdmissionList__filterBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .AdmissionList__tableHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .AdmissionList__tableTools {
+    flex-wrap: wrap;
+  }
+  .AdmissionList__pagination {
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .AdmissionList__formGrid,
+  .AdmissionList__detailGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= PRINT ================= */
+
+@media print {
+  .AdmissionList {
+    padding: 0;
+    background: #ffffff;
+  }
+  .AdmissionList__header .AdmissionList__addButton,
+  .AdmissionList__filterBox,
+  .AdmissionList__tableTools,
+  .AdmissionList__actions,
+  .AdmissionList__pagination,
+  .AdmissionList__modalOverlay {
+    display: none !important;
+  }
+  .AdmissionList__tableCard {
+    border: none;
+    box-shadow: none;
+  }
+}

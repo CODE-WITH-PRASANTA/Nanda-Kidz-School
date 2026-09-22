@@ -34,7 +34,7 @@ import Floatingleads from "./Pages/Floatingleads/Floatingleads";
 // AUTH
 // =====================================================
 
-import LoginForm from "./Components/AdminDashboard/Loginform/Loginform";
+import LoginForm from "./Components/Loginform/Loginform";
 import ProtectedRoute from "./Components/protectedroute/protectedroute";
 
 // =====================================================
@@ -53,6 +53,9 @@ import Classandsection from "./Components/Classandsection/Classandsection";
 
 // ⭐ Testimonials
 import Testimonials from "./Components/Testimonials/Testimonials";
+import AdmissionList from "./Components/AdmissionList/AdmissionList";
+import LatestNews from "./Pages/LatestNews/LatestNews";
+import ShopImg from "./Pages/ShopImg/ShopImg";
 
 function App() {
   // =====================================================
@@ -175,7 +178,8 @@ function App() {
             path="teacher-attendance"
             element={<TeachersAttendance />}
           />
-
+          <Route path="/latestnews"element={<LatestNews/>}/>
+          <Route path="/shop-images"element={<ShopImg/>}/>
           <Route
             path="teacher-posts"
             element={<TeacherPost />}
@@ -304,6 +308,10 @@ function App() {
           <Route
             path="coldlead"
             element={<ColdLead />}
+          />
+          <Route
+            path="admission-list"
+            element={<AdmissionList/>}
           />
 
           {/* =================================================

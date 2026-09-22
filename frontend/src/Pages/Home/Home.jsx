@@ -15,6 +15,7 @@ import Testimonial from '../../Components/Testimonial/Testimonial';
 import LatestNews from '../../Components/LatestNews/LatestNews';
 import AboutContact from '../../Components/AboutContact/AboutContact';
 import News from '../../Components/News/News';
+// import ActivityHomePage from '../../Components/ActivityHomePage/ActivityHomePage';
 
 const Home = () => {
   return (
@@ -197,6 +198,8 @@ const Home = () => {
 
         {/* Activities */}
         <HomeTailoredClasses />
+
+        {/* <ActivityHomePage/> */}
 
         {/* Quality Education */}
         <HomeQualityEducation />

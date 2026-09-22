@@ -3,10 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import {
   Home,
-  GraduationCap,
-  UserPlus,
   Users,
-  UserCheck,
   BookOpen,
   CalendarCheck,
   Wallet,
@@ -29,13 +26,12 @@ import {
   Maximize2,
   Power,
   X,
-  BookMarked,
-  Clock,
-  Award,
   Send,
   HelpCircle,
+  UserPlus,
   Sparkles,
-  Flame, // ⭐ Added Flame import here
+  Flame,
+  Newspaper,
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -81,28 +77,22 @@ const Sidebar = ({
     },
 
     // =====================================================
-    // ⭐ LATESTNESS
+    // ⭐ LATEST NEWS SECTION
     // =====================================================
 
     {
-      category: 'Latestness',
+      category: 'Updates',
 
       items: [
         {
           type: 'link',
-          icon: Sparkles,
-          text: "What's New",
-          path: '/whats-new',
-        },
-        {
-          type: 'link',
-          icon: Flame,
-          text: 'Trending Updates',
-          path: '/trending-updates',
+          icon: Newspaper,
+          text: 'Latest News',
+          path: '/latestnews',
         },
       ],
     },
-
+    
     // =====================================================
     // ACADEMIC MANAGEMENT
     // =====================================================
@@ -139,31 +129,6 @@ const Sidebar = ({
           text: 'Attendance',
           path: '/teacher-attendance',
         },
-
-        {
-          type: 'dropdown',
-          key: 'examinations',
-          icon: ClipboardList,
-          text: 'Examinations',
-
-          subItems: [
-            {
-              text: 'Exam Schedules',
-              path: '/examinations',
-            },
-            {
-              text: 'Marks & Grades',
-              path: '/marks-management',
-            },
-          ],
-        },
-
-        {
-          type: 'link',
-          icon: NotebookPen,
-          text: 'Homework',
-          path: '/homework',
-        },
       ],
     },
 
@@ -191,6 +156,10 @@ const Sidebar = ({
               path: '/admissions',
             },
             {
+              text: 'Admission List',
+              path: '/admission-list',
+            },
+            {
               text: 'Parents',
               path: '/parents',
             },
@@ -200,11 +169,34 @@ const Sidebar = ({
             },
           ],
         },
-        { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
-        { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
-        { type: 'link', icon: Library, text: 'Library', path: '/library' },
-        { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
-        { type: 'link', icon: Library, text: 'Order', path: '/order' },
+
+        {
+          type: 'link',
+          icon: Wallet,
+          text: 'Fees & Payments',
+          path: '/fees-payments',
+        },
+
+        {
+          type: 'link',
+          icon: Bus,
+          text: 'Transport',
+          path: '/transport',
+        },
+
+        {
+          type: 'link',
+          icon: Bus,
+          text: 'Cold Lead',
+          path: '/coldlead',
+        },
+
+        {
+          type: 'link',
+          icon: Library,
+          text: 'Order',
+          path: '/order',
+        },
       ],
     },
 
@@ -227,18 +219,49 @@ const Sidebar = ({
               text: 'Create Post',
               path: '/blog/post',
             },
+
             {
               text: 'Manage Posts',
               path: '/blog/management',
             },
           ],
         },
-        { type: 'link', icon: Send, text: 'Teacher Post', path: '/teacher-posts' },
-        { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
-        { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
-        { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
-        { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
-        { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
+
+        {
+          type: 'link',
+          icon: Send,
+          text: 'Teacher Post',
+          path: '/teacher-posts',
+        },
+
+        {
+          type: 'link',
+          icon: ImageIcon,
+          text: 'Gallery Management',
+          path: '/gallery-management',
+        },
+
+        {
+          type: 'link',
+          icon: Bell,
+          text: 'Notice Board',
+          path: '/notice-board',
+        },
+
+        {
+          type: 'link',
+          icon: Mail,
+          text: 'Contact Messages',
+          path: '/contact-messages',
+        },
+
+        {
+          type: 'link',
+          icon: Globe,
+          text: 'Website Manage',
+          path: '/website-manage',
+        },
+
         {
           type: 'link',
           icon: FileText,
@@ -249,15 +272,26 @@ const Sidebar = ({
     },
 
     // =====================================================
-    // SYSTEM & COMMERCE
+    // ENQUIRIES
     // =====================================================
 
     {
       category: 'Enquiries',
+
       items: [
-        { type: 'link', icon: HelpCircle, text: 'Floating Enquiries', path: '/floating-enquiries' },
+        {
+          type: 'link',
+          icon: HelpCircle,
+          text: 'Floating Enquiries',
+          path: '/floating-enquiries',
+        },
       ],
     },
+
+    // =====================================================
+    // SYSTEM & COMMERCE
+    // =====================================================
+
     {
       category: 'System & Commerce',
 
@@ -273,6 +307,7 @@ const Sidebar = ({
               text: 'Shop Overview',
               path: '/shop',
             },
+
             {
               text: 'Add Product',
               path: '/shop/add',
@@ -282,9 +317,9 @@ const Sidebar = ({
 
         {
           type: 'link',
-          icon: BarChart3,
-          text: 'Reports',
-          path: '/reports',
+          icon: ImageIcon,
+          text: 'Shop Image',
+          path: '/shop-images',
         },
 
         {
@@ -326,7 +361,10 @@ const Sidebar = ({
 
   return (
     <>
-      {/* Mobile Overlay */}
+      {/* =================================================
+          MOBILE OVERLAY
+      ================================================= */}
+
       {isMobileOpen && (
         <div
           className="Sidebar-overlay"
@@ -339,13 +377,11 @@ const Sidebar = ({
           isCollapsed ? 'collapsed' : 'expanded'
         } ${isMobileOpen ? 'mobile-open' : ''}`}
       >
-
         {/* =================================================
             BRAND HEADER
         ================================================= */}
 
         <div className="Sidebar-header">
-
           <div
             className="Sidebar-logoMark"
             aria-hidden="true"
@@ -412,7 +448,6 @@ const Sidebar = ({
           >
             <X size={18} />
           </button>
-
         </div>
 
         {/* =================================================
@@ -420,16 +455,11 @@ const Sidebar = ({
         ================================================= */}
 
         <nav className="Sidebar-nav">
-
           {menuCategories.map((catGroup, catIdx) => (
-
             <div
               key={catIdx}
               className="Sidebar-section"
             >
-
-              {/* Category Title */}
-
               {showLabels && (
                 <div className="Sidebar-categoryTitle">
                   {catGroup.category}
@@ -437,15 +467,12 @@ const Sidebar = ({
               )}
 
               <ul className="Sidebar-menu">
-
                 {catGroup.items.map((item, index) => {
-
                   // =================================================
                   // NORMAL LINK
                   // =================================================
 
                   if (item.type === 'link') {
-
                     const Icon = item.icon;
 
                     return (
@@ -453,7 +480,6 @@ const Sidebar = ({
                         key={index}
                         className="SidebarItem"
                       >
-
                         <NavLink
                           to={item.path}
                           className={({ isActive }) =>
@@ -468,7 +494,6 @@ const Sidebar = ({
                           }
                           onClick={onMobileClose}
                         >
-
                           <span className="SidebarItem-icon">
                             <Icon size={18} />
                           </span>
@@ -485,9 +510,7 @@ const Sidebar = ({
                               size={15}
                             />
                           )}
-
                         </NavLink>
-
                       </li>
                     );
                   }
@@ -508,7 +531,6 @@ const Sidebar = ({
                         isOpen ? 'is-open' : ''
                       }`}
                     >
-
                       <button
                         className="SidebarItem-link SidebarItem-toggle"
                         onClick={() =>
@@ -521,7 +543,6 @@ const Sidebar = ({
                             : ''
                         }
                       >
-
                         <span className="SidebarItem-icon">
                           <Icon size={18} />
                         </span>
@@ -542,19 +563,17 @@ const Sidebar = ({
                             size={15}
                           />
                         )}
-
                       </button>
 
-                      {/* Sub Menu */}
+                      {/* =================================================
+                          SUB MENU
+                      ================================================= */}
 
                       {showLabels && isOpen && (
                         <ul className="SidebarItem-submenu">
-
                           {item.subItems.map(
                             (sub, subIndex) => (
-
                               <li key={subIndex}>
-
                                 <NavLink
                                   to={sub.path}
                                   className={({ isActive }) =>
@@ -568,25 +587,17 @@ const Sidebar = ({
                                 >
                                   {sub.text}
                                 </NavLink>
-
                               </li>
-
                             )
                           )}
-
                         </ul>
                       )}
-
                     </li>
                   );
                 })}
-
               </ul>
-
             </div>
-
           ))}
-
         </nav>
 
         {/* =================================================
@@ -594,16 +605,13 @@ const Sidebar = ({
         ================================================= */}
 
         <div className="Sidebar-userCard">
-
           <div className="Sidebar-userTop">
-
             <div className="Sidebar-avatar">
               <Users size={16} />
             </div>
 
             {showLabels && (
               <div className="Sidebar-userInfo">
-
                 <span className="Sidebar-userName">
                   Admin User
                 </span>
@@ -611,15 +619,12 @@ const Sidebar = ({
                 <span className="Sidebar-userRole">
                   Super Admin
                 </span>
-
               </div>
             )}
-
           </div>
 
           {showLabels && (
             <div className="Sidebar-userActions">
-
               <button
                 className="Sidebar-userActionBtn"
                 aria-label="Support"
@@ -640,12 +645,9 @@ const Sidebar = ({
               >
                 <Power size={15} />
               </button>
-
             </div>
           )}
-
         </div>
-
       </aside>
     </>
   );
