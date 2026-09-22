@@ -29,6 +29,9 @@ import {
   Send,
   HelpCircle,
   UserPlus,
+  Sparkles,
+  Flame,
+  Newspaper,
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -74,6 +77,23 @@ const Sidebar = ({
     },
 
     // =====================================================
+    // ⭐ LATEST NEWS SECTION
+    // =====================================================
+
+    {
+      category: 'Updates',
+
+      items: [
+        {
+          type: 'link',
+          icon: Newspaper,
+          text: 'Latest News',
+          path: '/latestnews',
+        },
+      ],
+    },
+    
+    // =====================================================
     // ACADEMIC MANAGEMENT
     // =====================================================
 
@@ -109,9 +129,6 @@ const Sidebar = ({
           text: 'Attendance',
           path: '/teacher-attendance',
         },
-
-        
-       
       ],
     },
 
@@ -134,28 +151,18 @@ const Sidebar = ({
               text: 'Students',
               path: '/students',
             },
-
-            // =================================================
-            // ADMISSION LIST - ADDED
-            // =================================================
-
-           
-
             {
               text: 'Admissions',
               path: '/admissions',
             },
-
-             {
+            {
               text: 'Admission List',
               path: '/admission-list',
             },
-
             {
               text: 'Parents',
               path: '/parents',
             },
-
             {
               text: 'Teachers List',
               path: '/teachers',
@@ -234,7 +241,6 @@ const Sidebar = ({
           path: '/gallery-management',
         },
 
-
         {
           type: 'link',
           icon: Bell,
@@ -255,10 +261,6 @@ const Sidebar = ({
           text: 'Website Manage',
           path: '/website-manage',
         },
-
-        // =================================================
-        // TESTIMONIALS
-        // =================================================
 
         {
           type: 'link',
@@ -311,6 +313,13 @@ const Sidebar = ({
               path: '/shop/add',
             },
           ],
+        },
+
+        {
+          type: 'link',
+          icon: ImageIcon,
+          text: 'Shop Image',
+          path: '/shop-images',
         },
 
         {

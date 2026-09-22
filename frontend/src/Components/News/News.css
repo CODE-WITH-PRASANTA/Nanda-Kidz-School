@@ -1,0 +1,302 @@
+/* ==========================================================================
+   NANDA KIDZ - PREMIUM "LATEST NEWS" TICKER
+   Uses the site's --nv-green / --nv-gold theme when defined globally;
+   falls back to matching forest-green / gold values otherwise.
+   ========================================================================== */
+
+.news-container {
+  --news-green: var(--nv-green, #164b34);
+  --news-green-dark: #0e3324;
+  --news-gold: var(--nv-gold, #d8a63d);
+  --news-cream: #fff7e6;
+  --news-height: 52px;
+
+  position: relative;
+  width: 100%;
+  height: var(--news-height);
+
+  display: flex;
+  align-items: stretch;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background: linear-gradient(90deg, var(--news-green-dark) 0%, var(--news-green) 55%, var(--news-green-dark) 100%);
+  border-top: 1px solid rgba(216, 166, 61, 0.55);
+  border-bottom: 1px solid rgba(216, 166, 61, 0.55);
+  box-shadow: 0 6px 18px rgba(14, 51, 36, 0.18);
+
+  font-family: "Fredoka", "Segoe UI", Roboto, sans-serif;
+}
+
+/* thin gold shimmer line along the very top */
+.news-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--news-gold) 20%,
+    #fff2cf 50%,
+    var(--news-gold) 80%,
+    transparent 100%
+  );
+  opacity: 0.9;
+  z-index: 3;
+}
+
+/* ==========================================================================
+   FIXED LABEL RIBBON
+   ========================================================================== */
+
+.news-label {
+  position: relative;
+  flex: 0 0 auto;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 0 22px 0 18px;
+
+  background: linear-gradient(135deg, var(--news-gold) 0%, #c48f2b 100%);
+  color: #2c1d05;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+
+  clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+}
+
+.news-label-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   SCROLLING TICKER
+   ========================================================================== */
+
+.news-marquee {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+}
+
+/* fade the text in/out at both edges of the visible strip */
+.news-marquee::before,
+.news-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 46px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.news-marquee::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--news-green) 0%, transparent 100%);
+}
+
+.news-marquee::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--news-green) 0%, transparent 100%);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: newsScroll 22s linear infinite;
+}
+
+.news-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-content {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+/* News text */
+.news-text {
+  position: relative;
+  display: inline-block;
+
+  padding: 0 16px;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1;
+
+  color: var(--news-cream);
+  cursor: default;
+  user-select: none;
+}
+
+/* soft glow duplicate behind each text */
+.news-text::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  color: var(--news-gold);
+  filter: blur(6px);
+  opacity: 0.45;
+}
+
+/* icon between texts */
+.news-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.7rem;
+  color: var(--news-gold);
+  opacity: 0.9;
+
+  filter: drop-shadow(0 0 4px rgba(216, 166, 61, 0.6));
+}
+
+/* ==========================================================================
+   SCROLL ANIMATION
+   Track holds two identical groups back-to-back; scrolling exactly 50%
+   lands on the same visual position as the start, so the loop is seamless.
+   ========================================================================== */
+
+@keyframes newsScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .news-container {
+    --news-height: 48px;
+  }
+
+  .marquee-track {
+    animation-duration: 19s;
+  }
+
+  .news-label {
+    padding: 0 18px 0 15px;
+    font-size: 0.78rem;
+  }
+
+  .news-text {
+    font-size: 0.9rem;
+    padding: 0 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .news-container {
+    --news-height: 42px;
+  }
+
+  .marquee-track {
+    animation-duration: 16s;
+  }
+
+  .news-label {
+    padding: 0 14px 0 12px;
+    font-size: 0.72rem;
+    gap: 5px;
+  }
+
+  .news-label-icon {
+    font-size: 0.84rem;
+  }
+
+  .news-marquee::before,
+  .news-marquee::after {
+    width: 32px;
+  }
+
+  .news-text {
+    font-size: 0.82rem;
+    padding: 0 11px;
+  }
+
+  .news-text::before {
+    filter: blur(4px);
+    opacity: 0.35;
+  }
+
+  .news-icon {
+    font-size: 0.62rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .news-container {
+    --news-height: 38px;
+  }
+
+  .marquee-track {
+    animation-duration: 13s;
+  }
+
+  .news-label span:last-child {
+    display: none;
+  }
+
+  .news-label {
+    padding: 0 12px;
+  }
+
+  .news-label-icon {
+    font-size: 0.9rem;
+  }
+
+  .news-text {
+    font-size: 0.76rem;
+    padding: 0 9px;
+  }
+
+  .news-marquee::before,
+  .news-marquee::after {
+    width: 22px;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+
+  .news-marquee {
+    overflow-x: auto;
+  }
+}

@@ -55,6 +55,8 @@ import Classandsection from "./Components/Classandsection/Classandsection";
 import Testimonials from "./Components/Testimonials/Testimonials";
 import AdmissionList from "./Components/AdmissionList/AdmissionList";
 import ContactMessages from "./Components/ContactMessages/ContactMessages";
+import LatestNews from "./Pages/LatestNews/LatestNews";
+import ShopImg from "./Pages/ShopImg/ShopImg";
 
 function App() {
   // =====================================================
@@ -177,7 +179,8 @@ function App() {
             path="teacher-attendance"
             element={<TeachersAttendance />}
           />
-
+          <Route path="/latestnews"element={<LatestNews/>}/>
+          <Route path="/shop-images"element={<ShopImg/>}/>
           <Route
             path="teacher-posts"
             element={<TeacherPost />}
