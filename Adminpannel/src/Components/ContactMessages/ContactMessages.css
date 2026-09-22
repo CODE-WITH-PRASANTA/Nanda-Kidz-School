@@ -1,0 +1,2701 @@
+/* =========================================================
+   CONTACT MESSAGES
+   PREMIUM WHITE + BLUE ADMIN THEME
+========================================================= */
+
+.ContactMessagesPage {
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  padding: 26px 28px 35px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f7faff 0%,
+      #f4f8fd 50%,
+      #f7faff 100%
+    );
+
+  color: #172b4d;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ContactMessagesHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  margin-bottom: 24px;
+}
+
+.ContactMessagesHeaderLeft {
+  min-width: 0;
+}
+
+.ContactMessagesBreadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  margin-bottom: 9px;
+
+  color: #8191aa;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ContactMessagesBreadcrumbHome {
+  color: #6882a4;
+  font-size: 16px;
+}
+
+.ContactMessagesBreadcrumb strong {
+  color: #3568a7;
+  font-weight: 650;
+}
+
+.ContactMessagesHeader h1 {
+  margin: 0;
+
+  color: #142d52;
+
+  font-size: 30px;
+  line-height: 1.2;
+
+  font-weight: 750;
+
+  letter-spacing: -0.7px;
+}
+
+.ContactMessagesHeader p {
+  margin: 6px 0 0;
+
+  color: #7185a3;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ContactMessagesHeaderDate {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding-top: 7px;
+
+  color: #6f83a1;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.ContactMessagesHeaderDate svg {
+  color: #376eae;
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.ContactMessagesStats {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-bottom: 18px;
+}
+
+.ContactMessagesStatCard {
+  min-height: 112px;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2eaf4;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 5px 18px
+      rgba(34, 73, 116, 0.055);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.ContactMessagesStatCard:hover {
+  transform: translateY(-3px);
+
+  border-color: #cdddf0;
+
+  box-shadow:
+    0 12px 30px
+      rgba(34, 73, 116, 0.1);
+}
+
+.ContactMessagesStatIcon {
+  width: 52px;
+  height: 52px;
+
+  min-width: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 13px;
+}
+
+.ContactMessagesStatBlue {
+  color: #126ac0;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e8f4ff,
+      #dcefff
+    );
+
+  border: 1px solid #d4eaff;
+}
+
+.ContactMessagesStatBlueLight {
+  color: #1679c9;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eaf7ff,
+      #e1f3ff
+    );
+
+  border: 1px solid #d9edfc;
+}
+
+.ContactMessagesStatInterested {
+  color: #16815f;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e6f8f0,
+      #dcf3ea
+    );
+
+  border: 1px solid #cdeee0;
+}
+
+.ContactMessagesStatOrange {
+  color: #db9400;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fff7df,
+      #fff1ca
+    );
+
+  border: 1px solid #ffedbd;
+}
+
+.ContactMessagesStatContent {
+  min-width: 0;
+}
+
+.ContactMessagesStatContent > span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #7185a1;
+
+  font-size: 12px;
+
+  font-weight: 650;
+}
+
+.ContactMessagesStatNumberRow {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+}
+
+.ContactMessagesStatNumberRow strong {
+  color: #173b6b;
+
+  font-size: 29px;
+
+  line-height: 1.1;
+
+  font-weight: 750;
+
+  letter-spacing: -0.5px;
+}
+
+.ContactMessagesStatNumberRow small {
+  padding: 5px 7px;
+
+  border-radius: 6px;
+
+  color: #168159;
+
+  background: #e4f7ef;
+
+  font-size: 9px;
+
+  font-weight: 750;
+}
+
+.ContactMessagesStatContent p {
+  margin: 4px 0 0;
+
+  color: #98a8bc;
+
+  font-size: 10px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.ContactMessagesTableCard {
+  width: 100%;
+
+  position: relative;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe8f2;
+
+  border-radius: 14px;
+
+  overflow: visible;
+
+  box-shadow:
+    0 7px 25px
+      rgba(37, 71, 110, 0.055);
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.ContactMessagesToolbar {
+  min-height: 82px;
+
+  padding: 17px 19px;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 16px;
+
+  position: relative;
+
+  z-index: 20;
+
+  border-bottom: 1px solid #e6edf5;
+
+  background: #ffffff;
+
+  border-radius: 14px 14px 0 0;
+}
+
+.ContactMessagesSearchBox {
+  height: 46px;
+
+  flex: 1;
+
+  max-width: 565px;
+
+  min-width: 240px;
+
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  border: 1px solid #d7e2ee;
+
+  border-radius: 9px;
+
+  background: #fbfdff;
+
+  color: #7790af;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.ContactMessagesSearchBox:hover {
+  border-color: #b8cde3;
+}
+
+.ContactMessagesSearchBox:focus-within {
+  background: #ffffff;
+
+  border-color: #4a88c9;
+
+  box-shadow:
+    0 0 0 4px
+      rgba(48, 119, 190, 0.09);
+}
+
+.ContactMessagesSearchBox > svg {
+  color: #7793b5;
+
+  flex-shrink: 0;
+}
+
+.ContactMessagesSearchBox input {
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #294a70;
+
+  font-size: 13px;
+
+  font-family: inherit;
+}
+
+.ContactMessagesSearchBox input::placeholder {
+  color: #9aaac0;
+}
+
+.ContactMessagesSearchClear {
+  width: 25px;
+  height: 25px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+
+  border-radius: 50%;
+
+  color: #67809f;
+
+  background: #edf3f9;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   FILTER AREA
+========================================================= */
+
+.ContactMessagesFilters {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  position: relative;
+
+  z-index: 50;
+}
+
+
+/* =========================================================
+   CUSTOM FILTER DROPDOWN
+========================================================= */
+
+.ContactMessagesCustomDropdown {
+  position: relative;
+
+  width: 148px;
+
+  flex-shrink: 0;
+}
+
+.ContactMessagesDropdownButton {
+  width: 100%;
+  height: 46px;
+
+  padding: 0 13px;
+
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  border: 1px solid #d6e2ee;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #45617f;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.ContactMessagesDropdownButton:hover {
+  border-color: #9ebcda;
+
+  background: #fbfdff;
+}
+
+.ContactMessagesDropdownButtonActive {
+  border-color: #287bc2 !important;
+
+  background: #ffffff;
+
+  color: #236ca8;
+
+  box-shadow:
+    0 0 0 4px
+      rgba(40, 123, 194, 0.09);
+}
+
+.ContactMessagesDateDropdownButton {
+  width: 158px;
+}
+
+.ContactMessagesDropdownDateLabel {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-width: 0;
+}
+
+.ContactMessagesDropdownDateLabel svg {
+  flex-shrink: 0;
+
+  color: #397bb6;
+}
+
+.ContactMessagesDropdownDateLabel span {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.ContactMessagesDropdownButton > svg {
+  flex-shrink: 0;
+
+  color: #7188a2;
+
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease;
+}
+
+.ContactMessagesChevronOpen {
+  transform: rotate(180deg);
+
+  color: #287bc2 !important;
+}
+
+
+/* =========================================================
+   FILTER DROPDOWN MENU
+========================================================= */
+
+.ContactMessagesDropdownMenu {
+  position: absolute;
+
+  top: calc(100% + 8px);
+
+  left: 0;
+
+  width: 100%;
+
+  padding: 6px;
+
+  background: #ffffff;
+
+  border: 1px solid #d7e3ef;
+
+  border-radius: 11px;
+
+  box-shadow:
+    0 15px 35px
+      rgba(31, 68, 105, 0.15),
+    0 4px 12px
+      rgba(31, 68, 105, 0.08);
+
+  overflow: hidden;
+
+  z-index: 999;
+
+  animation:
+    ContactMessagesDropdownIn
+    0.18s ease;
+}
+
+@keyframes ContactMessagesDropdownIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-5px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.ContactMessagesDropdownOption {
+  width: 100%;
+
+  min-height: 38px;
+
+  padding: 0 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+  border: 0;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #526b88;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 550;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.16s ease,
+    color 0.16s ease,
+    transform 0.16s ease;
+}
+
+.ContactMessagesDropdownOption:hover {
+  background: #edf6ff;
+
+  color: #1d70b5;
+
+  transform: translateX(1px);
+}
+
+.ContactMessagesDropdownOptionSelected {
+  background:
+    linear-gradient(
+      135deg,
+      #287bc2,
+      #226fb2
+    ) !important;
+
+  color: #ffffff !important;
+
+  font-weight: 700;
+}
+
+.ContactMessagesDropdownOptionSelected:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #236fae,
+      #1d63a0
+    ) !important;
+
+  color: #ffffff !important;
+}
+
+.ContactMessagesDropdownOption svg {
+  flex-shrink: 0;
+}
+
+.ContactMessagesDateMenu {
+  min-width: 158px;
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+.ContactMessagesRefreshBtn {
+  height: 46px;
+
+  padding: 0 17px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 1px solid #cbdbea;
+
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #35638f;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.ContactMessagesRefreshBtn:hover {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2d82ca,
+      #236fb4
+    );
+
+  border-color: #287bc2;
+
+  box-shadow:
+    0 7px 17px
+      rgba(40, 123, 194, 0.22);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SELECTION BAR
+========================================================= */
+
+.ContactMessagesSelectionBar {
+  min-height: 48px;
+
+  padding: 8px 19px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background: #eef7ff;
+
+  border-bottom: 1px solid #d8eafa;
+}
+
+.ContactMessagesSelectionBar > div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: #246aa7;
+
+  font-size: 12px;
+}
+
+.ContactMessagesSelectionBar button {
+  border: 0;
+
+  background: transparent;
+
+  color: #2876ba;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.ContactMessagesTableWrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  overflow-y: visible;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #b7c9dc
+    #f3f7fb;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.ContactMessagesTable {
+  width: 100%;
+
+  min-width: 1280px;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+}
+
+.ContactMessagesTable thead th {
+  height: 48px;
+
+  padding: 0 12px;
+
+  background: #f8fbfe;
+
+  border-bottom: 1px solid #e2eaf3;
+
+  color: #7387a2;
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.25px;
+
+  text-align: left;
+
+  white-space: nowrap;
+}
+
+.ContactMessagesTable tbody td {
+  height: 68px;
+
+  padding: 9px 12px;
+
+  border-bottom: 1px solid #edf2f7;
+
+  color: #506987;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  vertical-align: middle;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.18s ease;
+}
+
+.ContactMessagesTable tbody tr:hover td {
+  background: #f7fbff;
+}
+
+.ContactMessagesTable tbody tr:hover {
+  box-shadow:
+    inset 3px 0 0 #3a82c4;
+}
+
+.ContactMessagesTable tbody tr.ContactMessagesSelectedRow td {
+  background: #eff7ff;
+}
+
+.ContactMessagesCheckColumn {
+  width: 45px;
+
+  text-align: center !important;
+}
+
+.ContactMessagesActionColumn {
+  width: 135px;
+
+  text-align: center !important;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.ContactMessagesCheckbox {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.ContactMessagesCheckbox input {
+  position: absolute;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.ContactMessagesCheckbox span {
+  width: 16px;
+
+  height: 16px;
+
+  display: block;
+
+  position: relative;
+
+  border: 1px solid #bdcddd;
+
+  border-radius: 4px;
+
+  background: #ffffff;
+
+  transition: all 0.18s ease;
+}
+
+.ContactMessagesCheckbox:hover span {
+  border-color: #4c8ac7;
+}
+
+.ContactMessagesCheckbox input:checked + span {
+  border-color: #287bc3;
+
+  background: #287bc3;
+
+  box-shadow:
+    0 2px 6px
+      rgba(40, 123, 195, 0.18);
+}
+
+.ContactMessagesCheckbox
+  input:checked
+  + span::after {
+  content: "";
+
+  position: absolute;
+
+  left: 5px;
+
+  top: 2px;
+
+  width: 4px;
+
+  height: 8px;
+
+  border-right: 2px solid #ffffff;
+
+  border-bottom: 2px solid #ffffff;
+
+  transform: rotate(45deg);
+}
+
+
+/* =========================================================
+   PERSON
+========================================================= */
+
+.ContactMessagesPerson {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  min-width: 205px;
+}
+
+.ContactMessagesAvatar {
+  width: 38px;
+
+  height: 38px;
+
+  min-width: 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #1d72b7;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eaf6ff,
+      #dff0fc
+    );
+
+  border: 1px solid #d0e6f7;
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+.ContactMessagesPersonInfo {
+  min-width: 0;
+}
+
+.ContactMessagesPersonInfo strong {
+  display: block;
+
+  max-width: 170px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  color: #29486d;
+
+  font-size: 12px;
+
+  font-weight: 750;
+
+  margin-bottom: 3px;
+}
+
+.ContactMessagesPersonInfo span {
+  display: block;
+
+  max-width: 180px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  color: #8b9db4;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+.ContactMessagesPhone {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: #3f6389;
+
+  font-size: 11px;
+}
+
+.ContactMessagesPhone svg {
+  color: #277cc0;
+}
+
+
+/* =========================================================
+   CITY / SUBJECT
+========================================================= */
+
+.ContactMessagesCity {
+  color: #536e90;
+
+  font-size: 11px;
+}
+
+.ContactMessagesSubject {
+  color: #385a80;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.ContactMessagesMessage {
+  width: 180px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #7186a1;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.ContactMessagesStatus {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  min-width: 82px;
+
+  padding: 6px 10px;
+
+  border-radius: 30px;
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  line-height: 1;
+}
+
+.ContactMessagesStatusNew {
+  color: #b77900;
+
+  background: #fff4d5;
+
+  border: 1px solid #ffebbc;
+}
+
+.ContactMessagesStatusContacted {
+  color: #087d61;
+
+  background: #e0f7ee;
+
+  border: 1px solid #c9eee1;
+}
+
+.ContactMessagesStatusInterested {
+  color: #087653;
+
+  background: #def8eb;
+
+  border: 1px solid #c2eedb;
+}
+
+.ContactMessagesStatusNotInterested {
+  color: #bd5353;
+
+  background: #fff0f0;
+
+  border: 1px solid #ffd9d9;
+}
+
+.ContactMessagesStatusConverted {
+  color: #176db2;
+
+  background: #e3f1ff;
+
+  border: 1px solid #cfe6fa;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.ContactMessagesDate {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: #657d9c;
+
+  font-size: 10px;
+}
+
+.ContactMessagesDate svg {
+  color: #2c7fc1;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.ContactMessagesActions {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  position: relative;
+}
+
+.ContactMessagesActionBtn {
+  width: 34px;
+
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.ContactMessagesActionBtn:hover {
+  transform: translateY(-2px);
+}
+
+
+/* VIEW */
+
+.ContactMessagesViewBtn {
+  color: #1477c2;
+
+  background: #eef7ff;
+
+  border: 1px solid #d4eaff;
+}
+
+.ContactMessagesViewBtn:hover {
+  color: #ffffff;
+
+  background: #287dc4;
+
+  border-color: #287dc4;
+
+  box-shadow:
+    0 5px 12px
+      rgba(40, 125, 196, 0.2);
+}
+
+
+/* 3 DOT */
+
+.ContactMessagesMoreWrapper {
+  position: relative;
+}
+
+.ContactMessagesMoreBtn {
+  color: #547494;
+
+  background: #f4f8fc;
+
+  border: 1px solid #dce6ef;
+}
+
+.ContactMessagesMoreBtn:hover,
+.ContactMessagesMoreBtnActive {
+  color: #ffffff !important;
+
+  background: #287bc2 !important;
+
+  border-color: #287bc2 !important;
+
+  box-shadow:
+    0 5px 12px
+      rgba(40, 123, 194, 0.18);
+}
+
+
+/* DELETE */
+
+.ContactMessagesDeleteBtn {
+  color: #df5555;
+
+  background: #fff2f2;
+
+  border: 1px solid #ffdddd;
+}
+
+.ContactMessagesDeleteBtn:hover {
+  color: #ffffff;
+
+  background: #df5555;
+
+  border-color: #df5555;
+
+  box-shadow:
+    0 5px 12px
+      rgba(223, 85, 85, 0.18);
+}
+
+
+/* =========================================================
+   STATUS MENU
+========================================================= */
+
+.ContactMessagesStatusMenu {
+  position: absolute;
+
+  right: 0;
+
+  top: calc(100% + 9px);
+
+  width: 245px;
+
+  padding: 7px;
+
+  background: #ffffff;
+
+  border: 1px solid #dbe6f0;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 18px 45px
+      rgba(24, 57, 91, 0.17),
+    0 5px 15px
+      rgba(24, 57, 91, 0.08);
+
+  z-index: 5000;
+
+  animation:
+    ContactMessagesStatusMenuIn
+    0.18s ease;
+}
+
+@keyframes ContactMessagesStatusMenuIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-5px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.ContactMessagesStatusMenuHeader {
+  padding: 9px 10px 10px;
+
+  border-bottom: 1px solid #edf2f7;
+
+  margin-bottom: 5px;
+}
+
+.ContactMessagesStatusMenuHeader span {
+  display: block;
+
+  color: #2d4e70;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+.ContactMessagesStatusMenuHeader small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #93a2b5;
+
+  font-size: 9px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+.ContactMessagesStatusOptions {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.ContactMessagesStatusOption {
+  width: 100%;
+
+  min-height: 48px;
+
+  padding: 7px 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  border: 0;
+
+  border-radius: 8px;
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.16s ease,
+    transform 0.16s ease;
+}
+
+.ContactMessagesStatusOption:hover {
+  background: #f3f8fd;
+
+  transform: translateX(2px);
+}
+
+.ContactMessagesStatusOptionIcon {
+  width: 31px;
+
+  height: 31px;
+
+  min-width: 31px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 8px;
+}
+
+.ContactMessagesStatusOptionText {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.ContactMessagesStatusOptionText strong {
+  display: block;
+
+  color: #405e7d;
+
+  font-size: 10px;
+
+  font-weight: 750;
+}
+
+.ContactMessagesStatusOptionText small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: #9aa8b9;
+
+  font-size: 8px;
+}
+
+.ContactMessagesStatusOptionCheck {
+  flex-shrink: 0;
+}
+
+
+/* NEW */
+
+.ContactMessagesStatusOptionNew
+  .ContactMessagesStatusOptionIcon {
+  color: #b77900;
+
+  background: #fff4d5;
+}
+
+.ContactMessagesStatusOptionNew:hover {
+  background: #fffaf0;
+}
+
+
+/* CONTACTED */
+
+.ContactMessagesStatusOptionContacted
+  .ContactMessagesStatusOptionIcon {
+  color: #07815e;
+
+  background: #e2f7ef;
+}
+
+.ContactMessagesStatusOptionContacted:hover {
+  background: #f0fbf7;
+}
+
+
+/* INTERESTED */
+
+.ContactMessagesStatusOptionInterested
+  .ContactMessagesStatusOptionIcon {
+  color: #087653;
+
+  background: #def8eb;
+}
+
+.ContactMessagesStatusOptionInterested:hover {
+  background: #effbf5;
+}
+
+
+/* NOT INTERESTED */
+
+.ContactMessagesStatusOptionNotInterested
+  .ContactMessagesStatusOptionIcon {
+  color: #c05252;
+
+  background: #fff0f0;
+}
+
+.ContactMessagesStatusOptionNotInterested:hover {
+  background: #fff7f7;
+}
+
+
+/* CONVERTED */
+
+.ContactMessagesStatusOptionConverted
+  .ContactMessagesStatusOptionIcon {
+  color: #176db2;
+
+  background: #e3f1ff;
+}
+
+.ContactMessagesStatusOptionConverted:hover {
+  background: #f1f8ff;
+}
+
+
+/* ACTIVE STATUS */
+
+.ContactMessagesStatusOptionActive {
+  background: #eef7ff !important;
+
+  box-shadow:
+    inset 3px 0 0 #287bc2;
+}
+
+.ContactMessagesStatusOptionActive
+  .ContactMessagesStatusOptionText
+  strong {
+  color: #1d6eae;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.ContactMessagesEmptyState {
+  height: 280px !important;
+
+  text-align: center !important;
+}
+
+.ContactMessagesEmptyState > div {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+.ContactMessagesEmptyIcon {
+  width: 62px;
+
+  height: 62px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 5px;
+
+  border-radius: 50%;
+
+  color: #5d8ab7;
+
+  background: #eef6fd;
+
+  border: 1px solid #dcebf8;
+}
+
+.ContactMessagesEmptyState strong {
+  color: #3a5678;
+
+  font-size: 15px;
+}
+
+.ContactMessagesEmptyState span {
+  color: #93a3b7;
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ContactMessagesTableFooter {
+  min-height: 68px;
+
+  padding: 12px 19px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 18px;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e8eef5;
+
+  border-radius: 0 0 14px 14px;
+}
+
+.ContactMessagesShowing {
+  color: #8495aa;
+
+  font-size: 11px;
+}
+
+.ContactMessagesShowing strong {
+  color: #516c8e;
+
+  font-weight: 700;
+}
+
+.ContactMessagesPagination {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.ContactMessagesPageBtn {
+  width: 34px;
+
+  height: 34px;
+
+  padding: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 1px solid #d9e3ed;
+
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #617996;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.18s ease;
+}
+
+.ContactMessagesPageBtn:hover:not(:disabled) {
+  color: #1c70b5;
+
+  border-color: #9fc4e4;
+
+  background: #f1f8fe;
+}
+
+.ContactMessagesPageBtn:disabled {
+  opacity: 0.38;
+
+  cursor: not-allowed;
+}
+
+.ContactMessagesActivePage {
+  color: #ffffff !important;
+
+  background: #287bc2 !important;
+
+  border-color: #287bc2 !important;
+
+  box-shadow:
+    0 5px 12px
+      rgba(40, 123, 194, 0.22);
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.ContactMessagesModalOverlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  padding: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background:
+    rgba(17, 37, 61, 0.52);
+
+  backdrop-filter: blur(6px);
+
+  animation:
+    ContactMessagesOverlayIn
+    0.2s ease;
+}
+
+@keyframes ContactMessagesOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.ContactMessagesViewModal {
+  width: min(
+    700px,
+    100%
+  );
+
+  max-height:
+    calc(100vh - 40px);
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border: 1px solid #e1eaf3;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 30px 80px
+      rgba(18, 48, 78, 0.25),
+    0 8px 25px
+      rgba(18, 48, 78, 0.12);
+
+  animation:
+    ContactMessagesModalIn
+    0.25s ease;
+}
+
+@keyframes ContactMessagesModalIn {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(18px)
+      scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.ContactMessagesModalHeader {
+  padding: 23px 25px 20px;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  border-bottom: 1px solid #e8eef5;
+}
+
+.ContactMessagesModalEyebrow {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #2878bb;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+}
+
+.ContactMessagesModalHeader h2 {
+  margin: 0;
+
+  color: #1b385d;
+
+  font-size: 23px;
+
+  font-weight: 750;
+}
+
+.ContactMessagesModalHeader p {
+  margin: 5px 0 0;
+
+  color: #8799ae;
+
+  font-size: 11px;
+}
+
+.ContactMessagesModalClose {
+  width: 36px;
+
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border: 1px solid #dce6ef;
+
+  border-radius: 9px;
+
+  color: #637b98;
+
+  background: #f8fbfe;
+
+  cursor: pointer;
+
+  transition: all 0.18s ease;
+}
+
+.ContactMessagesModalClose:hover {
+  color: #ffffff;
+
+  background: #287bc2;
+
+  border-color: #287bc2;
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+.ContactMessagesProfile {
+  margin: 19px 25px 17px;
+
+  padding: 17px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  border: 1px solid #dceaf7;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f2f8fd 0%,
+      #f8fbff 100%
+    );
+}
+
+.ContactMessagesLargeAvatar {
+  width: 58px;
+
+  height: 58px;
+
+  min-width: 58px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #1d70b5;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e4f3ff,
+      #d8edfc
+    );
+
+  border: 1px solid #cce4f7;
+
+  font-size: 15px;
+
+  font-weight: 800;
+}
+
+.ContactMessagesProfileInfo {
+  min-width: 0;
+}
+
+.ContactMessagesProfileInfo h3 {
+  margin: 0 0 4px;
+
+  color: #284768;
+
+  font-size: 18px;
+
+  font-weight: 750;
+}
+
+.ContactMessagesProfileInfo > span {
+  display: block;
+
+  color: #8498b0;
+
+  font-size: 11px;
+}
+
+.ContactMessagesProfileStatus {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 9px;
+}
+
+.ContactMessagesProfileDate {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  color: #7c91a9;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   DETAILS GRID
+========================================================= */
+
+.ContactMessagesDetailsGrid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 11px;
+
+  padding: 0 25px 17px;
+}
+
+.ContactMessagesDetailItem {
+  min-width: 0;
+
+  padding: 13px;
+
+  border: 1px solid #e3ebf3;
+
+  border-radius: 10px;
+
+  background: #fbfdff;
+}
+
+.ContactMessagesDetailItem > span {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 6px;
+
+  color: #8295ab;
+
+  font-size: 9px;
+
+  font-weight: 700;
+}
+
+.ContactMessagesDetailItem > span svg {
+  color: #287bc2;
+}
+
+.ContactMessagesDetailItem strong {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  color: #456381;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   MESSAGE BOX
+========================================================= */
+
+.ContactMessagesMessageBox {
+  margin: 0 25px;
+
+  padding: 16px;
+
+  border: 1px solid #dce8f3;
+
+  border-radius: 11px;
+
+  background: #f7fbff;
+}
+
+.ContactMessagesMessageTitle {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 9px;
+
+  color: #426483;
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+.ContactMessagesMessageTitle svg {
+  color: #287bc2;
+}
+
+.ContactMessagesMessageBox p {
+  margin: 0;
+
+  color: #667f9d;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
+
+.ContactMessagesModalFooter {
+  display: flex;
+
+  justify-content: flex-end;
+
+  padding: 19px 25px 23px;
+}
+
+.ContactMessagesModalDoneBtn {
+  min-height: 40px;
+
+  padding: 0 20px;
+
+  border: 1px solid #287bc2;
+
+  border-radius: 8px;
+
+  color: #ffffff;
+
+  background: #287bc2;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 6px 15px
+      rgba(40, 123, 194, 0.18);
+
+  transition: all 0.18s ease;
+}
+
+.ContactMessagesModalDoneBtn:hover {
+  background: #1d69aa;
+
+  border-color: #1d69aa;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DELETE MODAL
+========================================================= */
+
+.ContactMessagesDeleteModal {
+  width: min(
+    410px,
+    100%
+  );
+
+  padding: 30px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 30px 80px
+      rgba(17, 40, 65, 0.25);
+
+  animation:
+    ContactMessagesModalIn
+    0.25s ease;
+}
+
+.ContactMessagesDeleteIcon {
+  width: 60px;
+
+  height: 60px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #dd5555;
+
+  background: #fff0f0;
+
+  border: 8px solid #fff7f7;
+}
+
+.ContactMessagesDeleteModal h2 {
+  margin: 0;
+
+  color: #263f5f;
+
+  font-size: 21px;
+
+  font-weight: 750;
+}
+
+.ContactMessagesDeleteModal p {
+  margin: 10px auto 23px;
+
+  max-width: 330px;
+
+  color: #8293a8;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+}
+
+.ContactMessagesDeleteModal p strong {
+  color: #536c89;
+}
+
+.ContactMessagesDeleteActions {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 9px;
+}
+
+.ContactMessagesCancelDelete,
+.ContactMessagesConfirmDelete {
+  min-height: 40px;
+
+  padding: 0 17px;
+
+  border-radius: 8px;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition: all 0.18s ease;
+}
+
+.ContactMessagesCancelDelete {
+  border: 1px solid #d9e3ed;
+
+  background: #ffffff;
+
+  color: #5d7592;
+}
+
+.ContactMessagesCancelDelete:hover {
+  background: #f4f8fc;
+
+  border-color: #c7d6e5;
+}
+
+.ContactMessagesConfirmDelete {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid #df5555;
+
+  background: #df5555;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 5px 12px
+      rgba(223, 85, 85, 0.17);
+}
+
+.ContactMessagesConfirmDelete:hover {
+  background: #ca4242;
+
+  border-color: #ca4242;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.ContactMessagesTableWrapper::-webkit-scrollbar {
+  height: 7px;
+}
+
+.ContactMessagesTableWrapper::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.ContactMessagesTableWrapper::-webkit-scrollbar-thumb {
+  background: #b8c8d9;
+
+  border-radius: 20px;
+}
+
+.ContactMessagesTableWrapper::-webkit-scrollbar-thumb:hover {
+  background: #91a8bf;
+}
+
+.ContactMessagesViewModal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ContactMessagesViewModal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ContactMessagesViewModal::-webkit-scrollbar-thumb {
+  background: #c8d5e2;
+
+  border-radius: 20px;
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1250px) {
+
+  .ContactMessagesPage {
+    padding: 22px;
+  }
+
+  .ContactMessagesStats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .ContactMessagesToolbar {
+    flex-wrap: wrap;
+  }
+
+  .ContactMessagesSearchBox {
+    max-width: none;
+
+    flex: 1 1 100%;
+  }
+
+  .ContactMessagesFilters {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .ContactMessagesPage {
+    padding: 17px;
+  }
+
+  .ContactMessagesHeader {
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .ContactMessagesHeaderDate {
+    padding-top: 0;
+  }
+
+  .ContactMessagesHeader h1 {
+    font-size: 27px;
+  }
+
+  .ContactMessagesStats {
+    gap: 11px;
+  }
+
+  .ContactMessagesStatCard {
+    min-height: 100px;
+
+    padding: 16px;
+  }
+
+  .ContactMessagesStatNumberRow strong {
+    font-size: 25px;
+  }
+
+  .ContactMessagesToolbar {
+    padding: 14px;
+  }
+
+  .ContactMessagesFilters {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap: 9px;
+  }
+
+  .ContactMessagesCustomDropdown {
+    width: 100%;
+  }
+
+  .ContactMessagesDateDropdownButton {
+    width: 100%;
+  }
+
+  .ContactMessagesRefreshBtn {
+    width: 100%;
+
+    grid-column: span 2;
+  }
+
+  .ContactMessagesTableFooter {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .ContactMessagesPagination {
+    width: 100%;
+
+    justify-content: flex-end;
+  }
+
+  .ContactMessagesStatusMenu {
+    right: -10px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .ContactMessagesPage {
+    padding: 12px;
+  }
+
+  .ContactMessagesBreadcrumb {
+    font-size: 10px;
+
+    gap: 6px;
+  }
+
+  .ContactMessagesHeader h1 {
+    font-size: 24px;
+  }
+
+  .ContactMessagesHeader p {
+    font-size: 12px;
+  }
+
+  .ContactMessagesHeaderDate {
+    font-size: 11px;
+  }
+
+  .ContactMessagesStats {
+    grid-template-columns: 1fr;
+  }
+
+  .ContactMessagesStatCard {
+    min-height: 90px;
+  }
+
+  .ContactMessagesToolbar {
+    padding: 11px;
+
+    gap: 10px;
+  }
+
+  .ContactMessagesSearchBox {
+    height: 44px;
+
+    min-width: 0;
+  }
+
+  .ContactMessagesSearchBox input {
+    font-size: 12px;
+  }
+
+  .ContactMessagesFilters {
+    grid-template-columns: 1fr;
+  }
+
+  .ContactMessagesCustomDropdown {
+    width: 100%;
+  }
+
+  .ContactMessagesDateDropdownButton {
+    width: 100%;
+  }
+
+  .ContactMessagesRefreshBtn {
+    grid-column: auto;
+
+    width: 100%;
+  }
+
+  .ContactMessagesDropdownMenu {
+    top: calc(100% + 6px);
+  }
+
+  .ContactMessagesSelectionBar {
+    padding: 9px 12px;
+  }
+
+  .ContactMessagesTableFooter {
+    padding: 12px;
+  }
+
+  .ContactMessagesShowing {
+    width: 100%;
+
+    font-size: 10px;
+  }
+
+  .ContactMessagesPagination {
+    justify-content: center;
+
+    flex-wrap: wrap;
+  }
+
+  .ContactMessagesPageBtn {
+    width: 32px;
+
+    height: 32px;
+  }
+
+  .ContactMessagesStatusMenu {
+    position: fixed;
+
+    right: 12px;
+    left: 12px;
+
+    top: auto;
+
+    bottom: 12px;
+
+    width: auto;
+
+    max-width: none;
+  }
+
+  .ContactMessagesModalOverlay {
+    padding: 10px;
+  }
+
+  .ContactMessagesViewModal {
+    max-height:
+      calc(100vh - 20px);
+
+    border-radius: 14px;
+  }
+
+  .ContactMessagesModalHeader {
+    padding: 18px;
+  }
+
+  .ContactMessagesModalHeader h2 {
+    font-size: 20px;
+  }
+
+  .ContactMessagesProfile {
+    margin: 14px;
+
+    padding: 13px;
+  }
+
+  .ContactMessagesLargeAvatar {
+    width: 50px;
+
+    height: 50px;
+
+    min-width: 50px;
+  }
+
+  .ContactMessagesDetailsGrid {
+    grid-template-columns: 1fr;
+
+    padding: 0 14px 14px;
+  }
+
+  .ContactMessagesMessageBox {
+    margin: 0 14px;
+  }
+
+  .ContactMessagesModalFooter {
+    padding: 14px;
+  }
+
+  .ContactMessagesModalDoneBtn {
+    width: 100%;
+  }
+
+  .ContactMessagesDeleteModal {
+    padding: 24px 18px;
+  }
+
+  .ContactMessagesDeleteActions {
+    flex-direction: column-reverse;
+  }
+
+  .ContactMessagesCancelDelete,
+  .ContactMessagesConfirmDelete {
+    width: 100%;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .ContactMessagesPage {
+    padding: 9px;
+  }
+
+  .ContactMessagesHeader h1 {
+    font-size: 21px;
+  }
+
+  .ContactMessagesStatCard {
+    padding: 13px;
+  }
+
+  .ContactMessagesStatIcon {
+    width: 46px;
+
+    height: 46px;
+
+    min-width: 46px;
+  }
+
+  .ContactMessagesStatNumberRow strong {
+    font-size: 23px;
+  }
+
+  .ContactMessagesStatContent p {
+    max-width: 190px;
+  }
+}

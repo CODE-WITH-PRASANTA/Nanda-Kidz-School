@@ -1,7 +1,6 @@
-
 import React, { useState } from "react";
 import "./AboutContact.css";
-import api from "../../api/axios";
+import API from "../../api/axios";
 
 import {
   Send,
@@ -42,7 +41,8 @@ const CONTACT_DETAILS = [
     id: 3,
     icon: <Clock size={18} />,
     label: "School Hours",
-    value: "Monday - Saturday · Contact us for current timings",
+    value:
+      "Monday - Saturday · Contact us for current timings",
   },
 ];
 
@@ -76,11 +76,14 @@ const INITIAL_FORM = {
 };
 
 const AboutContact = () => {
-  const [formData, setFormData] = useState(INITIAL_FORM);
+  const [formData, setFormData] =
+    useState(INITIAL_FORM);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
 
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitStatus, setSubmitStatus] =
+    useState(null);
 
   // ==========================================
   // HANDLE INPUT CHANGE
@@ -93,6 +96,10 @@ const AboutContact = () => {
       ...prev,
       [name]: value,
     }));
+
+    if (submitStatus) {
+      setSubmitStatus(null);
+    }
   };
 
   // ==========================================
@@ -102,62 +109,185 @@ const AboutContact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Don't allow multiple submissions
+    // Prevent multiple submissions
     if (isSubmitting) {
       return;
     }
 
-    // Reset old status
-    setSubmitStatus(null);
-
     setIsSubmitting(true);
+    setSubmitStatus(null);
 
     try {
       // ========================================
-      // SEND DATA TO BACKEND
-      // Using existing Axios API instance
+      // PREPARE PAYLOAD
       // ========================================
 
-      const response = await api.post("/contacts", {
+      const payload = {
         name: formData.name.trim(),
-        email: formData.email.trim(),
-        phone: formData.phone.trim(),
-        subject: formData.subject.trim(),
-        message: formData.message.trim(),
-      });
 
+        // Home contact form does not have surname
+        surname: "",
+
+        email: formData.email.trim(),
+
+        phone: formData.phone.trim(),
+
+        // Home contact form does not have child age
+        childAge: "",
+
+        // Home contact form does not have city
+        city: "",
+
+        subject: formData.subject.trim(),
+
+        message: formData.message.trim(),
+
+        // Identify source
+        source: "Home Contact",
+      };
+
+      // Debug payload
       console.log(
-        "Contact submitted successfully:",
-        response.data
+        "================================"
+      );
+      console.log(
+        "HOME CONTACT PAYLOAD:"
+      );
+      console.log(payload);
+      console.log(
+        "================================"
       );
 
       // ========================================
-      // SUCCESS
+      // SEND TO BACKEND
+      // POST:
+      // http://localhost:5000/api/contact-leads
       // ========================================
 
-      setSubmitStatus("success");
+      const response = await API.post(
+        "/contact-leads",
+        payload
+      );
 
-      // Clear form after successful submission
-      setFormData(INITIAL_FORM);
+      // ========================================
+      // SUCCESS RESPONSE
+      // ========================================
+
+      console.log(
+        "================================"
+      );
+      console.log(
+        "HOME CONTACT RESPONSE:"
+      );
+      console.log(response.data);
+      console.log(
+        "================================"
+      );
+
+      if (response.data?.success) {
+        setSubmitStatus("success");
+
+        // Clear form
+        setFormData(INITIAL_FORM);
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus(null);
+        }, 5000);
+      } else {
+        setSubmitStatus("error");
+
+        console.error(
+          "Backend returned unsuccessful response:",
+          response.data
+        );
+      }
 
     } catch (error) {
+
       // ========================================
-      // ERROR
+      // DETAILED ERROR DEBUGGING
       // ========================================
 
       console.error(
-        "Contact form submission failed:",
+        "================================"
+      );
+
+      console.error(
+        "HOME CONTACT SUBMIT ERROR"
+      );
+
+      console.error(
+        "================================"
+      );
+
+      // Complete error
+      console.error(
+        "Error:",
         error
       );
 
+      // HTTP status
+      console.error(
+        "Status:",
+        error.response?.status
+      );
+
+      // Backend response
       console.error(
         "Backend response:",
         error.response?.data
       );
 
-      setSubmitStatus("error");
+      // Request information
+      console.error(
+        "Request:",
+        error.request
+      );
+
+      // Axios configuration
+      console.error(
+        "Config:",
+        error.config
+      );
+
+      // ========================================
+      // USER MESSAGE
+      // ========================================
+
+      if (error.response) {
+        // Backend responded with an error
+        setSubmitStatus("error");
+
+        console.error(
+          "Server returned:",
+          error.response.status
+        );
+
+      } else if (error.request) {
+        // Request sent but no response
+        setSubmitStatus("error");
+
+        console.error(
+          "No response received from backend."
+        );
+
+      } else {
+        // Something else happened
+        setSubmitStatus("error");
+
+        console.error(
+          "Error while creating request:",
+          error.message
+        );
+      }
 
     } finally {
+
+      // ========================================
+      // STOP LOADING
+      // ========================================
+
       setIsSubmitting(false);
     }
   };
@@ -165,7 +295,9 @@ const AboutContact = () => {
   return (
     <section className="about-contact-section">
 
-      {/* Decorative Background */}
+      {/* ==========================================
+          DECORATIVE BACKGROUND
+      ========================================== */}
 
       <div
         className="about-contact-glow-blob about-contact-glow-blob-1"
@@ -186,9 +318,9 @@ const AboutContact = () => {
 
         <div className="about-contact-grid">
 
-          {/* =====================================================
+          {/* ==========================================
               LEFT SIDE - CONTACT INFORMATION
-          ===================================================== */}
+          ========================================== */}
 
           <div className="about-contact-info">
 
@@ -212,21 +344,25 @@ const AboutContact = () => {
               <div className="about-contact-title-underline" />
 
               <p className="about-contact-description">
-                Looking for a warm and caring place where your child
-                can enjoy their first school experiences? Nanda Kidz
-                provides a friendly environment where children learn,
-                play and grow with confidence.
+                Looking for a warm and caring place
+                where your child can enjoy their first
+                school experiences? Nanda Kidz provides
+                a friendly environment where children
+                learn, play and grow with confidence.
               </p>
 
               <p className="about-contact-description about-contact-location-intro">
-                Visit our school at Kalinga Vihar, Kalinganagar,
-                Bhubaneswar, and talk with our team about your
-                child&apos;s early learning journey.
+                Visit our school at Kalinga Vihar,
+                Kalinganagar, Bhubaneswar, and talk
+                with our team about your child&apos;s
+                early learning journey.
               </p>
 
             </div>
 
-            {/* Contact Details */}
+            {/* ==========================================
+                CONTACT DETAILS
+            ========================================== */}
 
             <div className="about-contact-details-list">
 
@@ -276,7 +412,9 @@ const AboutContact = () => {
 
             </div>
 
-            {/* Get Directions */}
+            {/* ==========================================
+                GET DIRECTIONS
+            ========================================== */}
 
             <a
               href={MAP_URL}
@@ -288,7 +426,9 @@ const AboutContact = () => {
               <span>Get Directions</span>
             </a>
 
-            {/* Social Links */}
+            {/* ==========================================
+                SOCIAL LINKS
+            ========================================== */}
 
             <div className="about-contact-social-row">
 
@@ -309,9 +449,9 @@ const AboutContact = () => {
 
           </div>
 
-          {/* =====================================================
+          {/* ==========================================
               RIGHT SIDE - CONTACT FORM
-          ===================================================== */}
+          ========================================== */}
 
           <div className="about-contact-form-card">
 
@@ -336,9 +476,10 @@ const AboutContact = () => {
             </div>
 
             <p className="about-contact-form-intro">
-              Have a question about admission, school activities or
-              visiting Nanda Kidz? Send us a message and our team
-              will be happy to assist you.
+              Have a question about admission, school
+              activities or visiting Nanda Kidz? Send
+              us a message and our team will be happy
+              to assist you.
             </p>
 
             {/* ==========================================
@@ -348,10 +489,12 @@ const AboutContact = () => {
             {submitStatus === "success" && (
               <div
                 className="about-contact-form-alert success"
-                role="alert"
+                role="status"
+                aria-live="polite"
               >
-                Thank you! Your message has been received.
-                We&apos;ll get back to you soon.
+                Thank you! Your message has been
+                received. We&apos;ll get back to you
+                soon.
               </div>
             )}
 
@@ -364,16 +507,23 @@ const AboutContact = () => {
                 className="about-contact-form-alert error"
                 role="alert"
               >
-                Something went wrong. Please try again.
+                Something went wrong. Please try
+                again.
               </div>
             )}
+
+            {/* ==========================================
+                FORM
+            ========================================== */}
 
             <form
               className="about-contact-form"
               onSubmit={handleSubmit}
             >
 
-              {/* Name + Email */}
+              {/* ========================================
+                  NAME + EMAIL
+              ======================================== */}
 
               <div className="about-contact-form-row">
 
@@ -393,6 +543,7 @@ const AboutContact = () => {
                     onChange={handleChange}
                     autoComplete="name"
                     required
+                    disabled={isSubmitting}
                   />
 
                 </div>
@@ -407,13 +558,16 @@ const AboutContact = () => {
                     onChange={handleChange}
                     autoComplete="email"
                     required
+                    disabled={isSubmitting}
                   />
 
                 </div>
 
               </div>
 
-              {/* Phone + Subject */}
+              {/* ========================================
+                  PHONE + SUBJECT
+              ======================================== */}
 
               <div className="about-contact-form-row">
 
@@ -432,6 +586,8 @@ const AboutContact = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     autoComplete="tel"
+                    required
+                    disabled={isSubmitting}
                   />
 
                 </div>
@@ -444,13 +600,16 @@ const AboutContact = () => {
                     placeholder="Subject"
                     value={formData.subject}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                   />
 
                 </div>
 
               </div>
 
-              {/* Message */}
+              {/* ========================================
+                  MESSAGE
+              ======================================== */}
 
               <div className="about-contact-field about-contact-field-textarea">
 
@@ -467,11 +626,14 @@ const AboutContact = () => {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
                 />
 
               </div>
 
-              {/* Submit */}
+              {/* ========================================
+                  SUBMIT BUTTON
+              ======================================== */}
 
               <button
                 type="submit"
@@ -502,4 +664,3 @@ const AboutContact = () => {
 };
 
 export default AboutContact;
-

@@ -54,6 +54,7 @@ import Classandsection from "./Components/Classandsection/Classandsection";
 // ⭐ Testimonials
 import Testimonials from "./Components/Testimonials/Testimonials";
 import AdmissionList from "./Components/AdmissionList/AdmissionList";
+import ContactMessages from "./Components/ContactMessages/ContactMessages";
 
 function App() {
   // =====================================================
@@ -309,6 +310,10 @@ function App() {
           <Route
             path="admission-list"
             element={<AdmissionList/>}
+          />
+          <Route
+            path="contact-messages"
+            element={<ContactMessages/>}
           />
 
           {/* =================================================
