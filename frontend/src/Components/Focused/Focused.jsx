@@ -4,9 +4,9 @@ import { FaCheck } from 'react-icons/fa'; // Requires: npm install react-icons
 
 // --- IMPORTANT: Replace these with your actual local image paths ---
 // Main Card Images
-import gentleImage from '../../assets/c-3.jpg'; 
-import storyImage from '../../assets/c-9.jpg';    
-import outdoorImage from '../../assets/c-8.jpg'; 
+import gentleImage from '../../assets/c-3.webp'; 
+import storyImage from '../../assets/c-9.webp';    
+import outdoorImage from '../../assets/c-8.webp'; 
 
 const Focused = () => {
   const cards = [

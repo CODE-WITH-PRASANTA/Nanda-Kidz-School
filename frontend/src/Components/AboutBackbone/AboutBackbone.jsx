@@ -1,11 +1,11 @@
 import React from 'react';
 import './AboutBackbone.css';
 
-// Imported illustrations
+// Decorative illustrations
 import planetImg from '../../assets/planate.avif';
 import rocketImg from '../../assets/rocketmeet.webp';
 
-// Imported partner logo images from your directory
+// Partner logo images
 import meet1 from '../../assets/meet1.avif';
 import meet2 from '../../assets/meet2.avif';
 import meet3 from '../../assets/meet3.avif';
@@ -16,51 +16,114 @@ import meet7 from '../../assets/meet7.avif';
 import meet8 from '../../assets/meet8.webp';
 
 const AboutBackbone = () => {
-  // Array holding logo items with exact imports attached
   const partnerLogos = [
-    { id: 1, name: 'Reaching Stars', src: meet1 },
-    { id: 2, name: 'Heroes', src: meet2 },
-    { id: 3, name: 'Company Kids Camp', src: meet3 },
-    { id: 4, name: 'Eye Out', src: meet4 },
-    { id: 5, name: 'Kids Land', src: meet5 },
-    { id: 6, name: 'The Carnival', src: meet6 },
-    { id: 7, name: 'Colors', src: meet7 },
-    { id: 8, name: 'Take Stars', src: meet8 },
+    {
+      id: 1,
+      name: 'Reaching Stars',
+      src: meet1,
+    },
+    {
+      id: 2,
+      name: 'Heroes',
+      src: meet2,
+    },
+    {
+      id: 3,
+      name: 'Company Kids Camp',
+      src: meet3,
+    },
+    {
+      id: 4,
+      name: 'Eye Out',
+      src: meet4,
+    },
+    {
+      id: 5,
+      name: 'Kids Land',
+      src: meet5,
+    },
+    {
+      id: 6,
+      name: 'The Carnival',
+      src: meet6,
+    },
+    {
+      id: 7,
+      name: 'Colors',
+      src: meet7,
+    },
+    {
+      id: 8,
+      name: 'Take Stars',
+      src: meet8,
+    },
   ];
 
   return (
     <section className="about-backbone-container">
-      {/* Decorative Floating/Background Elements */}
+      {/* Decorative Planet */}
       <div className="decorative-element planet-icon">
-        <img src={planetImg} alt="Planet Illustration" />
+        <img
+          src={planetImg}
+          alt=""
+          aria-hidden="true"
+        />
       </div>
 
+      {/* Decorative Rocket */}
       <div className="decorative-element rocket-icon">
-        <img src={rocketImg} alt="Rocket Illustration" />
+        <img
+          src={rocketImg}
+          alt=""
+          aria-hidden="true"
+        />
       </div>
 
-      {/* Main Content Area */}
       <div className="about-backbone-content">
+        {/* Section Header */}
         <div className="about-backbone-header">
-          <div className="badge-icon">
+          <div className="badge-icon" aria-hidden="true">
             <span className="cap-icon">🎓</span>
           </div>
-          <span className="subtitle">MEET THE BACKBONES</span>
-          <h2 className="title">Our Associate Partners</h2>
+
+          <span className="subtitle">
+            A HAPPY START FOR EVERY CHILD
+          </span>
+
+          <h1 className="title">
+            best play school in bhubaneswar
+          </h1>
+
           <p className="description">
-            Amet Mattis Vulputate Enim Nulla Aliquet Porttitor Lacus.
-            <br />
-            Sed Sed Risus Pretium Quam Vulputate. Augue Lacus
-            <br />
-            Viverra Vitae Congue Eu Consequat Ac.
+            Choosing the right play school is an important first step
+            in your child&apos;s learning journey. At Nanda Kidz, we
+            focus on creating a safe, friendly and joyful environment
+            where children can learn through play, activities and
+            everyday experiences.
+          </p>
+
+          <p className="description secondary-description">
+            Parents looking for information about <strong>play school
+            fees in bhubaneswar</strong> can connect with our team to
+            understand our programs, activities and the learning
+            support provided for children.
           </p>
         </div>
 
-        {/* Partners Logo Grid */}
+        {/* Partner Logos */}
         <div className="partners-grid">
           {partnerLogos.map((logo) => (
-            <div key={logo.id} className="logo-card">
-              <img src={logo.src} alt={logo.name} className="partner-logo" />
+            <div
+              key={logo.id}
+              className="logo-card"
+              title={logo.name}
+            >
+              <img
+                src={logo.src}
+                alt={`${logo.name} partner logo`}
+                className="partner-logo"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>

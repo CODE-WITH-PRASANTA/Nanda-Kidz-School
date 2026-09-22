@@ -4,10 +4,10 @@ import {
   FaEnvelope, 
   FaPhoneAlt, 
   FaFacebookF, 
-  FaPinterestP, 
-  FaInstagram 
+  FaInstagram, 
+  FaWhatsapp,
+  FaPhone
 } from 'react-icons/fa';
-import { RiTwitterXFill } from 'react-icons/ri'; // For the updated X logo
 import './Topbar.css';
 
 const Topbar = () => {
@@ -22,7 +22,7 @@ const Topbar = () => {
           </div>
           <div className="topbar-info-item">
             <FaEnvelope className="topbar-icon" />
-            <span className="topbar-text">contact@example.com</span>
+            <span className="topbar-text">nandakidzzz@gmail.com</span>
           </div>
         </div>
       </div>
@@ -32,20 +32,42 @@ const Topbar = () => {
         <div className="topbar-contact-wrapper">
           <div className="topbar-phone-item">
             <FaPhoneAlt className="topbar-phone-icon" />
-            <span className="topbar-phone-text">+000 123 456789</span>
+            <span className="topbar-phone-text">+91 90407 86050</span>
           </div>
           
           <div className="topbar-social-icons">
-            <a href="#" className="topbar-social-link" aria-label="X (formerly Twitter)">
-              <RiTwitterXFill />
-            </a>
-            <a href="#" className="topbar-social-link" aria-label="Facebook">
+            <a 
+              href="https://www.facebook.com/share/v/1GqXQdyJML/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="topbar-social-link" 
+              aria-label="Facebook"
+            >
               <FaFacebookF />
             </a>
-            <a href="#" className="topbar-social-link" aria-label="Pinterest">
-              <FaPinterestP />
+            <a 
+              href="tel:9040786050" 
+              className="topbar-social-link" 
+              aria-label="Phone Call"
+            >
+              <FaPhone />
             </a>
-            <a href="#" className="topbar-social-link" aria-label="Instagram">
+            <a 
+              href="https://wa.me/919040786050" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="topbar-social-link" 
+              aria-label="WhatsApp"
+            >
+              <FaWhatsapp />
+            </a>
+            <a 
+              href="https://www.instagram.com/reel/DcvR2h6PWwk/?igsi=Z3Vwd2xwc2Q4cHMx" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="topbar-social-link" 
+              aria-label="Instagram"
+            >
               <FaInstagram />
             </a>
           </div>

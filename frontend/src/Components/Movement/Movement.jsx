@@ -3,8 +3,8 @@ import './Movement.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 
-import slide1 from '../../assets/Indoor.avif'; 
-import slide2 from '../../assets/c-7.jpg'; 
+import slide1 from '../../assets/indoor.webp'; 
+import slide2 from '../../assets/c-7.webp'; 
 import teacherAvatar from '../../assets/teacher-1.jpg'; 
 
 const Movement = () => {

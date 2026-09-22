@@ -1,164 +1,510 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap");
 
-/* Main Wrapper */
+/* =========================================================
+   MAIN SECTION
+========================================================= */
+
 .Shopdetails {
+  --shop-primary: #f27c54;
+  --shop-primary-dark: #df6840;
+  --shop-secondary: #72cfdb;
+  --shop-heading: #38424d;
+  --shop-text: #68727d;
+  --shop-light: #f8fbfc;
+  --shop-border: #e9eef1;
+  --shop-white: #ffffff;
+
   width: 100%;
-  padding: 60px 20px;
-  background-color: #ffffff;
+  padding: 85px 20px;
+  background: var(--shop-white);
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .Shopdetails-container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-/* 3-Column Responsive Grid Layout */
-.Shopdetails-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+/* =========================================================
+   HEADER / SEO CONTENT
+========================================================= */
+
+.Shopdetails-header {
+  max-width: 850px;
+  margin: 0 auto 55px;
+  text-align: center;
 }
 
-/* Card Container */
+.Shopdetails-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 13px;
+  padding: 7px 17px;
+  border-radius: 30px;
+  background: rgba(114, 207, 219, 0.13);
+  color: #4aaebb;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.Shopdetails-title {
+  margin: 0;
+  color: var(--shop-heading);
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  text-transform: none;
+}
+
+.Shopdetails-title-line {
+  width: 65px;
+  height: 4px;
+  margin: 19px auto 22px;
+  border-radius: 20px;
+  background: var(--shop-primary);
+}
+
+.Shopdetails-description {
+  max-width: 760px;
+  margin: 0 auto 13px;
+  color: var(--shop-text);
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.85;
+}
+
+.Shopdetails-description.secondary {
+  margin-bottom: 0;
+}
+
+.Shopdetails-description strong {
+  color: var(--shop-primary);
+  font-weight: 700;
+}
+
+/* =========================================================
+   PRODUCT GRID
+========================================================= */
+
+.Shopdetails-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 38px 30px;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
 .Shopdetails-card {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  transition: transform 0.3s ease;
 }
 
-/* Card Image Styles */
+.Shopdetails-card:hover {
+  transform: translateY(-5px);
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
 .Shopdetails-image-wrapper {
+  position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 20px;
   overflow: hidden;
-  position: relative;
-  background-color: #f5f5f5;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  background: var(--shop-light);
+  box-shadow:
+    0 10px 30px rgba(56, 66, 77, 0.07),
+    0 2px 8px rgba(56, 66, 77, 0.04);
+}
+
+.Shopdetails-image-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .Shopdetails-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
+  object-fit: cover;
+  transition:
+    transform 0.55s ease,
+    filter 0.35s ease;
 }
 
 .Shopdetails-card:hover .Shopdetails-image {
-  transform: scale(1.03);
+  transform: scale(1.06);
 }
 
-/* Sale Badge */
+/* =========================================================
+   SALE BADGE
+========================================================= */
+
 .Shopdetails-sale-badge {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: #72cfdb;
-  color: #ffffff;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.75rem;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 15px;
+  border-radius: 30px;
+
+  background: var(--shop-secondary);
+  color: var(--shop-white);
+
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 6px 14px;
-  border-radius: 20px;
-  box-shadow: 0 2px 6px rgba(114, 207, 219, 0.4);
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 5px 15px rgba(114, 207, 219, 0.3);
 }
 
-/* Card Info Section */
+/* =========================================================
+   CARD INFORMATION
+========================================================= */
+
 .Shopdetails-info {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 18px;
-  width: 100%;
+  padding: 20px 10px 0;
+  box-sizing: border-box;
 }
 
 .Shopdetails-card-title {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #38424d;
-  margin: 0 0 6px 0;
+  margin: 0 0 7px;
+  color: var(--shop-heading);
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.22rem;
+  font-weight: 500;
+  line-height: 1.35;
 }
 
-/* Rating Stars */
+/* =========================================================
+   RATING
+========================================================= */
+
 .Shopdetails-rating {
   display: flex;
-  gap: 2px;
-  margin-bottom: 6px;
-  font-size: 0.85rem;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
 }
 
 .Shopdetails-star-filled {
-  color: #616770;
+  color: #e6a735;
 }
 
 .Shopdetails-star-empty {
-  color: #cbd5e1;
+  color: #d8dfe4;
 }
 
-/* Price Section */
+/* =========================================================
+   PRICE
+========================================================= */
+
 .Shopdetails-price-wrapper {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Open Sans', sans-serif;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 25px;
+  margin-bottom: 16px;
+
+  font-family: "Open Sans", sans-serif;
   font-size: 0.9rem;
-  margin-bottom: 14px;
 }
 
 .Shopdetails-original-price {
-  color: #b0b8c1;
+  color: #aeb7bf;
   text-decoration: line-through;
+  font-size: 0.84rem;
 }
 
 .Shopdetails-price {
-  color: #ee815d;
-  font-weight: 600;
+  color: var(--shop-primary);
+  font-weight: 700;
 }
 
 .Shopdetails-sale-price {
-  text-decoration: underline;
-  font-weight: 700;
+  text-decoration: none;
 }
 
-/* Add To Cart Button */
+/* =========================================================
+   BUTTON
+========================================================= */
+
 .Shopdetails-btn {
-  background-color: #f27c54;
-  color: #ffffff;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 24px;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 135px;
+  padding: 11px 24px;
+
+  border: 0;
+  border-radius: 30px;
+
+  background: var(--shop-primary);
+  color: var(--shop-white);
+
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 1px;
+
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+
+  box-shadow: 0 8px 18px rgba(242, 124, 84, 0.2);
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .Shopdetails-btn:hover {
-  background-color: #e0683f;
-  transform: translateY(-1px);
+  background: var(--shop-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 11px 23px rgba(242, 124, 84, 0.28);
 }
 
-/* Responsive Media Queries */
+.Shopdetails-btn:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   BOTTOM CONTENT
+========================================================= */
+
+.Shopdetails-bottom-content {
+  max-width: 850px;
+  margin: 75px auto 0;
+  padding: 42px 35px;
+  text-align: center;
+
+  border: 1px solid var(--shop-border);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(114, 207, 219, 0.07),
+      rgba(242, 124, 84, 0.06)
+    );
+}
+
+.Shopdetails-bottom-label {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #4aaebb;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.Shopdetails-bottom-content h2 {
+  margin: 0 0 17px;
+
+  color: var(--shop-heading);
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.Shopdetails-bottom-content p {
+  margin: 0 auto 12px;
+  color: var(--shop-text);
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.94rem;
+  line-height: 1.8;
+}
+
+.Shopdetails-bottom-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
 @media (max-width: 992px) {
+  .Shopdetails {
+    padding: 70px 25px;
+  }
+
   .Shopdetails-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 35px 25px;
+  }
+
+  .Shopdetails-header {
+    margin-bottom: 45px;
   }
 }
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+  .Shopdetails {
+    padding: 60px 20px;
+  }
+
+  .Shopdetails-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 18px;
+  }
+
+  .Shopdetails-image-wrapper {
+    border-radius: 19px;
+  }
+
+  .Shopdetails-info {
+    padding-top: 15px;
+  }
+
+  .Shopdetails-card-title {
+    font-size: 1.05rem;
+  }
+
+  .Shopdetails-bottom-content {
+    margin-top: 55px;
+    padding: 35px 25px;
+    border-radius: 23px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 576px) {
-  .Shopdetails-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
+  .Shopdetails {
+    padding: 50px 15px;
   }
 
+  .Shopdetails-header {
+    margin-bottom: 35px;
+  }
+
+  .Shopdetails-eyebrow {
+    font-size: 0.68rem;
+    padding: 6px 13px;
+  }
+
+  .Shopdetails-title {
+    font-size: 1.85rem;
+  }
+
+  .Shopdetails-title-line {
+    margin: 15px auto 18px;
+  }
+
+  .Shopdetails-description {
+    font-size: 0.88rem;
+    line-height: 1.75;
+  }
+
+  .Shopdetails-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .Shopdetails-image-wrapper {
+    border-radius: 22px;
+  }
+
+  .Shopdetails-card-title {
+    font-size: 1.15rem;
+  }
+
+  .Shopdetails-bottom-content {
+    margin-top: 48px;
+    padding: 30px 20px;
+  }
+
+  .Shopdetails-bottom-content h2 {
+    font-size: 1.55rem;
+  }
+
+  .Shopdetails-bottom-content p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
   .Shopdetails {
-    padding: 40px 15px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .Shopdetails-title {
+    font-size: 1.65rem;
+  }
+
+  .Shopdetails-description {
+    font-size: 0.84rem;
+  }
+
+  .Shopdetails-btn {
+    min-width: 125px;
+    padding: 10px 20px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .Shopdetails-card,
+  .Shopdetails-image,
+  .Shopdetails-btn {
+    transition: none;
+  }
+
+  .Shopdetails-card:hover {
+    transform: none;
+  }
+
+  .Shopdetails-card:hover .Shopdetails-image {
+    transform: none;
   }
 }

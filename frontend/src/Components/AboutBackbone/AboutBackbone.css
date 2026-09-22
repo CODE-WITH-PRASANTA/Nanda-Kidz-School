@@ -1,185 +1,434 @@
-/* Container & Base Background Color */
 .about-backbone-container {
+  --backbone-bg: #fdf7ee;
+  --backbone-white: #ffffff;
+  --backbone-text: #151515;
+  --backbone-muted: #5d5d5d;
+  --backbone-accent: #d3a15e;
+  --backbone-shadow: 0 12px 35px rgba(48, 36, 20, 0.07);
+
   position: relative;
-  background-color: #FDF7EE; /* Warm cream/light beige background */
-  padding: 150px 20px;
   width: 100%;
   min-height: 100vh;
+  padding: 120px 24px;
   box-sizing: border-box;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
+  background: var(--backbone-bg);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ---------------------------------------------------------
+   Main Content
+--------------------------------------------------------- */
+
 .about-backbone-content {
-  max-width: 1100px;
+  position: relative;
+  z-index: 3;
   width: 100%;
+  max-width: 1180px;
   margin: 0 auto;
   text-align: center;
-  z-index: 2;
 }
 
-/* Header Styling */
+/* ---------------------------------------------------------
+   Header
+--------------------------------------------------------- */
+
 .about-backbone-header {
-  margin-bottom: 50px;
+  max-width: 760px;
+  margin: 0 auto 55px;
 }
 
 .badge-icon {
-  font-size: 24px;
-  margin-bottom: 8px;
-  opacity: 0.8;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(211, 161, 94, 0.13);
+  border: 1px solid rgba(211, 161, 94, 0.2);
+  box-shadow: 0 8px 20px rgba(211, 161, 94, 0.1);
+  animation: backboneBadgeFloat 3s ease-in-out infinite;
+}
+
+.cap-icon {
+  display: block;
+  font-size: 23px;
+  line-height: 1;
 }
 
 .subtitle {
   display: block;
-  color: #D3A15E; /* Warm accent gold/tan color */
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  color: var(--backbone-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.5;
   text-transform: uppercase;
-  margin-bottom: 8px;
 }
 
 .title {
-  color: #0E0E0E; /* Strong dark font color */
-  font-size: 38px;
+  margin: 0 auto 22px;
+  color: var(--backbone-text);
+  font-size: clamp(32px, 4vw, 48px);
   font-weight: 800;
-  margin: 0 0 18px 0;
-  letter-spacing: -0.5px;
-  padding-left: 170px;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  text-transform: capitalize;
 }
 
 .description {
-  color: #333333;
-  font-size: 15px;
-  line-height: 1.6;
+  max-width: 720px;
   margin: 0 auto;
-  max-width: 600px;
+  color: var(--backbone-muted);
+  font-size: 16px;
   font-weight: 400;
+  line-height: 1.8;
 }
 
-/* Floating / Corner Decorative Images */
+.secondary-description {
+  margin-top: 14px;
+}
+
+.secondary-description strong {
+  color: var(--backbone-text);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------
+   Decorative Images
+--------------------------------------------------------- */
+
 .decorative-element {
   position: absolute;
-  pointer-events: none;
   z-index: 1;
-}
-
-.planet-icon {
-  top: 15%;
-  left: 8%;
-  width: 150px;
-}
-
-.rocket-icon {
-  top: 15%;
-  right: 8%;
-  width: 190px;
+  pointer-events: none;
+  user-select: none;
 }
 
 .decorative-element img {
+  display: block;
   width: 100%;
   height: auto;
   object-fit: contain;
 }
 
-/* Responsive Grid Layout for Partner Logos */
+.planet-icon {
+  top: 11%;
+  left: 4%;
+  width: 155px;
+  animation: planetFloat 5s ease-in-out infinite;
+}
+
+.rocket-icon {
+  top: 10%;
+  right: 4%;
+  width: 185px;
+  animation: rocketFloat 4.5s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------
+   Partner Grid
+--------------------------------------------------------- */
+
 .partners-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .logo-card {
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  padding: 24px 16px;
+  position: relative;
+  min-height: 115px;
+  padding: 22px 18px;
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--backbone-white);
+  border: 1px solid rgba(21, 21, 21, 0.05);
+  border-radius: 16px;
+  box-shadow: var(--backbone-shadow);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.logo-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -110%;
+  width: 70%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
 }
 
 .logo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transform: translateY(-7px);
+  border-color: rgba(211, 161, 94, 0.25);
+  box-shadow: 0 18px 40px rgba(48, 36, 20, 0.11);
+}
+
+.logo-card:hover::before {
+  left: 140%;
 }
 
 .partner-logo {
-  max-width: 100%;
-  max-height: 100%;
+  position: relative;
+  z-index: 2;
+  display: block;
+  max-width: 90%;
+  max-height: 76px;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  transition: transform 0.35s ease;
 }
 
-/* --- Responsive Breakpoints --- */
+.logo-card:hover .partner-logo {
+  transform: scale(1.04);
+}
 
-/* Tablet (2 items per row / Hide side illustrations on smaller viewports) */
-@media (max-width: 992px) {
+/* ---------------------------------------------------------
+   Animations
+--------------------------------------------------------- */
+
+@keyframes planetFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0) rotate(3deg);
+  }
+}
+
+@keyframes rocketFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0) rotate(-3deg);
+  }
+}
+
+@keyframes backboneBadgeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* ---------------------------------------------------------
+   Large Tablet
+--------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .about-backbone-container {
+    padding: 105px 24px;
+  }
+
   .planet-icon {
-    top: 4%;
-    left: 4%;
-    width: 80px;
+    left: 2%;
+    width: 105px;
   }
 
   .rocket-icon {
-    top: 4%;
-    right: 4%;
-    width: 100px;
-  }
-
-  .title {
-    font-size: 32px;
+    right: 2%;
+    width: 125px;
   }
 
   .partners-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 18px;
   }
 }
 
-/* Mobile Screen Sizes */
-@media (max-width: 576px) {
+/* ---------------------------------------------------------
+   Tablet
+--------------------------------------------------------- */
+
+@media (max-width: 992px) {
   .about-backbone-container {
-    padding: 50px 16px;
+    min-height: auto;
+    padding: 90px 22px;
   }
 
-  .decorative-element {
-    position: relative;
-    display: inline-block;
-    margin: 0 10px 20px;
+  .about-backbone-header {
+    max-width: 680px;
+    margin-bottom: 42px;
   }
 
-  .planet-icon,
+  .planet-icon {
+    top: 4%;
+    left: 3%;
+    width: 75px;
+  }
+
   .rocket-icon {
-    top: auto;
-    left: auto;
-    right: auto;
-    width: 60px;
+    top: 4%;
+    right: 3%;
+    width: 90px;
   }
 
   .title {
-    font-size: 26px;
+    font-size: 36px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  .partners-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .logo-card {
+    min-height: 105px;
+  }
+}
+
+/* ---------------------------------------------------------
+   Mobile
+--------------------------------------------------------- */
+
+@media (max-width: 576px) {
+  .about-backbone-container {
+    padding: 65px 16px 70px;
+  }
+
+  .about-backbone-header {
+    margin-bottom: 34px;
+  }
+
+  .badge-icon {
+    width: 46px;
+    height: 46px;
+    margin-bottom: 12px;
+  }
+
+  .cap-icon {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    margin-bottom: 10px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .title {
+    margin-bottom: 18px;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
   }
 
   .description {
     font-size: 14px;
+    line-height: 1.75;
   }
 
-  .description br {
-    display: none; /* Text wraps naturally on small screens */
+  .secondary-description {
+    margin-top: 12px;
+  }
+
+  .decorative-element {
+    opacity: 0.65;
+  }
+
+  .planet-icon {
+    top: 2%;
+    left: 3%;
+    width: 55px;
+  }
+
+  .rocket-icon {
+    top: 2%;
+    right: 3%;
+    width: 70px;
   }
 
   .partners-grid {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 1fr;
     gap: 14px;
   }
 
   .logo-card {
-    height: 90px;
+    min-height: 92px;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .partner-logo {
+    max-height: 62px;
+  }
+}
+
+/* ---------------------------------------------------------
+   Small Mobile
+--------------------------------------------------------- */
+
+@media (max-width: 380px) {
+  .about-backbone-container {
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .title {
+    font-size: 25px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .planet-icon {
+    width: 45px;
+  }
+
+  .rocket-icon {
+    width: 58px;
+  }
+}
+
+/* ---------------------------------------------------------
+   Reduced Motion
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-icon,
+  .planet-icon,
+  .rocket-icon {
+    animation: none;
+  }
+
+  .logo-card,
+  .partner-logo,
+  .logo-card::before {
+    transition: none;
   }
 }
