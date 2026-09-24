@@ -16,6 +16,26 @@ if (!fs.existsSync(uploadDir)) {
 }
 
 // =========================================================
+// SUPPORTED IMAGE TYPES
+// =========================================================
+
+const allowedMimeTypes = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/avif",
+];
+
+// =========================================================
+// IMAGE PROCESSING CONFIGURATION
+// =========================================================
+
+const IMAGE_WIDTH = 1200;
+const IMAGE_QUALITY = 82;
+
+// =========================================================
 // MULTER STORAGE
 // =========================================================
 
@@ -26,20 +46,30 @@ const storage = multer.memoryStorage();
 // =========================================================
 
 const fileFilter = (req, file, cb) => {
-  if (!file || !file.mimetype) {
-    return cb(new Error("Invalid image file."), false);
-  }
+  try {
+    if (!file || !file.mimetype) {
+      return cb(
+        new Error("Invalid image file."),
+        false
+      );
+    }
 
-  if (file.mimetype.startsWith("image/")) {
-    return cb(null, true);
-  }
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      return cb(null, true);
+    }
 
-  return cb(
-    new Error(
-      "Only image files are allowed. JPG, JPEG, PNG and WEBP only."
-    ),
-    false
-  );
+    return cb(
+      new Error(
+        "Only image files are allowed. JPG, JPEG, PNG, WEBP, GIF and AVIF only."
+      ),
+      false
+    );
+  } catch (error) {
+    return cb(
+      new Error("Image validation failed."),
+      false
+    );
+  }
 };
 
 // =========================================================
@@ -58,17 +88,54 @@ const upload = multer({
 });
 
 // =========================================================
+// SANITIZE FILE PREFIX
+// =========================================================
+//
+// Prevents unsafe characters from entering generated
+// filenames.
+//
+// Example:
+// "Teacher Profile" -> "teacher-profile"
+//
+
+const sanitizePrefix = (
+  prefix,
+  fallback = "image"
+) => {
+  if (
+    !prefix ||
+    typeof prefix !== "string"
+  ) {
+    return fallback;
+  }
+
+  const cleanPrefix = prefix
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return cleanPrefix || fallback;
+};
+
+// =========================================================
 // GENERATE UNIQUE FILE NAME
 // =========================================================
 
-const generateFileName = (prefix = "image") => {
+const generateFileName = (
+  prefix = "image"
+) => {
+  const safePrefix =
+    sanitizePrefix(prefix, "image");
+
   const timestamp = Date.now();
 
   const randomNumber = Math.floor(
     Math.random() * 1000000000
   );
 
-  return `${prefix}-${timestamp}-${randomNumber}.webp`;
+  return `${safePrefix}-${timestamp}-${randomNumber}.webp`;
 };
 
 // =========================================================
@@ -77,30 +144,129 @@ const generateFileName = (prefix = "image") => {
 // Allows different modules to use different prefixes.
 //
 // Example:
+//
 // req.uploadPrefix = "teacher"
 // req.uploadPrefix = "gallery"
 // req.uploadPrefix = "vehicle"
+// req.uploadPrefix = "blog"
 //
 // If nothing is provided, "gallery" is used.
 // =========================================================
 
-const getUploadPrefix = (req, defaultPrefix = "gallery") => {
+const getUploadPrefix = (
+  req,
+  defaultPrefix = "gallery"
+) => {
   if (
     req &&
     req.uploadPrefix &&
     typeof req.uploadPrefix === "string"
   ) {
-    return req.uploadPrefix;
+    return sanitizePrefix(
+      req.uploadPrefix,
+      defaultPrefix
+    );
   }
 
-  return defaultPrefix;
+  return sanitizePrefix(
+    defaultPrefix,
+    "gallery"
+  );
+};
+
+// =========================================================
+// SAFE FILE DELETE
+// =========================================================
+//
+// Used when Sharp processing fails so that partially
+// created files do not remain inside /uploads.
+//
+
+const safeDeleteFile = (filePath) => {
+  try {
+    if (
+      filePath &&
+      fs.existsSync(filePath)
+    ) {
+      fs.unlinkSync(filePath);
+    }
+  } catch (deleteError) {
+    console.error(
+      "FILE CLEANUP ERROR:",
+      deleteError
+    );
+  }
+};
+
+// =========================================================
+// GET ORIGINAL EXTENSION
+// =========================================================
+
+const getOriginalExtension = (
+  originalName
+) => {
+  if (
+    !originalName ||
+    typeof originalName !== "string"
+  ) {
+    return "";
+  }
+
+  return (
+    path
+      .extname(originalName)
+      .replace(".", "")
+      .toLowerCase()
+  );
+};
+
+// =========================================================
+// IMAGE PROCESSING FUNCTION
+// =========================================================
+//
+// Centralized Sharp processing.
+// Existing middleware behavior remains unchanged.
+//
+// =========================================================
+
+const processImageToWebp = async (
+  buffer,
+  outputPath
+) => {
+  if (
+    !buffer ||
+    !Buffer.isBuffer(buffer)
+  ) {
+    throw new Error(
+      "Invalid image buffer."
+    );
+  }
+
+  await sharp(buffer)
+    .rotate()
+    .resize({
+      width: IMAGE_WIDTH,
+      withoutEnlargement: true,
+    })
+    .webp({
+      quality: IMAGE_QUALITY,
+    })
+    .toFile(outputPath);
+
+  return fs.statSync(outputPath);
 };
 
 // =========================================================
 // SINGLE IMAGE → WEBP
 // =========================================================
 
-const convertSingleToWebp = async (req, res, next) => {
+const convertSingleToWebp = async (
+  req,
+  res,
+  next
+) => {
+  let outputPath = null;
+
   try {
     // ------------------------------------------
     // No image uploaded
@@ -114,47 +280,49 @@ const convertSingleToWebp = async (req, res, next) => {
     // Get prefix
     // ------------------------------------------
 
-    const prefix = getUploadPrefix(req, "gallery");
+    const prefix = getUploadPrefix(
+      req,
+      "gallery"
+    );
 
     // ------------------------------------------
     // Generate filename
     // ------------------------------------------
 
-    const filename = generateFileName(prefix);
+    const filename =
+      generateFileName(prefix);
 
     // ------------------------------------------
     // Full file path
     // ------------------------------------------
 
-    const outputPath = path.join(uploadDir, filename);
+    outputPath = path.join(
+      uploadDir,
+      filename
+    );
 
     // ------------------------------------------
     // Convert image to WEBP
     // ------------------------------------------
 
-    await sharp(req.file.buffer)
-      .rotate()
-      .resize({
-        width: 1200,
-        withoutEnlargement: true,
-      })
-      .webp({
-        quality: 82,
-      })
-      .toFile(outputPath);
-
-    // ------------------------------------------
-    // Get file information
-    // ------------------------------------------
-
-    const stats = fs.statSync(outputPath);
+    const stats =
+      await processImageToWebp(
+        req.file.buffer,
+        outputPath
+      );
 
     // ------------------------------------------
     // Save processed file information
     // ------------------------------------------
 
     req.processedFile = {
-      originalName: req.file.originalname,
+      originalName:
+        req.file.originalname,
+
+      originalExtension:
+        getOriginalExtension(
+          req.file.originalname
+        ),
 
       filename: filename,
 
@@ -165,6 +333,13 @@ const convertSingleToWebp = async (req, res, next) => {
       size: stats.size,
 
       mimetype: "image/webp",
+
+      width: IMAGE_WIDTH,
+
+      quality: IMAGE_QUALITY,
+
+      processedAt:
+        new Date().toISOString(),
     };
 
     console.log(
@@ -179,10 +354,17 @@ const convertSingleToWebp = async (req, res, next) => {
       error
     );
 
+    // ------------------------------------------
+    // Cleanup partially generated file
+    // ------------------------------------------
+
+    safeDeleteFile(outputPath);
+
     return res.status(500).json({
       success: false,
 
-      message: "Image conversion failed.",
+      message:
+        "Image conversion failed.",
 
       error: error.message,
     });
@@ -214,6 +396,8 @@ const convertTeacherImageToWebp = async (
   res,
   next
 ) => {
+  let outputPath = null;
+
   try {
     // ------------------------------------------
     // No image
@@ -227,19 +411,21 @@ const convertTeacherImageToWebp = async (
     // Set Teacher prefix
     // ------------------------------------------
 
-    req.uploadPrefix = "teacher";
+    req.uploadPrefix =
+      "teacher";
 
     // ------------------------------------------
     // Generate filename
     // ------------------------------------------
 
-    const filename = generateFileName("teacher");
+    const filename =
+      generateFileName("teacher");
 
     // ------------------------------------------
     // Full path
     // ------------------------------------------
 
-    const outputPath = path.join(
+    outputPath = path.join(
       uploadDir,
       filename
     );
@@ -248,29 +434,24 @@ const convertTeacherImageToWebp = async (
     // Convert to WEBP
     // ------------------------------------------
 
-    await sharp(req.file.buffer)
-      .rotate()
-      .resize({
-        width: 1200,
-        withoutEnlargement: true,
-      })
-      .webp({
-        quality: 82,
-      })
-      .toFile(outputPath);
-
-    // ------------------------------------------
-    // File statistics
-    // ------------------------------------------
-
-    const stats = fs.statSync(outputPath);
+    const stats =
+      await processImageToWebp(
+        req.file.buffer,
+        outputPath
+      );
 
     // ------------------------------------------
     // Save processed Teacher image
     // ------------------------------------------
 
     req.processedFile = {
-      originalName: req.file.originalname,
+      originalName:
+        req.file.originalname,
+
+      originalExtension:
+        getOriginalExtension(
+          req.file.originalname
+        ),
 
       filename: filename,
 
@@ -281,6 +462,13 @@ const convertTeacherImageToWebp = async (
       size: stats.size,
 
       mimetype: "image/webp",
+
+      width: IMAGE_WIDTH,
+
+      quality: IMAGE_QUALITY,
+
+      processedAt:
+        new Date().toISOString(),
     };
 
     console.log(
@@ -295,10 +483,17 @@ const convertTeacherImageToWebp = async (
       error
     );
 
+    // ------------------------------------------
+    // Cleanup generated file
+    // ------------------------------------------
+
+    safeDeleteFile(outputPath);
+
     return res.status(500).json({
       success: false,
 
-      message: "Teacher image conversion failed.",
+      message:
+        "Teacher image conversion failed.",
 
       error: error.message,
     });
@@ -314,6 +509,8 @@ const convertMultipleToWebp = async (
   res,
   next
 ) => {
+  const generatedFiles = [];
+
   try {
     // ------------------------------------------
     // No files uploaded
@@ -352,42 +549,63 @@ const convertMultipleToWebp = async (
     ) {
       const file = req.files[i];
 
-      const filename = generateFileName(
-        `${prefix}-${i + 1}`
-      );
+      // ----------------------------------------
+      // Safety validation
+      // ----------------------------------------
+
+      if (
+        !file ||
+        !file.buffer
+      ) {
+        throw new Error(
+          `Invalid image at position ${i + 1}.`
+        );
+      }
+
+      // ----------------------------------------
+      // Generate filename
+      // ----------------------------------------
+
+      const filename =
+        generateFileName(
+          `${prefix}-${i + 1}`
+        );
+
+      // ----------------------------------------
+      // Full output path
+      // ----------------------------------------
 
       const outputPath = path.join(
         uploadDir,
         filename
       );
 
+      generatedFiles.push(
+        outputPath
+      );
+
       // ----------------------------------------
       // Convert to WEBP
       // ----------------------------------------
 
-      await sharp(file.buffer)
-        .rotate()
-        .resize({
-          width: 1200,
-          withoutEnlargement: true,
-        })
-        .webp({
-          quality: 82,
-        })
-        .toFile(outputPath);
-
-      // ----------------------------------------
-      // File information
-      // ----------------------------------------
-
-      const stats = fs.statSync(outputPath);
+      const stats =
+        await processImageToWebp(
+          file.buffer,
+          outputPath
+        );
 
       // ----------------------------------------
       // Add to processed files
       // ----------------------------------------
 
       req.processedFiles.push({
-        originalName: file.originalname,
+        originalName:
+          file.originalname,
+
+        originalExtension:
+          getOriginalExtension(
+            file.originalname
+          ),
 
         filename: filename,
 
@@ -398,6 +616,13 @@ const convertMultipleToWebp = async (
         size: stats.size,
 
         mimetype: "image/webp",
+
+        width: IMAGE_WIDTH,
+
+        quality: IMAGE_QUALITY,
+
+        processedAt:
+          new Date().toISOString(),
       });
     }
 
@@ -411,6 +636,16 @@ const convertMultipleToWebp = async (
     console.error(
       "MULTIPLE IMAGE CONVERSION ERROR:",
       error
+    );
+
+    // ------------------------------------------
+    // Cleanup every generated image
+    // ------------------------------------------
+
+    generatedFiles.forEach(
+      (filePath) => {
+        safeDeleteFile(filePath);
+      }
     );
 
     return res.status(500).json({
@@ -429,6 +664,7 @@ const convertMultipleToWebp = async (
 //
 // Added specifically for Blog posts.
 // Uses the exact same reliable structure.
+//
 // =========================================================
 
 const convertBlogImageToWebp = async (
@@ -436,11 +672,14 @@ const convertBlogImageToWebp = async (
   res,
   next
 ) => {
+  let outputPath = null;
+
   try {
     // ------------------------------------------
     // No new image uploaded
     //
     // Important for BLOG UPDATE.
+    //
     // If the user edits a blog without selecting
     // another image, keep the existing image.
     // ------------------------------------------
@@ -453,19 +692,21 @@ const convertBlogImageToWebp = async (
     // Set Blog prefix
     // ------------------------------------------
 
-    req.uploadPrefix = "blog";
+    req.uploadPrefix =
+      "blog";
 
     // ------------------------------------------
     // Generate filename
     // ------------------------------------------
 
-    const filename = generateFileName("blog");
+    const filename =
+      generateFileName("blog");
 
     // ------------------------------------------
     // Full output path
     // ------------------------------------------
 
-    const outputPath = path.join(
+    outputPath = path.join(
       uploadDir,
       filename
     );
@@ -474,29 +715,24 @@ const convertBlogImageToWebp = async (
     // Convert image to WEBP
     // ------------------------------------------
 
-    await sharp(req.file.buffer)
-      .rotate()
-      .resize({
-        width: 1200,
-        withoutEnlargement: true,
-      })
-      .webp({
-        quality: 82,
-      })
-      .toFile(outputPath);
-
-    // ------------------------------------------
-    // Get file information
-    // ------------------------------------------
-
-    const stats = fs.statSync(outputPath);
+    const stats =
+      await processImageToWebp(
+        req.file.buffer,
+        outputPath
+      );
 
     // ------------------------------------------
     // Save processed Blog image
     // ------------------------------------------
 
     req.processedFile = {
-      originalName: req.file.originalname,
+      originalName:
+        req.file.originalname,
+
+      originalExtension:
+        getOriginalExtension(
+          req.file.originalname
+        ),
 
       filename: filename,
 
@@ -507,6 +743,13 @@ const convertBlogImageToWebp = async (
       size: stats.size,
 
       mimetype: "image/webp",
+
+      width: IMAGE_WIDTH,
+
+      quality: IMAGE_QUALITY,
+
+      processedAt:
+        new Date().toISOString(),
     };
 
     console.log(
@@ -521,13 +764,167 @@ const convertBlogImageToWebp = async (
       error
     );
 
+    // ------------------------------------------
+    // Cleanup generated file
+    // ------------------------------------------
+
+    safeDeleteFile(outputPath);
+
     return res.status(500).json({
       success: false,
 
-      message: "Blog image conversion failed.",
+      message:
+        "Blog image conversion failed.",
 
       error: error.message,
     });
+  }
+};
+
+// =========================================================
+// PREMIUM IMAGE INFORMATION HELPER
+// =========================================================
+//
+// This helper can be used by future modules when you
+// need detailed information about an uploaded image.
+//
+// It does NOT change the existing middleware behavior.
+//
+// Example:
+//
+// const metadata = await getImageMetadata(buffer);
+//
+// =========================================================
+
+const getImageMetadata = async (
+  buffer
+) => {
+  try {
+    if (
+      !buffer ||
+      !Buffer.isBuffer(buffer)
+    ) {
+      throw new Error(
+        "Invalid image buffer."
+      );
+    }
+
+    const metadata =
+      await sharp(buffer).metadata();
+
+    return {
+      width:
+        metadata.width || null,
+
+      height:
+        metadata.height || null,
+
+      format:
+        metadata.format || null,
+
+      size:
+        buffer.length,
+
+      hasAlpha:
+        Boolean(metadata.hasAlpha),
+
+      orientation:
+        metadata.orientation || null,
+    };
+  } catch (error) {
+    console.error(
+      "IMAGE METADATA ERROR:",
+      error
+    );
+
+    throw error;
+  }
+};
+
+// =========================================================
+// IMAGE BUFFER VALIDATION
+// =========================================================
+//
+// Extra protection before Sharp processing.
+//
+// Sharp itself remains the final image validator.
+//
+// =========================================================
+
+const validateImageBuffer = async (
+  buffer
+) => {
+  try {
+    if (
+      !buffer ||
+      !Buffer.isBuffer(buffer) ||
+      buffer.length === 0
+    ) {
+      return false;
+    }
+
+    await sharp(buffer).metadata();
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+// =========================================================
+// DELETE PROCESSED IMAGE
+// =========================================================
+//
+// Utility for controllers that need to delete an image.
+//
+// Example:
+//
+// deleteProcessedImage(
+//   req.processedFile.filename
+// );
+//
+// =========================================================
+
+const deleteProcessedImage = (
+  filename
+) => {
+  try {
+    if (
+      !filename ||
+      typeof filename !== "string"
+    ) {
+      return false;
+    }
+
+    const safeFilename =
+      path.basename(filename);
+
+    const filePath = path.join(
+      uploadDir,
+      safeFilename
+    );
+
+    if (
+      !fs.existsSync(filePath)
+    ) {
+      return false;
+    }
+
+    fs.unlinkSync(filePath);
+
+    console.log(
+      "IMAGE DELETED:",
+      safeFilename
+    );
+
+    return true;
+  } catch (error) {
+    console.error(
+      "IMAGE DELETE ERROR:",
+      error
+    );
+
+    return false;
   }
 };
 
@@ -538,7 +935,12 @@ const convertBlogImageToWebp = async (
 // 500 errors.
 // =========================================================
 
-const handleUploadError = (err, req, res, next) => {
+const handleUploadError = (
+  err,
+  req,
+  res,
+  next
+) => {
   if (!err) {
     return next();
   }
@@ -548,33 +950,109 @@ const handleUploadError = (err, req, res, next) => {
     err
   );
 
-  if (err instanceof multer.MulterError) {
-    if (err.code === "LIMIT_FILE_SIZE") {
+  // ------------------------------------------
+  // MULTER ERRORS
+  // ------------------------------------------
+
+  if (
+    err instanceof multer.MulterError
+  ) {
+    if (
+      err.code ===
+      "LIMIT_FILE_SIZE"
+    ) {
       return res.status(400).json({
         success: false,
+
         message:
           "Image size cannot exceed 10 MB.",
       });
     }
 
-    if (err.code === "LIMIT_FILE_COUNT") {
+    if (
+      err.code ===
+      "LIMIT_FILE_COUNT"
+    ) {
       return res.status(400).json({
         success: false,
+
         message:
           "You can upload a maximum of 15 images.",
       });
     }
 
+    if (
+      err.code ===
+      "LIMIT_UNEXPECTED_FILE"
+    ) {
+      return res.status(400).json({
+        success: false,
+
+        message:
+          "Unexpected image field. Please check the upload field name.",
+      });
+    }
+
+    if (
+      err.code ===
+      "LIMIT_PART_COUNT"
+    ) {
+      return res.status(400).json({
+        success: false,
+
+        message:
+          "Too many form fields were submitted.",
+      });
+    }
+
     return res.status(400).json({
       success: false,
-      message: err.message,
+
+      message:
+        err.message ||
+        "Image upload failed.",
     });
   }
 
+  // ------------------------------------------
+  // CUSTOM FILE FILTER / SHARP ERRORS
+  // ------------------------------------------
+
   return res.status(400).json({
     success: false,
-    message: err.message || "Image upload failed.",
+
+    message:
+      err.message ||
+      "Image upload failed.",
   });
+};
+
+// =========================================================
+// PREMIUM UPLOAD CONFIG INFORMATION
+// =========================================================
+//
+// Useful for debugging / admin APIs.
+//
+// =========================================================
+
+const getUploadConfig = () => {
+  return {
+    uploadDirectory: uploadDir,
+
+    maxFileSize:
+      10 * 1024 * 1024,
+
+    maxFiles: 15,
+
+    outputFormat: "webp",
+
+    imageWidth: IMAGE_WIDTH,
+
+    imageQuality: IMAGE_QUALITY,
+
+    allowedMimeTypes:
+      allowedMimeTypes,
+  };
 };
 
 // =========================================================
@@ -593,4 +1071,22 @@ module.exports = {
   convertBlogImageToWebp,
 
   handleUploadError,
+
+  // ------------------------------------------
+  // Additional premium helpers
+  // ------------------------------------------
+
+  generateFileName,
+
+  getUploadPrefix,
+
+  sanitizePrefix,
+
+  getImageMetadata,
+
+  validateImageBuffer,
+
+  deleteProcessedImage,
+
+  getUploadConfig,
 };

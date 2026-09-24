@@ -13,13 +13,19 @@ const classRoutes = require('./routes/classRoutes.js');
 const galleryRoutes = require('./routes/galleryRoutes');
 
 const teacherRoutes = require("./routes/teacherRoutes");
+const shopImgRoutes = require("./routes/shopImgRoutes");
 
 
 const orderRoutes = require("./routes/orderRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const enquiryRoutes = require("./routes/enquiryRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+<<<<<<< HEAD
+const contactLeadRoutes = require("./routes/contactLeadRoutes");
 
+=======
+const announcementRoutes = require("./routes/announcement.routes");
+>>>>>>> e6a9952faacf66ae0bcb98eb290c8a3726e065a2
 const testimonialRoutes = require(
   "./routes/testimonialRoutes"
 );
@@ -71,6 +77,10 @@ app.use(
   "/api/testimonials",
   testimonialRoutes
 );
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/shop-images", shopImgRoutes);
+
+app.use("/api/contact-leads", contactLeadRoutes);
 
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)

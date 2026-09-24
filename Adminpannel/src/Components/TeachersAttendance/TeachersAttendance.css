@@ -1,756 +1,1506 @@
-:root {
-  --primary-purple: #6c5ce7;
-  --primary-purple-hover: #5b4beb;
-  --bg-color: #f8fafc;
-  --card-bg: #ffffff;
-  --text-dark: #1e293b;
-  --text-muted: #64748b;
-  --border-color: #f1f5f9;
-
-  --color-green-bg: #e6f4ea;
-  --color-green-text: #00b894;
-  --color-red-bg: #fce8e6;
-  --color-red-text: #d63031;
-  --color-orange-bg: #fff0da;
-  --color-orange-text: #e17055;
-  --color-purple-bg: #f3f0ff;
-  --color-purple-text: #6c5ce7;
+.teachers-attendance-container {
+  width: 100%;
+  padding: 22px;
+  color: #17203a;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+/* =========================
+   PAGE HEADER
+========================= */
+
+.teachers-attendance-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.teachers-attendance-page-title {
   margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 25px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #17203a;
 }
 
-.attendance-container {
-  background-color: var(--bg-color);
-  padding: 24px;
-  min-height: 100vh;
+.teachers-attendance-page-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #74809a;
 }
 
-/* 5 STATS CARDS GRID */
-.stats-cards-grid {
+/* =========================
+   STATS
+========================= */
+
+.teachers-attendance-stats-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
-.stat-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 18px 16px;
-  border: 1px solid var(--border-color);
+.teachers-attendance-stat-card {
+  min-height: 100px;
+  padding: 18px;
   display: flex;
   align-items: center;
   gap: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
+  background: #ffffff;
+  border: 1px solid #e7eaf2;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(31, 42, 68, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(108, 92, 231, 0.12);
-  border-color: #e2e8f0;
+.teachers-attendance-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(31, 42, 68, 0.08);
 }
 
-.stat-icon-wrapper {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
+.teachers-attendance-stat-icon {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  flex-shrink: 0;
+  font-size: 21px;
 }
 
-.stat-icon-wrapper.purple {
-  background-color: var(--color-purple-bg);
-  color: var(--primary-purple);
+.teachers-attendance-stat-purple {
+  color: #6751e8;
+  background: #f0edff;
 }
 
-.stat-icon-wrapper.green {
-  background-color: var(--color-green-bg);
-  color: var(--color-green-text);
+.teachers-attendance-stat-green {
+  color: #16a879;
+  background: #e7f8f1;
 }
 
-.stat-icon-wrapper.red {
-  background-color: var(--color-red-bg);
-  color: var(--color-red-text);
+.teachers-attendance-stat-red {
+  color: #ef4167;
+  background: #fff0f3;
 }
 
-.stat-icon-wrapper.orange {
-  background-color: var(--color-orange-bg);
-  color: var(--color-orange-text);
+.teachers-attendance-stat-orange {
+  color: #ed9b18;
+  background: #fff6e6;
 }
 
-.stat-icon-wrapper.light-purple {
-  background-color: #f1edff;
-  color: #8c7ae6;
+.teachers-attendance-stat-blue {
+  color: #4285e8;
+  background: #edf5ff;
 }
 
-.stat-details {
+.teachers-attendance-stat-content {
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
 
-.stat-title {
-  font-size: 12px;
-  color: var(--text-muted);
+.teachers-attendance-stat-content span {
+  margin-bottom: 3px;
+  color: #71809b;
+  font-size: 13px;
   font-weight: 500;
 }
 
-.stat-value {
-  font-size: 22px;
+.teachers-attendance-stat-content strong {
+  color: #17203a;
+  font-size: 23px;
+  line-height: 1.2;
   font-weight: 700;
-  color: var(--text-dark);
-  margin: 2px 0;
 }
 
-.stat-subtitle {
+.teachers-attendance-stat-content small {
+  margin-top: 3px;
+  color: #8993a8;
   font-size: 11px;
-  color: var(--text-muted);
+}
+
+/* =========================
+   FILTER
+========================= */
+
+.teachers-attendance-filter-card {
+  padding: 22px;
+  margin-bottom: 22px;
+  background: #ffffff;
+  border: 1px solid #e7eaf2;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(31, 42, 68, 0.04);
+}
+
+.teachers-attendance-filter-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.teachers-attendance-filter-header h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #17203a;
+}
+
+.teachers-attendance-filter-header p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #7d89a1;
+}
+
+.teachers-attendance-reset-button {
+  padding: 8px 15px;
+  border: 1px solid #e3e7ef;
+  border-radius: 9px;
+  background: #f9fafc;
+  color: #59657d;
+  font-size: 13px;
   font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.text-green { color: var(--color-green-text) !important; }
-.text-red { color: var(--color-red-text) !important; }
-.text-orange { color: var(--color-orange-text) !important; }
-
-/* FILTER CONTROLS BAR */
-.filter-controls-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px 20px;
-  border: 1px solid var(--border-color);
-  margin-bottom: 20px;
-  display: flex;
-  align-items: flex-end;
-  gap: 16px;
-  flex-wrap: wrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+.teachers-attendance-reset-button:hover {
+  color: #6650e8;
+  border-color: #d8d1ff;
+  background: #f6f3ff;
 }
 
-.filter-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-  min-width: 140px;
+.teachers-attendance-filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.35fr auto;
+  align-items: end;
+  gap: 14px;
 }
 
-.filter-item label {
+.teachers-attendance-field {
+  min-width: 0;
+}
+
+.teachers-attendance-field label {
+  display: block;
+  margin-bottom: 7px;
+  color: #53617b;
   font-size: 12px;
   font-weight: 600;
-  color: #475569;
 }
 
-.date-input-wrapper {
+.teachers-attendance-field select,
+.teachers-attendance-field input {
+  width: 100%;
+  height: 45px;
+  padding: 0 13px;
+  border: 1px solid #dfe4ee;
+  border-radius: 9px;
+  outline: none;
+  background: #ffffff;
+  color: #26324b;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.teachers-attendance-field select:focus,
+.teachers-attendance-field input:focus {
+  border-color: #7055ef;
+  box-shadow: 0 0 0 3px rgba(112, 85, 239, 0.08);
+}
+
+.teachers-attendance-input-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
-.date-input-wrapper input[type="date"] {
-  width: 100%;
-  padding: 9px 32px 9px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 13px;
-  outline: none;
-  background-color: #fff;
-  color: var(--text-dark);
-  font-weight: 500;
-}
-
-.calendar-icon {
+.teachers-attendance-input-wrapper > svg {
   position: absolute;
-  right: 12px;
-  color: var(--text-muted);
-  pointer-events: none;
-  font-size: 14px;
-}
-
-.filter-item select {
-  padding: 9px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 13px;
-  outline: none;
-  background-color: #fff;
-  color: var(--text-dark);
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.search-box {
-  position: relative;
-  width: 100%;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 9px 12px 9px 36px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 13px;
-  outline: none;
-}
-
-.search-box .search-icon {
-  position: absolute;
-  left: 12px;
   top: 50%;
+  left: 13px;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #99a3b6;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.teachers-attendance-input-wrapper input {
+  padding-left: 37px;
+}
+
+.teachers-attendance-export-button {
+  height: 45px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 9px;
+  background: #7052e8;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(112, 82, 232, 0.18);
+  transition: 0.2s ease;
+}
+
+.teachers-attendance-export-button:hover {
+  background: #6245db;
+  transform: translateY(-1px);
+}
+
+/* =========================
+   TABLE CARD
+========================= */
+
+.teachers-attendance-table-card {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e7eaf2;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(31, 42, 68, 0.04);
+}
+
+.teachers-attendance-table-header {
+  min-height: 82px;
+  padding: 18px 23px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.teachers-attendance-table-header h2 {
+  margin: 0;
+  color: #17203a;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.teachers-attendance-table-header p {
+  margin: 5px 0 0;
+  color: #78849c;
+  font-size: 13px;
+}
+
+.teachers-attendance-table-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+}
+
+/* =========================
+   ADD TEACHER BUTTON
+========================= */
+
+.teachers-attendance-add-teacher-button {
+  min-height: 39px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #7956f2, #6242df);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 7px 17px rgba(105, 76, 229, 0.24);
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.teachers-attendance-add-teacher-button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #6947e9, #5536ce);
+  box-shadow: 0 10px 22px rgba(105, 76, 229, 0.3);
+}
+
+.teachers-attendance-add-teacher-button svg {
+  font-size: 11px;
+}
+
+/* =========================
+   SELECT ALL
+========================= */
+
+.teachers-attendance-select-all-button {
+  min-height: 39px;
+  padding: 0 14px;
+  border: 1px solid #dcd6ff;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #f7f5ff;
+  color: #674de4;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.teachers-attendance-select-all-button:hover:not(:disabled) {
+  background: #eeeaff;
+  border-color: #cfc7ff;
+}
+
+.teachers-attendance-select-all-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.teachers-attendance-record-count {
+  padding: 8px 13px;
+  border-radius: 8px;
+  background: #f1edff;
+  color: #684fe3;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* =========================
+   SELECTION BAR
+========================= */
+
+.teachers-attendance-selection-bar {
+  min-height: 52px;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: #f7f5ff;
+  border-bottom: 1px solid #e9e4ff;
+}
+
+.teachers-attendance-selection-bar > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #6349dc;
+  font-size: 13px;
+}
+
+.teachers-attendance-selection-bar > div:first-child strong {
   font-size: 14px;
 }
 
-.filter-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.btn-more-filters {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  color: #475569;
-  padding: 9px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
+.teachers-attendance-selection-actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: background 0.2s ease;
 }
 
-.btn-more-filters:hover {
-  background: #e2e8f0;
-}
-
-.btn-export {
-  background-color: var(--primary-purple);
-  color: white;
-  border: none;
-  padding: 9px 18px;
-  border-radius: 8px;
-  font-size: 13px;
+.teachers-attendance-selection-export,
+.teachers-attendance-clear-selection {
+  padding: 7px 11px;
+  border-radius: 7px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.teachers-attendance-selection-export {
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: background 0.2s ease;
+  gap: 6px;
+  border: 1px solid #d9d1ff;
+  background: #ffffff;
+  color: #634bdc;
 }
 
-.btn-export:hover {
-  background-color: var(--primary-purple-hover);
+.teachers-attendance-clear-selection {
+  border: 0;
+  background: transparent;
+  color: #707b91;
 }
 
-/* TABLE CARD */
-.table-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-  overflow: hidden;
-}
+/* =========================
+   TABLE
+========================= */
 
-.table-header {
-  padding: 20px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.table-header h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-dark);
-}
-
-.table-header p {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.table-responsive-wrapper {
+.teachers-attendance-table-wrapper {
+  width: 100%;
   overflow-x: auto;
 }
 
-.attendance-table {
+.teachers-attendance-table {
   width: 100%;
+  min-width: 1050px;
   border-collapse: collapse;
-  text-align: left;
-  font-size: 13px;
 }
 
-.attendance-table th {
-  background-color: #f8fafc;
-  padding: 12px 16px;
-  color: #475569;
-  font-weight: 600;
-  border-bottom: 1px solid var(--border-color);
+.teachers-attendance-table th {
+  height: 49px;
+  padding: 0 13px;
+  background: #fafbfc;
+  border-bottom: 1px solid #e9edf3;
+  color: #68748c;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.attendance-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--text-dark);
+.teachers-attendance-table td {
+  height: 76px;
+  padding: 10px 13px;
+  border-bottom: 1px solid #edf0f4;
+  color: #29354e;
+  font-size: 12px;
   vertical-align: middle;
 }
 
-.teacher-profile-cell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.teachers-attendance-table tbody tr {
+  transition: background 0.18s ease;
 }
 
-.teacher-avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
+.teachers-attendance-table tbody tr:hover {
+  background: #fafaff;
+}
+
+.teachers-attendance-table tbody tr.teachers-attendance-selected-row {
+  background: #f8f6ff;
+}
+
+.teachers-attendance-checkbox-column {
+  width: 55px;
+  text-align: center !important;
+}
+
+.teachers-attendance-header-checkbox {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8b96aa;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.teachers-attendance-header-checkbox:hover:not(:disabled) {
+  color: #6951e4;
+}
+
+.teachers-attendance-header-checkbox:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.teachers-attendance-row-checkbox {
+  width: 17px;
+  height: 17px;
+  accent-color: #6c51e8;
+  cursor: pointer;
+}
+
+.teachers-attendance-teacher-cell {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.teachers-attendance-avatar {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
   object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #e7eaf0;
+  box-shadow: 0 3px 8px rgba(30, 40, 60, 0.08);
 }
 
-.profile-info {
+.teachers-attendance-teacher-cell > div {
   display: flex;
   flex-direction: column;
-}
-
-.teacher-name {
-  font-weight: 700;
-  color: var(--text-dark);
-}
-
-.teacher-code {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.dept-cell {
-  color: #475569;
-  font-weight: 500;
-}
-
-.punch-time-cell {
-  display: flex;
-  flex-direction: column;
-}
-
-.time-text {
-  font-weight: 600;
-}
-
-.location-tag {
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-.working-hours-text {
-  font-weight: 600;
-}
-
-/* Status Badges */
-.status-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.status-badge.present {
-  background-color: var(--color-green-bg);
-  color: var(--color-green-text);
-}
-
-.status-badge.absent {
-  background-color: var(--color-red-bg);
-  color: var(--color-red-text);
-}
-
-.status-badge.half-day {
-  background-color: var(--color-orange-bg);
-  color: var(--color-orange-text);
-}
-
-.status-badge.on-leave {
-  background-color: var(--color-purple-bg);
-  color: var(--color-purple-text);
-}
-
-/* Progress Cell */
-.progress-cell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   min-width: 120px;
 }
 
-.pct-label {
+.teachers-attendance-teacher-cell strong {
+  color: #17203a;
+  font-size: 13px;
   font-weight: 700;
+}
+
+.teachers-attendance-teacher-cell span {
+  margin-top: 3px;
+  color: #8290a8;
+  font-size: 11px;
+}
+
+.teachers-attendance-department {
+  color: #42516d;
   font-size: 12px;
-  width: 36px;
+  font-weight: 500;
 }
 
-.progress-bar-bg {
-  flex: 1;
-  height: 6px;
-  background-color: #e2e8f0;
-  border-radius: 10px;
-  overflow: hidden;
+.teachers-attendance-time-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
-.progress-fill {
-  height: 100%;
-  border-radius: 10px;
-}
-
-.progress-fill.green { background-color: var(--color-green-text); }
-.progress-fill.orange { background-color: var(--color-orange-text); }
-.progress-fill.red { background-color: var(--color-red-text); }
-
-/* Action Buttons Group */
-.action-buttons-group {
+.teachers-attendance-time-cell > div {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.action-icon-btn {
-  background: none;
-  border: none;
-  color: #64748b;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
+.teachers-attendance-time-cell > div svg {
+  color: #7461e8;
+  font-size: 11px;
 }
 
-.action-icon-btn:hover {
-  background-color: #f1f5f9;
-  color: var(--primary-purple);
-}
-
-.action-icon-btn.delete-btn:hover {
-  background-color: var(--color-red-bg);
-  color: var(--color-red-text);
-}
-
-/* Three Dots Dropdown */
-.more-menu-wrapper {
-  position: relative;
-}
-
-.status-dropdown-menu {
-  position: absolute;
-  right: 0;
-  top: 110%;
-  background: #ffffff;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  width: 140px;
-  z-index: 50;
-  padding: 6px 0;
-}
-
-.dropdown-title {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-muted);
-  padding: 4px 12px;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.dropdown-item {
-  width: 100%;
-  padding: 8px 12px;
-  background: none;
-  border: none;
-  text-align: left;
+.teachers-attendance-time-cell strong {
+  color: #24314a;
   font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
+}
+
+.teachers-attendance-time-cell > span {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--text-dark);
+  gap: 5px;
+  color: #8994a9;
+  font-size: 10px;
 }
 
-.dropdown-item:hover {
-  background-color: #f8fafc;
+.teachers-attendance-time-cell > span svg {
+  color: #10aa7a;
+  font-size: 9px;
 }
 
-.dropdown-item.active {
+.teachers-attendance-working-hours {
+  color: #0da87a;
+  font-size: 12px;
   font-weight: 700;
-  color: var(--primary-purple);
 }
 
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+/* =========================
+   STATUS
+========================= */
+
+.teachers-attendance-status-wrapper {
+  position: relative;
   display: inline-block;
 }
 
-.dot.green { background-color: var(--color-green-text); }
-.dot.red { background-color: var(--color-red-text); }
-.dot.orange { background-color: var(--color-orange-text); }
-.dot.purple { background-color: var(--color-purple-text); }
-
-/* PAGINATION FOOTER */
-.pagination-footer {
-  display: flex;
-  justify-content: space-between;
+.teachers-attendance-status-badge {
+  min-width: 74px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 7px;
+  display: inline-flex;
   align-items: center;
-  padding: 16px 20px;
-  border-top: 1px solid var(--border-color);
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.pagination-info {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.pagination-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.page-nav-btn,
-.page-num-btn {
-  min-width: 32px;
-  height: 32px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
-  border-radius: 6px;
-  cursor: pointer;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
   font-weight: 600;
-  font-size: 12px;
-  color: var(--text-dark);
+  cursor: pointer;
 }
 
-.page-num-btn.active {
-  background-color: var(--primary-purple);
-  color: #fff;
-  border-color: var(--primary-purple);
+.teachers-attendance-status-badge > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
 }
 
-.page-nav-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+.teachers-attendance-status-present {
+  background: #e9f9f2;
+  color: #0d9c70;
 }
 
-.per-page-selector {
+.teachers-attendance-status-absent {
+  background: #fff0f3;
+  color: #e83d62;
+}
+
+.teachers-attendance-status-half {
+  background: #fff6e7;
+  color: #d78a11;
+}
+
+.teachers-attendance-status-leave {
+  background: #eef3ff;
+  color: #5573d9;
+}
+
+.teachers-attendance-status-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 135px;
+  padding: 5px;
+  background: #ffffff;
+  border: 1px solid #e3e7ef;
+  border-radius: 9px;
+  box-shadow: 0 10px 30px rgba(30, 40, 65, 0.14);
+}
+
+.teachers-attendance-status-menu-item {
+  width: 100%;
+  padding: 8px 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: 12px;
-  font-size: 12px;
-  color: var(--text-muted);
+  color: #56627a;
+  font-size: 11px;
+  text-align: left;
+  cursor: pointer;
 }
 
-.per-page-selector select {
-  padding: 4px 8px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 12px;
-  outline: none;
+.teachers-attendance-status-menu-item:hover,
+.teachers-attendance-status-menu-item.teachers-attendance-active {
+  background: #f2efff;
+  color: #654de1;
 }
 
-.no-data-cell {
-  text-align: center;
-  padding: 30px;
-  color: var(--text-muted);
+/* =========================
+   ATTENDANCE PROGRESS
+========================= */
+
+.teachers-attendance-progress-cell {
+  width: 140px;
 }
 
-/* MODALS */
-.modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+.teachers-attendance-progress-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px;
+}
+
+.teachers-attendance-progress-top strong {
+  color: #1d2a43;
+  font-size: 11px;
+}
+
+.teachers-attendance-progress-top span {
+  color: #9aa3b4;
+  font-size: 9px;
+}
+
+.teachers-attendance-progress-track {
+  width: 100%;
+  height: 5px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #e9edf2;
+}
+
+.teachers-attendance-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #18ae7f;
+  transition: width 0.3s ease;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.teachers-attendance-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.teachers-attendance-action-buttons button {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.18s ease;
 }
 
-.modal-content {
+.teachers-attendance-action-buttons button:hover {
+  transform: translateY(-1px);
+}
+
+.teachers-attendance-action-view {
+  background: #edf5ff;
+  color: #3982e8;
+}
+
+.teachers-attendance-action-edit {
+  background: #f0edff;
+  color: #7155e6;
+}
+
+.teachers-attendance-action-delete {
+  background: #fff0f3;
+  color: #eb4166;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.teachers-attendance-empty-state {
+  height: 250px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.teachers-attendance-empty-state svg {
+  display: block;
+  margin: 0 auto 10px;
+  color: #b4bbca;
+  font-size: 27px;
+}
+
+.teachers-attendance-empty-state strong {
+  display: block;
+  color: #4c5870;
+  font-size: 14px;
+}
+
+.teachers-attendance-empty-state span {
+  display: block;
+  margin-top: 5px;
+  color: #9099ab;
+  font-size: 12px;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.teachers-attendance-pagination {
+  min-height: 68px;
+  padding: 13px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.teachers-attendance-pagination-info {
+  color: #7d879b;
+  font-size: 12px;
+}
+
+.teachers-attendance-pagination-info strong {
+  color: #45516a;
+  font-weight: 600;
+}
+
+.teachers-attendance-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.teachers-attendance-items-select {
+  height: 34px;
+  margin-right: 5px;
+  padding: 0 9px;
+  border: 1px solid #e1e5ed;
+  border-radius: 7px;
+  outline: none;
+  color: #5e6980;
   background: #ffffff;
-  border-radius: 12px;
-  width: 480px;
-  max-width: 90%;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  font-size: 11px;
+}
+
+.teachers-attendance-page-button {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 7px;
+  border: 1px solid #e1e5ed;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #667188;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.teachers-attendance-page-button:hover:not(:disabled) {
+  border-color: #cfc7ff;
+  background: #f5f2ff;
+  color: #684fe1;
+}
+
+.teachers-attendance-page-button.teachers-attendance-active {
+  border-color: #7052e8;
+  background: #7052e8;
+  color: #ffffff;
+}
+
+.teachers-attendance-page-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================
+   MODAL OVERLAY
+========================= */
+
+.teachers-attendance-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.52);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: teachersAttendanceOverlayIn 0.22s ease;
+}
+
+@keyframes teachersAttendanceOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* =========================
+   GENERAL MODAL
+========================= */
+
+.teachers-attendance-modal {
+  width: min(540px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 18px;
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, 0.24),
+    0 8px 25px rgba(15, 23, 42, 0.08);
+  animation: teachersAttendanceModalIn 0.28s
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes teachersAttendanceModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.teachers-attendance-edit-modal {
+  width: min(650px, 100%);
+}
+
+.teachers-attendance-modal-header {
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.teachers-attendance-modal-header h2 {
+  margin: 0;
+  color: #17203a;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.teachers-attendance-modal-header p {
+  margin: 5px 0 0;
+  color: #8791a5;
+  font-size: 12px;
+}
+
+.teachers-attendance-modal-header > button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: #f3f5f8;
+  color: #69758b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.teachers-attendance-modal-header > button:hover {
+  background: #fff0f3;
+  color: #eb4166;
+  transform: rotate(90deg);
+}
+
+/* =========================
+   ADD TEACHER MODAL
+========================= */
+
+.teachers-attendance-add-modal {
+  width: min(720px, 100%);
   overflow: hidden;
 }
 
-.modal-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
+.teachers-attendance-add-modal-top {
+  padding: 24px 26px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 13px;
+  position: relative;
 }
 
-.modal-header h3 {
-  font-size: 16px;
-  color: var(--text-dark);
+.teachers-attendance-add-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    #8060f6,
+    #5f40db
+  );
+  color: #ffffff;
+  font-size: 19px;
+  box-shadow:
+    0 9px 20px rgba(103, 74, 224, 0.25);
 }
 
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 16px;
+.teachers-attendance-add-heading {
+  min-width: 0;
+}
+
+.teachers-attendance-add-heading h2 {
+  margin: 0;
+  color: #17203a;
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.2px;
+}
+
+.teachers-attendance-add-heading p {
+  margin: 4px 0 0;
+  color: #8993a8;
+  font-size: 12px;
+}
+
+.teachers-attendance-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #e7eaf0;
+  border-radius: 9px;
+  background: #fafbfc;
+  color: #778298;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  color: var(--text-muted);
+  transition: 0.2s ease;
 }
 
-.modal-body {
-  padding: 20px;
+.teachers-attendance-modal-close:hover {
+  background: #fff0f3;
+  border-color: #ffd6df;
+  color: #e83d62;
+  transform: rotate(90deg);
 }
 
-.profile-modal-body {
+.teachers-attendance-add-divider {
+  height: 1px;
+  background: #edf0f4;
+}
+
+.teachers-attendance-add-form {
+  padding: 23px 26px 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 17px;
+}
+
+.teachers-attendance-form-field {
+  min-width: 0;
+}
+
+.teachers-attendance-form-field label {
   display: flex;
-  gap: 16px;
-}
-
-.modal-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.profile-details-list h2 {
-  font-size: 18px;
-  color: var(--text-dark);
-}
-
-.code-badge {
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 7px;
+  color: #4e5a73;
   font-size: 12px;
-  color: var(--primary-purple);
-  font-weight: 600;
+  font-weight: 650;
 }
 
-.divider {
-  margin: 10px 0;
-  border: 0;
-  border-top: 1px solid var(--border-color);
+.teachers-attendance-form-field label span {
+  color: #ef4167;
 }
 
-.detail-grid p {
-  font-size: 13px;
-  margin-bottom: 6px;
-  color: var(--text-muted);
-}
-
-.detail-grid p strong {
-  color: var(--text-dark);
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
-.form-group label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-dark);
-}
-
-.form-group input,
-.form-group select {
-  padding: 8px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 13px;
+.teachers-attendance-form-field input,
+.teachers-attendance-form-field select {
+  width: 100%;
+  height: 43px;
+  padding: 0 12px;
+  border: 1px solid #dfe4ec;
+  border-radius: 9px;
   outline: none;
+  color: #27334c;
+  background: #ffffff;
+  font-size: 12px;
+  font-family: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
-.form-row-2 {
+.teachers-attendance-form-field input::placeholder {
+  color: #a1aabc;
+}
+
+.teachers-attendance-form-field input:focus,
+.teachers-attendance-form-field select:focus {
+  border-color: #7052e8;
+  box-shadow: 0 0 0 3px rgba(112, 82, 232, 0.09);
+  background: #fdfcff;
+}
+
+.teachers-attendance-form-field input:disabled,
+.teachers-attendance-form-field select:disabled {
+  background: #f5f6f8;
+  color: #a0a8b8;
+  cursor: not-allowed;
+}
+
+.teachers-attendance-form-input-icon {
+  position: relative;
+}
+
+.teachers-attendance-form-input-icon > svg {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #7b68e8;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.teachers-attendance-form-input-icon input {
+  padding-left: 33px;
+}
+
+.teachers-attendance-add-preview {
+  margin: 0 26px 20px;
+  padding: 13px 15px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  border: 1px solid #e8e4ff;
+  border-radius: 11px;
+  background: linear-gradient(
+    135deg,
+    #faf9ff,
+    #f7f5ff
+  );
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.btn-cancel {
-  padding: 8px 16px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.btn-save {
-  padding: 8px 16px;
-  background: var(--primary-purple);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px;
+.teachers-attendance-add-preview > div {
   display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-/* RESPONSIVE MEDIA QUERIES */
-@media (max-width: 1200px) {
-  .stats-cards-grid {
+.teachers-attendance-add-preview span {
+  color: #7f8aa0;
+  font-size: 11px;
+}
+
+.teachers-attendance-add-preview strong {
+  color: #6148dc;
+  font-size: 12px;
+}
+
+.teachers-attendance-add-footer {
+  padding: 15px 26px 21px;
+  border-top: 1px solid #edf0f4;
+}
+
+/* =========================
+   PROFILE MODAL
+========================= */
+
+.teachers-attendance-profile {
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.teachers-attendance-profile img {
+  width: 66px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid #e5e8ee;
+}
+
+.teachers-attendance-profile h3 {
+  margin: 0;
+  color: #17203a;
+  font-size: 17px;
+}
+
+.teachers-attendance-profile p {
+  margin: 4px 0;
+  color: #8a94a8;
+  font-size: 11px;
+}
+
+.teachers-attendance-profile span {
+  color: #5f6b83;
+  font-size: 12px;
+}
+
+.teachers-attendance-details-grid {
+  padding: 0 22px 22px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 11px;
+}
+
+.teachers-attendance-details-grid > div {
+  padding: 13px;
+  border: 1px solid #e8ebf1;
+  border-radius: 9px;
+  background: #fafbfc;
+}
+
+.teachers-attendance-details-grid span {
+  display: block;
+  margin-bottom: 5px;
+  color: #8993a6;
+  font-size: 11px;
+}
+
+.teachers-attendance-details-grid strong {
+  color: #28344c;
+  font-size: 13px;
+}
+
+/* =========================
+   EDIT FORM
+========================= */
+
+.teachers-attendance-form-grid {
+  padding: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.teachers-attendance-modal-footer {
+  padding: 15px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  border-top: 1px solid #edf0f4;
+}
+
+.teachers-attendance-cancel-button,
+.teachers-attendance-save-button {
+  height: 40px;
+  padding: 0 17px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: 0.2s ease;
+}
+
+.teachers-attendance-cancel-button {
+  border: 1px solid #dfe4ec;
+  background: #ffffff;
+  color: #657188;
+}
+
+.teachers-attendance-cancel-button:hover {
+  background: #f8f9fb;
+  border-color: #cfd5df;
+}
+
+.teachers-attendance-save-button {
+  border: 0;
+  background: linear-gradient(
+    135deg,
+    #7655ef,
+    #5d3bd4
+  );
+  color: #ffffff;
+  box-shadow: 0 6px 15px rgba(112, 82, 232, 0.22);
+}
+
+.teachers-attendance-save-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 9px 20px rgba(112, 82, 232, 0.3);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1300px) {
+  .teachers-attendance-stats-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-}
 
-@media (max-width: 768px) {
-  .stats-cards-grid {
+  .teachers-attendance-filter-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .filter-controls-card {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .filter-actions {
-    justify-content: flex-end;
-    margin-top: 8px;
+  .teachers-attendance-export-button {
+    width: 100%;
   }
 }
 
-@media (max-width: 480px) {
-  .stats-cards-grid {
+@media (max-width: 1000px) {
+  .teachers-attendance-table-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .teachers-attendance-table-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 900px) {
+  .teachers-attendance-container {
+    padding: 16px;
+  }
+
+  .teachers-attendance-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .teachers-attendance-selection-bar {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .teachers-attendance-add-form {
     grid-template-columns: 1fr;
+  }
+
+  .teachers-attendance-add-modal {
+    max-height: 92vh;
+  }
+
+  .teachers-attendance-add-modal-top {
+    padding: 20px;
+  }
+
+  .teachers-attendance-add-form {
+    padding: 20px;
+  }
+
+  .teachers-attendance-add-preview {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .teachers-attendance-add-footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .teachers-attendance-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teachers-attendance-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teachers-attendance-filter-header {
+    align-items: flex-start;
+  }
+
+  .teachers-attendance-selection-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .teachers-attendance-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .teachers-attendance-pagination-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .teachers-attendance-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teachers-attendance-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teachers-attendance-add-preview {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .teachers-attendance-container {
+    padding: 12px;
+  }
+
+  .teachers-attendance-page-title {
+    font-size: 21px;
+  }
+
+  .teachers-attendance-filter-card,
+  .teachers-attendance-table-card {
+    border-radius: 12px;
+  }
+
+  .teachers-attendance-table-header,
+  .teachers-attendance-filter-card {
+    padding: 16px;
+  }
+
+  .teachers-attendance-table-header-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .teachers-attendance-add-teacher-button,
+  .teachers-attendance-select-all-button,
+  .teachers-attendance-record-count {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .teachers-attendance-selection-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .teachers-attendance-selection-export,
+  .teachers-attendance-clear-selection {
+    flex: 1;
+  }
+
+  .teachers-attendance-modal-overlay {
+    padding: 10px;
+  }
+
+  .teachers-attendance-add-modal {
+    border-radius: 15px;
+  }
+
+  .teachers-attendance-add-modal-top {
+    padding: 18px;
+    padding-right: 55px;
+  }
+
+  .teachers-attendance-add-icon {
+    width: 43px;
+    height: 43px;
+    flex-basis: 43px;
+    border-radius: 12px;
+    font-size: 17px;
+  }
+
+  .teachers-attendance-add-heading h2 {
+    font-size: 18px;
+  }
+
+  .teachers-attendance-add-heading p {
+    font-size: 11px;
+  }
+
+  .teachers-attendance-add-form {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  .teachers-attendance-add-preview {
+    margin: 0 18px 17px;
+  }
+
+  .teachers-attendance-add-footer {
+    padding: 13px 18px 18px;
+    flex-direction: column-reverse;
+  }
+
+  .teachers-attendance-add-footer button {
+    width: 100%;
+  }
+
+  .teachers-attendance-modal-header {
+    padding: 17px;
+  }
+
+  .teachers-attendance-profile {
+    padding: 17px;
+  }
+
+  .teachers-attendance-details-grid {
+    padding: 0 17px 17px;
+  }
+
+  .teachers-attendance-modal-footer {
+    padding: 13px 17px;
   }
 }

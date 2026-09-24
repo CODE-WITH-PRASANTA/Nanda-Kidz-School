@@ -1,0 +1,1156 @@
+/* =========================================================
+   ANNOUNCEMENT MANAGEMENT
+   PREMIUM BLUE + WHITE THEME
+========================================================= */
+
+.AnnouncementMgr-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 28px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(37, 99, 235, 0.055),
+      transparent 30%
+    ),
+    #f5f8fc;
+  color: #172033;
+  font-family:
+    Inter,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.AnnouncementMgr-headerCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.AnnouncementMgr-headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.AnnouncementMgr-mainIconBox {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  box-shadow:
+    0 9px 22px rgba(37, 99, 235, 0.20);
+}
+
+.AnnouncementMgr-title {
+  margin: 0 0 4px;
+
+  color: #172033;
+
+  font-size: 25px;
+  font-weight: 760;
+
+  letter-spacing: -0.6px;
+}
+
+.AnnouncementMgr-subtitle {
+  margin: 0;
+
+  color: #7b8799;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   TOTAL BADGE
+========================================================= */
+
+.AnnouncementMgr-totalBadge {
+  min-width: 155px;
+
+  padding: 11px 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 13px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 13px;
+
+  box-shadow:
+    0 5px 18px rgba(30, 64, 175, 0.05);
+}
+
+.AnnouncementMgr-totalInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.AnnouncementMgr-totalLabel {
+  color: #8490a3;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.AnnouncementMgr-totalCount {
+  margin-top: 2px;
+
+  color: #2563eb;
+
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.AnnouncementMgr-badgeIconBox {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+}
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.AnnouncementMgr-alert {
+  min-height: 42px;
+
+  box-sizing: border-box;
+
+  margin-bottom: 16px;
+  padding: 10px 13px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border-radius: 10px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.AnnouncementMgr-success {
+  color: #176b4b;
+
+  background: #ecfdf5;
+
+  border: 1px solid #c9f2df;
+}
+
+.AnnouncementMgr-error {
+  color: #c24141;
+
+  background: #fff5f5;
+
+  border: 1px solid #f4d4d4;
+}
+
+.AnnouncementMgr-alert button {
+  margin-left: auto;
+
+  padding: 3px;
+
+  display: flex;
+
+  border: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.AnnouncementMgr-card {
+  margin-bottom: 22px;
+
+  overflow: hidden;
+
+  background: #ffffff;
+
+  border: 1px solid #e3e9f1;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 7px 25px rgba(30, 64, 175, 0.055);
+}
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.AnnouncementMgr-cardHeader {
+  padding: 21px 23px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #edf1f6;
+}
+
+.AnnouncementMgr-cardTitleGroup {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.AnnouncementMgr-actionIconBox,
+.AnnouncementMgr-listIconBox {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+}
+
+.AnnouncementMgr-cardTitleGroup h2 {
+  margin: 0 0 4px;
+
+  color: #172033;
+
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.AnnouncementMgr-cardTitleGroup p {
+  margin: 0;
+
+  color: #8490a3;
+
+  font-size: 12px;
+}
+
+.AnnouncementMgr-newTag {
+  padding: 6px 11px;
+
+  border-radius: 30px;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+
+  font-size: 10px;
+  font-weight: 750;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.AnnouncementMgr-editingTag {
+  color: #7c5a0b;
+
+  background: #fff8df;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.AnnouncementMgr-form {
+  padding: 22px 23px 23px;
+}
+
+.AnnouncementMgr-inputGroup {
+  width: 100%;
+}
+
+.AnnouncementMgr-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #273348;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.AnnouncementMgr-required {
+  color: #dc4444;
+}
+
+.AnnouncementMgr-inputWrapper {
+  height: 51px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 13px;
+
+  border: 1px solid #dbe3ee;
+
+  border-radius: 10px;
+
+  background: #fbfcfe;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.AnnouncementMgr-inputWrapper:focus-within {
+  background: #ffffff;
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+.AnnouncementMgr-inputEditing {
+  border-color: #2563eb;
+}
+
+.AnnouncementMgr-prefixIcon {
+  display: flex;
+
+  color: #2563eb;
+}
+
+.AnnouncementMgr-input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #1f2937;
+
+  font-family: inherit;
+
+  font-size: 13px;
+}
+
+.AnnouncementMgr-input::placeholder {
+  color: #9aa5b5;
+}
+
+.AnnouncementMgr-input:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.7;
+}
+
+.AnnouncementMgr-counter {
+  flex-shrink: 0;
+
+  color: #98a4b4;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.AnnouncementMgr-helpText {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #96a0af;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   FORM BUTTONS
+========================================================= */
+
+.AnnouncementMgr-formActions {
+  margin-top: 19px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 9px;
+}
+
+.AnnouncementMgr-btnClear,
+.AnnouncementMgr-btnSave {
+  height: 40px;
+
+  padding: 0 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  border-radius: 8px;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.18s ease;
+}
+
+.AnnouncementMgr-btnClear {
+  color: #5f6b7a;
+
+  background: #ffffff;
+
+  border: 1px solid #dce3ec;
+}
+
+.AnnouncementMgr-btnClear:hover:not(:disabled) {
+  background: #f7f9fc;
+
+  border-color: #cbd5e1;
+}
+
+.AnnouncementMgr-btnSave {
+  min-width: 155px;
+
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  border: none;
+
+  box-shadow:
+    0 7px 15px rgba(37, 99, 235, 0.18);
+}
+
+.AnnouncementMgr-btnSave:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 10px 20px rgba(37, 99, 235, 0.24);
+}
+
+.AnnouncementMgr-btnClear:disabled,
+.AnnouncementMgr-btnSave:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   TABLE HEADER
+========================================================= */
+
+.AnnouncementMgr-tableHeaderBar {
+  padding: 19px 23px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #edf1f6;
+}
+
+.AnnouncementMgr-tableTools {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+.AnnouncementMgr-refreshBtn {
+  width: 39px;
+  height: 39px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+
+  border: 1px solid #dbeafe;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: 0.18s ease;
+}
+
+.AnnouncementMgr-refreshBtn:hover:not(:disabled) {
+  color: #ffffff;
+
+  background: #2563eb;
+
+  border-color: #2563eb;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.AnnouncementMgr-searchBox {
+  width: 245px;
+  height: 39px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0 11px;
+
+  border: 1px solid #dce3ec;
+
+  border-radius: 8px;
+
+  background: #fbfcfe;
+
+  transition: 0.18s ease;
+}
+
+.AnnouncementMgr-searchBox:focus-within {
+  background: #ffffff;
+
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.07);
+}
+
+.AnnouncementMgr-searchIcon {
+  flex-shrink: 0;
+
+  color: #8a96a8;
+}
+
+.AnnouncementMgr-searchInput {
+  width: 100%;
+
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #273348;
+
+  font-family: inherit;
+
+  font-size: 11px;
+}
+
+.AnnouncementMgr-searchInput::placeholder {
+  color: #a2acba;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.AnnouncementMgr-tableResponsive {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+.AnnouncementMgr-table {
+  width: 100%;
+
+  min-width: 760px;
+
+  border-collapse: collapse;
+}
+
+.AnnouncementMgr-table thead {
+  background: #f7f9fc;
+}
+
+.AnnouncementMgr-table th {
+  padding: 12px 19px;
+
+  color: #738095;
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  text-align: left;
+
+  letter-spacing: 0.7px;
+
+  white-space: nowrap;
+}
+
+.AnnouncementMgr-table td {
+  padding: 15px 19px;
+
+  border-top: 1px solid #edf1f6;
+
+  vertical-align: middle;
+}
+
+.AnnouncementMgr-table tbody tr {
+  transition:
+    background 0.15s ease;
+}
+
+.AnnouncementMgr-table tbody tr:hover {
+  background: #f9fbff;
+}
+
+/* =========================================================
+   TABLE COLUMNS
+========================================================= */
+
+.col-num {
+  width: 55px;
+}
+
+.col-heading {
+  min-width: 310px;
+}
+
+.col-status {
+  width: 105px;
+}
+
+.col-date {
+  width: 120px;
+}
+
+.col-actions {
+  width: 170px;
+
+  text-align: right !important;
+}
+
+/* =========================================================
+   TABLE ROW
+========================================================= */
+
+.AnnouncementMgr-itemRow {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+}
+
+.AnnouncementMgr-rowIcon {
+  width: 33px;
+  height: 33px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+
+  border-radius: 9px;
+}
+
+.AnnouncementMgr-rowContent {
+  min-width: 0;
+}
+
+.AnnouncementMgr-rowTitle {
+  display: block;
+
+  overflow: hidden;
+
+  color: #1f2b3d;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.AnnouncementMgr-date {
+  color: #7f8b9c;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.AnnouncementMgr-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 5px 8px;
+
+  border-radius: 30px;
+
+  font-size: 10px;
+
+  font-weight: 700;
+}
+
+.AnnouncementMgr-statusActive {
+  color: #176b4b;
+
+  background: #ecfdf5;
+}
+
+.AnnouncementMgr-statusInactive {
+  color: #a04d4d;
+
+  background: #fff1f1;
+}
+
+.AnnouncementMgr-statusDot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.AnnouncementMgr-actionButtons {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 6px;
+}
+
+.AnnouncementMgr-btnEdit,
+.AnnouncementMgr-btnDelete {
+  height: 32px;
+
+  padding: 0 9px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.18s ease;
+}
+
+/* EDIT */
+
+.AnnouncementMgr-btnEdit {
+  color: #2563eb;
+
+  background: #eff6ff;
+
+  border: 1px solid #dbeafe;
+}
+
+.AnnouncementMgr-btnEdit:hover:not(:disabled) {
+  color: #ffffff;
+
+  background: #2563eb;
+
+  border-color: #2563eb;
+}
+
+/* DELETE */
+
+.AnnouncementMgr-btnDelete {
+  color: #d34c4c;
+
+  background: #fff5f5;
+
+  border: 1px solid #f1d9d9;
+}
+
+.AnnouncementMgr-btnDelete:hover:not(:disabled) {
+  color: #ffffff;
+
+  background: #d34c4c;
+
+  border-color: #d34c4c;
+}
+
+.AnnouncementMgr-btnEdit:disabled,
+.AnnouncementMgr-btnDelete:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.AnnouncementMgr-loading {
+  min-height: 260px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  color: #2563eb;
+}
+
+.AnnouncementMgr-loading p {
+  margin: 0;
+
+  color: #8490a0;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.AnnouncementMgr-empty {
+  height: 230px;
+
+  text-align: center;
+
+  vertical-align: middle !important;
+}
+
+.AnnouncementMgr-emptyIcon {
+  width: 50px;
+  height: 50px;
+
+  margin: 0 auto 11px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #2563eb;
+
+  background: #eff6ff;
+
+  border-radius: 14px;
+}
+
+.AnnouncementMgr-empty strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #344054;
+
+  font-size: 13px;
+}
+
+.AnnouncementMgr-empty span {
+  color: #98a3b2;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.AnnouncementMgr-tableFooter {
+  padding: 13px 19px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  border-top: 1px solid #edf1f6;
+}
+
+.AnnouncementMgr-footerInfo {
+  color: #8995a5;
+
+  font-size: 10px;
+}
+
+.AnnouncementMgr-pagination {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+.AnnouncementMgr-pageBtn {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #627084;
+
+  background: #ffffff;
+
+  border: 1px solid #dfe5ed;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  transition: 0.18s ease;
+}
+
+.AnnouncementMgr-pageBtn:hover:not(:disabled) {
+  color: #2563eb;
+
+  border-color: #bfdbfe;
+
+  background: #eff6ff;
+}
+
+.AnnouncementMgr-pageBtn:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+}
+
+.AnnouncementMgr-pageNumber {
+  min-width: 50px;
+
+  text-align: center;
+
+  color: #718096;
+
+  font-size: 10px;
+
+  font-weight: 650;
+}
+
+/* =========================================================
+   LOADER ANIMATION
+========================================================= */
+
+.AnnouncementMgr-spin {
+  animation:
+    AnnouncementMgrSpin
+    0.8s
+    linear
+    infinite;
+}
+
+@keyframes AnnouncementMgrSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .AnnouncementMgr-wrapper {
+    padding: 20px;
+  }
+
+  .AnnouncementMgr-headerCard {
+    align-items: flex-start;
+  }
+
+  .AnnouncementMgr-totalBadge {
+    display: none;
+  }
+
+  .AnnouncementMgr-tableHeaderBar {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .AnnouncementMgr-tableTools {
+    width: 100%;
+  }
+
+  .AnnouncementMgr-searchBox {
+    flex: 1;
+
+    width: auto;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .AnnouncementMgr-wrapper {
+    padding: 14px;
+  }
+
+  .AnnouncementMgr-title {
+    font-size: 20px;
+  }
+
+  .AnnouncementMgr-subtitle {
+    font-size: 11px;
+  }
+
+  .AnnouncementMgr-mainIconBox {
+    width: 42px;
+    height: 42px;
+  }
+
+  .AnnouncementMgr-cardHeader,
+  .AnnouncementMgr-form,
+  .AnnouncementMgr-tableHeaderBar {
+    padding-left: 16px;
+
+    padding-right: 16px;
+  }
+
+  .AnnouncementMgr-formActions {
+    flex-direction: column-reverse;
+  }
+
+  .AnnouncementMgr-btnClear,
+  .AnnouncementMgr-btnSave {
+    width: 100%;
+  }
+
+  .AnnouncementMgr-tableFooter {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 450px) {
+
+  .AnnouncementMgr-cardTitleGroup p {
+    display: none;
+  }
+
+  .AnnouncementMgr-newTag {
+    font-size: 9px;
+  }
+
+  .AnnouncementMgr-searchBox {
+    width: 100%;
+  }
+
+  .AnnouncementMgr-tableTools {
+    flex-wrap: wrap;
+  }
+
+  .AnnouncementMgr-refreshBtn {
+    flex-shrink: 0;
+  }
+}

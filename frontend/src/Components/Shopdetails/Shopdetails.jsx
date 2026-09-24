@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Shopdetails.css";
 
 import {
@@ -9,124 +9,54 @@ import {
 
 import Swal from "sweetalert2";
 
-// =========================================================
-// AXIOS API
-// =========================================================
-
-import API from "../../api/axios";
+import API, { IMG_URL } from "../../api/axios";
 
 // =========================================================
-// PRODUCT / ACTIVITY IMAGES
+// IMAGE URL HELPER
 // =========================================================
 
-import img1 from "../../assets/shop1.webp";
-import img2 from "../../assets/shop2.webp";
-import img3 from "../../assets/shop3.webp";
-import img4 from "../../assets/shop4.webp";
-import img5 from "../../assets/shop5.webp";
-import img6 from "../../assets/shop6.webp";
-import img7 from "../../assets/shop7.webp";
-import img8 from "../../assets/shop8.webp";
-import img9 from "../../assets/shop9.webp";
-import img10 from "../../assets/shop10.webp";
-import img11 from "../../assets/shop11.webp";
-import img12 from "../../assets/shop12.webp";
+const getImageUrl = (image) => {
+  if (!image) {
+    return "";
+  }
+
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://")
+  ) {
+    return image;
+  }
+
+  return `${IMG_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+};
 
 // =========================================================
-// PRODUCTS
+// PRICE HELPER
 // =========================================================
 
-const products = [
-  {
-    id: 1,
-    title: "Creative Arts",
-    image: img1,
-    price: "₹499",
-    onSale: false,
-  },
-  {
-    id: 2,
-    title: "Discovery Lab",
-    image: img2,
-    originalPrice: "₹999",
-    price: "₹599",
-    onSale: true,
-    rating: 4,
-  },
-  {
-    id: 3,
-    title: "Fine Motor",
-    image: img3,
-    price: "₹749",
-    onSale: false,
-  },
-  {
-    id: 4,
-    title: "Groove Fitness",
-    image: img4,
-    price: "₹499",
-    onSale: false,
-  },
-  {
-    id: 5,
-    title: "Group Work",
-    image: img5,
-    originalPrice: "₹899",
-    price: "₹399",
-    onSale: true,
-  },
-  {
-    id: 6,
-    title: "Language Fun",
-    image: img6,
-    originalPrice: "₹1,499",
-    price: "₹899",
-    onSale: true,
-  },
-  {
-    id: 7,
-    title: "Little Scientists",
-    image: img7,
-    price: "₹399",
-    onSale: false,
-  },
-  {
-    id: 8,
-    title: "Logic Games",
-    image: img8,
-    price: "₹999",
-    onSale: false,
-  },
-  {
-    id: 9,
-    title: "Motor Skills",
-    image: img9,
-    price: "₹499",
-    onSale: false,
-  },
-  {
-    id: 10,
-    title: "Nature Explorers",
-    image: img10,
-    price: "₹749",
-    onSale: false,
-  },
-  {
-    id: 11,
-    title: "Puzzle Play",
-    image: img11,
-    originalPrice: "₹950",
-    price: "₹799",
-    onSale: true,
-  },
-  {
-    id: 12,
-    title: "Sensory Playtime",
-    image: img12,
-    price: "₹1,199",
-    onSale: false,
-  },
-];
+const getNumericPrice = (value) => {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return 0;
+  }
+
+  if (typeof value === "number") {
+    return value;
+  }
+
+  const cleanedValue = String(value)
+    .replace(/[₹,\s]/g, "")
+    .replace(/[^\d.]/g, "");
+
+  const numberValue = Number(cleanedValue);
+
+  return Number.isFinite(numberValue)
+    ? numberValue
+    : 0;
+};
 
 // =========================================================
 // COMPONENT
@@ -134,10 +64,27 @@ const products = [
 
 const Shopdetails = () => {
   // =======================================================
-  // STATE
+  // SHOP PRODUCTS
   // =======================================================
 
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+
+  const [loadingProducts, setLoadingProducts] =
+    useState(true);
+
+  const [productError, setProductError] =
+    useState("");
+
+  // =======================================================
+  // SELECTED PRODUCT
+  // =======================================================
+
+  const [selectedProduct, setSelectedProduct] =
+    useState(null);
+
+  // =======================================================
+  // ORDER FORM
+  // =======================================================
 
   const [formData, setFormData] = useState({
     studentName: "",
@@ -147,7 +94,156 @@ const Shopdetails = () => {
     address: "",
   });
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] =
+    useState(false);
+
+  // =======================================================
+  // FETCH SHOP PRODUCTS
+  // =======================================================
+
+  const fetchShopProducts = async () => {
+    try {
+      setLoadingProducts(true);
+      setProductError("");
+
+      const response = await API.get("/shop-images");
+
+      console.log(
+        "Shop Images API Response:",
+        response.data
+      );
+
+      const backendData =
+        response.data?.data;
+
+      if (!Array.isArray(backendData)) {
+        setProducts([]);
+        return;
+      }
+
+      const backendProducts =
+        backendData.map((item, index) => {
+          const originalPrice =
+            getNumericPrice(item.price);
+
+          const discountPrice =
+            item.discountPrice !== null &&
+            item.discountPrice !== undefined &&
+            item.discountPrice !== ""
+              ? getNumericPrice(
+                  item.discountPrice
+                )
+              : null;
+
+          const hasDiscount =
+            discountPrice !== null &&
+            discountPrice > 0 &&
+            discountPrice < originalPrice;
+
+          const finalPrice =
+            hasDiscount
+              ? discountPrice
+              : originalPrice;
+
+          const priceDisplay =
+            `₹${finalPrice.toLocaleString(
+              "en-IN"
+            )}`;
+
+          const originalPriceDisplay =
+            hasDiscount
+              ? `₹${originalPrice.toLocaleString(
+                  "en-IN"
+                )}`
+              : "";
+
+          return {
+            // MongoDB ID
+            _id: item._id,
+
+            /*
+             * Keep Mongo ID separately.
+             * This is useful if backend later changes
+             * productId to String/ObjectId.
+             */
+            mongoId: item._id,
+
+            /*
+             * If your shop API has a numeric ID,
+             * use it. Otherwise create a numeric
+             * fallback based on array position.
+             */
+            id:
+              Number.isFinite(
+                Number(item.id)
+              )
+                ? Number(item.id)
+                : index + 1,
+
+            title:
+              item.title ||
+              "Shop Item",
+
+            image:
+              getImageUrl(item.image),
+
+            // Customer display price
+            price:
+              priceDisplay,
+
+            // Numeric price for order API
+            numericPrice:
+              finalPrice,
+
+            // Original display price
+            originalPrice:
+              originalPriceDisplay,
+
+            rating:
+              Number(item.rating) || 0,
+
+            onSale:
+              hasDiscount,
+          };
+        });
+
+      console.log(
+        "Mapped Shop Products:",
+        backendProducts
+      );
+
+      setProducts(
+        backendProducts
+      );
+    } catch (error) {
+      console.error(
+        "FETCH SHOP PRODUCTS ERROR:",
+        error
+      );
+
+      console.error(
+        "Shop backend response:",
+        error.response?.data
+      );
+
+      setProducts([]);
+
+      setProductError(
+        error.response?.data?.message ||
+          "Failed to load shop products."
+      );
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  // =======================================================
+  // LOAD PRODUCTS
+  // =======================================================
+
+  useEffect(() => {
+    fetchShopProducts();
+  }, []);
 
   // =======================================================
   // RESET FORM
@@ -168,6 +264,11 @@ const Shopdetails = () => {
   // =======================================================
 
   const handleOpenModal = (product) => {
+    console.log(
+      "Selected Shop Product:",
+      product
+    );
+
     setSelectedProduct(product);
 
     resetForm();
@@ -192,12 +293,17 @@ const Shopdetails = () => {
   // =======================================================
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const {
+      name,
+      value,
+    } = e.target;
 
-    setFormData((previousData) => ({
-      ...previousData,
-      [name]: value,
-    }));
+    setFormData(
+      (previousData) => ({
+        ...previousData,
+        [name]: value,
+      })
+    );
   };
 
   // =======================================================
@@ -212,14 +318,27 @@ const Shopdetails = () => {
     }
 
     // =====================================================
-    // FRONTEND VALIDATION
+    // FORM VALUES
     // =====================================================
 
-    const studentName = formData.studentName.trim();
-    const age = Number(formData.age);
-    const phone = formData.phone.trim();
-    const size = formData.size.trim();
-    const address = formData.address.trim();
+    const studentName =
+      formData.studentName.trim();
+
+    const age =
+      Number(formData.age);
+
+    const phone =
+      formData.phone.trim();
+
+    const size =
+      formData.size.trim();
+
+    const address =
+      formData.address.trim();
+
+    // =====================================================
+    // VALIDATION
+    // =====================================================
 
     if (!studentName) {
       Swal.fire({
@@ -232,7 +351,11 @@ const Shopdetails = () => {
       return;
     }
 
-    if (!age || age < 1 || age > 12) {
+    if (
+      !age ||
+      age < 1 ||
+      age > 12
+    ) {
       Swal.fire({
         icon: "warning",
         title: "Invalid Age",
@@ -254,11 +377,14 @@ const Shopdetails = () => {
       return;
     }
 
-    if (!/^[0-9]{10}$/.test(phone)) {
+    if (
+      !/^[0-9]{10}$/.test(phone)
+    ) {
       Swal.fire({
         icon: "warning",
         title: "Invalid Mobile Number",
-        text: "Please enter a valid 10-digit mobile number.",
+        text:
+          "Please enter a valid 10-digit mobile number.",
         confirmButtonColor: "#0066ff",
       });
 
@@ -269,7 +395,8 @@ const Shopdetails = () => {
       Swal.fire({
         icon: "warning",
         title: "Address Required",
-        text: "Please enter delivery / home address.",
+        text:
+          "Please enter delivery / home address.",
         confirmButtonColor: "#0066ff",
       });
 
@@ -277,35 +404,135 @@ const Shopdetails = () => {
     }
 
     // =====================================================
-    // SAVE ORDER TO BACKEND
+    // PREPARE ORDER
+    // =====================================================
+
+    /*
+     * IMPORTANT:
+     *
+     * Do NOT send Mongo _id here if your existing
+     * Order model expects productId:Number.
+     *
+     * The frontend now keeps a numeric `id`.
+     */
+
+    const productId =
+      Number(selectedProduct.id);
+
+    const price =
+      Number(
+        selectedProduct.numericPrice
+      );
+
+    if (
+      !Number.isFinite(productId)
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Product",
+        text:
+          "The selected product does not have a valid product ID.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    if (
+      !Number.isFinite(price) ||
+      price <= 0
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Product Price",
+        text:
+          "The selected product does not have a valid price.",
+        confirmButtonColor: "#0066ff",
+      });
+
+      return;
+    }
+
+    // =====================================================
+    // ORDER PAYLOAD
+    // =====================================================
+
+    const orderData = {
+      productId:
+        productId,
+
+      productTitle:
+        selectedProduct.title,
+
+      /*
+       * Numeric price.
+       *
+       * If your Order schema uses Number,
+       * this prevents Mongoose CastError.
+       */
+      price:
+        price,
+
+      studentName:
+        studentName,
+
+      age:
+        age,
+
+      size:
+        size,
+
+      phone:
+        phone,
+
+      address:
+        address,
+    };
+
+    console.log(
+      "================================"
+    );
+
+    console.log(
+      "SENDING ORDER"
+    );
+
+    console.log(
+      "Product:",
+      selectedProduct
+    );
+
+    console.log(
+      "Order Data:",
+      orderData
+    );
+
+    console.log(
+      "productId type:",
+      typeof orderData.productId
+    );
+
+    console.log(
+      "price type:",
+      typeof orderData.price
+    );
+
+    console.log(
+      "================================"
+    );
+
+    // =====================================================
+    // POST ORDER
     // =====================================================
 
     try {
       setSubmitting(true);
 
-      const orderData = {
-        productId: selectedProduct.id,
-        productTitle: selectedProduct.title,
-        price: selectedProduct.price,
-
-        studentName: studentName,
-        age: age,
-        size: size,
-        phone: phone,
-        address: address,
-      };
-
-      console.log("Sending Order:", orderData);
-
-      // ===================================================
-      // POST REQUEST
-      // http://localhost:5000/api/orders
-      // ===================================================
-
-      const response = await API.post(
-        "/orders",
-        orderData
-      );
+      const response =
+        await API.post(
+          "/orders",
+          orderData
+        );
 
       console.log(
         "Order API Response:",
@@ -313,10 +540,11 @@ const Shopdetails = () => {
       );
 
       // ===================================================
-      // GET SAVED ORDER
+      // SAVED ORDER
       // ===================================================
 
-      const savedOrder = response.data?.order;
+      const savedOrder =
+        response.data?.order;
 
       if (!savedOrder) {
         throw new Error(
@@ -325,31 +553,25 @@ const Shopdetails = () => {
       }
 
       // ===================================================
-      // CLOSE POPUP AUTOMATICALLY
-      // AFTER SUCCESSFUL DATABASE SAVE
+      // CLOSE MODAL
       // ===================================================
 
       setSelectedProduct(null);
 
-      // ===================================================
-      // RESET FORM
-      // ===================================================
-
       resetForm();
-
-      // ===================================================
-      // STOP SUBMITTING STATE
-      // ===================================================
 
       setSubmitting(false);
 
       // ===================================================
-      // THANK YOU MESSAGE
+      // SUCCESS
       // ===================================================
 
       await Swal.fire({
         icon: "success",
-        title: "Thank You! 🎉",
+
+        title:
+          "Thank You! 🎉",
+
         html: `
           <div style="
             font-size: 16px;
@@ -370,33 +592,95 @@ const Shopdetails = () => {
             </p>
           </div>
         `,
-        confirmButtonText: "Done",
-        confirmButtonColor: "#0066ff",
-        allowOutsideClick: false,
+
+        confirmButtonText:
+          "Done",
+
+        confirmButtonColor:
+          "#0066ff",
+
+        allowOutsideClick:
+          false,
       });
     } catch (error) {
       console.error(
-        "Order submission error:",
+        "================================"
+      );
+
+      console.error(
+        "ORDER SUBMISSION ERROR"
+      );
+
+      console.error(
         error
       );
 
-      // ===================================================
-      // BACKEND ERROR
-      // ===================================================
+      console.error(
+        "Backend Response:",
+        error.response?.data
+      );
 
-      const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
-        "Failed to submit order. Please try again.";
+      console.error(
+        "Backend Status:",
+        error.response?.status
+      );
+
+      console.error(
+        "Backend Headers:",
+        error.response?.headers
+      );
+
+      console.error(
+        "================================"
+      );
 
       setSubmitting(false);
 
+      const backendMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        error.response?.data?.details ||
+        error.response?.data?.errors;
+
+      let errorMessage =
+        "Failed to submit order. Please try again.";
+
+      if (
+        typeof backendMessage ===
+        "string"
+      ) {
+        errorMessage =
+          backendMessage;
+      } else if (
+        backendMessage &&
+        typeof backendMessage ===
+          "object"
+      ) {
+        errorMessage =
+          JSON.stringify(
+            backendMessage
+          );
+      } else if (
+        error.message
+      ) {
+        errorMessage =
+          error.message;
+      }
+
       Swal.fire({
         icon: "error",
-        title: "Order Failed",
-        text: errorMessage,
-        confirmButtonText: "Try Again",
-        confirmButtonColor: "#0066ff",
+
+        title:
+          "Order Failed",
+
+        text:
+          errorMessage,
+
+        confirmButtonText:
+          "Try Again",
+
+        confirmButtonColor:
+          "#0066ff",
       });
     }
   };
@@ -405,24 +689,33 @@ const Shopdetails = () => {
   // RATING
   // =======================================================
 
-  const renderRating = (rating) => {
+  const renderRating = (
+    rating
+  ) => {
+    const numericRating =
+      Number(rating) || 0;
+
     return (
       <div
         className="Shopdetails-rating"
-        aria-label={`${rating} out of 5 stars`}
+        aria-label={`${numericRating} out of 5 stars`}
       >
-        {[...Array(5)].map((_, index) =>
-          index < rating ? (
-            <FaStar
-              key={index}
-              className="Shopdetails-star-filled"
-            />
-          ) : (
-            <FaRegStar
-              key={index}
-              className="Shopdetails-star-empty"
-            />
-          )
+        {[...Array(5)].map(
+          (_, index) =>
+            index <
+            Math.round(
+              numericRating
+            ) ? (
+              <FaStar
+                key={index}
+                className="Shopdetails-star-filled"
+              />
+            ) : (
+              <FaRegStar
+                key={index}
+                className="Shopdetails-star-empty"
+              />
+            )
         )}
       </div>
     );
@@ -434,11 +727,10 @@ const Shopdetails = () => {
 
   return (
     <section className="Shopdetails">
+
       <div className="Shopdetails-container">
 
-        {/* =================================================
-            HEADER
-        ================================================= */}
+        {/* HEADER */}
 
         <div className="Shopdetails-header">
 
@@ -474,94 +766,181 @@ const Shopdetails = () => {
 
         </div>
 
-        {/* =================================================
-            PRODUCTS GRID
-        ================================================= */}
+        {/* LOADING */}
 
-        <div className="Shopdetails-grid">
+        {loadingProducts && (
+          <div className="Shopdetails-loading">
 
-          {products.map((item) => (
+            <div className="Shopdetails-loading-spinner"></div>
 
-            <article
-              className="Shopdetails-card"
-              key={item.id}
-            >
+            <p>
+              Loading shop items...
+            </p>
 
-              {/* IMAGE */}
+          </div>
+        )}
 
-              <div className="Shopdetails-image-wrapper">
+        {/* ERROR */}
 
-                <img
-                  src={item.image}
-                  alt={`${item.title} activity at Nanda Kidz`}
-                  className="Shopdetails-image"
-                  loading="lazy"
-                />
+        {!loadingProducts &&
+          productError && (
+            <div className="Shopdetails-error">
 
-                {item.onSale && (
-                  <span className="Shopdetails-sale-badge">
-                    Sale!
-                  </span>
-                )}
+              <p>
+                {productError}
+              </p>
 
-              </div>
+              <button
+                type="button"
+                onClick={
+                  fetchShopProducts
+                }
+              >
+                Try Again
+              </button>
 
-              {/* INFO */}
+            </div>
+          )}
 
-              <div className="Shopdetails-info">
+        {/* EMPTY */}
 
-                <h2 className="Shopdetails-card-title">
-                  {item.title}
-                </h2>
+        {!loadingProducts &&
+          !productError &&
+          products.length === 0 && (
+            <div className="Shopdetails-empty">
 
-                {item.rating &&
-                  renderRating(item.rating)}
+              <h3>
+                No shop items available
+              </h3>
 
-                {/* PRICE */}
+              <p>
+                Shop activities will appear
+                here once they are added
+                from the admin panel.
+              </p>
 
-                <div className="Shopdetails-price-wrapper">
+            </div>
+          )}
 
-                  {item.originalPrice && (
-                    <span className="Shopdetails-original-price">
-                      {item.originalPrice}
-                    </span>
-                  )}
+        {/* PRODUCTS */}
 
-                  <span
-                    className={`Shopdetails-price ${
-                      item.originalPrice
-                        ? "Shopdetails-sale-price"
-                        : ""
-                    }`}
+        {!loadingProducts &&
+          !productError &&
+          products.length > 0 && (
+
+            <div className="Shopdetails-grid">
+
+              {products.map(
+                (item) => (
+
+                  <article
+                    className="Shopdetails-card"
+                    key={
+                      item._id ||
+                      item.id
+                    }
                   >
-                    {item.price}
-                  </span>
 
-                </div>
+                    {/* IMAGE */}
 
-                {/* ADD TO CART / ORDER */}
+                    <div className="Shopdetails-image-wrapper">
 
-                <button
-                  type="button"
-                  className="Shopdetails-btn"
-                  onClick={() =>
-                    handleOpenModal(item)
-                  }
-                >
-                  ADD TO CART
-                </button>
+                      {item.image ? (
 
-              </div>
+                        <img
+                          src={
+                            item.image
+                          }
+                          alt={`${item.title} activity at Nanda Kidz`}
+                          className="Shopdetails-image"
+                          loading="lazy"
+                          onError={(
+                            e
+                          ) => {
+                            e.currentTarget.style.display =
+                              "none";
+                          }}
+                        />
 
-            </article>
+                      ) : (
 
-          ))}
+                        <div className="Shopdetails-image-placeholder">
+                          No Image
+                        </div>
 
-        </div>
+                      )}
 
-        {/* =================================================
-            BOTTOM SEO CONTENT
-        ================================================= */}
+                      {item.onSale && (
+                        <span className="Shopdetails-sale-badge">
+                          Sale!
+                        </span>
+                      )}
+
+                    </div>
+
+                    {/* INFO */}
+
+                    <div className="Shopdetails-info">
+
+                      <h2 className="Shopdetails-card-title">
+                        {item.title}
+                      </h2>
+
+                      {item.rating > 0 &&
+                        renderRating(
+                          item.rating
+                        )}
+
+                      <div className="Shopdetails-price-wrapper">
+
+                        {item.onSale &&
+                          item.originalPrice && (
+
+                            <span className="Shopdetails-original-price">
+                              {
+                                item.originalPrice
+                              }
+                            </span>
+
+                          )}
+
+                        <span
+                          className={`Shopdetails-price ${
+                            item.onSale
+                              ? "Shopdetails-sale-price"
+                              : ""
+                          }`}
+                        >
+                          {
+                            item.price
+                          }
+                        </span>
+
+                      </div>
+
+                      <button
+                        type="button"
+                        className="Shopdetails-btn"
+                        onClick={() =>
+                          handleOpenModal(
+                            item
+                          )
+                        }
+                      >
+                        ADD TO CART
+                      </button>
+
+                    </div>
+
+                  </article>
+
+                )
+              )}
+
+            </div>
+          )}
+
+        {/* SEO CONTENT */}
 
         <div className="Shopdetails-bottom-content">
 
@@ -596,14 +975,16 @@ const Shopdetails = () => {
       </div>
 
       {/* ===================================================
-          STUDENT ORDER MODAL
+          ORDER MODAL
       =================================================== */}
 
       {selectedProduct !== null && (
 
         <div
           className="shop-modal-overlay"
-          onClick={handleCloseModal}
+          onClick={
+            handleCloseModal
+          }
         >
 
           <div
@@ -616,19 +997,23 @@ const Shopdetails = () => {
             aria-labelledby="shop-modal-title"
           >
 
-            {/* CLOSE BUTTON */}
+            {/* CLOSE */}
 
             <button
               type="button"
               className="shop-modal-close"
-              onClick={handleCloseModal}
+              onClick={
+                handleCloseModal
+              }
               aria-label="Close modal"
-              disabled={submitting}
+              disabled={
+                submitting
+              }
             >
               <FaTimes />
             </button>
 
-            {/* MODAL HEADER */}
+            {/* HEADER */}
 
             <div className="shop-modal-header">
 
@@ -637,11 +1022,15 @@ const Shopdetails = () => {
               </span>
 
               <h3 id="shop-modal-title">
-                {selectedProduct?.title}
+                {
+                  selectedProduct?.title
+                }
               </h3>
 
               <p className="shop-modal-price">
-                {selectedProduct?.price}
+                {
+                  selectedProduct?.price
+                }
               </p>
 
             </div>
@@ -649,7 +1038,9 @@ const Shopdetails = () => {
             {/* FORM */}
 
             <form
-              onSubmit={handleSubmitOrder}
+              onSubmit={
+                handleSubmitOrder
+              }
               className="shop-modal-form"
             >
 
@@ -667,9 +1058,15 @@ const Shopdetails = () => {
                   name="studentName"
                   required
                   placeholder="Enter student's full name"
-                  value={formData.studentName}
-                  onChange={handleInputChange}
-                  disabled={submitting}
+                  value={
+                    formData.studentName
+                  }
+                  onChange={
+                    handleInputChange
+                  }
+                  disabled={
+                    submitting
+                  }
                 />
 
               </div>
@@ -692,9 +1089,15 @@ const Shopdetails = () => {
                     max="12"
                     required
                     placeholder="e.g. 4"
-                    value={formData.age}
-                    onChange={handleInputChange}
-                    disabled={submitting}
+                    value={
+                      formData.age
+                    }
+                    onChange={
+                      handleInputChange
+                    }
+                    disabled={
+                      submitting
+                    }
                   />
 
                 </div>
@@ -711,9 +1114,15 @@ const Shopdetails = () => {
                     name="size"
                     required
                     placeholder="e.g. S, Medium, Age 4-5, LKG"
-                    value={formData.size}
-                    onChange={handleInputChange}
-                    disabled={submitting}
+                    value={
+                      formData.size
+                    }
+                    onChange={
+                      handleInputChange
+                    }
+                    disabled={
+                      submitting
+                    }
                   />
 
                 </div>
@@ -737,9 +1146,15 @@ const Shopdetails = () => {
                   maxLength="10"
                   inputMode="numeric"
                   placeholder="10-digit mobile number"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  disabled={submitting}
+                  value={
+                    formData.phone
+                  }
+                  onChange={
+                    handleInputChange
+                  }
+                  disabled={
+                    submitting
+                  }
                 />
 
               </div>
@@ -758,9 +1173,15 @@ const Shopdetails = () => {
                   rows="3"
                   required
                   placeholder="House / Flat no, Street, Landmark, Area"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  disabled={submitting}
+                  value={
+                    formData.address
+                  }
+                  onChange={
+                    handleInputChange
+                  }
+                  disabled={
+                    submitting
+                  }
                 ></textarea>
 
               </div>
@@ -770,7 +1191,9 @@ const Shopdetails = () => {
               <button
                 type="submit"
                 className="shop-modal-submit-btn"
-                disabled={submitting}
+                disabled={
+                  submitting
+                }
               >
 
                 {submitting ? (
@@ -783,9 +1206,7 @@ const Shopdetails = () => {
                     Submitting...
                   </>
                 ) : (
-                  <>
-                    Confirm Order
-                  </>
+                  "Confirm Order"
                 )}
 
               </button>
@@ -795,7 +1216,6 @@ const Shopdetails = () => {
           </div>
 
         </div>
-
       )}
 
     </section>

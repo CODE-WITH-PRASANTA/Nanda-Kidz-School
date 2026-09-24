@@ -7,20 +7,38 @@ const enquirySchema = new mongoose.Schema(
       required: [true, "Child's name is required."],
       trim: true,
     },
+
     address: {
       type: String,
       required: [true, "Address is required."],
       trim: true,
     },
+
     age: {
       type: String,
       required: [true, "Child's age is required."],
       trim: true,
     },
+
     message: {
       type: String,
       trim: true,
       default: "",
+    },
+
+    /* =====================================================
+       ENQUIRY STATUS
+    ===================================================== */
+
+    status: {
+      type: String,
+      enum: [
+        "New",
+        "Contacted",
+        "Follow Up",
+        "Closed",
+      ],
+      default: "New",
     },
   },
   {
@@ -28,4 +46,7 @@ const enquirySchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Enquiry", enquirySchema);
+module.exports = mongoose.model(
+  "Enquiry",
+  enquirySchema
+);

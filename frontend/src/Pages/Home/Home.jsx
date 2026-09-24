@@ -14,6 +14,8 @@ import OurTeachers from '../../Components/OurTeachers/OurTeachers';
 import Testimonial from '../../Components/Testimonial/Testimonial';
 import LatestNews from '../../Components/LatestNews/LatestNews';
 import AboutContact from '../../Components/AboutContact/AboutContact';
+import News from '../../Components/News/News';
+// import ActivityHomePage from '../../Components/ActivityHomePage/ActivityHomePage';
 
 const Home = () => {
   return (
@@ -164,9 +166,10 @@ const Home = () => {
           })}
         </script>
       </Helmet>
+      
 
       <main className="home-page">
-
+<News/>
         {/* Hero */}
         <HeroSection />
 
@@ -195,6 +198,8 @@ const Home = () => {
 
         {/* Activities */}
         <HomeTailoredClasses />
+
+        {/* <ActivityHomePage/> */}
 
         {/* Quality Education */}
         <HomeQualityEducation />

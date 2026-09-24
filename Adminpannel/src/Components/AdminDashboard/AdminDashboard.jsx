@@ -1,5 +1,6 @@
-import React from 'react';
-import './AdminDashboard.css';
+import React, { useMemo, useState } from "react";
+import "./AdminDashboard.css";
+
 import {
   Users,
   UserCheck,
@@ -9,328 +10,1669 @@ import {
   Calendar,
   UserPlus,
   Bell,
-  Image,
+  Image as ImageIcon,
   FileText,
   Eye,
-  MessageSquare
-} from 'lucide-react';
+  MessageSquare,
+  ArrowUpRight,
+  TrendingUp,
+  MoreHorizontal,
+  Clock3,
+  CheckCircle2,
+  Sparkles,
+  X,
+  ExternalLink,
+  ChevronDown,
+} from "lucide-react";
+
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+
+/* =========================================================
+   ATTENDANCE DATA
+========================================================= */
+
+const attendanceData = {
+  "This Week": [
+    { day: "Mon", attendance: 91, absent: 9 },
+    { day: "Tue", attendance: 94, absent: 6 },
+    { day: "Wed", attendance: 92, absent: 8 },
+    { day: "Thu", attendance: 96, absent: 4 },
+    { day: "Fri", attendance: 93, absent: 7 },
+    { day: "Sat", attendance: 89, absent: 11 },
+    { day: "Sun", attendance: 95, absent: 5 },
+  ],
+
+  "Last Week": [
+    { day: "Mon", attendance: 88, absent: 12 },
+    { day: "Tue", attendance: 91, absent: 9 },
+    { day: "Wed", attendance: 90, absent: 10 },
+    { day: "Thu", attendance: 93, absent: 7 },
+    { day: "Fri", attendance: 95, absent: 5 },
+    { day: "Sat", attendance: 87, absent: 13 },
+    { day: "Sun", attendance: 92, absent: 8 },
+  ],
+
+  "This Month": [
+    { day: "Week 1", attendance: 91, absent: 9 },
+    { day: "Week 2", attendance: 93, absent: 7 },
+    { day: "Week 3", attendance: 94, absent: 6 },
+    { day: "Week 4", attendance: 92, absent: 8 },
+  ],
+};
+
+/* =========================================================
+   CLASS DATA
+========================================================= */
+
+const classData = [
+  {
+    name: "Pre Nursery",
+    students: 187,
+    percentage: 15,
+    color: "#7658E8",
+  },
+  {
+    name: "Nursery",
+    students: 225,
+    percentage: 18,
+    color: "#3E88E5",
+  },
+  {
+    name: "LKG",
+    students: 250,
+    percentage: 20,
+    color: "#20B879",
+  },
+  {
+    name: "UKG",
+    students: 212,
+    percentage: 17,
+    color: "#F1A329",
+  },
+  {
+    name: "Class 1",
+    students: 187,
+    percentage: 15,
+    color: "#E6558A",
+  },
+  {
+    name: "Class 2",
+    students: 187,
+    percentage: 15,
+    color: "#9960E8",
+  },
+];
+
+/* =========================================================
+   WEBSITE STATISTICS
+========================================================= */
+
+const websiteStatsData = {
+  "This Month": {
+    visitors: "8,542",
+    visitorsChange: "12.5%",
+    pageViews: "24,302",
+    pageViewsChange: "18.6%",
+    messages: "125",
+    messagesChange: "7.3%",
+  },
+
+  "Last Month": {
+    visitors: "7,596",
+    visitorsChange: "8.4%",
+    pageViews: "20,481",
+    pageViewsChange: "13.2%",
+    messages: "116",
+    messagesChange: "5.8%",
+  },
+
+  "This Year": {
+    visitors: "96,842",
+    visitorsChange: "22.4%",
+    pageViews: "286,430",
+    pageViewsChange: "25.8%",
+    messages: "1,482",
+    messagesChange: "14.6%",
+  },
+};
+
+/* =========================================================
+   RECENT ADMISSIONS
+========================================================= */
+
+const recentAdmissions = [
+  {
+    name: "Aarav Sharma",
+    className: "Class LKG - A",
+    date: "18 Sep 2026",
+  },
+  {
+    name: "Myra Singh",
+    className: "Class Nursery - B",
+    date: "17 Sep 2026",
+  },
+  {
+    name: "Vihaan Patel",
+    className: "Class UKG - A",
+    date: "16 Sep 2026",
+  },
+  {
+    name: "Ananya Verma",
+    className: "Class LKG - B",
+    date: "15 Sep 2026",
+  },
+  {
+    name: "Kabir Gupta",
+    className: "Class Nursery - A",
+    date: "13 Sep 2026",
+  },
+];
+
+/* =========================================================
+   NOTICES
+========================================================= */
+
+const notices = [
+  {
+    title: "Annual Day Celebration",
+    description: "Annual day celebration on 25th September",
+    time: "2 hours ago",
+    icon: Sparkles,
+    type: "purple",
+  },
+  {
+    title: "Parent Teacher Meeting",
+    description: "Meeting scheduled for 25th September",
+    time: "5 hours ago",
+    icon: Users,
+    type: "amber",
+  },
+  {
+    title: "Fee Submission Reminder",
+    description: "Last date to submit monthly fee",
+    time: "1 day ago",
+    icon: Receipt,
+    type: "blue",
+  },
+  {
+    title: "School Holiday Notice",
+    description: "School will remain closed on Monday",
+    time: "2 days ago",
+    icon: FileText,
+    type: "rose",
+  },
+];
+
+/* =========================================================
+   SCHEDULE
+========================================================= */
+
+const scheduleData = [
+  {
+    time: "08:30 AM",
+    title: "Morning Assembly",
+    subtitle: "All Classes",
+    type: "purple",
+  },
+  {
+    time: "09:00 AM",
+    title: "English Class",
+    subtitle: "Class LKG - A",
+    type: "green",
+  },
+  {
+    time: "10:00 AM",
+    title: "Maths Class",
+    subtitle: "Class UKG - B",
+    type: "blue",
+  },
+  {
+    time: "11:00 AM",
+    title: "Drawing Activity",
+    subtitle: "Class Nursery - A",
+    type: "rose",
+  },
+  {
+    time: "12:00 PM",
+    title: "Lunch Break",
+    subtitle: "All Classes",
+    type: "amber",
+  },
+];
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+const upcomingEvents = [
+  {
+    date: "25",
+    month: "SEP",
+    title: "Parent Teacher Meeting",
+    day: "Friday, 25 Sep 2026",
+    type: "rose",
+  },
+  {
+    date: "02",
+    month: "OCT",
+    title: "Gandhi Jayanti Celebration",
+    day: "Friday, 02 Oct 2026",
+    type: "blue",
+  },
+  {
+    date: "20",
+    month: "OCT",
+    title: "School Cultural Day",
+    day: "Tuesday, 20 Oct 2026",
+    type: "amber",
+  },
+  {
+    date: "05",
+    month: "SEP",
+    title: "Teacher's Day Celebration",
+    day: "Saturday, 05 Sep 2026",
+    type: "purple",
+  },
+];
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+const quickActions = [
+  {
+    name: "Add Student",
+    icon: UserPlus,
+    type: "purple",
+  },
+  {
+    name: "Add Teacher",
+    icon: UserCheck,
+    type: "green",
+  },
+  {
+    name: "Add Class",
+    icon: GraduationCap,
+    type: "blue",
+  },
+  {
+    name: "Mark Attendance",
+    icon: CalendarCheck,
+    type: "amber",
+  },
+  {
+    name: "Collect Fees",
+    icon: Receipt,
+    type: "rose",
+  },
+  {
+    name: "Add Notice",
+    icon: Bell,
+    type: "indigo",
+  },
+  {
+    name: "Add Event",
+    icon: Calendar,
+    type: "teal",
+  },
+  {
+    name: "Upload Gallery",
+    icon: ImageIcon,
+    type: "orange",
+  },
+  {
+    name: "Add Blog",
+    icon: FileText,
+    type: "sky",
+  },
+];
+
+/* =========================================================
+   ATTENDANCE TOOLTIP
+========================================================= */
+
+const AttendanceTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) {
+    return null;
+  }
+
+  const data = payload[0]?.payload;
+
+  return (
+    <div className="AdminDashboard-chart-tooltip">
+      <div className="AdminDashboard-tooltip-title">
+        {label}
+      </div>
+
+      <div className="AdminDashboard-tooltip-row">
+        <span className="AdminDashboard-tooltip-dot purple" />
+        <span>Attendance</span>
+        <strong>{data?.attendance}%</strong>
+      </div>
+
+      <div className="AdminDashboard-tooltip-row muted">
+        <span className="AdminDashboard-tooltip-dot gray" />
+        <span>Absent</span>
+        <strong>{data?.absent}%</strong>
+      </div>
+    </div>
+  );
+};
+
+/* =========================================================
+   METRIC CARD
+========================================================= */
+
+const MetricCard = ({
+  icon: Icon,
+  title,
+  value,
+  trend,
+  subtitle,
+  type,
+  onMore,
+}) => {
+  return (
+    <div
+      className={`AdminDashboard-metric-card AdminDashboard-metric-${type}`}
+    >
+      <div className="AdminDashboard-metric-top">
+        <div className="AdminDashboard-metric-icon">
+          <Icon size={23} strokeWidth={2.1} />
+        </div>
+
+        <button
+          type="button"
+          className="AdminDashboard-card-more"
+          onClick={onMore}
+          aria-label={`${title} details`}
+        >
+          <MoreHorizontal size={20} />
+        </button>
+      </div>
+
+      <p className="AdminDashboard-metric-label">
+        {title}
+      </p>
+
+      <h3 className="AdminDashboard-metric-value">
+        {value}
+      </h3>
+
+      <div className="AdminDashboard-metric-bottom">
+        <span className="AdminDashboard-metric-trend">
+          <ArrowUpRight size={15} />
+          {trend}
+        </span>
+
+        <span className="AdminDashboard-metric-subtitle">
+          {subtitle}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+/* =========================================================
+   MAIN COMPONENT
+========================================================= */
 
 const AdminDashboard = () => {
-  // Interactive Handler for Action Buttons
-  const handleActionClick = (actionName) => {
-    alert(`${actionName} बटन पर सफलतापूर्वक क्लिक किया गया!`);
+  const [attendanceRange, setAttendanceRange] =
+    useState("This Week");
+
+  const [websiteRange, setWebsiteRange] =
+    useState("This Month");
+
+  const [hoveredClass, setHoveredClass] =
+    useState(null);
+
+  const [selectedClass, setSelectedClass] =
+    useState(null);
+
+  const [toastMessage, setToastMessage] =
+    useState("");
+
+  /* =======================================================
+     DATE
+  ======================================================= */
+
+  const currentDate = useMemo(() => {
+    return new Intl.DateTimeFormat("en-IN", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    }).format(new Date());
+  }, []);
+
+  /* =======================================================
+     ATTENDANCE
+  ======================================================= */
+
+  const currentAttendance =
+    attendanceData[attendanceRange];
+
+  const averageAttendance =
+    currentAttendance.reduce(
+      (sum, item) => sum + item.attendance,
+      0
+    ) / currentAttendance.length;
+
+  /* =======================================================
+     WEBSITE
+  ======================================================= */
+
+  const websiteData =
+    websiteStatsData[websiteRange];
+
+  /* =======================================================
+     ACTIVE CLASS
+  ======================================================= */
+
+  const activeClassName =
+    hoveredClass || selectedClass;
+
+  const activeClassData =
+    activeClassName
+      ? classData.find(
+          (item) =>
+            item.name === activeClassName
+        )
+      : null;
+
+  /* =======================================================
+     TOAST
+  ======================================================= */
+
+  const showToast = (message) => {
+    setToastMessage(message);
+
+    window.clearTimeout(
+      window.AdminDashboardToastTimer
+    );
+
+    window.AdminDashboardToastTimer =
+      window.setTimeout(() => {
+        setToastMessage("");
+      }, 2600);
   };
+
+  /* =======================================================
+     CLASS SELECT
+  ======================================================= */
+
+  const handleClassSelect = (className) => {
+    setSelectedClass((current) =>
+      current === className
+        ? null
+        : className
+    );
+  };
+
+  /* =======================================================
+     RETURN
+  ======================================================= */
 
   return (
     <div className="AdminDashboard-container">
-      {/* Top Header */}
-      <div className="header-section">
-        <div>
-          <h1 className="welcome-title">Welcome back, Admin! 👋</h1>
-          <p className="welcome-subtitle">Here's what's happening in your school today.</p>
-        </div>
-        <div className="date-badge">
-          <Calendar className="calendar-icon" size={16} />
-          <span>Tuesday, 29 July 2025</span>
-        </div>
-      </div>
 
-      {/* Top 5 Metric Cards */}
-      <div className="metrics-grid">
-        <div className="metric-card card-purple">
-          <div className="icon-wrapper"><Users size={22} /></div>
-          <div>
-            <p className="metric-label">Total Students</p>
-            <h3 className="metric-value">1,248</h3>
-            <p className="metric-trend">↑ 12 this month</p>
-          </div>
-        </div>
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
-        <div className="metric-card card-green">
-          <div className="icon-wrapper"><UserCheck size={22} /></div>
-          <div>
-            <p className="metric-label">Total Teachers</p>
-            <h3 className="metric-value">86</h3>
-            <p className="metric-trend">↑ 5 this month</p>
-          </div>
-        </div>
+      <header className="AdminDashboard-header">
+        <div className="AdminDashboard-header-content">
 
-        <div className="metric-card card-blue">
-          <div className="icon-wrapper"><GraduationCap size={22} /></div>
-          <div>
-            <p className="metric-label">Total Classes</p>
-            <h3 className="metric-value">32</h3>
-            <p className="metric-trend">↑ 2 this month</p>
-          </div>
-        </div>
+          <div className="AdminDashboard-header-copy">
 
-        <div className="metric-card card-yellow">
-          <div className="icon-wrapper"><CalendarCheck size={22} /></div>
-          <div>
-            <p className="metric-label">Today's Attendance</p>
-            <h3 className="metric-value">92.5%</h3>
-            <p className="metric-trend">↑ 3.2% from yesterday</p>
-          </div>
-        </div>
-
-        <div className="metric-card card-pink">
-          <div className="icon-wrapper"><Receipt size={22} /></div>
-          <div>
-            <p className="metric-label">Fees Collection</p>
-            <h3 className="metric-value">₹3,45,230</h3>
-            <p className="metric-trend">↑ 18% this month</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Middle Grid */}
-      <div className="middle-grid">
-        {/* Attendance Overview */}
-        <div className="card-box">
-          <div className="card-header">
-            <h2 className="card-title">Attendance Overview</h2>
-            <select className="timeframe-select">
-              <option>This Week</option>
-              <option>Last Week</option>
-            </select>
-          </div>
-          <div className="chart-container">
-            <svg className="svg-chart" viewBox="0 0 400 120" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="purpleGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <path d="M0,80 Q50,40 100,60 T200,30 T300,70 T400,20 L400,120 L0,120 Z" fill="url(#purpleGradient)" />
-              <path d="M0,80 Q50,40 100,60 T200,30 T300,70 T400,20" fill="none" stroke="#8b5cf6" strokeWidth="3" />
-              <circle cx="0" cy="80" r="4" fill="#8b5cf6" />
-              <circle cx="66" cy="48" r="4" fill="#8b5cf6" />
-              <circle cx="133" cy="62" r="4" fill="#8b5cf6" />
-              <circle cx="200" cy="30" r="4" fill="#8b5cf6" />
-              <circle cx="266" cy="65" r="4" fill="#8b5cf6" />
-              <circle cx="333" cy="50" r="4" fill="#8b5cf6" />
-              <circle cx="400" cy="20" r="4" fill="#8b5cf6" />
-            </svg>
-            <div className="chart-labels">
-              <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+            <div className="AdminDashboard-eyebrow">
+              SCHOOL ADMINISTRATION
             </div>
-          </div>
-        </div>
 
-        {/* Students by Class */}
-        <div className="card-box">
-          <h2 className="card-title" style={{ marginBottom: '16px' }}>Students by Class</h2>
-          <div className="donut-wrapper">
-            <div className="donut-chart-container">
-              <div className="donut-chart"></div>
-              <div className="donut-center">
-                <span className="donut-total">1,248</span>
-                <span className="donut-sub">Total</span>
+            <h1 className="AdminDashboard-welcome-title">
+              Welcome back, Admin
+              <span>👋</span>
+            </h1>
+
+            <p className="AdminDashboard-welcome-subtitle">
+              Here's what's happening in your
+              school today.
+            </p>
+
+          </div>
+
+          <div className="AdminDashboard-date-badge">
+
+            <span className="AdminDashboard-date-icon">
+              <Calendar size={20} />
+            </span>
+
+            <div>
+              <span className="AdminDashboard-date-label">
+                TODAY
+              </span>
+
+              <strong>
+                {currentDate}
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
+      </header>
+
+      {/* =================================================
+          METRICS
+      ================================================= */}
+
+      <section className="AdminDashboard-metrics-grid">
+
+        <MetricCard
+          icon={Users}
+          title="Total Students"
+          value="1,248"
+          trend="12"
+          subtitle="this month"
+          type="purple"
+          onMore={() =>
+            showToast(
+              "Student statistics opened"
+            )
+          }
+        />
+
+        <MetricCard
+          icon={UserCheck}
+          title="Total Teachers"
+          value="86"
+          trend="5"
+          subtitle="this month"
+          type="green"
+          onMore={() =>
+            showToast(
+              "Teacher statistics opened"
+            )
+          }
+        />
+
+        <MetricCard
+          icon={GraduationCap}
+          title="Total Classes"
+          value="32"
+          trend="2"
+          subtitle="this month"
+          type="blue"
+          onMore={() =>
+            showToast(
+              "Class statistics opened"
+            )
+          }
+        />
+
+        <MetricCard
+          icon={CalendarCheck}
+          title="Today's Attendance"
+          value={`${averageAttendance.toFixed(
+            1
+          )}%`}
+          trend="3.2%"
+          subtitle="from yesterday"
+          type="amber"
+          onMore={() =>
+            showToast(
+              "Attendance statistics opened"
+            )
+          }
+        />
+
+        <MetricCard
+          icon={Receipt}
+          title="Fees Collection"
+          value="₹3,45,230"
+          trend="18%"
+          subtitle="this month"
+          type="rose"
+          onMore={() =>
+            showToast(
+              "Fee statistics opened"
+            )
+          }
+        />
+
+      </section>
+
+      {/* =================================================
+          MAIN GRID
+      ================================================= */}
+
+      <section className="AdminDashboard-main-grid">
+
+        {/* =================================================
+            ATTENDANCE
+        ================================================= */}
+
+        <div className="AdminDashboard-card AdminDashboard-attendance-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+              <div className="AdminDashboard-card-kicker">
+                PERFORMANCE
               </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Attendance Overview
+              </h2>
+
+              <p className="AdminDashboard-card-description">
+                Daily student attendance
+                percentage.
+              </p>
             </div>
-            <div className="legend-grid">
-              <div className="legend-item"><span className="dot" style={{ backgroundColor: '#8b5cf6' }}></span><span className="legend-text">Pre Nursery</span><span className="legend-percent">15%</span></div>
-              <div className="legend-item"><span className="dot" style={{ backgroundColor: '#3b82f6' }}></span><span className="legend-text">Nursery</span><span className="legend-percent">18%</span></div>
-              <div className="legend-item"><span className="dot" style={{ backgroundColor: '#22c55e' }}></span><span className="legend-text">LKG</span><span className="legend-percent">20%</span></div>
-              <div className="legend-item"><span className="dot" style={{ backgroundColor: '#f59e0b' }}></span><span className="legend-text">UKG</span><span className="legend-percent">17%</span></div>
-              <div className="legend-item"><span className="dot" style={{ backgroundColor: '#ec4899' }}></span><span className="legend-text">Class 1</span><span className="legend-percent">15%</span></div>
-              <div className="legend-item"><span className="dot" style={{ backgroundColor: '#a855f7' }}></span><span className="legend-text">Class 2</span><span className="legend-percent">15%</span></div>
+
+            <div className="AdminDashboard-select-wrap">
+
+              <select
+                className="AdminDashboard-select"
+                value={attendanceRange}
+                onChange={(e) =>
+                  setAttendanceRange(
+                    e.target.value
+                  )
+                }
+              >
+                <option>This Week</option>
+                <option>Last Week</option>
+                <option>This Month</option>
+              </select>
+
+              <ChevronDown
+                size={16}
+                className="AdminDashboard-select-arrow"
+              />
+
             </div>
+
           </div>
+
+          <div className="AdminDashboard-chart-summary">
+
+            <div className="AdminDashboard-chart-average">
+
+              <strong>
+                {averageAttendance.toFixed(1)}%
+              </strong>
+
+              <span>
+                Average attendance
+              </span>
+
+            </div>
+
+            <div className="AdminDashboard-positive-summary">
+              <TrendingUp size={17} />
+              <span>3.2% vs previous</span>
+            </div>
+
+          </div>
+
+          <div className="AdminDashboard-attendance-chart">
+
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+
+              <AreaChart
+                data={currentAttendance}
+                margin={{
+                  top: 12,
+                  right: 12,
+                  left: -16,
+                  bottom: 0,
+                }}
+              >
+
+                <defs>
+                  <linearGradient
+                    id="AdminDashboardAttendanceGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      stopColor="#7658E8"
+                      stopOpacity={0.25}
+                    />
+
+                    <stop
+                      offset="100%"
+                      stopColor="#7658E8"
+                      stopOpacity={0.015}
+                    />
+                  </linearGradient>
+                </defs>
+
+                <CartesianGrid
+                  vertical={false}
+                  stroke="#E8ECF3"
+                  strokeDasharray="5 6"
+                />
+
+                <XAxis
+                  dataKey="day"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{
+                    fill: "#748198",
+                    fontSize: 13,
+                    fontWeight: 600,
+                  }}
+                  dy={11}
+                />
+
+                <YAxis
+                  domain={[70, 100]}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{
+                    fill: "#748198",
+                    fontSize: 12,
+                    fontWeight: 500,
+                  }}
+                  tickFormatter={(value) =>
+                    `${value}%`
+                  }
+                />
+
+                <Tooltip
+                  cursor={{
+                    stroke: "#dcd8f8",
+                    strokeDasharray: "4 4",
+                  }}
+                  content={
+                    <AttendanceTooltip />
+                  }
+                />
+
+                <Area
+                  type="monotone"
+                  dataKey="attendance"
+                  stroke="#7658E8"
+                  strokeWidth={3.5}
+                  fill="url(#AdminDashboardAttendanceGradient)"
+                  activeDot={{
+                    r: 6,
+                    fill: "#7658E8",
+                    stroke: "#fff",
+                    strokeWidth: 3,
+                  }}
+                />
+
+              </AreaChart>
+
+            </ResponsiveContainer>
+
+          </div>
+
+          <div className="AdminDashboard-chart-legend">
+
+            <span>
+              <i className="AdminDashboard-legend-dot purple" />
+              Attendance
+            </span>
+
+            <span>
+              <i className="AdminDashboard-legend-dot gray" />
+              Target: 90%
+            </span>
+
+          </div>
+
         </div>
 
-        {/* Recent Notices */}
-        <div className="card-box">
-          <div className="card-header">
-            <h2 className="card-title">Recent Notices</h2>
-            <button className="view-all-btn">View All</button>
-          </div>
-          <div className="list-container">
-            <div className="list-item notice-rose">
-              <div className="notice-icon"><FileText size={16} /></div>
-              <div className="item-content">
-                <h4 className="item-title">Summer Holiday Notice</h4>
-                <p className="item-desc">Holiday from 10th May to 20th May</p>
-              </div>
-              <span className="item-time">2 days ago</span>
-            </div>
-            <div className="list-item notice-purple">
-              <div className="notice-icon"><FileText size={16} /></div>
-              <div className="item-content">
-                <h4 className="item-title">Annual Day Celebration</h4>
-                <p className="item-desc">Annual day on 25th May 2025</p>
-              </div>
-              <span className="item-time">3 days ago</span>
-            </div>
-            <div className="list-item notice-amber">
-              <div className="notice-icon"><FileText size={16} /></div>
-              <div className="item-content">
-                <h4 className="item-title">Parent Meeting</h4>
-                <p className="item-desc">Meeting on 5th May at 10:00 AM</p>
-              </div>
-              <span className="item-time">5 days ago</span>
-            </div>
-            <div className="list-item notice-blue">
-              <div className="notice-icon"><FileText size={16} /></div>
-              <div className="item-content">
-                <h4 className="item-title">Fee Submission Reminder</h4>
-                <p className="item-desc">Last date to submit fee is 10th May</p>
-              </div>
-              <span className="item-time">1 week ago</span>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* =================================================
+            STUDENTS BY CLASS
+        ================================================= */}
 
-      {/* Bottom Grid */}
-      <div className="bottom-grid">
-        {/* Recent Admissions */}
-        <div className="card-box">
-          <div className="card-header">
-            <h2 className="card-title">Recent Admissions</h2>
-            <button className="view-all-btn">View All</button>
-          </div>
-          <div className="list-container">
-            {[
-              { name: 'Aarav Sharma', class: 'Class LKG - A', date: '28 Jul 2025' },
-              { name: 'Myra Singh', class: 'Class Nursery - B', date: '26 Jul 2025' },
-              { name: 'Vihaan Patel', class: 'Class UKG - A', date: '25 Jul 2025' },
-              { name: 'Ananya Verma', class: 'Class LKG - B', date: '24 Jul 2025' },
-              { name: 'Kabir Gupta', class: 'Class Nursery - A', date: '22 Jul 2025' }
-            ].map((item, i) => (
-              <div key={i} className="list-item">
-                <div className="avatar">{item.name[0]}</div>
-                <div className="item-content">
-                  <h4 className="item-title">{item.name}</h4>
-                  <p className="item-desc">{item.class}</p>
-                </div>
-                <span className="item-time" style={{ marginRight: '6px' }}>{item.date}</span>
-                <span className="tag-new">New</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <div className="AdminDashboard-card AdminDashboard-class-card">
 
-        {/* Today's Schedule */}
-        <div className="card-box">
-          <div className="card-header">
-            <h2 className="card-title">Today's Schedule</h2>
-            <button className="view-all-btn">View All</button>
+          <div className="AdminDashboard-card-header">
+
+            <div>
+              <div className="AdminDashboard-card-kicker">
+                ENROLLMENT
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Students by Class
+              </h2>
+
+              <p className="AdminDashboard-card-description">
+                Distribution of current students.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="AdminDashboard-icon-button"
+              onClick={() =>
+                showToast(
+                  "Class enrollment details opened"
+                )
+              }
+            >
+              <MoreHorizontal size={20} />
+            </button>
+
           </div>
-          <div className="list-container">
-            {[
-              { time: '08:30 AM', title: 'Morning Assembly', sub: 'All Classes', bg: '#f3e8ff', color: '#6b21a8' },
-              { time: '09:00 AM', title: 'English Class', sub: 'Class LKG - A', bg: '#dcfce7', color: '#15803d' },
-              { time: '10:00 AM', title: 'Maths Class', sub: 'Class UKG - B', bg: '#dbeafe', color: '#1e40af' },
-              { time: '11:00 AM', title: 'Drawing Activity', sub: 'Class Nursery - A', bg: '#ffe4e6', color: '#be123c' },
-              { time: '12:00 PM', title: 'Lunch Break', sub: 'All Classes', bg: '#fef3c7', color: '#b45309' }
-            ].map((item, i) => (
-              <div key={i} className="list-item">
-                <span className="time-badge" style={{ backgroundColor: item.bg, color: item.color }}>
-                  {item.time}
+
+          {/* =================================================
+              CLASS CHART
+          ================================================= */}
+
+          <div className="AdminDashboard-class-chart-area">
+
+            {/* PREMIUM HOVER TOOLTIP */}
+
+            <div
+              className={`AdminDashboard-class-hover-card ${
+                activeClassData
+                  ? "AdminDashboard-class-hover-visible"
+                  : ""
+              }`}
+            >
+
+              {activeClassData && (
+                <>
+                  <div
+                    className="AdminDashboard-class-hover-color"
+                    style={{
+                      background:
+                        activeClassData.color,
+                    }}
+                  />
+
+                  <div className="AdminDashboard-class-hover-main">
+                    <span>
+                      {activeClassData.name}
+                    </span>
+
+                    <strong>
+                      {activeClassData.students}
+                    </strong>
+                  </div>
+
+                  <div className="AdminDashboard-class-hover-divider" />
+
+                  <div className="AdminDashboard-class-hover-share">
+                    <small>SHARE</small>
+
+                    <b>
+                      {activeClassData.percentage}%
+                    </b>
+                  </div>
+                </>
+              )}
+
+            </div>
+
+            {/* DONUT */}
+
+            <div className="AdminDashboard-donut-wrapper">
+
+              <ResponsiveContainer
+                width="100%"
+                height="100%"
+              >
+
+                <PieChart>
+
+                  <Pie
+                    data={classData}
+                    dataKey="students"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    innerRadius="62%"
+                    outerRadius="85%"
+                    paddingAngle={4}
+                    startAngle={90}
+                    endAngle={-270}
+                    stroke="#ffffff"
+                    strokeWidth={4}
+                    onMouseEnter={(entry) => {
+                      setHoveredClass(
+                        entry.name
+                      );
+                    }}
+                    onMouseLeave={() => {
+                      if (!selectedClass) {
+                        setHoveredClass(null);
+                      }
+                    }}
+                    onClick={(entry) => {
+                      handleClassSelect(
+                        entry.name
+                      );
+                    }}
+                  >
+
+                    {classData.map((entry) => {
+
+                      const isActive =
+                        activeClassName ===
+                        entry.name;
+
+                      return (
+                        <Cell
+                          key={entry.name}
+                          fill={entry.color}
+                          opacity={
+                            activeClassName &&
+                            !isActive
+                              ? 0.22
+                              : 1
+                          }
+                          style={{
+                            cursor: "pointer",
+                            transition:
+                              "all 0.3s ease",
+                            filter:
+                              isActive
+                                ? `drop-shadow(0 5px 10px ${entry.color}55)`
+                                : "none",
+                          }}
+                        />
+                      );
+                    })}
+
+                  </Pie>
+
+                </PieChart>
+
+              </ResponsiveContainer>
+
+              {/* CENTER */}
+
+              <div className="AdminDashboard-donut-center">
+
+                <span className="AdminDashboard-donut-center-label">
+                  TOTAL STUDENTS
                 </span>
-                <div className="item-content">
-                  <h4 className="item-title">{item.title}</h4>
-                  <p className="item-desc">{item.sub}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Upcoming Events */}
-        <div className="card-box">
-          <div className="card-header">
-            <h2 className="card-title">Upcoming Events</h2>
-            <button className="view-all-btn">View All</button>
-          </div>
-          <div className="list-container">
-            {[
-              { date: '05', month: 'AUG', title: 'Parent Teacher Meeting', day: 'Tuesday, 05 Aug 2025', bg: '#ffe4e6', color: '#be123c' },
-              { date: '15', month: 'AUG', title: 'Independence Day Celebration', day: 'Friday, 15 Aug 2025', bg: '#dbeafe', color: '#1e40af' },
-              { date: '25', month: 'AUG', title: 'Janmashtami Celebration', day: 'Monday, 25 Aug 2025', bg: '#fef3c7', color: '#b45309' },
-              { date: '05', month: 'SEP', title: "Teacher's Day Celebration", day: 'Friday, 05 Sep 2025', bg: '#f3e8ff', color: '#6b21a8' }
-            ].map((evt, i) => (
-              <div key={i} className="list-item">
-                <div className="date-box" style={{ backgroundColor: evt.bg, color: evt.color }}>
-                  <span className="date-num">{evt.date}</span>
-                  <span className="date-month">{evt.month}</span>
-                </div>
-                <div className="item-content">
-                  <h4 className="item-title">{evt.title}</h4>
-                  <p className="item-desc">{evt.day}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+                <strong>1,248</strong>
 
-      {/* Actions and Stats Grid */}
-      <div className="actions-stats-grid">
-        {/* Quick Actions */}
-        <div className="card-box">
-          <h2 className="card-title" style={{ marginBottom: '16px' }}>Quick Actions</h2>
-          <div className="actions-grid">
-            {[
-              { name: 'Add Student', icon: UserPlus, class: 'act-purple' },
-              { name: 'Add Teacher', icon: UserCheck, class: 'act-green' },
-              { name: 'Add Class', icon: GraduationCap, class: 'act-blue' },
-              { name: 'Mark Attendance', icon: CalendarCheck, class: 'act-amber' },
-              { name: 'Collect Fees', icon: Receipt, class: 'act-rose' },
-              { name: 'Add Notice', icon: Bell, class: 'act-indigo' },
-              { name: 'Add Event', icon: Calendar, class: 'act-teal' },
-              { name: 'Upload Gallery', icon: Image, class: 'act-orange' },
-              { name: 'Add Blog', icon: FileText, class: 'act-sky' }
-            ].map((action, idx) => {
-              const IconComp = action.icon;
+                <span className="AdminDashboard-donut-center-sub">
+                  Across all classes
+                </span>
+
+              </div>
+
+            </div>
+
+            {/* HELPER */}
+
+            <div className="AdminDashboard-class-helper">
+
+              <span className="AdminDashboard-class-helper-icon">
+                <Users size={16} />
+              </span>
+
+              <div>
+                <strong>6 active classes</strong>
+
+                <span>
+                  Hover over a class to explore
+                  enrollment
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* =================================================
+              CLASS LEGEND
+          ================================================= */}
+
+          <div className="AdminDashboard-class-legend">
+
+            {classData.map((item) => {
+
+              const isActive =
+                activeClassName === item.name;
+
               return (
                 <button
-                  key={idx}
-                  className="action-btn"
-                  onClick={() => handleActionClick(action.name)}
+                  type="button"
+                  key={item.name}
+                  className={`AdminDashboard-class-legend-item ${
+                    isActive
+                      ? "AdminDashboard-class-selected"
+                      : ""
+                  }`}
+                  onMouseEnter={() =>
+                    setHoveredClass(item.name)
+                  }
+                  onMouseLeave={() => {
+                    if (!selectedClass) {
+                      setHoveredClass(null);
+                    }
+                  }}
+                  onClick={() =>
+                    handleClassSelect(
+                      item.name
+                    )
+                  }
                 >
-                  <div className={`action-icon ${action.class}`}>
-                    <IconComp size={20} />
-                  </div>
-                  <span>{action.name}</span>
+
+                  <span
+                    className="AdminDashboard-class-dot"
+                    style={{
+                      background: item.color,
+                    }}
+                  />
+
+                  <span className="AdminDashboard-class-name">
+                    {item.name}
+                  </span>
+
+                  <strong>
+                    {item.students}
+                  </strong>
+
+                  <small>
+                    {item.percentage}%
+                  </small>
+
                 </button>
               );
             })}
+
           </div>
+
         </div>
 
-        {/* Website Statistics */}
-        <div className="card-box">
-          <div className="card-header">
-            <h2 className="card-title">Website Statistics</h2>
-            <select className="timeframe-select">
-              <option>This Month</option>
-            </select>
+        {/* =================================================
+            RECENT NOTICES
+        ================================================= */}
+
+        <div className="AdminDashboard-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+              <div className="AdminDashboard-card-kicker">
+                COMMUNICATION
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Recent Notices
+              </h2>
+
+              <p className="AdminDashboard-card-description">
+                Latest school announcements.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="AdminDashboard-view-all"
+              onClick={() =>
+                showToast("Opening notices")
+              }
+            >
+              View All
+              <ArrowUpRight size={16} />
+            </button>
+
           </div>
-          <div className="stats-cards">
-            <div className="stat-card stat-purple">
-              <Users size={18} color="#8b5cf6" style={{ margin: '0 auto 4px' }} />
-              <p>Visitors</p>
-              <h4>8,542</h4>
-              <span>↑ 12.5%</span>
-            </div>
-            <div className="stat-card stat-green">
-              <Eye size={18} color="#22c55e" style={{ margin: '0 auto 4px' }} />
-              <p>Page Views</p>
-              <h4>24,302</h4>
-              <span>↑ 18.6%</span>
-            </div>
-            <div className="stat-card stat-amber">
-              <MessageSquare size={18} color="#f59e0b" style={{ margin: '0 auto 4px' }} />
-              <p>Messages</p>
-              <h4>125</h4>
-              <span>↑ 7.3%</span>
-            </div>
+
+          <div className="AdminDashboard-list">
+
+            {notices.map((notice) => {
+
+              const Icon = notice.icon;
+
+              return (
+                <button
+                  type="button"
+                  className="AdminDashboard-list-item"
+                  key={notice.title}
+                  onClick={() =>
+                    showToast(
+                      `${notice.title} opened`
+                    )
+                  }
+                >
+
+                  <div
+                    className={`AdminDashboard-notice-icon ${notice.type}`}
+                  >
+                    <Icon size={19} />
+                  </div>
+
+                  <div className="AdminDashboard-list-content">
+                    <h4>{notice.title}</h4>
+
+                    <p>
+                      {notice.description}
+                    </p>
+                  </div>
+
+                  <span className="AdminDashboard-list-time">
+                    {notice.time}
+                  </span>
+
+                  <ArrowUpRight
+                    className="AdminDashboard-row-arrow"
+                    size={16}
+                  />
+
+                </button>
+              );
+            })}
+
           </div>
+
         </div>
-      </div>
+
+      </section>
+
+      {/* =================================================
+          SECOND ROW
+      ================================================= */}
+
+      <section className="AdminDashboard-three-column-grid">
+
+        {/* RECENT ADMISSIONS */}
+
+        <div className="AdminDashboard-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+              <div className="AdminDashboard-card-kicker">
+                ADMISSIONS
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Recent Admissions
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              className="AdminDashboard-view-all"
+              onClick={() =>
+                showToast("Opening admissions")
+              }
+            >
+              View All
+              <ArrowUpRight size={16} />
+            </button>
+
+          </div>
+
+          <div className="AdminDashboard-list">
+
+            {recentAdmissions.map((item) => (
+              <button
+                type="button"
+                className="AdminDashboard-list-item"
+                key={item.name}
+                onClick={() =>
+                  showToast(
+                    `${item.name} selected`
+                  )
+                }
+              >
+
+                <div className="AdminDashboard-avatar">
+                  {item.name.charAt(0)}
+                </div>
+
+                <div className="AdminDashboard-list-content">
+
+                  <h4>{item.name}</h4>
+
+                  <p>{item.className}</p>
+
+                </div>
+
+                <div className="AdminDashboard-admission-right">
+
+                  <span>{item.date}</span>
+
+                  <b>New</b>
+
+                </div>
+
+                <ArrowUpRight
+                  className="AdminDashboard-row-arrow"
+                  size={16}
+                />
+
+              </button>
+            ))}
+
+          </div>
+
+        </div>
+
+        {/* SCHEDULE */}
+
+        <div className="AdminDashboard-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+              <div className="AdminDashboard-card-kicker">
+                TODAY
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Today's Schedule
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              className="AdminDashboard-view-all"
+              onClick={() =>
+                showToast("Opening schedule")
+              }
+            >
+              View All
+              <ArrowUpRight size={16} />
+            </button>
+
+          </div>
+
+          <div className="AdminDashboard-list">
+
+            {scheduleData.map((item) => (
+              <button
+                type="button"
+                className="AdminDashboard-list-item"
+                key={item.time}
+                onClick={() =>
+                  showToast(
+                    `${item.title} selected`
+                  )
+                }
+              >
+
+                <div
+                  className={`AdminDashboard-time-badge ${item.type}`}
+                >
+                  <Clock3 size={14} />
+                  {item.time}
+                </div>
+
+                <div className="AdminDashboard-list-content">
+
+                  <h4>{item.title}</h4>
+
+                  <p>{item.subtitle}</p>
+
+                </div>
+
+                <ArrowUpRight
+                  className="AdminDashboard-row-arrow"
+                  size={16}
+                />
+
+              </button>
+            ))}
+
+          </div>
+
+        </div>
+
+        {/* EVENTS */}
+
+        <div className="AdminDashboard-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+              <div className="AdminDashboard-card-kicker">
+                CALENDAR
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Upcoming Events
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              className="AdminDashboard-view-all"
+              onClick={() =>
+                showToast("Opening events")
+              }
+            >
+              View All
+              <ArrowUpRight size={16} />
+            </button>
+
+          </div>
+
+          <div className="AdminDashboard-list">
+
+            {upcomingEvents.map((event) => (
+              <button
+                type="button"
+                className="AdminDashboard-list-item"
+                key={event.title}
+                onClick={() =>
+                  showToast(
+                    `${event.title} selected`
+                  )
+                }
+              >
+
+                <div
+                  className={`AdminDashboard-event-date ${event.type}`}
+                >
+                  <strong>{event.date}</strong>
+
+                  <span>{event.month}</span>
+                </div>
+
+                <div className="AdminDashboard-list-content">
+
+                  <h4>{event.title}</h4>
+
+                  <p>{event.day}</p>
+
+                </div>
+
+                <ArrowUpRight
+                  className="AdminDashboard-row-arrow"
+                  size={16}
+                />
+
+              </button>
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* =================================================
+          BOTTOM
+      ================================================= */}
+
+      <section className="AdminDashboard-bottom-grid">
+
+        {/* QUICK ACTIONS */}
+
+        <div className="AdminDashboard-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+
+              <div className="AdminDashboard-card-kicker">
+                SHORTCUTS
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Quick Actions
+              </h2>
+
+              <p className="AdminDashboard-card-description">
+                Quickly access common
+                administrative tasks.
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="AdminDashboard-actions-grid">
+
+            {quickActions.map((action) => {
+
+              const Icon = action.icon;
+
+              return (
+                <button
+                  type="button"
+                  key={action.name}
+                  className="AdminDashboard-action-button"
+                  onClick={() =>
+                    showToast(
+                      `${action.name} selected`
+                    )
+                  }
+                >
+
+                  <span
+                    className={`AdminDashboard-action-icon ${action.type}`}
+                  >
+                    <Icon size={23} />
+                  </span>
+
+                  <span className="AdminDashboard-action-name">
+                    {action.name}
+                  </span>
+
+                  <ArrowUpRight
+                    size={16}
+                    className="AdminDashboard-action-arrow"
+                  />
+
+                </button>
+              );
+            })}
+
+          </div>
+
+        </div>
+
+        {/* WEBSITE STATISTICS */}
+
+        <div className="AdminDashboard-card">
+
+          <div className="AdminDashboard-card-header">
+
+            <div>
+
+              <div className="AdminDashboard-card-kicker">
+                WEBSITE
+              </div>
+
+              <h2 className="AdminDashboard-card-title">
+                Website Statistics
+              </h2>
+
+            </div>
+
+            <div className="AdminDashboard-select-wrap">
+
+              <select
+                className="AdminDashboard-select"
+                value={websiteRange}
+                onChange={(e) =>
+                  setWebsiteRange(
+                    e.target.value
+                  )
+                }
+              >
+                <option>This Month</option>
+                <option>Last Month</option>
+                <option>This Year</option>
+              </select>
+
+              <ChevronDown
+                size={16}
+                className="AdminDashboard-select-arrow"
+              />
+
+            </div>
+
+          </div>
+
+          <div className="AdminDashboard-website-stats">
+
+            <div className="AdminDashboard-website-stat purple">
+
+              <div className="AdminDashboard-website-stat-top">
+
+                <span className="AdminDashboard-website-stat-icon">
+                  <Users size={19} />
+                </span>
+
+                <ArrowUpRight size={16} />
+
+              </div>
+
+              <span>Visitors</span>
+
+              <strong>
+                {websiteData.visitors}
+              </strong>
+
+              <small>
+                ↑ {websiteData.visitorsChange}
+              </small>
+
+            </div>
+
+            <div className="AdminDashboard-website-stat green">
+
+              <div className="AdminDashboard-website-stat-top">
+
+                <span className="AdminDashboard-website-stat-icon">
+                  <Eye size={19} />
+                </span>
+
+                <ArrowUpRight size={16} />
+
+              </div>
+
+              <span>Page Views</span>
+
+              <strong>
+                {websiteData.pageViews}
+              </strong>
+
+              <small>
+                ↑ {websiteData.pageViewsChange}
+              </small>
+
+            </div>
+
+            <div className="AdminDashboard-website-stat amber">
+
+              <div className="AdminDashboard-website-stat-top">
+
+                <span className="AdminDashboard-website-stat-icon">
+                  <MessageSquare size={19} />
+                </span>
+
+                <ArrowUpRight size={16} />
+
+              </div>
+
+              <span>Messages</span>
+
+              <strong>
+                {websiteData.messages}
+              </strong>
+
+              <small>
+                ↑ {websiteData.messagesChange}
+              </small>
+
+            </div>
+
+          </div>
+
+          <div className="AdminDashboard-website-footer">
+
+            <div>
+              <TrendingUp size={18} />
+
+              <span>
+                Website engagement is growing
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                showToast(
+                  "Website analytics opened"
+                )
+              }
+            >
+              Analytics
+              <ExternalLink size={15} />
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* =================================================
+          TOAST
+      ================================================= */}
+
+      {toastMessage && (
+        <div className="AdminDashboard-toast">
+
+          <div className="AdminDashboard-toast-icon">
+            <CheckCircle2 size={20} />
+          </div>
+
+          <div className="AdminDashboard-toast-content">
+
+            <strong>
+              Action Selected
+            </strong>
+
+            <span>
+              {toastMessage}
+            </span>
+
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              setToastMessage("")
+            }
+          >
+            <X size={17} />
+          </button>
+
+        </div>
+      )}
+
     </div>
   );
 };

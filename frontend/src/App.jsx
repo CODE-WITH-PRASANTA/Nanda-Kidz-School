@@ -48,6 +48,7 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Termandconditions from "./Pages/Termandconditions/Termandconditions";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -95,6 +96,7 @@ const App = () => {
         <Route path="/termandcondition" element={<Termandconditions />} />
         <Route path="/privacy-policy" element={<Privacypolicy />} />
         <Route path="/privacypolicy" element={<Privacypolicy />} />
+       
 
         {/* 404 Fallback for Unmatched Routes */}
         <Route path="*" element={<Navigate to="/" replace />} />

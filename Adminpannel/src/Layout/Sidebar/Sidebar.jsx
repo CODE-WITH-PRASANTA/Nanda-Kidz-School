@@ -6,10 +6,7 @@ import logo from '../../assets/nanda image .png';
 
 import {
   Home,
-  GraduationCap,
-  UserPlus,
   Users,
-  UserCheck,
   BookOpen,
   CalendarCheck,
   Wallet,
@@ -25,18 +22,15 @@ import {
   Globe,
   Store,
   Settings,
-  BarChart3,
   ChevronRight,
   ChevronDown,
   Phone,
   Maximize2,
   Power,
   X,
-  BookMarked,
-  Clock,
-  Award,
-  Send,
   HelpCircle,
+  Send,
+  Newspaper,
 } from 'lucide-react';
 
 import './Sidebar.css';
@@ -79,6 +73,21 @@ const Sidebar = ({
       ],
     },
 
+    // =====================================================
+    // ⭐ LATEST NEWS SECTION
+    // =====================================================
+    {
+      category: 'Updates',
+      items: [
+        {
+          type: 'link',
+          icon: Newspaper,
+          text: 'Latest News',
+          path: '/latestnews',
+        },
+      ],
+    },
+    
     // =====================================================
     // ACADEMIC MANAGEMENT
     // =====================================================
@@ -157,6 +166,10 @@ const Sidebar = ({
               path: '/admissions',
             },
             {
+              text: 'Admission List',
+              path: '/admission-list',
+            },
+            {
               text: 'Parents',
               path: '/parents',
             },
@@ -202,11 +215,21 @@ const Sidebar = ({
         { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
         { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
         { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
+        { type: 'link', icon: FileText, text: 'Testimonials', path: '/testimonials' },
+      ],
+    },
+
+    // =====================================================
+    // ENQUIRIES
+    // =====================================================
+    {
+      category: 'Enquiries',
+      items: [
         {
           type: 'link',
-          icon: FileText,
-          text: 'Testimonials',
-          path: '/testimonials',
+          icon: HelpCircle,
+          text: 'Floating Enquiries',
+          path: '/floating-enquiries',
         },
       ],
     },
@@ -214,12 +237,6 @@ const Sidebar = ({
     // =====================================================
     // SYSTEM & COMMERCE
     // =====================================================
-    {
-      category: 'Enquiries',
-      items: [
-        { type: 'link', icon: HelpCircle, text: 'Floating Enquiries', path: '/floating-enquiries' },
-      ],
-    },
     {
       category: 'System & Commerce',
       items: [
@@ -241,9 +258,9 @@ const Sidebar = ({
         },
         {
           type: 'link',
-          icon: BarChart3,
-          text: 'Reports',
-          path: '/reports',
+          icon: ImageIcon,
+          text: 'Shop Image',
+          path: '/shop-images',
         },
         {
           type: 'link',
@@ -284,7 +301,9 @@ const Sidebar = ({
 
   return (
     <>
-      {/* Mobile Overlay */}
+      {/* =================================================
+          MOBILE OVERLAY
+      ================================================= */}
       {isMobileOpen && (
         <div
           className="Sidebar-overlay"
@@ -416,7 +435,7 @@ const Sidebar = ({
                         )}
                       </button>
 
-                      {/* Sub Menu */}
+                      {/* SUB MENU */}
                       {showLabels && isOpen && (
                         <ul className="SidebarItem-submenu">
                           {item.subItems.map((sub, subIndex) => (
