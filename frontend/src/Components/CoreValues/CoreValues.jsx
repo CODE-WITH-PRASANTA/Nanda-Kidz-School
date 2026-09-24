@@ -2,7 +2,7 @@ import React from "react";
 import "./CoreValues.css";
 
 // Import images
-import mainImg from "../../assets/value-1.png";
+import mainImg from "../../assets/Beautymam.webp";
 import shapeRight from "../../assets/value-shape-3 (3).png";
 import shapeSun from "../../assets/value-shape-1.png";
 import shapePencil from "../../assets/value-shape-2.png";
@@ -66,11 +66,13 @@ const CoreValues = () => {
         <div className="core-values__image-wrapper">
           <div className="core-values__image-backdrop"></div>
 
-          <img
-            src={mainImg}
-            alt="Children learning and playing at Nanda Kidz"
-            className="core-values__main-image"
-          />
+          <div className="core-values__main-image-frame">
+            <img
+              src={mainImg}
+              alt="Dr. Achman Nanda at Nanda Kidz"
+              className="core-values__main-image"
+            />
+          </div>
 
           <div className="core-values__experience-card">
             <span className="exp-star">⭐</span>

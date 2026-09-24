@@ -8,7 +8,7 @@
 .topbar-container {
   display: flex;
   width: 100%;
-  height: 50px;
+  min-height: 50px;
   font-family: 'Arial', sans-serif;
   font-size: 14px;
   font-weight: 600;
@@ -18,10 +18,10 @@
 /* --- Left Side Styling (Dark Blue) --- */
 .topbar-left-section {
   background-color: var(--topbar-dark-blue);
-  flex: 1.2;
+  flex: 1.4;
   display: flex;
   align-items: center;
-  padding-left: 40px;
+  padding: 8px 0 8px 40px;
   color: var(--topbar-white);
   /* Creates the dynamic angled cut looking toward the right */
   clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
@@ -30,18 +30,24 @@
 
 .topbar-info-wrapper {
   display: flex;
-  gap: 40px;
+  gap: 30px;
+  flex-wrap: wrap;
 }
 
 .topbar-info-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 
 .topbar-icon {
   font-size: 14px;
   flex-shrink: 0;
+  margin-top: 3px; /* Aligns multi-line address icon nicely with the first line of text */
+}
+
+.topbar-text {
+  line-height: 1.4;
 }
 
 /* --- Right Side Styling (Mustard Gold) --- */
@@ -51,7 +57,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 40px;
+  padding: 8px 40px 8px 0;
   margin-left: -8%; /* Pulls right block underneath the clip-path angle */
   z-index: 1;
 }
@@ -101,14 +107,14 @@
 /* --- Media Queries for Responsive Design --- */
 
 /* Tablet viewports */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .topbar-left-section {
-    flex: 1.5;
+    flex: 1.6;
     padding-left: 20px;
     clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
   }
   .topbar-info-wrapper {
-    gap: 20px;
+    gap: 15px;
   }
   .topbar-right-section {
     padding-right: 20px;
@@ -118,13 +124,18 @@
   }
 }
 
-/* Smaller laptops/large phones: hide text strings but keep structural core */
-@media (max-width: 768px) {
-  .topbar-info-item:first-child {
-    display: none; /* Hides location address string to prevent overlay text errors */
+/* Smaller laptops/large phones: switch to stacked info or truncate long strings safely */
+@media (max-width: 820px) {
+  .topbar-container {
+    font-size: 13px;
   }
   .topbar-left-section {
+    flex: 1.8;
     clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+  }
+  .topbar-info-wrapper {
+    flex-direction: column;
+    gap: 6px;
   }
 }
 
@@ -139,20 +150,33 @@
   .topbar-right-section {
     flex: none;
     width: 100%;
-    padding: 10px 15px;
+    padding: 12px 15px;
     justify-content: center;
     clip-path: none; /* Removes structural clip polygon formatting for raw stacking layout stack */
     margin-left: 0;
   }
   
+  .topbar-left-section {
+    text-align: center;
+  }
+
   .topbar-info-wrapper {
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 100%;
+    gap: 10px;
+  }
+
+  .topbar-info-item {
+    justify-content: center;
+    text-align: center;
   }
 
   .topbar-contact-wrapper {
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     gap: 12px;
   }

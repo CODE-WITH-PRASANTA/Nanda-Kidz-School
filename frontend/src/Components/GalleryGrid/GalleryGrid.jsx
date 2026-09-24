@@ -1,19 +1,55 @@
 import React, { useEffect, useState } from "react";
 import "./GalleryGrid.css";
-
-// Local gallery images
-import g1 from "../../assets/g1.webp";
-import g2 from "../../assets/g2.webp";
-import g3 from "../../assets/g3.webp";
-import g4 from "../../assets/g4.webp";
-import g5 from "../../assets/g5.webp";
-import g6 from "../../assets/g6.webp";
+import API from "../../api/axios";
 
 const GalleryGrid = () => {
-  const images = [g1, g2, g3, g4, g5, g6];
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Fetch gallery items from backend on component mount
+  useEffect(() => {
+    fetchGalleries();
+  }, []);
+
+  const fetchGalleries = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const response = await API.get("/gallery");
+
+      let fetchedData = [];
+      if (Array.isArray(response.data)) {
+        fetchedData = response.data;
+      } else if (Array.isArray(response.data?.data)) {
+        fetchedData = response.data.data;
+      }
+
+      setImages(fetchedData);
+    } catch (err) {
+      console.error("FETCH GALLERY GRID ERROR:", err);
+      setError("Failed to load gallery moments.");
+      setImages([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getImageUrl = (image) => {
+    if (!image) return "";
+    if (
+      image.startsWith("blob:") ||
+      image.startsWith("http://") ||
+      image.startsWith("https://")
+    ) {
+      return image;
+    }
+    return `http://localhost:5000${image.startsWith("/") ? "" : "/"}${image}`;
+  };
 
   const openLightbox = (index) => {
     setCurrentIndex(index);
@@ -26,7 +62,6 @@ const GalleryGrid = () => {
 
   const goToPrevious = (e) => {
     e.stopPropagation();
-
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
     );
@@ -34,15 +69,14 @@ const GalleryGrid = () => {
 
   const goToNext = (e) => {
     e.stopPropagation();
-
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  // Keyboard controls for the gallery
+  // Keyboard controls for the gallery lightbox
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen || images.length === 0) return;
 
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -77,9 +111,8 @@ const GalleryGrid = () => {
 
         {/* =========================
             SECTION INTRO
-        ========================== */}
+        ========================= */}
         <div className="GalleryGrid-heading">
-
           <span className="GalleryGrid-label">
             Nanda Kidz Moments
           </span>
@@ -113,58 +146,64 @@ const GalleryGrid = () => {
 
         {/* =========================
             GALLERY GRID
-        ========================== */}
+        ========================= */}
         <div className="GalleryGrid-container">
-          {images.map((img, index) => (
-            <button
-              type="button"
-              key={index}
-              className="GalleryGrid-item"
-              onClick={() => openLightbox(index)}
-              aria-label={`View Nanda Kidz gallery image ${index + 1}`}
-            >
-              <img
-                src={img}
-                alt={`Nanda Kidz classroom and children's activity ${
-                  index + 1
-                }`}
-                className="GalleryGrid-image"
-              />
+          {loading ? (
+            <p className="GalleryGrid-loading-text">Loading gallery moments...</p>
+          ) : error ? (
+            <p className="GalleryGrid-error-text">{error}</p>
+          ) : images.length > 0 ? (
+            images.map((item, index) => (
+              <button
+                type="button"
+                key={item._id || index}
+                className="GalleryGrid-item"
+                onClick={() => openLightbox(index)}
+                aria-label={`View Nanda Kidz gallery image ${index + 1}`}
+              >
+                <img
+                  src={getImageUrl(item.image)}
+                  alt={item.title || `Nanda Kidz activity ${index + 1}`}
+                  className="GalleryGrid-image"
+                />
 
-              <div className="GalleryGrid-overlay">
-                <div className="GalleryGrid-overlay-content">
-                  <span className="GalleryGrid-view-text">
-                    View Moment
-                  </span>
+                <div className="GalleryGrid-overlay">
+                  <div className="GalleryGrid-overlay-content">
+                    <span className="GalleryGrid-view-text">
+                      {item.title || "View Moment"}
+                    </span>
 
-                  <span className="GalleryGrid-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <line
-                        x1="21"
-                        y1="21"
-                        x2="16.65"
-                        y2="16.65"
-                      />
-                    </svg>
-                  </span>
+                    <span className="GalleryGrid-icon">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <circle cx="11" cy="11" r="8" />
+                        <line
+                          x1="21"
+                          y1="21"
+                          x2="16.65"
+                          y2="16.65"
+                        />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))
+          ) : (
+            <p className="GalleryGrid-no-images">No gallery moments found.</p>
+          )}
         </div>
 
         {/* =========================
             BOTTOM CONTENT
-        ========================== */}
+        ========================= */}
         <div className="GalleryGrid-bottom">
           <div className="GalleryGrid-bottom-badge">
             Little moments, lasting memories
@@ -186,8 +225,8 @@ const GalleryGrid = () => {
 
       {/* =========================
           LIGHTBOX
-      ========================== */}
-      {isOpen && (
+      ========================= */}
+      {isOpen && images.length > 0 && (
         <div
           className="GalleryGrid-modal"
           onClick={closeLightbox}
@@ -242,8 +281,8 @@ const GalleryGrid = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={images[currentIndex]}
-              alt={`Nanda Kidz gallery image ${currentIndex + 1}`}
+              src={getImageUrl(images[currentIndex]?.image)}
+              alt={images[currentIndex]?.title || `Gallery image ${currentIndex + 1}`}
               className="GalleryGrid-modal-img"
             />
 

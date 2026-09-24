@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-// 1. Import your logo file here (adjust filename/extension like .png, .svg, or .jpg as needed)
+// Import your logo file
 import logo from '../../assets/nanda image .png'; 
 
 import {
@@ -35,26 +35,53 @@ import {
   BookMarked,
   Clock,
   Award,
+  Send,
+  HelpCircle,
 } from 'lucide-react';
+
 import './Sidebar.css';
 
-const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = () => {} }) => {
+const Sidebar = ({
+  isCollapsed = false,
+  isMobileOpen = false,
+  onMobileClose = () => {},
+}) => {
   const location = useLocation();
+
   const [openDropdowns, setOpenDropdowns] = useState({});
+
   const showLabels = !isCollapsed || isMobileOpen;
 
   const toggleDropdown = (key) => {
-    setOpenDropdowns((prev) => ({ ...prev, [key]: !prev[key] }));
+    setOpenDropdowns((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
-  // Structured Nav Menu by Functional Categories
+  // =====================================================
+  // SIDEBAR MENU
+  // =====================================================
+
   const menuCategories = [
+    // =====================================================
+    // MAIN MENU
+    // =====================================================
     {
       category: 'Main Menu',
       items: [
-        { type: 'link', icon: Home, text: 'Dashboard', path: '/dashboard' },
+        {
+          type: 'link',
+          icon: Home,
+          text: 'Dashboard',
+          path: '/dashboard',
+        },
       ],
-    }, 
+    },
+
+    // =====================================================
+    // ACADEMIC MANAGEMENT
+    // =====================================================
     {
       category: 'Academic Management',
       items: [
@@ -64,25 +91,54 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
           icon: BookOpen,
           text: 'Class & Subjects',
           subItems: [
-            { text: 'Class Management', path: '/classes' },
-            { text: 'Subject Management', path: '/subjects' },
-            { text: 'Schedules & Routines', path: '/class-schedules' },
+            {
+              text: 'Class Management',
+              path: '/classes',
+            },
+            {
+              text: 'Subject Management',
+              path: '/subjects',
+            },
+            {
+              text: 'Schedules & Routines',
+              path: '/class-schedules',
+            },
           ],
         },
-        { type: 'link', icon: CalendarCheck, text: 'Attendance', path: '/teacher-attendance' },
+        {
+          type: 'link',
+          icon: CalendarCheck,
+          text: 'Attendance',
+          path: '/teacher-attendance',
+        },
         {
           type: 'dropdown',
           key: 'examinations',
           icon: ClipboardList,
           text: 'Examinations',
           subItems: [
-            { text: 'Exam Schedules', path: '/examinations' },
-            { text: 'Marks & Grades', path: '/marks-management' },
+            {
+              text: 'Exam Schedules',
+              path: '/examinations',
+            },
+            {
+              text: 'Marks & Grades',
+              path: '/marks-management',
+            },
           ],
         },
-        { type: 'link', icon: NotebookPen, text: 'Homework', path: '/homework' },
+        {
+          type: 'link',
+          icon: NotebookPen,
+          text: 'Homework',
+          path: '/homework',
+        },
       ],
     },
+
+    // =====================================================
+    // ADMINISTRATION
+    // =====================================================
     {
       category: 'Administration',
       items: [
@@ -92,17 +148,35 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
           icon: Users,
           text: 'Users & Staff',
           subItems: [
-            { text: 'Students', path: '/students' },
-            { text: 'Admissions', path: '/admissions' },
-            { text: 'Parents', path: '/parents' },
-            { text: 'Teachers List', path: '/teachers' },
+            {
+              text: 'Students',
+              path: '/students',
+            },
+            {
+              text: 'Admissions',
+              path: '/admissions',
+            },
+            {
+              text: 'Parents',
+              path: '/parents',
+            },
+            {
+              text: 'Teachers List',
+              path: '/teachers',
+            },
           ],
         },
         { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
         { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
         { type: 'link', icon: Library, text: 'Library', path: '/library' },
+        { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
+        { type: 'link', icon: Library, text: 'Order', path: '/order' },
       ],
     },
+
+    // =====================================================
+    // CONTENT & COMMUNICATION
+    // =====================================================
     {
       category: 'Content & Communication',
       items: [
@@ -112,15 +186,38 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
           icon: FileText,
           text: 'Blog Posting',
           subItems: [
-            { text: 'Create Post', path: '/blog/post' },
-            { text: 'Manage Posts', path: '/blog/management' },
+            {
+              text: 'Create Post',
+              path: '/blog/post',
+            },
+            {
+              text: 'Manage Posts',
+              path: '/blog/management',
+            },
           ],
         },
+        { type: 'link', icon: Send, text: 'Teacher Post', path: '/teacher-posts' },
         { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
         { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
         { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
         { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
         { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
+        {
+          type: 'link',
+          icon: FileText,
+          text: 'Testimonials',
+          path: '/testimonials',
+        },
+      ],
+    },
+
+    // =====================================================
+    // SYSTEM & COMMERCE
+    // =====================================================
+    {
+      category: 'Enquiries',
+      items: [
+        { type: 'link', icon: HelpCircle, text: 'Floating Enquiries', path: '/floating-enquiries' },
       ],
     },
     {
@@ -132,107 +229,205 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
           icon: Store,
           text: 'Store & Products',
           subItems: [
-            { text: 'Shop Overview', path: '/shop' },
-            { text: 'Add Product', path: '/shop/add' },
+            {
+              text: 'Shop Overview',
+              path: '/shop',
+            },
+            {
+              text: 'Add Product',
+              path: '/shop/add',
+            },
           ],
         },
-        { type: 'link', icon: BarChart3, text: 'Reports', path: '/reports' },
-        { type: 'link', icon: Settings, text: 'Settings', path: '/settings' },
+        {
+          type: 'link',
+          icon: BarChart3,
+          text: 'Reports',
+          path: '/reports',
+        },
+        {
+          type: 'link',
+          icon: Settings,
+          text: 'Settings',
+          path: '/settings',
+        },
       ],
     },
   ];
 
-  // Auto-expand active dropdown based on current URL path
+  // =====================================================
+  // AUTO OPEN ACTIVE DROPDOWN
+  // =====================================================
+
   useEffect(() => {
     menuCategories.forEach((section) => {
       section.items.forEach((item) => {
         if (item.type === 'dropdown') {
-          const hasActiveChild = item.subItems.some((sub) => sub.path === location.pathname);
+          const hasActiveChild = item.subItems.some(
+            (sub) => sub.path === location.pathname
+          );
+
           if (hasActiveChild) {
-            setOpenDropdowns((prev) => ({ ...prev, [item.key]: true }));
+            setOpenDropdowns((prev) => ({
+              ...prev,
+              [item.key]: true,
+            }));
           }
         }
       });
     });
   }, [location.pathname]);
 
+  // =====================================================
+  // RENDER
+  // =====================================================
+
   return (
     <>
-      {isMobileOpen && <div className="Sidebar-overlay" onClick={onMobileClose} />}
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div
+          className="Sidebar-overlay"
+          onClick={onMobileClose}
+        />
+      )}
 
-      <aside className={`Sidebar ${isCollapsed ? 'collapsed' : 'expanded'} ${isMobileOpen ? 'mobile-open' : ''}`}>
-        {/* Brand Header */}
+      <aside
+        className={`Sidebar ${
+          isCollapsed ? 'collapsed' : 'expanded'
+        } ${isMobileOpen ? 'mobile-open' : ''}`}
+      >
+        {/* =================================================
+            BRAND HEADER
+        ================================================= */}
         <div className="Sidebar-header">
-          {/* 2. Logo container with imported image */}
           <div className="Sidebar-logoMark">
             <img src={logo} alt="Kids School Logo" className="Sidebar-logoImg" />
           </div>
 
           {showLabels && (
             <div className="Sidebar-brandText">
-              <h1>Nanda Kidz School</h1>
+              <h1>Nanda Kidz</h1>
               <span>Admin Panel</span>
             </div>
           )}
 
-          <button className="Sidebar-mobile-close" onClick={onMobileClose} aria-label="Close menu">
+          <button
+            className="Sidebar-mobile-close"
+            onClick={onMobileClose}
+            aria-label="Close menu"
+          >
             <X size={18} />
           </button>
         </div>
 
-        {/* Categorized Navigation */}
+        {/* =================================================
+            CATEGORIZED NAVIGATION
+        ================================================= */}
         <nav className="Sidebar-nav">
           {menuCategories.map((catGroup, catIdx) => (
-            <div key={catIdx} className="Sidebar-section">
-              {showLabels && <div className="Sidebar-categoryTitle">{catGroup.category}</div>}
+            <div
+              key={catIdx}
+              className="Sidebar-section"
+            >
+              {showLabels && (
+                <div className="Sidebar-categoryTitle">
+                  {catGroup.category}
+                </div>
+              )}
+
               <ul className="Sidebar-menu">
                 {catGroup.items.map((item, index) => {
+                  // NORMAL LINK
                   if (item.type === 'link') {
                     const Icon = item.icon;
+
                     return (
-                      <li key={index} className="SidebarItem">
+                      <li
+                        key={index}
+                        className="SidebarItem"
+                      >
                         <NavLink
                           to={item.path}
-                          className={({ isActive }) => `SidebarItem-link ${isActive ? 'active' : ''}`}
+                          className={({ isActive }) =>
+                            `SidebarItem-link ${
+                              isActive ? 'active' : ''
+                            }`
+                          }
                           title={!showLabels ? item.text : ''}
                           onClick={onMobileClose}
                         >
                           <span className="SidebarItem-icon">
                             <Icon size={18} />
                           </span>
-                          {showLabels && <span className="SidebarItem-text">{item.text}</span>}
-                          {showLabels && <ChevronRight className="SidebarItem-arrow" size={15} />}
+
+                          {showLabels && (
+                            <span className="SidebarItem-text">
+                              {item.text}
+                            </span>
+                          )}
+
+                          {showLabels && (
+                            <ChevronRight
+                              className="SidebarItem-arrow"
+                              size={15}
+                            />
+                          )}
                         </NavLink>
                       </li>
                     );
                   }
 
-                  // Dropdown Menu
+                  // DROPDOWN MENU
                   const Icon = item.icon;
                   const isOpen = !!openDropdowns[item.key];
+
                   return (
-                    <li key={index} className={`SidebarItem SidebarItem-dropdown ${isOpen ? 'is-open' : ''}`}>
+                    <li
+                      key={index}
+                      className={`SidebarItem SidebarItem-dropdown ${
+                        isOpen ? 'is-open' : ''
+                      }`}
+                    >
                       <button
                         className="SidebarItem-link SidebarItem-toggle"
-                        onClick={() => showLabels && toggleDropdown(item.key)}
+                        onClick={() =>
+                          showLabels && toggleDropdown(item.key)
+                        }
                         title={!showLabels ? item.text : ''}
                       >
                         <span className="SidebarItem-icon">
                           <Icon size={18} />
                         </span>
-                        {showLabels && <span className="SidebarItem-text">{item.text}</span>}
+
                         {showLabels && (
-                          <ChevronDown className={`SidebarItem-chevron ${isOpen ? 'rotated' : ''}`} size={15} />
+                          <span className="SidebarItem-text">
+                            {item.text}
+                          </span>
+                        )}
+
+                        {showLabels && (
+                          <ChevronDown
+                            className={`SidebarItem-chevron ${
+                              isOpen ? 'rotated' : ''
+                            }`}
+                            size={15}
+                          />
                         )}
                       </button>
 
+                      {/* Sub Menu */}
                       {showLabels && isOpen && (
                         <ul className="SidebarItem-submenu">
                           {item.subItems.map((sub, subIndex) => (
                             <li key={subIndex}>
                               <NavLink
                                 to={sub.path}
-                                className={({ isActive }) => `SidebarItem-subLink ${isActive ? 'active' : ''}`}
+                                className={({ isActive }) =>
+                                  `SidebarItem-subLink ${
+                                    isActive ? 'active' : ''
+                                  }`
+                                }
                                 onClick={onMobileClose}
                               >
                                 {sub.text}
@@ -249,12 +444,15 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
           ))}
         </nav>
 
-        {/* User Card */}
+        {/* =================================================
+            USER CARD
+        ================================================= */}
         <div className="Sidebar-userCard">
           <div className="Sidebar-userTop">
             <div className="Sidebar-avatar">
               <Users size={16} />
             </div>
+
             {showLabels && (
               <div className="Sidebar-userInfo">
                 <span className="Sidebar-userName">Admin User</span>
@@ -265,13 +463,24 @@ const Sidebar = ({ isCollapsed = false, isMobileOpen = false, onMobileClose = ()
 
           {showLabels && (
             <div className="Sidebar-userActions">
-              <button className="Sidebar-userActionBtn" aria-label="Support">
+              <button
+                className="Sidebar-userActionBtn"
+                aria-label="Support"
+              >
                 <Phone size={15} />
               </button>
-              <button className="Sidebar-userActionBtn" aria-label="Full screen">
+
+              <button
+                className="Sidebar-userActionBtn"
+                aria-label="Full screen"
+              >
                 <Maximize2 size={15} />
               </button>
-              <button className="Sidebar-userActionBtn Sidebar-userActionBtn-danger" aria-label="Log out">
+
+              <button
+                className="Sidebar-userActionBtn Sidebar-userActionBtn-danger"
+                aria-label="Log out"
+              >
                 <Power size={15} />
               </button>
             </div>

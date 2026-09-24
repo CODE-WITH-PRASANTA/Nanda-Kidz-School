@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import { CgMenuGridO } from "react-icons/cg";
 
 import {
   FaFacebookF,
   FaInstagram,
-  FaYoutube,
   FaMapMarkerAlt,
   FaPhoneAlt,
 } from "react-icons/fa";
@@ -33,6 +33,12 @@ import "./Navbar.css";
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activePath, setActivePath] = useState("/");
+
+  // Synchronize active path with current URL on mount & route change
+  useEffect(() => {
+    setActivePath(window.location.pathname);
+  }, []);
 
   // =====================================================
   // NAVIGATION LINKS
@@ -84,7 +90,8 @@ const Navbar = () => {
     setIsMobileMenuOpen((prev) => !prev);
   };
 
-  const handleNavClick = () => {
+  const handleNavClick = (path) => {
+    setActivePath(path);
     setIsMobileMenuOpen(false);
     setIsSidebarOpen(false);
   };
@@ -141,7 +148,7 @@ const Navbar = () => {
             <a
               href="/"
               aria-label="Nanda Kidz – The Little Kingdom Home"
-              onClick={handleNavClick}
+              onClick={() => handleNavClick("/")}
             >
               <img
                 src={logoImg}
@@ -168,9 +175,9 @@ const Navbar = () => {
                 <a
                   href={link.path}
                   className={`navbar-anchor ${
-                    link.title === "Home" ? "active" : ""
+                    activePath === link.path ? "active" : ""
                   }`}
-                  onClick={handleNavClick}
+                  onClick={() => handleNavClick(link.path)}
                 >
                   {link.title}
                 </a>
@@ -184,7 +191,7 @@ const Navbar = () => {
 
           <div className="navbar-actions-group">
 
-            {/* Sidebar / Three Dot Menu */}
+            {/* Sidebar / 4-dot Grid Menu */}
             <button
               type="button"
               className="navbar-toggle-btn sidebar-trigger"
@@ -192,7 +199,7 @@ const Navbar = () => {
               aria-label="Open Nanda Kidz information menu"
               aria-expanded={isSidebarOpen}
             >
-              <FiMenu />
+              <CgMenuGridO />
             </button>
 
             {/* Mobile Menu */}
@@ -404,28 +411,28 @@ const Navbar = () => {
 
             <a
               href="/about"
-              onClick={handleNavClick}
+              onClick={() => handleNavClick("/about")}
             >
               About Nanda Kidz
             </a>
 
             <a
               href="/gallery"
-              onClick={handleNavClick}
+              onClick={() => handleNavClick("/gallery")}
             >
               View Gallery
             </a>
 
             <a
               href="/pricing"
-              onClick={handleNavClick}
+              onClick={() => handleNavClick("/pricing")}
             >
               View Fees
             </a>
 
             <a
               href="/contact"
-              onClick={handleNavClick}
+              onClick={() => handleNavClick("/contact")}
             >
               Contact Us
             </a>
@@ -443,30 +450,23 @@ const Navbar = () => {
             <div className="navbar-sidebar-socials">
 
               <a
-                href="#"
+                href="https://www.facebook.com/share/v/1GqXQdyJML/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="facebook-link"
                 aria-label="Nanda Kidz Facebook"
-                onClick={(e) => e.preventDefault()}
               >
                 <FaFacebookF />
               </a>
 
               <a
-                href="#"
+                href="https://www.instagram.com/reel/DcvR2h6PWwk/?igsi=Z3Vwd2xwc2Q4cHMx"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="instagram-link"
                 aria-label="Nanda Kidz Instagram"
-                onClick={(e) => e.preventDefault()}
               >
                 <FaInstagram />
-              </a>
-
-              <a
-                href="#"
-                className="youtube-link"
-                aria-label="Nanda Kidz YouTube"
-                onClick={(e) => e.preventDefault()}
-              >
-                <FaYoutube />
               </a>
 
             </div>

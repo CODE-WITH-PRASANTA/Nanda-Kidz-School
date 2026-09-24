@@ -1,376 +1,1047 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { 
-  FiImage, 
-  FiVideo, 
-  FiFolder, 
-  FiEye, 
-  FiSearch, 
-  FiFilter, 
-  FiGrid, 
-  FiList, 
-  FiPlus, 
-  FiUploadCloud, 
-  FiChevronLeft, 
-  FiChevronRight,
-  FiCheckCircle,
-  FiPlay,
-  FiTrash2,
-  FiEdit
-} from 'react-icons/fi';
-import './GalleryManagement.css';
+import React, { useState, useEffect, useRef } from "react";
+import "./GalleryManagement.css";
+import API, { IMG_URL } from "../../api/axios";
 
 const GalleryManagement = () => {
-  const [activeTab, setActiveTab] = useState('photo');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedAlbumFilter, setSelectedAlbumFilter] = useState('Annual Day 2025');
-  const [selectedTypeFilter, setSelectedTypeFilter] = useState('All Types');
-  const [sortBy, setSortBy] = useState('Newest First');
-  const [viewMode, setViewMode] = useState('grid');
-  
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  // ==============================
+  // DATA & STATUS STATES
+  // ==============================
+  const [galleryList, setGalleryList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const [albums, setAlbums] = useState([]);
-  const [items, setItems] = useState([]);
-
-  const [showAllAlbumsModal, setShowAllAlbumsModal] = useState(false);
-  const [newAlbumName, setNewAlbumName] = useState('');
-  const [isAddAlbumOpen, setIsAddAlbumOpen] = useState(false);
-
-  const [videoUrlInput, setVideoUrlInput] = useState('');
-  const [videoTitleInput, setVideoTitleInput] = useState('');
+  // ==============================
+  // FORM STATES
+  // ==============================
+  const [title, setTitle] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [editingId, setEditingId] = useState(null);
-  const [editTitleInput, setEditTitleInput] = useState('');
+
+  // ==============================
+  // SEARCH & MODAL STATES
+  // ==============================
+  const [searchQuery, setSearchQuery] = useState("");
+  const [viewModalData, setViewModalData] = useState(null);
+
+  // ==============================
+  // PAGINATION
+  // ==============================
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   const fileInputRef = useRef(null);
 
-  // Fetch Data from Backend API on Load
+  // ==============================
+  // FETCH GALLERY
+  // ==============================
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchGalleries();
+  }, [searchQuery]);
 
-  const fetchData = async () => {
+  const fetchGalleries = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/gallery');
-      const data = await res.json();
-      setItems(data.items || []);
-      setAlbums(data.albums || []);
-      if (data.albums?.length > 0 && !selectedAlbumFilter) {
-        setSelectedAlbumFilter(data.albums[0].name);
-      }
-    } catch (err) {
-      console.error('Failed to fetch gallery data', err);
-    }
-  };
+      setLoading(true);
+      setError(null);
 
-  const getYouTubeEmbedUrl = (url) => {
-    if (!url) return '';
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
-  };
-
-  // Add Album Handler
-  const handleAddAlbumSubmit = async (e) => {
-    e.preventDefault();
-    if (!newAlbumName.trim()) return;
-    try {
-      const res = await fetch('http://localhost:5000/api/gallery/album', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newAlbumName.trim() })
-      });
-      const newAlbum = await res.json();
-      setAlbums([...albums, newAlbum]);
-      setNewAlbumName('');
-      setIsAddAlbumOpen(false);
-    } catch (err) {
-      console.error('Error adding album', err);
-    }
-  };
-
-  // File Upload Handler (Photos & Videos)
-  const handleFileChange = async (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length === 0) return;
-
-    for (let file of files) {
-      const formData = new FormData();
-      formData.append('title', file.name);
-      formData.append('type', activeTab);
-      formData.append('url', URL.createObjectURL(file)); // In production, upload to S3/Cloudinary via backend multer
-      formData.append('album', selectedAlbumFilter);
-      formData.append('size', (file.size / (1024 * 1024)).toFixed(2) + ' MB');
-      formData.append('mediaType', file.type.includes('gif') ? 'GIFs' : 'Images');
-
-      try {
-        const res = await fetch('http://localhost:5000/api/gallery/item', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            title: file.name,
-            type: activeTab,
-            url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500',
-            album: selectedAlbumFilter,
-            size: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
-            mediaType: file.type.includes('gif') ? 'GIFs' : 'Images'
-          })
-        });
-        const savedItem = await res.json();
-        setItems(prev => [savedItem, ...prev]);
-      } catch (err) {
-        console.error('Upload failed', err);
-      }
-    }
-    fetchData(); // Refresh counts
-  };
-
-  // Add YouTube Video Handler
-  const handleAddVideoUrl = async (e) => {
-    e.preventDefault();
-    if (!videoUrlInput.trim() || !videoTitleInput.trim()) return;
-    
-    try {
-      const res = await fetch('http://localhost:5000/api/gallery/item', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: videoTitleInput,
-          type: 'video',
-          url: videoUrlInput,
-          album: selectedAlbumFilter,
-          mediaType: 'YouTube'
-        })
-      });
-      const savedVid = await res.json();
-      setItems(prev => [savedVid, ...prev]);
-      setVideoUrlInput('');
-      setVideoTitleInput('');
-      fetchData();
-    } catch (err) {
-      console.error('Failed to add video', err);
-    }
-  };
-
-  // Delete Item Handler
-  const handleDelete = async (id) => {
-    try {
-      await fetch(`http://localhost:5000/api/gallery/item/${id}`, { method: 'DELETE' });
-      setItems(items.filter(item => item._id !== id));
-      fetchData();
-    } catch (err) {
-      console.error('Failed to delete item', err);
-    }
-  };
-
-  // Edit Item Title Handler
-  const handleUpdate = async (id) => {
-    try {
-      const res = await fetch(`http://localhost:5000/api/gallery/item/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: editTitleInput })
-      });
-      const updated = await res.json();
-      setItems(items.map(item => item._id === id ? updated : item));
-      setEditingId(null);
-      setEditTitleInput('');
-    } catch (err) {
-      console.error('Failed to update', err);
-    }
-  };
-
-  // Filtered & Sorted Data Calculations
-  const filteredData = useMemo(() => {
-    let data = items.filter(item => item.type === activeTab);
-
-    if (searchQuery.trim() !== '') {
-      const query = searchQuery.toLowerCase();
-      data = data.filter(item => 
-        item.title.toLowerCase().includes(query) || item.album.toLowerCase().includes(query)
+      const response = await API.get(
+        `/gallery?search=${encodeURIComponent(searchQuery)}`
       );
+
+      // Backend normally returns an array
+      if (Array.isArray(response.data)) {
+        setGalleryList(response.data);
+      } else if (Array.isArray(response.data?.data)) {
+        setGalleryList(response.data.data);
+      } else {
+        setGalleryList([]);
+      }
+    } catch (err) {
+      console.error("FETCH GALLERY ERROR:", err);
+
+      setError(
+        err.response?.data?.message ||
+          "Failed to load gallery items from the server."
+      );
+
+      setGalleryList([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ==============================
+  // IMAGE URL HELPER
+  // ==============================
+  const getImageUrl = (image) => {
+    if (!image) return "";
+
+    // If it's already a blob URL (local file preview) or absolute URL
+    if (
+      image.startsWith("blob:") ||
+      image.startsWith("http://") ||
+      image.startsWith("https://")
+    ) {
+      return image;
     }
 
-    if (selectedAlbumFilter && selectedAlbumFilter !== 'All Albums') {
-      data = data.filter(item => item.album === selectedAlbumFilter);
+    // Fallback for relative backend path using IMG_URL or localhost
+    const baseUrl = IMG_URL || "http://localhost:5000";
+    return `${baseUrl.replace(/\/$/, "")}${image.startsWith("/") ? "" : "/"}${image}`;
+  };
+
+  // ==============================
+  // IMAGE CHANGE
+  // ==============================
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    // Validate image type
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      alert("Please select a JPG, JPEG or PNG image.");
+      e.target.value = "";
+      return;
     }
 
-    if (activeTab === 'photo' && selectedTypeFilter !== 'All Types') {
-      data = data.filter(item => item.mediaType === selectedTypeFilter);
+    // Frontend file size validation - 5MB
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Image size must be less than 5MB.");
+      e.target.value = "";
+      return;
     }
 
-    data.sort((a, b) => {
-      if (sortBy === 'Newest First') return new Date(b.date) - new Date(a.date);
-      if (sortBy === 'Oldest First') return new Date(a.date) - new Date(b.date);
-      if (sortBy === 'Most Viewed') return b.views - a.views;
-      return 0;
+    setSelectedImage(file);
+
+    // Remove previous object URL if required
+    if (imagePreview && imagePreview.startsWith("blob:")) {
+      URL.revokeObjectURL(imagePreview);
+    }
+
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  // ==============================
+  // RESET FORM
+  // ==============================
+  const resetForm = () => {
+    setTitle("");
+    setSelectedImage(null);
+    setImagePreview("");
+    setEditingId(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  // ==============================
+  // SUBMIT FORM
+  // ADD / UPDATE
+  // ==============================
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!title.trim()) {
+      alert("Please enter an image title.");
+      return;
+    }
+
+    // Image required only while adding
+    if (!editingId && !selectedImage) {
+      alert("Please upload an image.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("title", title.trim());
+
+      if (selectedImage) {
+        formData.append("image", selectedImage);
+      }
+
+      // ==============================
+      // UPDATE
+      // ==============================
+      if (editingId) {
+        const response = await API.put(
+          `/gallery/${editingId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const updatedItem = response.data?.data;
+
+        if (updatedItem) {
+          setGalleryList((prevList) =>
+            prevList.map((item) =>
+              item._id === editingId ? updatedItem : item
+            )
+          );
+        } else {
+          await fetchGalleries();
+        }
+
+        alert("Gallery image updated successfully.");
+      }
+
+      // ==============================
+      // ADD
+      // ==============================
+      else {
+        const response = await API.post(
+          "/gallery",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const newItem = response.data?.data;
+
+        if (newItem) {
+          setGalleryList((prevList) => [
+            newItem,
+            ...prevList,
+          ]);
+        } else {
+          await fetchGalleries();
+        }
+
+        setCurrentPage(1);
+
+        alert("Gallery image added successfully.");
+      }
+
+      resetForm();
+    } catch (err) {
+      console.error("GALLERY SUBMIT ERROR:", err);
+
+      alert(
+        err.response?.data?.message ||
+          "Something went wrong while saving the gallery item."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ==============================
+  // EDIT
+  // ==============================
+  const handleEdit = (item) => {
+    setEditingId(item._id);
+    setTitle(item.title || "");
+    setSelectedImage(null);
+
+    // Existing backend image URL (will be processed correctly by getImageUrl)
+    setImagePreview(item.image || "");
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
+  };
 
-    return data;
-  }, [items, activeTab, searchQuery, selectedAlbumFilter, selectedTypeFilter, sortBy]);
+  // ==============================
+  // DELETE
+  // ==============================
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this gallery item?"
+    );
 
-  const totalItems = filteredData.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = filteredData.slice(startIndex, startIndex + itemsPerPage);
+    if (!confirmed) return;
 
+    try {
+      setLoading(true);
+
+      await API.delete(`/gallery/${id}`);
+
+      const updatedList = galleryList.filter(
+        (item) => item._id !== id
+      );
+
+      setGalleryList(updatedList);
+
+      // Recalculate pages
+      const totalPagesAfterDelete =
+        Math.ceil(updatedList.length / itemsPerPage) || 1;
+
+      if (currentPage > totalPagesAfterDelete) {
+        setCurrentPage(totalPagesAfterDelete);
+      }
+
+      alert("Gallery image deleted successfully.");
+    } catch (err) {
+      console.error("DELETE GALLERY ERROR:", err);
+
+      alert(
+        err.response?.data?.message ||
+          "Failed to delete the gallery item."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ==============================
+  // PAGINATION
+  // ==============================
+  const totalPages =
+    Math.ceil(galleryList.length / itemsPerPage) || 1;
+
+  const indexOfLastItem =
+    currentPage * itemsPerPage;
+
+  const indexOfFirstItem =
+    indexOfLastItem - itemsPerPage;
+
+  const currentItems = galleryList.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handlePageChange = (pageNumber) => {
+    if (
+      pageNumber >= 1 &&
+      pageNumber <= totalPages
+    ) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  // ==============================
+  // JSX
+  // ==============================
   return (
-    <div className="GalleryManagement">
-      <div className="GalleryManagement-header-section">
-        <div className="GalleryManagement-tabs">
-          <button className={`GalleryManagement-tab-btn ${activeTab === 'photo' ? 'active' : ''}`} onClick={() => { setActiveTab('photo'); setCurrentPage(1); }}>
-            <FiImage size={18} /> Photo Gallery
-          </button>
-          <button className={`GalleryManagement-tab-btn ${activeTab === 'video' ? 'active' : ''}`} onClick={() => { setActiveTab('video'); setCurrentPage(1); }}>
-            <FiVideo size={18} /> Video Gallery
-          </button>
+    <div className="gallery-management-container">
+
+      {/* =====================================
+          HEADER
+      ===================================== */}
+      <div className="gallery-header-section">
+        <div className="gallery-header-icon-wrapper">
+          <svg
+            className="gallery-header-main-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <rect
+              x="3"
+              y="3"
+              width="18"
+              height="18"
+              rx="2"
+              ry="2"
+            />
+
+            <circle
+              cx="8.5"
+              cy="8.5"
+              r="1.5"
+            />
+
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
         </div>
 
-        <div className="GalleryManagement-stats-grid">
-          <div className="GalleryManagement-stat-card">
-            <div className="GalleryManagement-stat-icon photo-bg"><FiImage size={22} /></div>
-            <div className="GalleryManagement-stat-info">
-              <span className="GalleryManagement-stat-label">Photos</span>
-              <h3 className="GalleryManagement-stat-value">{items.filter(i => i.type === 'photo').length}</h3>
-            </div>
-          </div>
-          <div className="GalleryManagement-stat-card">
-            <div className="GalleryManagement-stat-icon album-bg"><FiFolder size={22} /></div>
-            <div className="GalleryManagement-stat-info">
-              <span className="GalleryManagement-stat-label">Albums</span>
-              <h3 className="GalleryManagement-stat-value">{albums.length}</h3>
-            </div>
-          </div>
-          <div className="GalleryManagement-stat-card">
-            <div className="GalleryManagement-stat-icon video-bg"><FiVideo size={22} /></div>
-            <div className="GalleryManagement-stat-info">
-              <span className="GalleryManagement-stat-label">Videos</span>
-              <h3 className="GalleryManagement-stat-value">{items.filter(i => i.type === 'video').length}</h3>
-            </div>
-          </div>
-          <div className="GalleryManagement-stat-card">
-            <div className="GalleryManagement-stat-icon views-bg"><FiEye size={22} /></div>
-            <div className="GalleryManagement-stat-info">
-              <span className="GalleryManagement-stat-label">Total Views</span>
-              <h3 className="GalleryManagement-stat-value">18,542</h3>
-            </div>
-          </div>
+        <div>
+          <h1 className="gallery-main-title">
+            Gallery
+          </h1>
+
+          <p className="gallery-sub-title">
+            Add and manage school gallery images
+          </p>
         </div>
       </div>
 
-      <div className="GalleryManagement-body-grid">
-        <div className="GalleryManagement-sidebar-panel">
-          <div className="GalleryManagement-upload-box">
-            <div className="GalleryManagement-upload-icon-circle"><FiUploadCloud size={24} /></div>
-            <h4 className="GalleryManagement-upload-title">{activeTab === 'photo' ? 'Upload Photos' : 'Upload Videos'}</h4>
-            <input type="file" ref={fileInputRef} style={{ display: 'none' }} multiple accept={activeTab === 'photo' ? "image/*" : "video/*"} onChange={handleFileChange} />
-            <button className="GalleryManagement-browse-btn" onClick={() => fileInputRef.current.click()}>Browse Files</button>
+      {/* =====================================
+          ERROR
+      ===================================== */}
+      {error && (
+        <div className="gallery-error-banner">
+          {error}
+        </div>
+      )}
+
+      {/* =====================================
+          ADD / EDIT FORM
+      ===================================== */}
+      <div className="gallery-card add-gallery-card">
+
+        <div className="gallery-card-header">
+          <svg
+            className="gallery-card-title-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+
+            <line
+              x1="12"
+              y1="8"
+              x2="12"
+              y2="16"
+            />
+
+            <line
+              x1="8"
+              y1="12"
+              x2="16"
+              y2="12"
+            />
+          </svg>
+
+          <h2>
+            {editingId
+              ? "Edit Gallery Image"
+              : "Add Gallery Image"}
+          </h2>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="gallery-form-grid"
+        >
+
+          {/* =====================================
+              TITLE
+          ===================================== */}
+          <div className="gallery-form-group">
+
+            <label className="gallery-input-label">
+              Title *
+            </label>
+
+            <input
+              type="text"
+              className="gallery-text-input"
+              placeholder="Enter image title"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+            />
+
           </div>
 
-          {activeTab === 'video' && (
-            <div className="GalleryManagement-youtube-box">
-              <h4 className="GalleryManagement-upload-title">Add YouTube Video</h4>
-              <form onSubmit={handleAddVideoUrl} className="GalleryManagement-youtube-form">
-                <input type="text" placeholder="Video Title" value={videoTitleInput} onChange={(e) => setVideoTitleInput(e.target.value)} className="GalleryManagement-input" />
-                <input type="text" placeholder="Paste YouTube URL..." value={videoUrlInput} onChange={(e) => setVideoUrlInput(e.target.value)} className="GalleryManagement-input" />
-                <button type="submit" className="GalleryManagement-browse-btn">Add YouTube Video</button>
-              </form>
-            </div>
-          )}
+          {/* =====================================
+              IMAGE UPLOAD
+          ===================================== */}
+          <div className="gallery-form-group">
 
-          <div className="GalleryManagement-albums-section">
-            <div className="GalleryManagement-albums-header">
-              <h3 className="GalleryManagement-albums-heading">Albums</h3>
-              <button className="GalleryManagement-add-album-btn" onClick={() => setIsAddAlbumOpen(true)}><FiPlus size={14} /> Add Album</button>
-            </div>
+            <label className="gallery-input-label">
+              {editingId
+                ? "Change Image"
+                : "Upload Image *"}
+            </label>
 
-            {isAddAlbumOpen && (
-              <form onSubmit={handleAddAlbumSubmit} className="GalleryManagement-add-album-form">
-                <input type="text" placeholder="Album Name..." value={newAlbumName} onChange={(e) => setNewAlbumName(e.target.value)} className="GalleryManagement-input" autoFocus />
-                <div className="GalleryManagement-form-actions">
-                  <button type="submit" className="GalleryManagement-save-btn">Save</button>
-                  <button type="button" className="GalleryManagement-cancel-btn" onClick={() => setIsAddAlbumOpen(false)}>Cancel</button>
+            <div
+              className="gallery-upload-dropzone"
+              onClick={() =>
+                fileInputRef.current?.click()
+              }
+            >
+
+              {imagePreview ? (
+
+                <div className="gallery-preview-container">
+
+                  <img
+                    src={getImageUrl(imagePreview)}
+                    alt="Preview"
+                    className="gallery-uploaded-preview"
+                  />
+
+                  <span className="gallery-change-text">
+                    Click to change image
+                  </span>
+
                 </div>
-              </form>
+
+              ) : (
+
+                <div className="gallery-upload-placeholder-content">
+
+                  <svg
+                    className="gallery-upload-cloud-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+
+                    <polyline points="17 8 12 3 7 8" />
+
+                    <line
+                      x1="12"
+                      y1="3"
+                      x2="12"
+                      y2="15"
+                    />
+                  </svg>
+
+                  <p className="gallery-upload-main-text">
+                    Click to upload or drag and drop
+                  </p>
+
+                  <p className="gallery-upload-sub-text">
+                    Supports: JPG, PNG, JPEG (Max 5MB)
+                  </p>
+
+                </div>
+
+              )}
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageChange}
+                accept="image/png,image/jpeg,image/jpg"
+                style={{ display: "none" }}
+              />
+
+            </div>
+
+          </div>
+
+          {/* =====================================
+              ACTION BUTTONS
+          ===================================== */}
+          <div className="gallery-form-actions">
+
+            <button
+              type="submit"
+              className="gallery-btn gallery-btn-primary"
+              disabled={loading}
+            >
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                width="18"
+                height="18"
+              >
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+
+                <polyline points="17 21 17 13 7 13 7 21" />
+
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+
+              {loading
+                ? "Processing..."
+                : editingId
+                ? "Update Image"
+                : "Save"}
+
+            </button>
+
+            {editingId && (
+              <button
+                type="button"
+                className="gallery-btn gallery-btn-secondary"
+                onClick={resetForm}
+                disabled={loading}
+              >
+                Cancel
+              </button>
             )}
 
-            <div className="GalleryManagement-albums-list">
-              {albums.map((album) => (
-                <div key={album._id || album.id} className={`GalleryManagement-album-item ${selectedAlbumFilter === album.name ? 'active' : ''}`} onClick={() => { setSelectedAlbumFilter(album.name); setCurrentPage(1); }}>
-                  <span className="GalleryManagement-album-name">{album.icon} {album.name}</span>
-                  <span className="GalleryManagement-album-count">{album.count}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="GalleryManagement-workspace">
-          <div className="GalleryManagement-filters-bar">
-            <div className="GalleryManagement-search-wrapper">
-              <FiSearch className="GalleryManagement-search-icon" size={16} />
-              <input type="text" placeholder="Search by title, album..." value={searchQuery} onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }} className="GalleryManagement-search-input" />
-            </div>
-
-            <div className="GalleryManagement-dropdowns-group">
-              <select value={selectedAlbumFilter} onChange={(e) => { setSelectedAlbumFilter(e.target.value); setCurrentPage(1); }} className="GalleryManagement-select">
-                {albums.map(a => <option key={a._id || a.id} value={a.name}>{a.name}</option>)}
-              </select>
-
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="GalleryManagement-select">
-                <option>Newest First</option>
-                <option>Oldest First</option>
-                <option>Most Viewed</option>
-              </select>
-
-              <div className="GalleryManagement-view-toggle">
-                <button className={`GalleryManagement-view-icon-btn ${viewMode === 'grid' ? 'active' : ''}`} onClick={() => setViewMode('grid')}><FiGrid size={16} /></button>
-                <button className={`GalleryManagement-view-icon-btn ${viewMode === 'list' ? 'active' : ''}`} onClick={() => setViewMode('list')}><FiList size={16} /></button>
-              </div>
-            </div>
           </div>
 
-          <div className="GalleryManagement-results-info">
-            <span>Showing {totalItems === 0 ? 0 : startIndex + 1} to {Math.min(startIndex + itemsPerPage, totalItems)} of {totalItems} items</span>
-          </div>
+        </form>
 
-          <div className="GalleryManagement-media-container">
-            <div className={`GalleryManagement-media-grid ${viewMode}`}>
-              {currentItems.map(item => {
-                const embedUrl = item.type === 'video' ? getYouTubeEmbedUrl(item.url) : null;
-                return (
-                  <div key={item._id} className="GalleryManagement-media-card">
-                    {item.type === 'photo' ? (
-                      <img src={item.url} alt={item.title} className="GalleryManagement-media-img" />
-                    ) : embedUrl ? (
-                      <div className="GalleryManagement-iframe-wrapper">
-                        <iframe src={embedUrl} title={item.title} frameBorder="0" allowFullScreen></iframe>
-                      </div>
-                    ) : (
-                      <div className="GalleryManagement-video-placeholder"><FiPlay size={32} color="#fff" /></div>
-                    )}
-                    <div className="GalleryManagement-media-details">
-                      {editingId === item._id ? (
-                        <div style={{ display: 'flex', gap: '4px' }}>
-                          <input type="text" value={editTitleInput} onChange={(e) => setEditTitleInput(e.target.value)} className="GalleryManagement-input" />
-                          <button onClick={() => handleUpdate(item._id)} className="GalleryManagement-save-btn">Save</button>
-                        </div>
-                      ) : (
-                        <span className="GalleryManagement-media-title">{item.title}</span>
-                      )}
-                      <span className="GalleryManagement-media-sub">Album: {item.album}</span>
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
-                        <FiEdit size={14} style={{ cursor: 'pointer', color: '#4F46E5' }} onClick={() => { setEditingId(item._id); setEditTitleInput(item.title); }} />
-                        <FiTrash2 size={14} style={{ cursor: 'pointer', color: '#EF4444' }} onClick={() => handleDelete(item._id)} />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* =====================================
+          GALLERY LIST
+      ===================================== */}
+      <div className="gallery-card list-gallery-card">
+
+        <div className="gallery-list-header-bar">
+
+          <div className="gallery-card-header no-border">
+
+            <svg
+              className="gallery-card-title-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
+              <rect
+                x="3"
+                y="3"
+                width="7"
+                height="7"
+              />
+
+              <rect
+                x="14"
+                y="3"
+                width="7"
+                height="7"
+              />
+
+              <rect
+                x="14"
+                y="14"
+                width="7"
+                height="7"
+              />
+
+              <rect
+                x="3"
+                y="14"
+                width="7"
+                height="7"
+              />
+            </svg>
+
+            <h2>Gallery List</h2>
+
+          </div>
+
+          {/* =====================================
+              SEARCH
+          ===================================== */}
+          <div className="gallery-search-wrapper">
+
+            <svg
+              className="gallery-search-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+              />
+
+              <line
+                x1="21"
+                y1="21"
+                x2="16.65"
+                y2="16.65"
+              />
+            </svg>
+
+            <input
+              type="text"
+              className="gallery-search-input"
+              placeholder="Search by title..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+
+          </div>
+
+        </div>
+
+        {/* =====================================
+            TABLE
+        ===================================== */}
+        <div className="gallery-table-responsive">
+
+          <table className="gallery-table">
+
+            <thead>
+              <tr>
+
+                <th className="col-num">
+                  #
+                </th>
+
+                <th className="col-img">
+                  Image
+                </th>
+
+                <th className="col-title">
+                  Title
+                </th>
+
+                <th className="col-date">
+                  Uploaded On
+                </th>
+
+                <th className="col-actions">
+                  Actions
+                </th>
+
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {loading && galleryList.length === 0 ? (
+
+                <tr>
+                  <td
+                    colSpan="5"
+                    className="gallery-no-results"
+                  >
+                    Loading galleries...
+                  </td>
+                </tr>
+
+              ) : currentItems.length > 0 ? (
+
+                currentItems.map((item, index) => (
+
+                  <tr key={item._id}>
+
+                    {/* NUMBER */}
+                    <td className="col-num">
+                      {indexOfFirstItem + index + 1}
+                    </td>
+
+                    {/* IMAGE */}
+                    <td className="col-img">
+
+                      <div
+                        className="gallery-table-img-wrapper"
+                        onClick={() =>
+                          setViewModalData(item)
+                        }
+                      >
+
+                        <img
+                          src={getImageUrl(item.image)}
+                          alt={item.title}
+                          className="gallery-table-thumb"
+                        />
+
+                      </div>
+
+                    </td>
+
+                    {/* TITLE */}
+                    <td className="col-title font-medium">
+                      {item.title}
+                    </td>
+
+                    {/* DATE */}
+                    <td className="col-date text-muted">
+                      {item.uploadedOn || "-"}
+                    </td>
+
+                    {/* ACTIONS */}
+                    <td className="col-actions">
+
+                      <div className="gallery-action-buttons">
+
+                        {/* VIEW */}
+                        <button
+                          type="button"
+                          className="gallery-action-btn gallery-btn-view"
+                          title="View Image"
+                          onClick={() =>
+                            setViewModalData(item)
+                          }
+                        >
+
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            width="16"
+                            height="16"
+                          >
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+
+                            <circle
+                              cx="12"
+                              cy="12"
+                              r="3"
+                            />
+                          </svg>
+
+                        </button>
+
+                        {/* EDIT */}
+                        <button
+                          type="button"
+                          className="gallery-action-btn gallery-btn-edit"
+                          title="Edit"
+                          onClick={() =>
+                            handleEdit(item)
+                          }
+                        >
+
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            width="16"
+                            height="16"
+                          >
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                          </svg>
+
+                        </button>
+
+                        {/* DELETE */}
+                        <button
+                          type="button"
+                          className="gallery-action-btn gallery-btn-delete"
+                          title="Delete"
+                          onClick={() =>
+                            handleDelete(item._id)
+                          }
+                        >
+
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            width="16"
+                            height="16"
+                          >
+                            <polyline points="3 6 5 6 21 6" />
+
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+
+                            <line
+                              x1="10"
+                              y1="11"
+                              x2="10"
+                              y2="17"
+                            />
+
+                            <line
+                              x1="14"
+                              y1="11"
+                              x2="14"
+                              y2="17"
+                            />
+                          </svg>
+
+                        </button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                ))
+
+              ) : (
+
+                <tr>
+
+                  <td
+                    colSpan="5"
+                    className="gallery-no-results"
+                  >
+                    {searchQuery
+                      ? "No gallery images found for your search."
+                      : "No gallery images found."}
+                  </td>
+
+                </tr>
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+        {/* =====================================
+            PAGINATION
+        ===================================== */}
+        <div className="gallery-pagination-bar">
+
+          <span className="gallery-pagination-info">
+
+            Showing{" "}
+
+            {galleryList.length > 0
+              ? indexOfFirstItem + 1
+              : 0}
+
+            {" "}to{" "}
+
+            {Math.min(
+              indexOfLastItem,
+              galleryList.length
+            )}
+
+            {" "}of{" "}
+
+            {galleryList.length} entries
+
+          </span>
+
+          <div className="gallery-pagination-controls">
+
+            {/* PREVIOUS */}
+            <button
+              type="button"
+              className="gallery-page-btn"
+              onClick={() =>
+                handlePageChange(
+                  currentPage - 1
+                )
+              }
+              disabled={currentPage === 1}
+            >
+              &lt;
+            </button>
+
+            {/* PAGE NUMBERS */}
+            {[...Array(totalPages)].map(
+              (_, i) => (
+
+                <button
+                  type="button"
+                  key={i + 1}
+                  className={`gallery-page-btn ${
+                    currentPage === i + 1
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    handlePageChange(i + 1)
+                  }
+                >
+                  {i + 1}
+                </button>
+
+              )
+            )}
+
+            {/* NEXT */}
+            <button
+              type="button"
+              className="gallery-page-btn"
+              onClick={() =>
+                handlePageChange(
+                  currentPage + 1
+                )
+              }
+              disabled={
+                currentPage === totalPages
+              }
+            >
+              &gt;
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* =====================================
+          IMAGE VIEW MODAL
+      ===================================== */}
+      {viewModalData && (
+
+        <div
+          className="gallery-modal-overlay"
+          onClick={() =>
+            setViewModalData(null)
+          }
+        >
+
+          <div
+            className="gallery-modal-content"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+
+            {/* MODAL HEADER */}
+            <div className="gallery-modal-header">
+
+              <h3>
+                {viewModalData.title}
+              </h3>
+
+              <button
+                type="button"
+                className="gallery-modal-close"
+                onClick={() =>
+                  setViewModalData(null)
+                }
+              >
+                &times;
+              </button>
+
+            </div>
+
+            {/* MODAL BODY */}
+            <div className="gallery-modal-body">
+
+              <img
+                src={getImageUrl(
+                  viewModalData.image
+                )}
+                alt={viewModalData.title}
+                className="gallery-modal-img"
+              />
+
+              <p className="gallery-modal-date">
+                Uploaded on:{" "}
+                {viewModalData.uploadedOn ||
+                  "-"}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
+
     </div>
   );
 };

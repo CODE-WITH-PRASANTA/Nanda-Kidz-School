@@ -1,25 +1,46 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@400;500;600;700;800&display=swap");
 
+/* =========================================================
+   ROOT VARIABLES
+========================================================= */
+
 :root {
   --pc-orange: #f26522;
   --pc-orange-hover: #d94e0e;
   --pc-red: #ff3b30;
   --pc-gold: #ffb703;
+
   --pc-dark-purple: #230832;
+
   --pc-text-gray: #666666;
   --pc-text-dark: #333333;
+
   --pc-bg-cream: #fdf6ed;
   --pc-white: #ffffff;
   --pc-border-light: #f0e6d8;
+
+  --pc-section-padding-x: clamp(14px, 3vw, 32px);
 }
+
 
 /* =========================================================
    MAIN SECTION
 ========================================================= */
 
 .pc-section {
+  position: relative;
+
   width: 100%;
-  padding: 100px 20px 120px;
+  min-width: 0;
+
+  padding:
+    clamp(55px, 8vw, 105px)
+    var(--pc-section-padding-x)
+    clamp(75px, 9vw, 120px);
+
+  box-sizing: border-box;
+
+  overflow: hidden;
 
   background:
     radial-gradient(
@@ -40,29 +61,33 @@
 
   font-family: "Poppins", sans-serif;
 
-  position: relative;
-  overflow: hidden;
+  isolation: isolate;
 }
 
-/* Soft decorative background */
+
+/* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
 
 .pc-section::before {
   content: "";
 
   position: absolute;
 
-  width: 340px;
-  height: 340px;
+  width: clamp(180px, 28vw, 340px);
+  height: clamp(180px, 28vw, 340px);
+
+  top: clamp(-170px, -12vw, -90px);
+  right: clamp(-140px, -8vw, -50px);
 
   border-radius: 50%;
 
   background:
     rgba(242, 101, 34, 0.05);
 
-  top: -170px;
-  right: -110px;
-
   pointer-events: none;
+
+  z-index: 0;
 }
 
 .pc-section::after {
@@ -70,33 +95,40 @@
 
   position: absolute;
 
-  width: 260px;
-  height: 260px;
+  width: clamp(150px, 22vw, 260px);
+  height: clamp(150px, 22vw, 260px);
+
+  bottom: clamp(-140px, -10vw, -70px);
+  left: clamp(-120px, -8vw, -40px);
 
   border-radius: 50%;
 
   background:
     rgba(255, 59, 48, 0.04);
 
-  bottom: -140px;
-  left: -110px;
-
   pointer-events: none;
+
+  z-index: 0;
 }
+
 
 /* =========================================================
    CONTAINER
 ========================================================= */
 
 .pc-container {
+  position: relative;
+
+  z-index: 5;
+
+  width: 100%;
   max-width: 1320px;
 
   margin: 0 auto;
 
-  position: relative;
-
-  z-index: 5;
+  box-sizing: border-box;
 }
+
 
 /* =========================================================
    DECORATIVE DINOSAURS
@@ -109,73 +141,105 @@
 
   z-index: 2;
 
-  pointer-events: none;
-
   height: auto;
+
+  max-width: 100%;
+
+  pointer-events: none;
 
   opacity: 0.95;
 
-  filter: drop-shadow(0 14px 18px rgba(35, 8, 50, 0.12));
+  filter:
+    drop-shadow(
+      0 14px 18px rgba(35, 8, 50, 0.12)
+    );
 
   transition:
-    transform 0.4s ease;
+    transform 0.4s ease,
+    opacity 0.4s ease;
 }
 
 .pc-dino-left {
-  left: -15px;
+  left: clamp(-35px, -1vw, -10px);
 
-  width: 290px;
+  width: clamp(100px, 18vw, 290px);
 }
 
 .pc-dino-right {
-  right: -15px;
+  right: clamp(-35px, -1vw, -10px);
 
-  width: 290px;
+  width: clamp(100px, 18vw, 290px);
 }
+
 
 /* =========================================================
    HEADER
 ========================================================= */
 
 .pc-header {
+  width: 100%;
   max-width: 850px;
 
   margin:
-    0 auto 55px;
+    0 auto
+    clamp(38px, 5vw, 55px);
 
   text-align: center;
 }
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
 
 .pc-eyebrow {
   display: inline-flex;
 
   align-items: center;
+  justify-content: center;
 
   gap: 8px;
 
-  padding: 7px 16px;
+  max-width: 100%;
+
+  padding:
+    7px
+    clamp(12px, 1.5vw, 16px);
+
+  box-sizing: border-box;
 
   border-radius: 50px;
 
   background:
-    linear-gradient(135deg, rgba(242, 101, 34, 0.12), rgba(255, 59, 48, 0.06));
+    linear-gradient(
+      135deg,
+      rgba(242, 101, 34, 0.12),
+      rgba(255, 59, 48, 0.06)
+    );
 
-  border: 1px solid rgba(242, 101, 34, 0.25);
+  border:
+    1px solid rgba(242, 101, 34, 0.25);
 
   color: var(--pc-orange-hover);
 
-  font-size: 12.5px;
+  font-size: clamp(10px, 1.1vw, 12.5px);
 
   font-weight: 700;
 
   letter-spacing: 0.6px;
 
+  line-height: 1.3;
+
   text-transform: uppercase;
 
-  margin-bottom: 16px;
+  margin-bottom: 15px;
+
+  white-space: nowrap;
 }
 
 .pc-eyebrow-dot {
+  flex: 0 0 auto;
+
   width: 7px;
   height: 7px;
 
@@ -183,20 +247,30 @@
 
   background: var(--pc-orange);
 
-  box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.2);
+  box-shadow:
+    0 0 0 3px rgba(242, 101, 34, 0.2);
 }
 
+
+/* =========================================================
+   SUBTITLE
+========================================================= */
+
 .pc-subtitle {
-  font-family: "Caveat", cursive;
-
-  font-size: 32px;
-
-  color:
-    var(--pc-orange);
-
   display: block;
 
-  margin-bottom: 6px;
+  margin:
+    0 0 6px;
+
+  font-family: "Caveat", cursive;
+
+  font-size: clamp(25px, 3vw, 34px);
+
+  font-weight: 600;
+
+  line-height: 1.15;
+
+  color: var(--pc-orange);
 
   transition:
     color 0.3s ease,
@@ -204,43 +278,51 @@
 }
 
 .pc-subtitle:hover {
-  color:
-    var(--pc-orange-hover);
+  color: var(--pc-orange-hover);
 
   transform:
     translateY(-2px);
 }
 
+
 /* =========================================================
-   MAIN H1
+   MAIN TITLE
 ========================================================= */
 
 .pc-title {
   position: relative;
 
-  font-size: 44px;
-
-  font-weight: 800;
-
-  line-height: 1.2;
-
-  color:
-    var(--pc-dark-purple);
-
   margin:
     0 0 22px;
 
-  letter-spacing: -0.7px;
+  color: var(--pc-dark-purple);
+
+  font-size:
+    clamp(28px, 4vw, 46px);
+
+  font-weight: 800;
+
+  line-height: 1.18;
+
+  letter-spacing:
+    clamp(-0.7px, -0.05vw, -0.3px);
+
+  text-wrap: balance;
 }
 
-/* Small premium line */
+
+/* =========================================================
+   TITLE LINE
+========================================================= */
 
 .pc-title::after {
   content: "";
 
   display: block;
 
-  width: 72px;
+  width:
+    clamp(55px, 6vw, 72px);
+
   height: 4px;
 
   margin:
@@ -256,22 +338,26 @@
     );
 }
 
+
 /* =========================================================
-   INTRO CONTENT
+   INTRO
 ========================================================= */
 
 .pc-intro {
+  width: 100%;
   max-width: 760px;
 
   margin:
     0 auto 10px;
 
-  font-size: 14px;
+  color: var(--pc-text-gray);
+
+  font-size:
+    clamp(12.5px, 1.25vw, 14px);
 
   line-height: 1.8;
 
-  color:
-    var(--pc-text-gray);
+  text-wrap: pretty;
 }
 
 .pc-intro-secondary {
@@ -279,54 +365,61 @@
 }
 
 .pc-intro strong {
-  color:
-    var(--pc-dark-purple);
+  color: var(--pc-dark-purple);
 
   font-weight: 700;
 }
+
 
 /* =========================================================
    CARD GRID
 ========================================================= */
 
 .pc-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 30px;
-
   position: relative;
 
   z-index: 6;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap:
+    clamp(18px, 2.3vw, 30px);
+
+  width: 100%;
 }
+
 
 /* =========================================================
    CLASS CARD
 ========================================================= */
 
 .pc-card {
-  background:
-    var(--pc-white);
-
-  border-radius: 24px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 12px 34px
-    rgba(35, 8, 50, 0.08);
-
-  border:
-    1px solid
-    rgba(240, 230, 216, 0.7);
-
   display: flex;
 
   flex-direction: column;
 
+  width: 100%;
   min-width: 0;
+  min-height: 100%;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  background: var(--pc-white);
+
+  border:
+    1px solid rgba(240, 230, 216, 0.7);
+
+  border-radius:
+    clamp(17px, 2vw, 24px);
+
+  box-shadow:
+    0 12px 34px
+    rgba(35, 8, 50, 0.08);
 
   transition:
     transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -336,7 +429,7 @@
 
 .pc-card:hover {
   transform:
-    translateY(-12px);
+    translateY(-10px);
 
   box-shadow:
     0 30px 60px
@@ -346,8 +439,9 @@
     rgba(242, 101, 34, 0.2);
 }
 
+
 /* =========================================================
-   IMAGE
+   IMAGE WRAPPER
 ========================================================= */
 
 .pc-image-wrapper {
@@ -355,19 +449,26 @@
 
   width: 100%;
 
-  height: 245px;
+  height:
+    clamp(205px, 19vw, 245px);
 
   overflow: hidden;
 
-  background:
-    #f6f1ec;
+  background: #f6f1ec;
+
+  flex-shrink: 0;
 }
 
+
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
 .pc-card-image {
+  display: block;
+
   width: 100%;
   height: 100%;
-
-  display: block;
 
   object-fit: cover;
 
@@ -378,10 +479,13 @@
 
 .pc-card:hover .pc-card-image {
   transform:
-    scale(1.1) rotate(0.5deg);
+    scale(1.08);
 }
 
-/* Image overlay */
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
 
 .pc-image-wrapper::after {
   content: "";
@@ -400,6 +504,7 @@
   pointer-events: none;
 }
 
+
 /* =========================================================
    TAG BADGE
 ========================================================= */
@@ -407,28 +512,51 @@
 .pc-tag-badge {
   position: absolute;
 
-  left: 16px;
-  top: 16px;
+  top:
+    clamp(10px, 1.5vw, 16px);
+
+  left:
+    clamp(10px, 1.5vw, 16px);
 
   z-index: 3;
 
-  background: rgba(255, 255, 255, 0.92);
+  max-width:
+    calc(100% - 20px);
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  padding:
+    6px
+    clamp(10px, 1.3vw, 14px);
+
+  border-radius: 50px;
+
+  background:
+    rgba(255, 255, 255, 0.92);
 
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 
   color: var(--pc-dark-purple);
 
-  padding: 7px 14px;
-
-  font-size: 11.5px;
+  font-size:
+    clamp(9.5px, 1vw, 11.5px);
 
   font-weight: 800;
 
   letter-spacing: 0.3px;
 
-  border-radius: 50px;
+  line-height: 1.3;
 
-  box-shadow: 0 6px 16px rgba(35, 8, 50, 0.14);
+  box-shadow:
+    0 6px 16px
+    rgba(35, 8, 50, 0.14);
 }
 
 .pc-tag-badge::before {
@@ -436,6 +564,7 @@
 
   color: var(--pc-gold);
 }
+
 
 /* =========================================================
    PRICE BADGE
@@ -449,6 +578,13 @@
 
   z-index: 3;
 
+  padding:
+    clamp(7px, 1vw, 10px)
+    clamp(13px, 1.8vw, 20px);
+
+  border-top-left-radius:
+    clamp(13px, 1.5vw, 18px);
+
   background:
     linear-gradient(
       135deg,
@@ -456,17 +592,16 @@
       var(--pc-red)
     );
 
-  color:
-    var(--pc-white);
+  color: var(--pc-white);
 
-  padding:
-    10px 20px;
-
-  font-size: 16px;
+  font-size:
+    clamp(13px, 1.5vw, 16px);
 
   font-weight: 800;
 
-  border-top-left-radius: 18px;
+  line-height: 1.3;
+
+  white-space: nowrap;
 
   box-shadow:
     -5px -5px 15px
@@ -481,37 +616,47 @@
     translateY(-2px);
 }
 
+
 /* =========================================================
    CARD CONTENT
 ========================================================= */
 
 .pc-card-content {
-  padding:
-    28px 25px 25px;
-
   display: flex;
 
   flex-direction: column;
 
   flex-grow: 1;
+
+  min-width: 0;
+
+  padding:
+    clamp(19px, 2.2vw, 28px)
+    clamp(17px, 2vw, 25px)
+    clamp(20px, 2vw, 25px);
+
+  box-sizing: border-box;
 }
+
 
 /* =========================================================
    CARD TITLE
 ========================================================= */
 
 .pc-card-title {
-  font-size: 21px;
+  margin:
+    0 0 10px;
+
+  color: var(--pc-dark-purple);
+
+  font-size:
+    clamp(18px, 1.8vw, 21px);
 
   font-weight: 700;
 
-  color:
-    var(--pc-dark-purple);
-
-  margin:
-    0 0 11px;
-
   line-height: 1.35;
+
+  text-wrap: balance;
 
   transition:
     color 0.3s ease;
@@ -522,24 +667,29 @@
     var(--pc-orange);
 }
 
+
 /* =========================================================
-   DESCRIPTION
+   CARD DESCRIPTION
 ========================================================= */
 
 .pc-card-description {
-  font-size: 13.5px;
+  margin:
+    0 0 20px;
 
   color:
     var(--pc-text-gray);
 
+  font-size:
+    clamp(12px, 1.2vw, 13.5px);
+
   line-height: 1.7;
 
-  margin:
-    0 0 22px;
+  text-wrap: pretty;
 }
 
+
 /* =========================================================
-   INFORMATION
+   INFORMATION BOX
 ========================================================= */
 
 .pc-card-info {
@@ -547,77 +697,121 @@
 
   flex-direction: column;
 
-  gap: 12px;
+  gap:
+    clamp(9px, 1.2vw, 12px);
 
-  padding: 16px 16px;
+  margin-bottom: 21px;
 
-  border-radius: 14px;
-
-  background: linear-gradient(135deg, rgba(242, 101, 34, 0.045), rgba(255, 183, 3, 0.04));
+  padding:
+    clamp(12px, 1.5vw, 16px);
 
   border:
     1px dashed
     var(--pc-border-light);
 
-  margin-bottom: 23px;
+  border-radius:
+    clamp(11px, 1.3vw, 14px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(242, 101, 34, 0.045),
+      rgba(255, 183, 3, 0.04)
+    );
+
+  box-sizing: border-box;
 }
+
+
+/* =========================================================
+   INFO ITEM
+========================================================= */
 
 .pc-info-item {
   display: flex;
 
-  justify-content: space-between;
-
   align-items: flex-start;
 
-  gap: 15px;
+  justify-content: space-between;
 
-  font-size: 12.5px;
+  gap:
+    clamp(10px, 1.5vw, 15px);
+
+  width: 100%;
+
+  font-size:
+    clamp(11px, 1.15vw, 12.5px);
+
+  line-height: 1.45;
 }
 
 .pc-info-label {
+  flex:
+    0 1 auto;
+
   color:
     var(--pc-orange);
 
   font-weight: 700;
-
-  flex-shrink: 0;
 }
 
 .pc-info-value {
+  flex:
+    1 1 auto;
+
+  min-width: 0;
+
   color:
     var(--pc-text-dark);
 
   font-weight: 600;
 
   text-align: right;
+
+  overflow-wrap: anywhere;
 }
 
+
 /* =========================================================
-   ACTION
+   ACTION WRAPPER
 ========================================================= */
 
 .pc-action-wrapper {
+  width: 100%;
+
   margin-top: auto;
 }
 
+
 /* =========================================================
-   ENROLL BUTTON
+   JOIN BUTTON
 ========================================================= */
 
 .pc-btn-join {
   position: relative;
 
-  overflow: hidden;
-
-  width: 100%;
-
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   gap: 8px;
+
+  width: 100%;
+  min-height: 44px;
+
+  padding:
+    11px
+    clamp(15px, 2vw, 24px);
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  border: none;
+
+  border-radius:
+    clamp(9px, 1vw, 12px);
 
   background:
     linear-gradient(
@@ -629,16 +823,16 @@
   color:
     var(--pc-white);
 
-  border: none;
+  font-family:
+    "Poppins",
+    sans-serif;
 
-  padding:
-    14px 24px;
-
-  font-size: 14.5px;
+  font-size:
+    clamp(12.5px, 1.3vw, 14.5px);
 
   font-weight: 700;
 
-  border-radius: 12px;
+  line-height: 1.3;
 
   cursor: pointer;
 
@@ -654,14 +848,16 @@
 .pc-btn-sparkle {
   display: inline-block;
 
-  transition: transform 0.4s ease;
+  flex-shrink: 0;
+
+  transition:
+    transform 0.4s ease;
 }
 
-.pc-btn-join:hover .pc-btn-sparkle {
-  transform: rotate(20deg) scale(1.2);
-}
 
-/* Button shine */
+/* =========================================================
+   BUTTON SHINE
+========================================================= */
 
 .pc-btn-join::before {
   content: "";
@@ -695,74 +891,163 @@
 
 .pc-btn-join:hover {
   transform:
-    translateY(-4px);
+    translateY(-3px);
 
   box-shadow:
     0 16px 32px
     rgba(217, 78, 14, 0.38);
 }
 
+.pc-btn-join:hover .pc-btn-sparkle {
+  transform:
+    rotate(20deg)
+    scale(1.2);
+}
+
+
 /* =========================================================
    BOTTOM CONTENT
 ========================================================= */
 
 .pc-bottom-content {
-  max-width: 850px;
-
-  margin:
-    70px auto 0;
-
-  text-align: center;
-
   position: relative;
 
   z-index: 6;
 
-  padding: 40px 32px;
+  width: 100%;
+  max-width: 850px;
 
-  border-radius: 24px;
+  margin:
+    clamp(45px, 6vw, 70px)
+    auto 0;
 
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+  padding:
+    clamp(25px, 4vw, 40px)
+    clamp(18px, 3vw, 32px);
 
-  border: 1px solid rgba(240, 230, 216, 0.8);
+  box-sizing: border-box;
+
+  text-align: center;
+
+  border:
+    1px solid
+    rgba(240, 230, 216, 0.8);
+
+  border-radius:
+    clamp(18px, 2vw, 24px);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.2)
+    );
 }
 
 .pc-bottom-content h2 {
-  font-size: 27px;
-
-  font-weight: 800;
+  margin:
+    0 0 14px;
 
   color:
     var(--pc-dark-purple);
 
-  margin:
-    0 0 15px;
+  font-size:
+    clamp(21px, 2.5vw, 27px);
+
+  font-weight: 800;
+
+  line-height: 1.3;
+
+  text-wrap: balance;
 }
 
 .pc-bottom-content p {
-  font-size: 13.5px;
+  max-width: 760px;
+
+  margin:
+    0 auto 10px;
 
   color:
     var(--pc-text-gray);
 
+  font-size:
+    clamp(12px, 1.2vw, 13.5px);
+
   line-height: 1.8;
 
-  margin:
-    0 auto 10px;
+  text-wrap: pretty;
 }
 
+
 /* =========================================================
-   LARGE LAPTOP
+   VERY LARGE DESKTOP
+   1600px+
 ========================================================= */
 
-@media (max-width: 1200px) {
+@media (min-width: 1600px) {
 
   .pc-container {
-    max-width: 1100px;
+    max-width: 1380px;
+  }
+
+  .pc-grid {
+    gap: 34px;
+  }
+
+  .pc-image-wrapper {
+    height: 265px;
+  }
+
+}
+
+
+/* =========================================================
+   LARGE DESKTOP / LAPTOP
+   1200px - 1399px
+========================================================= */
+
+@media (max-width: 1399px) {
+
+  .pc-container {
+    max-width: 1160px;
   }
 
   .pc-grid {
     gap: 24px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL LAPTOP
+   993px - 1199px
+========================================================= */
+
+@media (max-width: 1199px) {
+
+  .pc-section {
+    padding-top:
+      clamp(70px, 7vw, 90px);
+  }
+
+  .pc-container {
+    max-width: 1050px;
+  }
+
+  .pc-grid {
+    gap: 22px;
+  }
+
+  .pc-image-wrapper {
+    height: 225px;
+  }
+
+  .pc-card-content {
+    padding:
+      21px
+      20px
+      22px;
   }
 
   .pc-dino-left {
@@ -770,71 +1055,126 @@
   }
 
   .pc-dino-right {
-    width: 190px;
+    width: 185px;
   }
 
 }
 
+
 /* =========================================================
-   TABLET
+   TABLET LANDSCAPE
+   769px - 992px
 ========================================================= */
 
 @media (max-width: 992px) {
 
   .pc-section {
     padding:
-      80px 20px 100px;
+      72px
+      20px
+      95px;
+  }
+
+  .pc-container {
+    max-width: 900px;
+  }
+
+  .pc-header {
+    max-width: 720px;
+
+    margin-bottom: 45px;
+  }
+
+  .pc-title {
+    font-size:
+      clamp(31px, 5vw, 40px);
   }
 
   .pc-grid {
     grid-template-columns:
-      repeat(2, 1fr);
+      repeat(2, minmax(0, 1fr));
 
-    gap: 25px;
+    gap: 24px;
   }
 
-  .pc-title {
-    font-size: 38px;
+  .pc-image-wrapper {
+    height: 225px;
+  }
+
+  .pc-card-content {
+    padding:
+      22px
+      20px
+      23px;
+  }
+
+  .pc-card-title {
+    font-size: 20px;
+  }
+
+  .pc-card-description {
+    font-size: 13px;
+  }
+
+  .pc-info-item {
+    font-size: 12px;
+  }
+
+  .pc-btn-join {
+    min-height: 43px;
   }
 
   .pc-dino-left,
   .pc-dino-right {
-    opacity: 0.45;
+    opacity: 0.55;
   }
 
   .pc-dino-left {
-    width: 140px;
+    width: 135px;
   }
 
   .pc-dino-right {
-    width: 150px;
+    width: 145px;
   }
 
 }
 
+
 /* =========================================================
-   MOBILE
+   TABLET PORTRAIT
+   601px - 768px
 ========================================================= */
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
 
   .pc-section {
     padding:
-      60px 15px 90px;
+      65px
+      18px
+      90px;
   }
 
   .pc-header {
-    margin-bottom: 38px;
+    max-width: 650px;
+
+    margin-bottom: 40px;
+  }
+
+  .pc-eyebrow {
+    font-size: 11px;
+
+    padding:
+      6px 13px;
   }
 
   .pc-subtitle {
-    font-size: 27px;
+    font-size: 28px;
   }
 
   .pc-title {
-    font-size: 31px;
+    font-size: 34px;
 
-    line-height: 1.25;
+    line-height: 1.23;
   }
 
   .pc-intro {
@@ -845,86 +1185,720 @@
 
   .pc-grid {
     grid-template-columns:
-      1fr;
+      repeat(2, minmax(0, 1fr));
 
-    max-width: 420px;
-
-    margin:
-      0 auto;
-
-    gap: 22px;
+    gap: 20px;
   }
 
   .pc-image-wrapper {
-    height: 235px;
+    height:
+      clamp(205px, 31vw, 230px);
   }
 
   .pc-card-content {
     padding:
-      25px 21px 22px;
+      20px
+      18px
+      21px;
+  }
+
+  .pc-card-title {
+    font-size: 19px;
+  }
+
+  .pc-card-description {
+    font-size: 12.5px;
+  }
+
+  .pc-card-info {
+    padding: 13px;
+  }
+
+  .pc-info-item {
+    gap: 10px;
+
+    font-size: 11.5px;
+  }
+
+  .pc-price-badge {
+    font-size: 14px;
+  }
+
+  .pc-dino-left {
+    width: 105px;
+  }
+
+  .pc-dino-right {
+    width: 115px;
+  }
+
+}
+
+
+/* =========================================================
+   LARGE MOBILE
+   481px - 600px
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .pc-section {
+    padding:
+      58px
+      15px
+      82px;
+  }
+
+  .pc-header {
+    margin-bottom: 36px;
+  }
+
+  .pc-eyebrow {
+    margin-bottom: 13px;
+
+    font-size: 10px;
+
+    letter-spacing: 0.45px;
+  }
+
+  .pc-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .pc-subtitle {
+    font-size: 26px;
+  }
+
+  .pc-title {
+    margin-bottom: 19px;
+
+    font-size:
+      clamp(28px, 7vw, 32px);
+
+    line-height: 1.22;
+  }
+
+  .pc-title::after {
+    width: 58px;
+    height: 3px;
+
+    margin-top: 12px;
+  }
+
+  .pc-intro {
+    font-size: 12.5px;
+
+    line-height: 1.75;
+  }
+
+  .pc-grid {
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    max-width: 450px;
+
+    margin: 0 auto;
+
+    gap: 20px;
+  }
+
+  .pc-card {
+    border-radius: 20px;
+  }
+
+  .pc-image-wrapper {
+    height:
+      clamp(220px, 58vw, 275px);
+  }
+
+  .pc-card-content {
+    padding:
+      21px
+      19px
+      23px;
   }
 
   .pc-card-title {
     font-size: 20px;
   }
 
-  .pc-dino-left {
-    width: 90px;
+  .pc-card-description {
+    font-size: 13px;
 
-    left: -20px;
+    line-height: 1.75;
   }
 
-  .pc-dino-right {
-    width: 100px;
+  .pc-card-info {
+    gap: 10px;
 
-    right: -20px;
+    padding: 14px;
+
+    margin-bottom: 20px;
+  }
+
+  .pc-info-item {
+    font-size: 12px;
+  }
+
+  .pc-price-badge {
+    padding:
+      8px
+      15px;
+
+    font-size: 14px;
+
+    border-top-left-radius: 15px;
+  }
+
+  .pc-btn-join {
+    min-height: 43px;
+
+    font-size: 13px;
   }
 
   .pc-bottom-content {
-    margin-top: 50px;
+    margin-top: 45px;
 
-    padding: 30px 22px;
+    padding:
+      27px
+      20px;
+
+    border-radius: 19px;
   }
 
   .pc-bottom-content h2 {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 12.5px;
+
+    line-height: 1.75;
+  }
+
+  .pc-dino-left {
+    width: 85px;
+
+    left: -22px;
+
+    opacity: 0.4;
+  }
+
+  .pc-dino-right {
+    width: 95px;
+
+    right: -22px;
+
+    opacity: 0.4;
   }
 
 }
 
+
 /* =========================================================
    SMALL MOBILE
+   381px - 480px
 ========================================================= */
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
 
-  .pc-title {
-    font-size: 27px;
+  .pc-section {
+    padding:
+      52px
+      13px
+      75px;
+  }
+
+  .pc-header {
+    margin-bottom: 32px;
+  }
+
+  .pc-eyebrow {
+    max-width: calc(100% - 20px);
+
+    padding:
+      6px
+      11px;
+
+    font-size: 9.5px;
   }
 
   .pc-subtitle {
-    font-size: 25px;
+    font-size: 24px;
+  }
+
+  .pc-title {
+    font-size:
+      clamp(25px, 7.5vw, 29px);
+
+    letter-spacing: -0.3px;
+  }
+
+  .pc-intro {
+    font-size: 12px;
+  }
+
+  .pc-grid {
+    gap: 18px;
+  }
+
+  .pc-card {
+    border-radius: 18px;
   }
 
   .pc-image-wrapper {
-    height: 215px;
+    height:
+      clamp(205px, 58vw, 235px);
+  }
+
+  .pc-tag-badge {
+    top: 10px;
+    left: 10px;
+
+    padding:
+      5px
+      10px;
+
+    font-size: 9.5px;
+  }
+
+  .pc-price-badge {
+    padding:
+      7px
+      13px;
+
+    font-size: 13px;
+  }
+
+  .pc-card-content {
+    padding:
+      19px
+      16px
+      20px;
+  }
+
+  .pc-card-title {
+    font-size: 19px;
+  }
+
+  .pc-card-description {
+    font-size: 12.5px;
+  }
+
+  .pc-card-info {
+    padding:
+      12px;
   }
 
   .pc-info-item {
     font-size: 11.5px;
   }
 
-  .pc-price-badge {
-    font-size: 14px;
+  .pc-btn-join {
+    min-height: 41px;
 
+    font-size: 12.5px;
+
+    border-radius: 10px;
+  }
+
+  .pc-bottom-content {
     padding:
-      8px 15px;
+      24px
+      16px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 20px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 12px;
+  }
+
+  .pc-dino-left {
+    width: 70px;
+
+    left: -20px;
+  }
+
+  .pc-dino-right {
+    width: 78px;
+
+    right: -20px;
   }
 
 }
 
+
 /* =========================================================
-   ACCESSIBILITY
+   VERY SMALL PHONES
+   320px - 380px
+========================================================= */
+
+@media (max-width: 380px) {
+
+  .pc-section {
+    padding:
+      45px
+      10px
+      68px;
+  }
+
+  .pc-header {
+    margin-bottom: 29px;
+  }
+
+  .pc-eyebrow {
+    padding:
+      5px
+      9px;
+
+    font-size: 8.5px;
+
+    gap: 6px;
+  }
+
+  .pc-eyebrow-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .pc-subtitle {
+    font-size: 22px;
+  }
+
+  .pc-title {
+    font-size: 24px;
+
+    line-height: 1.25;
+  }
+
+  .pc-title::after {
+    width: 50px;
+
+    margin-top: 10px;
+  }
+
+  .pc-intro {
+    font-size: 11.5px;
+
+    line-height: 1.7;
+  }
+
+  .pc-grid {
+    gap: 16px;
+  }
+
+  .pc-card {
+    border-radius: 16px;
+  }
+
+  .pc-image-wrapper {
+    height: 200px;
+  }
+
+  .pc-tag-badge {
+    top: 8px;
+    left: 8px;
+
+    padding:
+      5px
+      9px;
+
+    font-size: 9px;
+  }
+
+  .pc-price-badge {
+    padding:
+      7px
+      11px;
+
+    font-size: 12px;
+
+    border-top-left-radius: 12px;
+  }
+
+  .pc-card-content {
+    padding:
+      17px
+      14px
+      18px;
+  }
+
+  .pc-card-title {
+    margin-bottom: 9px;
+
+    font-size: 18px;
+  }
+
+  .pc-card-description {
+    margin-bottom: 17px;
+
+    font-size: 11.8px;
+
+    line-height: 1.7;
+  }
+
+  .pc-card-info {
+    gap: 9px;
+
+    padding:
+      11px;
+
+    margin-bottom: 17px;
+
+    border-radius: 11px;
+  }
+
+  .pc-info-item {
+    gap: 7px;
+
+    font-size: 10.5px;
+
+    line-height: 1.4;
+  }
+
+  .pc-btn-join {
+    min-height: 39px;
+
+    padding:
+      8px
+      12px;
+
+    font-size: 11.5px;
+
+    border-radius: 9px;
+  }
+
+  .pc-bottom-content {
+    margin-top: 35px;
+
+    padding:
+      21px
+      13px;
+
+    border-radius: 16px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 18px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 11.5px;
+
+    line-height: 1.7;
+  }
+
+  .pc-dino-left {
+    width: 60px;
+
+    left: -18px;
+
+    opacity: 0.3;
+  }
+
+  .pc-dino-right {
+    width: 68px;
+
+    right: -18px;
+
+    opacity: 0.3;
+  }
+
+}
+
+
+/* =========================================================
+   EXTRA SMALL DEVICES
+   280px - 319px
+========================================================= */
+
+@media (max-width: 319px) {
+
+  .pc-section {
+    padding:
+      38px
+      8px
+      60px;
+  }
+
+  .pc-eyebrow {
+    font-size: 8px;
+
+    letter-spacing: 0.2px;
+  }
+
+  .pc-subtitle {
+    font-size: 20px;
+  }
+
+  .pc-title {
+    font-size: 22px;
+  }
+
+  .pc-intro {
+    font-size: 10.5px;
+  }
+
+  .pc-image-wrapper {
+    height: 180px;
+  }
+
+  .pc-card-content {
+    padding:
+      15px
+      12px
+      16px;
+  }
+
+  .pc-card-title {
+    font-size: 17px;
+  }
+
+  .pc-card-description {
+    font-size: 11px;
+  }
+
+  .pc-info-item {
+    font-size: 9.8px;
+  }
+
+  .pc-btn-join {
+    font-size: 11px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 17px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 10.5px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE LANDSCAPE
+========================================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .pc-section {
+    padding:
+      45px
+      20px
+      75px;
+  }
+
+  .pc-header {
+    margin-bottom: 35px;
+  }
+
+  .pc-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+  }
+
+  .pc-image-wrapper {
+    height: 190px;
+  }
+
+  .pc-card-content {
+    padding:
+      18px
+      17px
+      20px;
+  }
+
+  .pc-dino-left {
+    width: 100px;
+  }
+
+  .pc-dino-right {
+    width: 110px;
+  }
+
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+   Disable desktop hover movement on touch screens
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+  .pc-card:hover {
+    transform: none;
+
+    box-shadow:
+      0 12px 34px
+      rgba(35, 8, 50, 0.08);
+
+    border-color:
+      rgba(240, 230, 216, 0.7);
+  }
+
+  .pc-card:hover .pc-card-image {
+    transform: none;
+  }
+
+  .pc-card:hover .pc-card-title {
+    color:
+      var(--pc-dark-purple);
+  }
+
+  .pc-card:hover .pc-price-badge {
+    transform: none;
+  }
+
+  .pc-btn-join:hover {
+    transform: none;
+
+    box-shadow:
+      0 10px 24px
+      rgba(242, 101, 34, 0.28);
+  }
+
+  .pc-btn-join:hover::before {
+    left: -120%;
+  }
+
+  .pc-btn-join:hover .pc-btn-sparkle {
+    transform: none;
+  }
+
+  .pc-subtitle:hover {
+    transform: none;
+
+    color:
+      var(--pc-orange);
+  }
+
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+========================================================= */
+
+.pc-btn-join:focus-visible {
+  outline:
+    3px solid
+    rgba(242, 101, 34, 0.35);
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -933,8 +1907,38 @@
   .pc-card-image,
   .pc-btn-join,
   .pc-price-badge,
-  .pc-subtitle {
-    transition: none;
+  .pc-subtitle,
+  .pc-btn-sparkle,
+  .pc-btn-join::before,
+  .pc-dino-bg {
+    transition: none !important;
+  }
+
+}
+
+
+/* =========================================================
+   FORCED COLORS / HIGH CONTRAST
+========================================================= */
+
+@media (forced-colors: active) {
+
+  .pc-card,
+  .pc-bottom-content,
+  .pc-card-info {
+    border:
+      1px solid CanvasText;
+  }
+
+  .pc-btn-join {
+    border:
+      1px solid CanvasText;
+  }
+
+  .pc-tag-badge,
+  .pc-price-badge {
+    border:
+      1px solid CanvasText;
   }
 
 }

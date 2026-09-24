@@ -2,7 +2,7 @@ import React from 'react';
 import './TeacherBreadcurm.css';
 
 // Import your local background image (adjust path to match your folder structure)
-import breadcrumbBg from "../../assets/bc1.png";
+import breadcrumbBg from "../../assets/teacher-breadcrum.webp";
 
 const TeacherBreadcurm = () => {
   return (

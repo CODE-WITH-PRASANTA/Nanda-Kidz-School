@@ -77,7 +77,6 @@ const facilitiesData = [
       'A warm and welcoming play school where children feel comfortable, cared for and free to explore. We create everyday learning experiences that make the first steps of education enjoyable.',
     image: facility1,
     icon: <BookIcon />,
-    action: 'LEARN MORE',
   },
   {
     id: 2,
@@ -86,7 +85,6 @@ const facilitiesData = [
       'Simple celebrations become meaningful learning moments. Children enjoy sharing, identifying different fruits and learning the importance of healthy habits through fun activities.',
     image: facility2,
     icon: <BusIcon />,
-    action: 'EXPLORE',
   },
   {
     id: 3,
@@ -95,7 +93,6 @@ const facilitiesData = [
       'Play gives children room to move, communicate and make friends. Our activities encourage teamwork, confidence, coordination and social skills in a joyful setting.',
     image: facility3,
     icon: <SlideIcon />,
-    action: 'VIEW ACTIVITIES',
   },
   {
     id: 4,
@@ -104,7 +101,6 @@ const facilitiesData = [
       'Children learn some of life’s most important lessons through friendship. Sharing, caring, listening and helping others are encouraged through cheerful group activities.',
     image: facility4,
     icon: <BookIcon />,
-    action: 'DISCOVER',
   },
 ];
 
@@ -113,9 +109,10 @@ const facilitiesData = [
 ========================================================= */
 
 const AboutOurFacilities = () => {
+  const whatsappNumber = '919438013349';
+
   return (
     <section className="about-facilities-section">
-
       {/* Decorative Cloud */}
       <img
         src={cloudImg}
@@ -135,9 +132,7 @@ const AboutOurFacilities = () => {
       {/* =====================================================
           SECTION HEADER
       ===================================================== */}
-
       <div className="about-facilities-header">
-
         <div className="about-facilities-sub-title">
           <span
             className="about-facilities-icon-grad-cap"
@@ -145,7 +140,6 @@ const AboutOurFacilities = () => {
           >
             🎓
           </span>
-
           <span>Our Facilities</span>
         </div>
 
@@ -165,106 +159,87 @@ const AboutOurFacilities = () => {
           Nanda Kidz The Little Kingdom A Play School in Kalinganagar,
           Bhubaneswar, where learning begins with care, curiosity and play.
         </p>
-
       </div>
 
       {/* =====================================================
           FACILITY CARDS
       ===================================================== */}
-
       <div className="about-facilities-grid">
+        {facilitiesData.map((facility) => {
+          const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+            `Hi! I would like to explore more about ${facility.title} at Nanda Kidz.`
+          )}`;
 
-        {facilitiesData.map((facility) => (
-          <article
-            key={facility.id}
-            className="about-facilities-card"
-          >
-
-            {/* Image */}
-            <div className="about-facilities-image-frame">
-
-              <img
-                src={facility.image}
-                alt={facility.title}
-                className="about-facilities-image"
-                loading="lazy"
-              />
-
-              <div
-                className="about-facilities-image-shine"
-                aria-hidden="true"
-              ></div>
-
-            </div>
-
-            {/* Content */}
-            <div className="about-facilities-card-content">
-
-              <h2 className="about-facilities-card-title">
-                {facility.title}
-              </h2>
-
-              <div
-                className="about-facilities-wavy-underline"
-                aria-hidden="true"
-              ></div>
-
-              <p className="about-facilities-card-description">
-                {facility.description}
-              </p>
-
-            </div>
-
-            {/* Action */}
-            <div className="about-facilities-card-action">
-
-              <div className="about-facilities-action-pill">
-
-                <div className="about-facilities-icon-wrapper">
-                  {facility.icon}
-                </div>
-
-                <span className="about-facilities-action-text">
-                  {facility.action}
-                  <span className="about-facilities-action-arrow">
-                    ↗
-                  </span>
-                </span>
-
+          return (
+            <article key={facility.id} className="about-facilities-card">
+              {/* Image */}
+              <div className="about-facilities-image-frame">
+                <img
+                  src={facility.image}
+                  alt={facility.title}
+                  className="about-facilities-image"
+                  loading="lazy"
+                />
+                <div
+                  className="about-facilities-image-shine"
+                  aria-hidden="true"
+                ></div>
               </div>
 
-            </div>
+              {/* Content */}
+              <div className="about-facilities-card-content">
+                <h2 className="about-facilities-card-title">
+                  {facility.title}
+                </h2>
+                <div
+                  className="about-facilities-wavy-underline"
+                  aria-hidden="true"
+                ></div>
+                <p className="about-facilities-card-description">
+                  {facility.description}
+                </p>
+              </div>
 
-          </article>
-        ))}
-
+              {/* Action */}
+              <div className="about-facilities-card-action">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="about-facilities-action-pill"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <div className="about-facilities-icon-wrapper">
+                    {facility.icon}
+                  </div>
+                  <span className="about-facilities-action-text">
+                    EXPLORE
+                    <span className="about-facilities-action-arrow">↗</span>
+                  </span>
+                </a>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       {/* =====================================================
           BOTTOM SEO / PARENT MESSAGE
       ===================================================== */}
-
       <div className="about-facilities-bottom-content">
-
         <span className="about-facilities-bottom-label">
           A happy beginning matters
         </span>
-
-        <h2>
-          Which school is best for my child?
-        </h2>
-
+        <h2>Which school is best for my child?</h2>
         <p>
-          There is no single answer for every child. The right school is
-          one where your little one feels safe, welcomed and encouraged
-          to discover something new each day. If you are looking for the
-          <strong> Best play school in Kalinganagar</strong>, Nanda Kidz
-          offers a child-friendly environment built around play,
-          interaction and early development.
+          There is no single answer for every child. The right school is one
+          where your little one feels safe, welcomed and encouraged to discover
+          something new each day. If you are looking for the{' '}
+          <strong>Best play school in Kalinganagar</strong>, Nanda Kidz offers
+          a child-friendly environment built around play, interaction and early
+          development.
         </p>
-
       </div>
-
     </section>
   );
 };

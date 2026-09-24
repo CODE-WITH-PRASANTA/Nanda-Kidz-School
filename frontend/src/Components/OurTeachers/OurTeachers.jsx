@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import './OurTeachers.css';
+import React, { useState, useEffect } from "react";
+import "./OurTeachers.css";
+import API, { IMG_URL } from "../../api/axios";
 
 // Import React Icons
 import {
@@ -9,79 +10,64 @@ import {
   FaInstagram,
   FaTimes,
   FaQuoteLeft,
-} from 'react-icons/fa';
+  FaSpinner,
+} from "react-icons/fa";
 
-// Import local image assets
-import teacher1 from '../../assets/teacher-1.jpg';
-import teacher2 from '../../assets/teacher-2.jpg';
-import teacher3 from '../../assets/teacher-3.jpg';
-import teacher4 from '../../assets/teacher-4.jpg';
+/* =========================================================
+   IMAGE URL HELPER
+========================================================= */
 
-const teachersData = [
-  {
-    id: 1,
-    name: 'Glims Bond',
-    role: 'Music Teacher',
-    image: teacher1,
-    bio: 'Passionate music instructor with over 8 years of experience nurturing children through rhythmic learning, vocal training, and joyful melodies.',
-    experience: '8+ Years Exp',
-    specialty: 'Rhythmic & Vocal Arts',
-    socials: {
-      facebook: '#',
-      twitter: '#',
-      linkedin: '#',
-      instagram: '#',
-    },
-  },
-  {
-    id: 2,
-    name: 'Sherlock Bin',
-    role: 'Art Teacher',
-    image: teacher2,
-    bio: 'Creative visual artist specializing in early childhood motor skill development using finger painting, origami, and imaginative craft sessions.',
-    experience: '6+ Years Exp',
-    specialty: 'Visual & Craft Arts',
-    socials: {
-      facebook: '#',
-      twitter: '#',
-      linkedin: '#',
-      instagram: '#',
-    },
-  },
-  {
-    id: 3,
-    name: 'Priestly Herbart',
-    role: 'Math Teacher',
-    image: teacher3,
-    bio: 'Dedicated numbers specialist turning abstract mathematics into fun puzzle games and interactive logic activities for toddlers.',
-    experience: '10+ Years Exp',
-    specialty: 'Early Logic & Numbers',
-    socials: {
-      facebook: '#',
-      twitter: '#',
-      linkedin: '#',
-      instagram: '#',
-    },
-  },
-  {
-    id: 4,
-    name: 'Smith Broke',
-    role: 'English Teacher',
-    image: teacher4,
-    bio: 'Dynamic language coach focusing on phonics, storytelling, expressive vocabulary, and confident verbal communication for kindergarteners.',
-    experience: '7+ Years Exp',
-    specialty: 'Phonics & Storytelling',
-    socials: {
-      facebook: '#',
-      twitter: '#',
-      linkedin: '#',
-      instagram: '#',
-    },
-  },
-];
+const getImageUrl = (image) => {
+  if (!image) {
+    return "";
+  }
+
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://")
+  ) {
+    return image;
+  }
+
+  return `${IMG_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+};
 
 const OurTeachers = () => {
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeBioTeacher, setActiveBioTeacher] = useState(null);
+
+  /* =========================================================
+     FETCH TEACHERS FROM BACKEND
+  ========================================================= */
+
+  const fetchTeachers = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get("/teachers");
+
+      if (response.data?.success) {
+        const teacherData = Array.isArray(response.data.data)
+          ? response.data.data
+          : Array.isArray(response.data.teachers)
+          ? response.data.teachers
+          : [];
+
+        setTeachers(teacherData);
+      } else {
+        setTeachers([]);
+      }
+    } catch (error) {
+      console.error("Error fetching public teachers:", error);
+      setTeachers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
 
   const openBioModal = (teacher) => {
     setActiveBioTeacher(teacher);
@@ -98,114 +84,216 @@ const OurTeachers = () => {
         <div className="our-teachers__header">
           <span className="our-teachers__subtitle">Our Core Faculty</span>
           <h1 id="our-teachers-heading" className="our-teachers__title">
-            the founder’s educational background, vision, and hands-on guidance for toddlers.
+            The founder’s educational background, vision, and hands-on guidance for toddlers.
           </h1>
         </div>
 
-        {/* Teachers Grid */}
-        <div className="our-teachers__grid">
-          {teachersData.map((teacher) => (
-            <div className="our-teachers__card" key={teacher.id}>
-              {/* Restructured Avatar/Blob/Social Container */}
-              <div className="our-teachers__avatar-container">
-                {/* 1. The Morphing Animated Blob Background */}
-                <div className="our-teachers__blob-bg" aria-hidden="true"></div>
+        {/* Loading / Teachers Grid */}
+        {loading ? (
+          <div className="our-teachers__loading">
+            <FaSpinner className="fa-spin" style={{ fontSize: "2rem" }} />
+            <p>Loading faculty members...</p>
+          </div>
+        ) : teachers.length === 0 ? (
+          <div className="our-teachers__no-data">
+            <p>No faculty members found.</p>
+          </div>
+        ) : (
+          <div className="our-teachers__grid">
+            {teachers.map((teacher) => {
+              const teacherImage = getImageUrl(teacher.image);
 
-                {/* 2. Main Circular Clipped Image */}
-                <img
-                  src={teacher.image}
-                  alt={teacher.name}
-                  className="our-teachers__image"
-                  loading="lazy"
-                />
+              return (
+                <div className="our-teachers__card" key={teacher._id}>
+                  {/* Avatar / Blob / Social Container */}
+                  <div className="our-teachers__avatar-container">
+                    <div className="our-teachers__blob-bg" aria-hidden="true"></div>
 
-                {/* 3. Sliding Social Icons Bar */}
-                <div className="our-teachers__social-bar">
-                  <a
-                    href={teacher.socials.facebook}
-                    className="our-teachers__social-link"
-                    aria-label="Facebook"
-                  >
-                    <FaFacebookF />
-                  </a>
-                  <a
-                    href={teacher.socials.twitter}
-                    className="our-teachers__social-link"
-                    aria-label="Twitter"
-                  >
-                    <FaTwitter />
-                  </a>
-                  <a
-                    href={teacher.socials.linkedin}
-                    className="our-teachers__social-link"
-                    aria-label="LinkedIn"
-                  >
-                    <FaLinkedinIn />
-                  </a>
-                  <a
-                    href={teacher.socials.instagram}
-                    className="our-teachers__social-link"
-                    aria-label="Instagram"
-                  >
-                    <FaInstagram />
-                  </a>
-                  {/* Bio Details Trigger Button */}
-                  <button
-                    type="button"
-                    onClick={() => openBioModal(teacher)}
-                    className="our-teachers__social-link our-teachers__bio-btn"
-                    aria-label="View Bio Description"
-                    title="View Bio & Description"
-                  >
-                    <FaQuoteLeft />
-                  </button>
+                    <img
+                      src={teacherImage}
+                      alt={teacher.name || "Teacher"}
+                      className="our-teachers__image"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+
+                    {/* Sliding Social Icons Bar */}
+                    <div className="our-teachers__social-bar">
+                      <a
+                        href={teacher.fb || "#"}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="our-teachers__social-link"
+                        aria-label="Facebook"
+                        onClick={(e) => {
+                          if (!teacher.fb) e.preventDefault();
+                        }}
+                      >
+                        <FaFacebookF />
+                      </a>
+                      <a
+                        href={teacher.twitter || "#"}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="our-teachers__social-link"
+                        aria-label="Twitter"
+                        onClick={(e) => {
+                          if (!teacher.twitter) e.preventDefault();
+                        }}
+                      >
+                        <FaTwitter />
+                      </a>
+                      <a
+                        href={teacher.linkedin || "#"}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="our-teachers__social-link"
+                        aria-label="LinkedIn"
+                        onClick={(e) => {
+                          if (!teacher.linkedin) e.preventDefault();
+                        }}
+                      >
+                        <FaLinkedinIn />
+                      </a>
+                      <a
+                        href={teacher.instagram || "#"}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="our-teachers__social-link"
+                        aria-label="Instagram"
+                        onClick={(e) => {
+                          if (!teacher.instagram) e.preventDefault();
+                        }}
+                      >
+                        <FaInstagram />
+                      </a>
+
+                      {/* Bio Details Trigger Button */}
+                      <button
+                        type="button"
+                        onClick={() => openBioModal(teacher)}
+                        className="our-teachers__social-link our-teachers__bio-btn"
+                        aria-label="View Bio Description"
+                        title="View Bio & Description"
+                      >
+                        <FaQuoteLeft />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Info Text */}
+                  <div className="our-teachers__info">
+                    <h3 className="our-teachers__name">{teacher.name}</h3>
+                    <p className="our-teachers__role">{teacher.designation || teacher.role}</p>
+                    <button
+                      type="button"
+                      className="our-teachers__read-more-trigger"
+                      onClick={() => openBioModal(teacher)}
+                    >
+                      View Profile ✨
+                    </button>
+                  </div>
                 </div>
-              </div>
-
-              {/* Info Text */}
-              <div className="our-teachers__info">
-                <h3 className="our-teachers__name">{teacher.name}</h3>
-                <p className="our-teachers__role">{teacher.role}</p>
-                <button 
-                  type="button"
-                  className="our-teachers__read-more-trigger"
-                  onClick={() => openBioModal(teacher)}
-                >
-                  View Profile ✨
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Interactive Cartoon Bio Popup Modal */}
       {activeBioTeacher && (
-        <div className="our-teachers__modal-backdrop" onClick={closeBioModal} role="dialog" aria-modal="true">
-          <div 
-            className="our-teachers__modal-content animate-popIn" 
+        <div
+          className="our-teachers__modal-backdrop"
+          onClick={closeBioModal}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="our-teachers__modal-content animate-popIn"
             onClick={(e) => e.stopPropagation()}
           >
-            <button type="button" className="our-teachers__modal-close" onClick={closeBioModal} aria-label="Close modal">
+            <button
+              type="button"
+              className="our-teachers__modal-close"
+              onClick={closeBioModal}
+              aria-label="Close modal"
+            >
               <FaTimes />
             </button>
 
             <div className="our-teachers__modal-grid">
               <div className="our-teachers__modal-img-wrapper">
-                <img src={activeBioTeacher.image} alt={activeBioTeacher.name} />
-                <span className="our-teachers__modal-badge">{activeBioTeacher.experience}</span>
+                <img
+                  src={getImageUrl(activeBioTeacher.image)}
+                  alt={activeBioTeacher.name}
+                />
+                <span className="our-teachers__modal-badge">
+                  {activeBioTeacher.role || "Faculty"}
+                </span>
               </div>
               <div className="our-teachers__modal-text">
-                <span className="our-teachers__modal-subtitle">{activeBioTeacher.role}</span>
+                <span className="our-teachers__modal-subtitle">
+                  {activeBioTeacher.designation}
+                </span>
                 <h3 className="our-teachers__modal-name">{activeBioTeacher.name}</h3>
-                <p className="our-teachers__modal-specialty">🎯 <strong>Specialty:</strong> {activeBioTeacher.specialty}</p>
-                <p className="our-teachers__modal-bio">{activeBioTeacher.bio}</p>
-                
+                <p className="our-teachers__modal-specialty">
+                  🎯 <strong>Status:</strong> {activeBioTeacher.status}
+                </p>
+                <p className="our-teachers__modal-bio">
+                  {activeBioTeacher.bio || "No biography provided yet."}
+                </p>
+
                 <div className="our-teachers__modal-socials-row">
-                  <a href={activeBioTeacher.socials.facebook} className="modal-soc" aria-label="Facebook"><FaFacebookF /></a>
-                  <a href={activeBioTeacher.socials.twitter} className="modal-soc" aria-label="Twitter"><FaTwitter /></a>
-                  <a href={activeBioTeacher.socials.linkedin} className="modal-soc" aria-label="LinkedIn"><FaLinkedinIn /></a>
-                  <a href={activeBioTeacher.socials.instagram} className="modal-soc" aria-label="Instagram"><FaInstagram /></a>
+                  <a
+                    href={activeBioTeacher.fb || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="modal-soc"
+                    aria-label="Facebook"
+                    onClick={(e) => {
+                      if (!activeBioTeacher.fb) e.preventDefault();
+                    }}
+                  >
+                    <FaFacebookF />
+                  </a>
+                  <a
+                    href={activeBioTeacher.twitter || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="modal-soc"
+                    aria-label="Twitter"
+                    onClick={(e) => {
+                      if (!activeBioTeacher.twitter) e.preventDefault();
+                    }}
+                  >
+                    <FaTwitter />
+                  </a>
+                  <a
+                    href={activeBioTeacher.linkedin || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="modal-soc"
+                    aria-label="LinkedIn"
+                    onClick={(e) => {
+                      if (!activeBioTeacher.linkedin) e.preventDefault();
+                    }}
+                  >
+                    <FaLinkedinIn />
+                  </a>
+                  <a
+                    href={activeBioTeacher.instagram || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="modal-soc"
+                    aria-label="Instagram"
+                    onClick={(e) => {
+                      if (!activeBioTeacher.instagram) e.preventDefault();
+                    }}
+                  >
+                    <FaInstagram />
+                  </a>
                 </div>
               </div>
             </div>

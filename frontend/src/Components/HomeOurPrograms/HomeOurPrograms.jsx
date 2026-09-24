@@ -1,113 +1,135 @@
 import React from 'react';
 import './HomeOurPrograms.css';
 
+const iconPaths = {
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4.5" />
+      <path d="M12 2.5v2.5M12 19v2.5M4.5 12H2M22 12h-2.5M5.8 5.8l1.8 1.8M16.4 16.4l1.8 1.8M18.2 5.8l-1.8 1.8M7.6 16.4l-1.8 1.8" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3.5 2" />
+    </>
+  ),
+  bowl: (
+    <>
+      <path d="M4 12h16a8 6 0 0 1-16 0Z" />
+      <path d="M8 12V8a4 3 0 0 1 8 0v4" />
+      <path d="M9 5.5V4M12 5V3M15 5.5V4" />
+    </>
+  ),
+  puzzle: (
+    <>
+      <path d="M9 4h4v2.2a1.8 1.8 0 1 1 0 3.6V12h-2.2a1.8 1.8 0 1 0 0 3.6H13v2.2a1.8 1.8 0 1 1-3.6 0V15.6H7a1.8 1.8 0 1 1 0-3.6H9V4Z" />
+    </>
+  ),
+};
+
 const HomeOurPrograms = () => {
-  const programsData = [
+  const feeData = [
     {
       id: 1,
-      title: 'BASIC COURSES PACKAGE',
-      price: '$120.00',
-      duration: '/ 3 Months Once',
-      features: [
-        'Habitasse platea dictumst.',
-        'Eleifend mi in nulla posuere.',
-        'Vel pharetra vel turpis nunc.',
-        'Urna duis convallis convallis tellus.'
-      ],
-      buttonText: 'GET PLAN',
-      buttonColor: 'purple'
+      preschool: 'Full-Day (8:00 AM - 6:00 PM)',
+      note: 'Full learning day with meals and rest time',
+      icon: 'sun',
+      daily: '₹800.00',
+      weekly: '₹3,500.00',
+      monthly: '₹12,000.00'
     },
     {
       id: 2,
-      title: 'ADVANCE COURSES PACKAGE',
-      price: '$160.00',
-      duration: '/ 3 Months Once',
-      features: [
-        'Cursus vitae congue mauris.',
-        'Netus et malesuada fames ac.',
-        'Vitae congue eu consequat.',
-        'Nascetur ridiculus mus mauris.'
-      ],
-      buttonText: 'GET PLAN',
-      buttonColor: 'purple'
+      preschool: 'Half Day (8:00 AM - 2:00 PM or 3:00 PM - 6:00 PM)',
+      note: 'Morning or afternoon session',
+      icon: 'clock',
+      daily: '₹500.00',
+      weekly: '₹2,000.00',
+      monthly: '₹7,000.00'
     },
     {
       id: 3,
-      title: 'PRO COURSES PACKAGE',
-      price: '$199.00',
-      duration: '/ 3 Months Once',
-      features: [
-        'Ultricies mi quis hendrerit dolor.',
-        'Morbi tincidunt augue interdum.',
-        'Pretium lectus quam id leo.',
-        'Interdum posuere lorem ipsum.'
-      ],
-      buttonText: 'GET PLAN',
-      buttonColor: 'green'
+      preschool: 'Food Expenses',
+      note: 'Nutritious meals, paid per day',
+      icon: 'bowl',
+      daily: '₹150.00',
+      weekly: '₹750.00',
+      monthly: '₹2,500.00'
+    },
+    {
+      id: 4,
+      preschool: 'Activities',
+      note: 'Art, music and play sessions',
+      icon: 'puzzle',
+      daily: '₹100.00',
+      weekly: '₹400.00',
+      monthly: '₹1,500.00'
     }
   ];
 
   return (
     <section className="HomeOurPrograms">
       <div className="HomeOurPrograms-container">
-        
-        {/* Header Section */}
+
         <div className="HomeOurPrograms-header">
-          <span className="HomeOurPrograms-subtitle">OUR PROGRAMS</span>
+          <span className="HomeOurPrograms-badge">Our Programs</span>
           <h2 className="HomeOurPrograms-title">Standard Fee Structure</h2>
-          
-          {/* Decorative Pencil Icon */}
-          <div className="HomeOurPrograms-pencil-wrapper">
-            <svg className="HomeOurPrograms-pencil-scribble" viewBox="0 0 100 40" fill="none">
-              <path d="M5,35 Q20,10 40,30 T80,15" stroke="#666" strokeWidth="1.5" fill="none" />
-            </svg>
-            <span className="HomeOurPrograms-pencil-emoji">✏️</span>
+          <p className="HomeOurPrograms-subhead">
+            Clear, upfront pricing for every family — choose the plan that fits your child's day.
+          </p>
+        </div>
+
+        <div className="HomeOurPrograms-table-wrapper">
+          <div className="HomeOurPrograms-table-card">
+
+            <div className="HomeOurPrograms-table-row HomeOurPrograms-table-head">
+              <div className="HomeOurPrograms-th">Preschool</div>
+              <div className="HomeOurPrograms-th">Daily</div>
+              <div className="HomeOurPrograms-th">Weekly</div>
+              <div className="HomeOurPrograms-th HomeOurPrograms-th-monthly">Monthly</div>
+            </div>
+
+            <div className="HomeOurPrograms-table-body">
+              {feeData.map((item) => (
+                <div key={item.id} className="HomeOurPrograms-table-row HomeOurPrograms-table-data-row">
+                  <div className="HomeOurPrograms-td HomeOurPrograms-td-title">
+                    <span className={`HomeOurPrograms-icon HomeOurPrograms-icon-${item.icon}`}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                        {iconPaths[item.icon]}
+                      </svg>
+                    </span>
+                    <span className="HomeOurPrograms-td-title-text">
+                      <span className="HomeOurPrograms-mobile-label">Preschool</span>
+                      <strong>{item.preschool}</strong>
+                      <span className="HomeOurPrograms-td-note">{item.note}</span>
+                    </span>
+                  </div>
+                  <div className="HomeOurPrograms-td">
+                    <span className="HomeOurPrograms-mobile-label">Daily</span>
+                    <span>{item.daily}</span>
+                  </div>
+                  <div className="HomeOurPrograms-td">
+                    <span className="HomeOurPrograms-mobile-label">Weekly</span>
+                    <span>{item.weekly}</span>
+                  </div>
+                  <div className="HomeOurPrograms-td HomeOurPrograms-td-monthly">
+                    <span className="HomeOurPrograms-mobile-label">Monthly</span>
+                    <span className="HomeOurPrograms-highlight-price">{item.monthly}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
 
-        {/* Cards List */}
-        <div className="HomeOurPrograms-list">
-          {programsData.map((program) => (
-            <div 
-              key={program.id} 
-              className={`HomeOurPrograms-card ${program.id === 1 ? 'initial-active' : ''}`}
-            >
-              {/* Overlay Background for the Hover State */}
-              <div className="HomeOurPrograms-card-overlay"></div>
-
-              {/* Package Title */}
-              <div className="HomeOurPrograms-card-section HomeOurPrograms-title-col">
-                <h3>{program.title}</h3>
-              </div>
-
-              {/* Price Details */}
-              <div className="HomeOurPrograms-card-section HomeOurPrograms-price-col">
-                <span className="HomeOurPrograms-price-amount">{program.price}</span>
-                <span className="HomeOurPrograms-price-duration">{program.duration}</span>
-              </div>
-
-              {/* Features List */}
-              <div className="HomeOurPrograms-card-section HomeOurPrograms-features-col">
-                <ul>
-                  {program.features.map((feature, idx) => (
-                    <li key={idx}>
-                      <span className="HomeOurPrograms-check-icon">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Action Button */}
-              <div className="HomeOurPrograms-card-section HomeOurPrograms-btn-col">
-                <button className={`HomeOurPrograms-btn ${program.buttonColor}`}>
-                  {program.buttonText} 
-                  <span className="HomeOurPrograms-arrow">↗</span>
-                </button>
-              </div>
-
-            </div>
-          ))}
+        <div className="HomeOurPrograms-footer-note">
+          <svg className="HomeOurPrograms-footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5M12 8v.01" />
+          </svg>
+          <p>The preschool reserves the right to revise the above fees when required. Parents can contact the school directly for the latest fee details and applicable terms.</p>
         </div>
 
       </div>

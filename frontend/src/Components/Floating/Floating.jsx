@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import './Floating.css';
-
-import bgTop from '../../assets/nan1.png';
+import API from "../../api/axios"
+import logoImg from '../../assets/nanda image .png';
 
 import { 
   X, 
@@ -10,13 +10,13 @@ import {
   Cake, 
   MessageSquare, 
   Send, 
-  Phone, 
-  MessageCircle,
-  Sparkles
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 
 const Floating = ({ onClose }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -50,13 +50,32 @@ const Floating = ({ onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Enquiry Submitted Successfully!');
-    handleClose();
+
+    if (!formData.name.trim() || !formData.address.trim() || !formData.age) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const response = await API.post('/enquiries', formData);
+
+      if (response.data && response.data.success) {
+        alert('Enquiry Submitted Successfully!');
+        handleClose();
+      } else {
+        alert(response.data?.message || 'Submission failed.');
+      }
+    } catch (error) {
+      console.error("Enquiry Submission Error:", error);
+      alert(error.response?.data?.message || 'Failed to connect to the server.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  // Progress: how many of the 3 required fields are filled
   const progress = useMemo(() => {
     const required = [formData.name, formData.address, formData.age];
     const filled = required.filter((v) => v && v.length > 0).length;
@@ -78,7 +97,6 @@ const Floating = ({ onClose }) => {
         className="floating-card" 
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Gradient border glow */}
         <div className="floating-card-glow"></div>
 
         <button 
@@ -90,25 +108,18 @@ const Floating = ({ onClose }) => {
           <X size={18} />
         </button>
 
-        {/* Compact Glass Header with circular framed photo */}
         <div className="floating-header">
           <div className="floating-avatar-frame">
-            <img src={bgTop} alt="Nanda Kidz" className="floating-avatar-img" />
+            <img src={logoImg} alt="Nanda Kidz – The Little Kingdom" className="floating-avatar-img" />
             <span className="floating-avatar-sparkle"><Sparkles size={14} /></span>
           </div>
 
           <div className="floating-header-text">
-            <div className="brand-logo-wrapper">
-              <div className="brand-logo-text">
-                <span className="letter-n">N</span>
-                <span className="letter-a">A</span>
-                <span className="letter-n2">N</span>
-                <span className="letter-d">D</span>
-                <span className="letter-a2">A</span>
-              </div>
-              <div className="brand-subtext">KIDZ</div>
+            <div className="brand-school-badge">
+              <span>The Little Kingdom</span>
             </div>
-            <div className="brand-tagline">Preschool &amp; Daycare</div>
+            <div className="brand-logo-title">NANDA KIDZ</div>
+            <div className="brand-subtext">A Play School • Since 2011</div>
           </div>
         </div>
 
@@ -119,7 +130,6 @@ const Floating = ({ onClose }) => {
           </p>
         </div>
 
-        {/* Progress Indicator */}
         <div className="floating-progress-row">
           <div className="floating-progress-track">
             <div
@@ -130,12 +140,9 @@ const Floating = ({ onClose }) => {
           <span className="floating-progress-label">{progress}% complete</span>
         </div>
 
-        {/* Scrollable Form Body */}
         <div className="floating-scroll-body">
           <div className="floating-form-container">
             <form onSubmit={handleSubmit} className="floating-form">
-
-              {/* Child's Name — floating label style */}
               <div className="fl-field fl-purple">
                 <div className="fl-icon"><User size={16} /></div>
                 <input
@@ -150,7 +157,6 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-name">Child's Name <span className="required-star">★</span></label>
               </div>
 
-              {/* Address */}
               <div className="fl-field fl-green">
                 <div className="fl-icon"><MapPin size={16} /></div>
                 <input
@@ -165,7 +171,6 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-address">Address <span className="required-star">★</span></label>
               </div>
 
-              {/* Child's Age */}
               <div className="fl-field fl-orange">
                 <div className="fl-icon"><Cake size={16} /></div>
                 <select
@@ -185,7 +190,6 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-age">Child's Age <span className="required-star">★</span></label>
               </div>
 
-              {/* Message */}
               <div className="fl-field fl-pink fl-textarea-field">
                 <div className="fl-icon"><MessageSquare size={16} /></div>
                 <textarea
@@ -199,41 +203,16 @@ const Floating = ({ onClose }) => {
                 <label htmlFor="fl-message">Message (optional)</label>
               </div>
 
-              <button type="submit" className="submit-btn">
+              <button type="submit" className="submit-btn" disabled={submitting}>
                 <span className="submit-btn-shine"></span>
-                <Send size={18} className="submit-icon" />
-                <span>Submit Enquiry</span>
+                {submitting ? (
+                  <Loader2 size={18} className="submit-icon fa-spin" />
+                ) : (
+                  <Send size={18} className="submit-icon" />
+                )}
+                <span>{submitting ? 'Submitting...' : 'Submit Enquiry'}</span>
               </button>
             </form>
-
-            <div className="form-divider">
-              <span className="divider-heart">♥</span>
-            </div>
-
-            <p className="contact-quick-label">Prefer to talk instead?</p>
-
-            <div className="contact-actions">
-              <a href="tel:+919876543210" className="contact-action-btn call-btn" title="Call Us">
-                <span className="contact-action-icon">
-                  <Phone size={18} />
-                </span>
-                <span className="contact-action-text">
-                  <span className="contact-action-title">Call Us</span>
-                  <span className="contact-action-sub">Speak directly</span>
-                </span>
-              </a>
-
-              <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="contact-action-btn whatsapp-btn" title="WhatsApp Us">
-                <span className="contact-action-icon">
-                  <span className="whatsapp-pulse"></span>
-                  <MessageCircle size={18} />
-                </span>
-                <span className="contact-action-text">
-                  <span className="contact-action-title">WhatsApp</span>
-                  <span className="contact-action-sub">Quick chat</span>
-                </span>
-              </a>
-            </div>
           </div>
         </div>
 

@@ -1,111 +1,90 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./TeacherSection.css";
 import {
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
+  FaTimes,
+  FaGraduationCap,
+  FaHeart,
+  FaAward,
+  FaSpinner,
 } from "react-icons/fa";
+import API, { IMG_URL } from "../../api/axios";
 
-// Local teacher images
-import teacher1 from "../../assets/p1.jpg";
-import teacher2 from "../../assets/p2.jpg";
-import teacher3 from "../../assets/p3.jpg";
-import teacher4 from "../../assets/p4.jpg";
-import teacher5 from "../../assets/p5.jpg";
-import teacher6 from "../../assets/p6.jpg";
-import teacher7 from "../../assets/p7.jpg";
-import teacher8 from "../../assets/p8.jpg";
+/* =========================================================
+   IMAGE URL HELPER
+========================================================= */
 
-const teachersData = [
-  {
-    id: 1,
-    name: "Glims Bond",
-    role: "Early Learning Teacher",
-    image: teacher1,
-  },
-  {
-    id: 2,
-    name: "Sherlock Bin",
-    role: "Creative Activity Teacher",
-    image: teacher2,
-  },
-  {
-    id: 3,
-    name: "Priestly Herbart",
-    role: "Early Years Educator",
-    image: teacher3,
-  },
-  {
-    id: 4,
-    name: "Smith Broke",
-    role: "Language & Communication Teacher",
-    image: teacher4,
-  },
-  {
-    id: 5,
-    name: "Sophia Miller",
-    role: "Play & Activity Teacher",
-    image: teacher5,
-  },
-  {
-    id: 6,
-    name: "David Lee",
-    role: "Child Development Teacher",
-    image: teacher6,
-  },
-  {
-    id: 7,
-    name: "Emma Watson",
-    role: "Creative Learning Teacher",
-    image: teacher7,
-  },
-  {
-    id: 8,
-    name: "Alexander Ray",
-    role: "Early Childhood Educator",
-    image: teacher8,
-  },
-];
+const getImageUrl = (image) => {
+  if (!image) {
+    return "";
+  }
 
-const socialLinks = [
-  {
-    name: "Facebook",
-    icon: <FaFacebookF />,
-    url: "#",
-  },
-  {
-    name: "LinkedIn",
-    icon: <FaLinkedinIn />,
-    url: "#",
-  },
-  {
-    name: "Instagram",
-    icon: <FaInstagram />,
-    url: "#",
-  },
-];
+  if (
+    image.startsWith("http://") ||
+    image.startsWith("https://")
+  ) {
+    return image;
+  }
+
+  return `${IMG_URL}${image.startsWith("/") ? "" : "/"}${image}`;
+};
 
 const TeacherSection = () => {
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedTeacher, setSelectedTeacher] = useState(null);
+
+  /* =========================================================
+     FETCH TEACHERS FROM BACKEND
+  ========================================================= */
+
+  const fetchTeachers = async () => {
+    try {
+      setLoading(true);
+      const response = await API.get("/teachers");
+
+      if (response.data?.success) {
+        const teacherData = Array.isArray(response.data.data)
+          ? response.data.data
+          : Array.isArray(response.data.teachers)
+          ? response.data.teachers
+          : [];
+
+        setTeachers(teacherData);
+      } else {
+        setTeachers([]);
+      }
+    } catch (error) {
+      console.error("Error fetching teachers for section:", error);
+      setTeachers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+
+  const openModal = (teacher) => setSelectedTeacher(teacher);
+  const closeModal = () => setSelectedTeacher(null);
+
   return (
-    <section
-      className="TeacherSection"
-      aria-labelledby="TeacherSection-title"
-    >
+    <section className="TeacherSection" aria-labelledby="TeacherSection-title">
       <div className="TeacherSection-container">
 
         {/* =====================================================
-            INTRODUCTION
-        ====================================================== */}
+            INTRODUCTION HEADER
+        ===================================================== */}
         <div className="TeacherSection-heading">
           <span className="TeacherSection-label">
             Meet Our Teaching Team
           </span>
 
-          <h1
-            id="TeacherSection-title"
-            className="TeacherSection-title"
-          >
-            which school is best for my child?
+          <h1 id="TeacherSection-title" className="TeacherSection-title">
+            Which school is best for my child?
           </h1>
 
           <p className="TeacherSection-intro">
@@ -126,74 +105,104 @@ const TeacherSection = () => {
 
         {/* =====================================================
             TEACHER GRID
-        ====================================================== */}
-        <div className="TeacherSection-grid">
-          {teachersData.map((teacher) => (
-            <article
-              key={teacher.id}
-              className="TeacherSection-card"
-            >
-              <div className="TeacherSection-image-wrapper">
-                <div className="TeacherSection-circle">
+        ===================================================== */}
+        {loading ? (
+          <div className="TeacherSection-loading" style={{ textAlign: "center", padding: "3rem" }}>
+            <FaSpinner className="fa-spin" style={{ fontSize: "2.5rem", color: "#ff6b6b" }} />
+            <p style={{ marginTop: "1rem", fontWeight: "600" }}>Loading faculty members...</p>
+          </div>
+        ) : teachers.length === 0 ? (
+          <div className="TeacherSection-no-data" style={{ textAlign: "center", padding: "3rem" }}>
+            <p>No faculty members available right now.</p>
+          </div>
+        ) : (
+          <div className="TeacherSection-grid">
+            {teachers.map((teacher) => {
+              const teacherImage = getImageUrl(teacher.image);
 
-                  <img
-                    src={teacher.image}
-                    alt={`${teacher.name} - ${teacher.role} at Nanda Kidz`}
-                    className="TeacherSection-image"
-                  />
-
-                  {/* Dark image overlay */}
-                  <div className="TeacherSection-image-overlay" />
-
-                  {/* Social links */}
-                  <div className="TeacherSection-socials">
-                    {socialLinks.map((social) => (
-                      <a
-                        key={social.name}
-                        href={social.url}
-                        className="TeacherSection-icon"
-                        aria-label={`${social.name} profile`}
-                        onClick={(e) => {
-                          if (social.url === "#") {
-                            e.preventDefault();
-                          }
+              return (
+                <article
+                  key={teacher._id}
+                  className="TeacherSection-card"
+                  onClick={() => openModal(teacher)}
+                  title="Click to view educator philosophy"
+                >
+                  <div className="TeacherSection-image-wrapper">
+                    <div className="TeacherSection-circle">
+                      <img
+                        src={teacherImage}
+                        alt={`${teacher.name} - ${teacher.designation || teacher.role} at Nanda Kidz`}
+                        className="TeacherSection-image"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
                         }}
-                      >
-                        {social.icon}
-                      </a>
-                    ))}
+                      />
+                      {/* Dark image overlay */}
+                      <div className="TeacherSection-image-overlay" />
+
+                      {/* Social links */}
+                      <div className="TeacherSection-socials" onClick={(e) => e.stopPropagation()}>
+                        <a
+                          href={teacher.fb || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="TeacherSection-icon"
+                          aria-label="Facebook profile"
+                          onClick={(e) => {
+                            if (!teacher.fb) e.preventDefault();
+                          }}
+                        >
+                          <FaFacebookF />
+                        </a>
+                        <a
+                          href={teacher.linkedin || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="TeacherSection-icon"
+                          aria-label="LinkedIn profile"
+                          onClick={(e) => {
+                            if (!teacher.linkedin) e.preventDefault();
+                          }}
+                        >
+                          <FaLinkedinIn />
+                        </a>
+                        <a
+                          href={teacher.instagram || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="TeacherSection-icon"
+                          aria-label="Instagram profile"
+                          onClick={(e) => {
+                            if (!teacher.instagram) e.preventDefault();
+                          }}
+                        >
+                          <FaInstagram />
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="TeacherSection-info">
-                <h2 className="TeacherSection-name">
-                  {teacher.name}
-                </h2>
-
-                <p className="TeacherSection-role">
-                  {teacher.role}
-                </p>
-
-                <span className="TeacherSection-card-line" />
-              </div>
-            </article>
-          ))}
-        </div>
+                  <div className="TeacherSection-info">
+                    <h2 className="TeacherSection-name">{teacher.name}</h2>
+                    <p className="TeacherSection-role">{teacher.designation || teacher.role}</p>
+                    <span className="TeacherSection-card-line" />
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        )}
 
         {/* =====================================================
-            PARENT CONTENT
-        ====================================================== */}
+            PARENT CONTENT SECTION
+        ===================================================== */}
         <div className="TeacherSection-bottom">
-
           <div className="TeacherSection-bottom-content">
             <span className="TeacherSection-bottom-label">
               Learning with care
             </span>
 
-            <h2>
-              Best play school for kids in Bhubaneswar
-            </h2>
+            <h2>Best play school for kids in Bhubaneswar</h2>
 
             <p>
               A good early-learning experience depends on more than
@@ -206,13 +215,9 @@ const TeacherSection = () => {
 
             <p>
               For families searching for a{" "}
-              <strong>
-                play school near Khandagiri, Bhubaneswar
-              </strong>{" "}
+              <strong>play school near Khandagiri, Bhubaneswar</strong>
               or a{" "}
-              <strong>
-                best play school in Kalinganagar
-              </strong>
+              <strong>best play school in Kalinganagar</strong>
               , we believe meeting the teaching team can help parents
               understand the atmosphere their child will experience.
             </p>
@@ -223,9 +228,7 @@ const TeacherSection = () => {
               Nearby families
             </span>
 
-            <h3>
-              Easy to reach from
-            </h3>
+            <h3>Easy to reach from</h3>
 
             <div className="TeacherSection-location-list">
               <span>Khandagiri</span>
@@ -249,17 +252,15 @@ const TeacherSection = () => {
               <span>→</span>
             </a>
           </div>
-
         </div>
 
         {/* =====================================================
             SCHOOL MESSAGE
-        ====================================================== */}
+        ===================================================== */}
         <div className="TeacherSection-message">
           <span className="TeacherSection-message-label">
             Nanda Kidz – The Little Kingdom
           </span>
-
           <p>
             Choosing a school is easier when you know who will guide
             your child each day. Our goal is to make those first
@@ -268,6 +269,54 @@ const TeacherSection = () => {
         </div>
 
       </div>
+
+      {/* =====================================================
+          INTERACTIVE TEACHER BIO MODAL (PREMIUM UI)
+      ===================================================== */}
+      {selectedTeacher && (
+        <div className="TeacherModal-backdrop" onClick={closeModal}>
+          <div className="TeacherModal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="TeacherModal-close" onClick={closeModal} aria-label="Close modal">
+              <FaTimes />
+            </button>
+
+            <div className="TeacherModal-header">
+              <img
+                src={getImageUrl(selectedTeacher.image)}
+                alt={selectedTeacher.name}
+                className="TeacherModal-img"
+              />
+              <div>
+                <span className="TeacherModal-badge">
+                  <FaGraduationCap /> {selectedTeacher.role || "Certified Early Educator"}
+                </span>
+                <h3>{selectedTeacher.name}</h3>
+                <p className="TeacherModal-role-sub">{selectedTeacher.designation}</p>
+              </div>
+            </div>
+
+            <div className="TeacherModal-body">
+              <div className="TeacherModal-meta-row">
+                <span><FaAward /> Status: {selectedTeacher.status || "Active"}</span>
+                <span><FaHeart /> Nanda Kidz Faculty Member</span>
+              </div>
+              <h4 className="TeacherModal-subheading">Teaching Philosophy & Approach</h4>
+              <p className="TeacherModal-bio">
+                {selectedTeacher.bio || "No description provided for this educator yet."}
+              </p>
+              <p className="TeacherModal-note">
+                "Every toddler is a unique universe of potential. Our focus is providing the safe emotional anchor required for them to blossom."
+              </p>
+            </div>
+
+            <div className="TeacherModal-footer">
+              <button className="TeacherModal-action-btn" onClick={closeModal}>
+                Close Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

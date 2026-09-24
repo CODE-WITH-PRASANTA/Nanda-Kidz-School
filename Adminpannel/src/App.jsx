@@ -1,17 +1,45 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
- 
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import MainLayout from "./Layout/MainLayout/MainLayout";
 
+// =====================================================
+// PAGES
+// =====================================================
+
 import DashBoard from "./Pages/DashBoard/DashBoard";
+
 import Shop from "./Pages/Shop/Shop";
 import Addproduct from "./Pages/Addproduct/Addproduct";
 import NewProduct from "./Pages/NewProduct/NewProduct";
+
 import BlogManagement from "./Pages/BlogManagement/BlogManagement";
 import BlogPost from "./Pages/BlogPost/BlogPost";
+
 import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
+
+import ColdLead from "./Pages/ColdLead/ColdLead";
+import Order from "./Pages/Order/Order";
+
+import TeacherPost from "./Pages/TeacherPost/TeacherPost";
+import Floatingleads from "./Pages/Floatingleads/Floatingleads";
+
+// =====================================================
+// AUTH
+// =====================================================
+
 import LoginForm from "./Components/AdminDashboard/Loginform/Loginform";
 import ProtectedRoute from "./Components/protectedroute/protectedroute";
+
+// =====================================================
+// COMPONENTS
+// =====================================================
 
 import FeeCollections from "./Components/FeeCollections/FeeCollections";
 import StudentPage from "./Components/StudentPage/StudentPage";
@@ -23,7 +51,14 @@ import SubjectManagement from "./Components/SubjectManagement/SubjectManagement"
 import Schedule from "./Components/Schedule/Schedule";
 import Classandsection from "./Components/Classandsection/Classandsection";
 
+// ⭐ Testimonials
+import Testimonials from "./Components/Testimonials/Testimonials";
+
 function App() {
+  // =====================================================
+  // AUTHENTICATION STATE
+  // =====================================================
+
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return (
       localStorage.getItem("isAuthenticated") === "true" ||
@@ -31,20 +66,37 @@ function App() {
     );
   });
 
+  // =====================================================
+  // LOGIN SUCCESS
+  // =====================================================
+
   const handleLoginSuccess = () => {
     setIsAuthenticated(true);
   };
 
+  // =====================================================
+  // LOGOUT
+  // =====================================================
+
   const handleLogout = () => {
     localStorage.removeItem("isAuthenticated");
     sessionStorage.removeItem("isAuthenticated");
+
     setIsAuthenticated(false);
   };
+
+  // =====================================================
+  // APP ROUTES
+  // =====================================================
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public Login Route */}
+
+        {/* =================================================
+            PUBLIC LOGIN ROUTE
+        ================================================= */}
+
         <Route
           path="/login"
           element={
@@ -56,7 +108,10 @@ function App() {
           }
         />
 
-        {/* Protected App Routes */}
+        {/* =================================================
+            PROTECTED APP ROUTES
+        ================================================= */}
+
         <Route
           path="/"
           element={
@@ -65,43 +120,221 @@ function App() {
             </ProtectedRoute>
           }
         >
-          {/* Default Route */}
-          <Route index element={<Navigate to="/dashboard" replace />} />
 
-          {/* Core Modules */}
-          <Route path="dashboard" element={<DashBoard />} />
-          <Route path="students" element={<StudentPage />} />
-          <Route path="admissions" element={<AdmissionForm />} />
-          <Route path="teachers" element={<Teacherlist />} />
-          <Route path="teacher-attendance" element={<TeachersAttendance />} />
-          <Route path="fees-payments" element={<FeeCollections />} />
-          <Route path="/parents" element={<ParentsInquiry />} />
-          <Route path="class-schedules" element={<Schedule/>}/>
-          <Route path="classes" element={<Classandsection/>}/>
+          {/* =================================================
+              DEFAULT ROUTE
+          ================================================= */}
 
-          {/* Shop */}
-          <Route path="shop" element={<Shop />} />
-          <Route path="shop/add" element={<Addproduct />} />
-          <Route path="newproducts" element={<NewProduct />} />
+          <Route
+            index
+            element={
+              <Navigate
+                to="/dashboard"
+                replace
+              />
+            }
+          />
 
-          {/* Blog */}
-          <Route path="blog-management" element={<BlogManagement />} />
-          <Route path="blog-management/posts" element={<BlogPost />} />
-          <Route path="/subjects" element={<SubjectManagement/>} />
-          <Route path="blog/post" element={<BlogPost />} />
-          <Route path="blog/management" element={<BlogManagement />} />
+          {/* =================================================
+              DASHBOARD
+          ================================================= */}
 
-          {/* Gallery */}
-          <Route path="gallery-management" element={<GalleryManagement />} />
+          <Route
+            path="dashboard"
+            element={<DashBoard />}
+          />
+
+          {/* =================================================
+              STUDENTS
+          ================================================= */}
+
+          <Route
+            path="students"
+            element={<StudentPage />}
+          />
+
+          {/* =================================================
+              ADMISSIONS
+          ================================================= */}
+
+          <Route
+            path="admissions"
+            element={<AdmissionForm />}
+          />
+
+          {/* =================================================
+              TEACHERS
+          ================================================= */}
+
+          <Route
+            path="teachers"
+            element={<Teacherlist />}
+          />
+
+          <Route
+            path="teacher-attendance"
+            element={<TeachersAttendance />}
+          />
+
+          <Route
+            path="teacher-posts"
+            element={<TeacherPost />}
+          />
+
+          {/* =================================================
+              FEES
+          ================================================= */}
+
+          <Route
+            path="fees-payments"
+            element={<FeeCollections />}
+          />
+
+          {/* =================================================
+              PARENTS
+          ================================================= */}
+
+          <Route
+            path="parents"
+            element={<ParentsInquiry />}
+          />
+
+          {/* =================================================
+              CLASS & SCHEDULE
+          ================================================= */}
+
+          <Route
+            path="class-schedules"
+            element={<Schedule />}
+          />
+
+          <Route
+            path="classes"
+            element={<Classandsection />}
+          />
+
+          {/* =================================================
+              SUBJECTS
+          ================================================= */}
+
+          <Route
+            path="subjects"
+            element={<SubjectManagement />}
+          />
+
+          {/* =================================================
+              SHOP
+          ================================================= */}
+
+          <Route
+            path="shop"
+            element={<Shop />}
+          />
+
+          <Route
+            path="shop/add"
+            element={<Addproduct />}
+          />
+
+          <Route
+            path="newproducts"
+            element={<NewProduct />}
+          />
+
+          {/* =================================================
+              BLOG
+          ================================================= */}
+
+          <Route
+            path="blog-management"
+            element={<BlogManagement />}
+          />
+
+          <Route
+            path="blog-management/posts"
+            element={<BlogPost />}
+          />
+
+          <Route
+            path="blog/post"
+            element={<BlogPost />}
+          />
+
+          <Route
+            path="blog/post/:id"
+            element={<BlogPost />}
+          />
+
+          <Route
+            path="blog/management"
+            element={<BlogManagement />}
+          />
+
+          {/* =================================================
+              GALLERY
+          ================================================= */}
+
+          <Route
+            path="gallery-management"
+            element={<GalleryManagement />}
+          />
+
+          {/* =================================================
+              FLOATING ENQUIRIES
+          ================================================= */}
+
+          <Route
+            path="floating-enquiries"
+            element={<Floatingleads />}
+          />
+
+          {/* =================================================
+              TESTIMONIALS
+          ================================================= */}
+
+          <Route
+            path="testimonials"
+            element={<Testimonials />}
+          />
+
+          {/* =================================================
+              COLD LEAD
+          ================================================= */}
+
+          <Route
+            path="coldlead"
+            element={<ColdLead />}
+          />
+
+          {/* =================================================
+              ORDER
+          ================================================= */}
+
+          <Route
+            path="order"
+            element={<Order />}
+          />
+
         </Route>
 
-        {/* 404 Fallback */}
+        {/* =================================================
+            404 FALLBACK
+        ================================================= */}
+
         <Route
           path="*"
           element={
-            <Navigate to={isAuthenticated ? "/dashboard" : "/login"} replace />
+            <Navigate
+              to={
+                isAuthenticated
+                  ? "/dashboard"
+                  : "/login"
+              }
+              replace
+            />
           }
         />
+
       </Routes>
     </BrowserRouter>
   );

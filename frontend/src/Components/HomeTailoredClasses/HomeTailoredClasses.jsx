@@ -202,7 +202,7 @@ const HomeTailoredClasses = () => {
         <div className="tc-seo-text-block" style={{ marginTop: '1.5rem' }}>
           <h3>Choosing the best play school for kids in bhubaneswar</h3>
           <p>
-            From interactive indoor learning spaces to vibrant outdoor play areas, our daily programs are designed keeping young children's inquisitive minds in mind. We ensure every child feels welcomed, valued, and encouraged throughout their crucial formative years.
+            From interactive indoor learning spaces to vibrant outdoor play areas, our daily programs are designed keeping young children&apos;s inquisitive minds in mind. We ensure every child feels welcomed, valued, and encouraged throughout their crucial formative years.
           </p>
         </div>
       </div>
