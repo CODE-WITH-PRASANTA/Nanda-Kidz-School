@@ -23,7 +23,7 @@ import {
   FaInstagram,
   FaEllipsisV
 } from 'react-icons/fa';
-import './TeacherList.css';
+import './Teacherlist.css';
 
 const INITIAL_TEACHERS = [
   {

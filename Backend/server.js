@@ -20,12 +20,9 @@ const orderRoutes = require("./routes/orderRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const enquiryRoutes = require("./routes/enquiryRoutes");
 const blogRoutes = require("./routes/blogRoutes");
-<<<<<<< HEAD
 const contactLeadRoutes = require("./routes/contactLeadRoutes");
 
-=======
 const announcementRoutes = require("./routes/announcement.routes");
->>>>>>> e6a9952faacf66ae0bcb98eb290c8a3726e065a2
 const testimonialRoutes = require(
   "./routes/testimonialRoutes"
 );

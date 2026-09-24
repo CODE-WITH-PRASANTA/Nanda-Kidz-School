@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 
 import ContactBreadcrumb from "../../Components/ContactBreadcrumb/ContactBreadcrumb";
 import Contacts from "../../Components/Contacts/Contacts";
-import Love from "../../Components/love/love";
+import Love from "../../Components/Love/Love";
 import LearningAdventuers from "../../Components/LearningAdventuers/LearningAdventuers";
 import FindUs from "../../Components/FindUs/FindUs";
 
