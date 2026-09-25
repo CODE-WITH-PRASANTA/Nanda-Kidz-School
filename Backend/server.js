@@ -26,8 +26,8 @@ const announcementRoutes = require("./routes/announcement.routes");
 const testimonialRoutes = require(
   "./routes/testimonialRoutes"
 );
-
-
+const admissionRoutes = require("./routes/admissionRoutes");
+const schoolTeacherRoutes = require("./routes/schoolTeacherRoutes");
 // Database Connection
 connectDB();
 
@@ -78,7 +78,8 @@ app.use("/api/announcements", announcementRoutes);
 app.use("/api/shop-images", shopImgRoutes);
 
 app.use("/api/contact-leads", contactLeadRoutes);
-
+app.use("/api/admissions", admissionRoutes);
+app.use("/api/school-teachers", schoolTeacherRoutes);
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)
 app.post(

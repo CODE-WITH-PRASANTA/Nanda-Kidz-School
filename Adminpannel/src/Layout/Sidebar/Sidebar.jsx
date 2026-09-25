@@ -120,28 +120,7 @@ const Sidebar = ({
           text: 'Attendance',
           path: '/teacher-attendance',
         },
-        {
-          type: 'dropdown',
-          key: 'examinations',
-          icon: ClipboardList,
-          text: 'Examinations',
-          subItems: [
-            {
-              text: 'Exam Schedules',
-              path: '/examinations',
-            },
-            {
-              text: 'Marks & Grades',
-              path: '/marks-management',
-            },
-          ],
-        },
-        {
-          type: 'link',
-          icon: NotebookPen,
-          text: 'Homework',
-          path: '/homework',
-        },
+       
       ],
     },
 
@@ -181,7 +160,7 @@ const Sidebar = ({
         },
         { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
         { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
-        { type: 'link', icon: Library, text: 'Library', path: '/library' },
+       
         { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
         { type: 'link', icon: Library, text: 'Order', path: '/order' },
       ],

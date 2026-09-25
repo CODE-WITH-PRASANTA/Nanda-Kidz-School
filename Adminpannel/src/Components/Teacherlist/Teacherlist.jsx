@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FaUserCheck,
-  FaPlus,
   FaSearch,
   FaFilter,
   FaDownload,
@@ -21,913 +21,2731 @@ import {
   FaTwitter,
   FaLinkedinIn,
   FaInstagram,
-  FaEllipsisV
-} from 'react-icons/fa';
-import './Teacherlist.css';
+  FaEllipsisV,
+  FaLock,
+  FaEyeSlash,
+  FaSave,
+  FaPlus,
+} from "react-icons/fa";
 
-const INITIAL_TEACHERS = [
-  {
-    id: 1,
-    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200',
-    name: 'Alex Maywel',
-    designation: 'Math Teacher',
-    subject: 'Mathematics',
-    experience: '10 Years',
-    email: 'ketan@gmail.com',
-    phone: '882-569-756',
-    address: 'Wonder Street, USA, New York',
-    qualification: 'M.Sc, B.Ed',
-    joiningDate: '2025-05-16',
-    dob: '1990-08-12',
-    bloodGroup: 'O+',
-    gender: 'Female',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    skills: ['Teaching', 'Speaking', 'Communication', 'Leadership'],
-    status: 'Active',
-    skillRatings: { teaching: 95, speaking: 85, communication: 75, rules: 65 }
-  },
-  {
-    id: 2,
-    photo: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
-    name: 'Sarah Johnson',
-    designation: 'English Teacher',
-    subject: 'English',
-    experience: '8 Years',
-    email: 'sarah@gmail.com',
-    phone: '889-120-567',
-    address: '45 Park Avenue, NY',
-    qualification: 'M.A, B.Ed',
-    joiningDate: '2023-01-10',
-    dob: '1992-04-15',
-    bloodGroup: 'A+',
-    gender: 'Female',
-    bio: 'Passionate about literature and modern teaching techniques.',
-    skills: ['Teaching', 'Writing', 'Communication'],
-    status: 'Active',
-    skillRatings: { teaching: 90, speaking: 88, communication: 92, rules: 80 }
-  },
-  {
-    id: 3,
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-    name: 'Michael Brown',
-    designation: 'Science Teacher',
-    subject: 'Science',
-    experience: '12 Years',
-    email: 'michael@gmail.com',
-    phone: '887-654-321',
-    address: '78 Pine Street, CA',
-    qualification: 'Ph.D Physics',
-    joiningDate: '2021-08-20',
-    dob: '1985-11-03',
-    bloodGroup: 'B+',
-    gender: 'Male',
-    bio: 'Dedicated scientist with over a decade of teaching secondary students.',
-    skills: ['Research', 'Leadership', 'Teaching'],
-    status: 'Inactive',
-    skillRatings: { teaching: 85, speaking: 75, communication: 80, rules: 90 }
-  },
-  {
-    id: 4,
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
-    name: 'David Smith',
-    designation: 'History Teacher',
-    subject: 'History',
-    experience: '6 Years',
-    email: 'david@gmail.com',
-    phone: '881-234-567',
-    address: '12 Oak Lane, TX',
-    qualification: 'M.A. History',
-    joiningDate: '2022-09-01',
-    dob: '1993-02-18',
-    bloodGroup: 'AB+',
-    gender: 'Male',
-    bio: 'Making history interactive and exciting for students.',
-    skills: ['Storytelling', 'Teaching'],
-    status: 'Active',
-    skillRatings: { teaching: 88, speaking: 90, communication: 85, rules: 70 }
-  },
-  {
-    id: 5,
-    photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200',
-    name: 'Emma Watson',
-    designation: 'Art Teacher',
-    subject: 'Fine Arts',
-    experience: '5 Years',
-    email: 'emma@gmail.com',
-    phone: '883-999-112',
-    address: '90 Creative Blvd, FL',
-    qualification: 'B.F.A',
-    joiningDate: '2024-03-15',
-    dob: '1995-07-22',
-    bloodGroup: 'O-',
-    gender: 'Female',
-    bio: 'Encouraging creative expression through visual arts.',
-    skills: ['Creativity', 'Teaching'],
-    status: 'Active',
-    skillRatings: { teaching: 92, speaking: 80, communication: 82, rules: 60 }
-  },
-  {
-    id: 6,
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200',
-    name: 'Robert Wilson',
-    designation: 'Sports Teacher',
-    subject: 'Physical Education',
-    experience: '9 Years',
-    email: 'robert@gmail.com',
-    phone: '886-444-221',
-    address: '33 Stadium Way, IL',
-    qualification: 'B.P.Ed',
-    joiningDate: '2020-06-11',
-    dob: '1988-12-05',
-    bloodGroup: 'A-',
-    gender: 'Male',
-    bio: 'Promoting fitness and team spirit in sports.',
-    skills: ['Coaching', 'Leadership'],
-    status: 'Active',
-    skillRatings: { teaching: 80, speaking: 85, communication: 88, rules: 95 }
-  }
-];
+import API, { IMG_URL } from "../../api/axios";
+import "./Teacherlist.css";
 
-const INITIAL_FORM_STATE = {
+/* =========================================================
+   EMPTY FORM
+========================================================= */
+
+const EMPTY_FORM = {
   id: null,
-  name: 'Alex Maywel',
-  phone: '882-569-756',
-  email: 'ketan@gmail.com',
-  address: 'Wonder Street, USA, New York',
-  designation: 'Math Teacher',
-  experience: '10 Years',
-  joiningDate: '2025-05-16',
-  qualification: 'M.Sc, B.Ed',
-  subject: 'Mathematics',
-  gender: 'Female',
-  dob: '1990-12-08',
-  bloodGroup: 'O+',
-  status: 'Active',
-  bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  skills: ['Teaching', 'Speaking', 'Communication', 'Leadership'],
-  photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200'
+  name: "",
+  phone: "",
+  email: "",
+  password: "",
+  address: "",
+  designation: "",
+  experience: "",
+  joiningDate: "",
+  qualification: "",
+  subject: "",
+  gender: "",
+  dob: "",
+  bloodGroup: "",
+  status: "Active",
+  bio: "",
+  skills: [],
+  photo: "",
 };
 
+/* =========================================================
+   IMAGE URL HELPER
+========================================================= */
+
+const getImageUrl = (photo) => {
+  if (!photo) return "";
+
+  if (
+    photo.startsWith("http://") ||
+    photo.startsWith("https://") ||
+    photo.startsWith("blob:")
+  ) {
+    return photo;
+  }
+
+  return `${IMG_URL}${photo.startsWith("/") ? photo : `/${photo}`}`;
+};
+
+/* =========================================================
+   DATE HELPERS
+========================================================= */
+
+const formatDateForInput = (value) => {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value).slice(0, 10);
+  }
+
+  return date.toISOString().split("T")[0];
+};
+
+const formatDisplayDate = (value) => {
+  if (!value) return "N/A";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+/* =========================================================
+   NORMALIZE API DATA
+========================================================= */
+
+const normalizeTeacher = (teacher) => {
+  return {
+    id: teacher._id || teacher.id,
+
+    name: teacher.name || "",
+    phone: teacher.phone || "",
+    email: teacher.email || "",
+
+    // Never display password received from API
+    password: "",
+
+    address: teacher.address || "",
+    designation: teacher.designation || "",
+    experience: teacher.experience || "",
+
+    joiningDate: formatDateForInput(teacher.joiningDate),
+    qualification: teacher.qualification || "",
+    subject: teacher.subject || "",
+    gender: teacher.gender || "",
+    dob: formatDateForInput(teacher.dob),
+    bloodGroup: teacher.bloodGroup || "",
+
+    status: teacher.status || "Active",
+
+    bio: teacher.bio || "",
+
+    skills: Array.isArray(teacher.skills)
+      ? teacher.skills
+      : typeof teacher.skills === "string"
+        ? teacher.skills
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : [],
+
+    photo: teacher.photo || "",
+  };
+};
+
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 const TeacherList = () => {
-  const [activeTab, setActiveTab] = useState('add_edit');
-  const [teachers, setTeachers] = useState(INITIAL_TEACHERS);
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-  const [searchTerm, setSearchTerm] = useState('');
-  
-  // Status filter mode: 'All' -> 'Active' -> 'Inactive'
-  const [filterMode, setFilterMode] = useState('All');
+  /* =======================================================
+     MAIN STATES
+  ======================================================= */
+
+  const [activeTab, setActiveTab] = useState("list");
+
+  const [teachers, setTeachers] = useState([]);
+
+  const [formData, setFormData] = useState(EMPTY_FORM);
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [filterMode, setFilterMode] = useState("All");
+
   const [activeMenuId, setActiveMenuId] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
+
   const [itemsPerPage, setItemsPerPage] = useState(5);
-  
-  // Modals
+
+  /* =======================================================
+     MODALS
+  ======================================================= */
+
   const [viewModalTeacher, setViewModalTeacher] = useState(null);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  // Skill tag input
-  const [tagInput, setTagInput] = useState('');
+  /* =======================================================
+     PHOTO STATES
+  ======================================================= */
 
-  // Form field handlers
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  const [photoPreview, setPhotoPreview] = useState("");
+
+  /* =======================================================
+     SKILL STATES
+  ======================================================= */
+
+  const [tagInput, setTagInput] = useState("");
+
+  /* =======================================================
+     PASSWORD
+  ======================================================= */
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  /* =======================================================
+     LOADING STATES
+  ======================================================= */
+
+  const [loading, setLoading] = useState(false);
+
+  const [saving, setSaving] = useState(false);
+
+  const [deletingId, setDeletingId] = useState(null);
+
+  const [statusUpdatingId, setStatusUpdatingId] = useState(null);
+
+  /* =======================================================
+     FETCH TEACHERS
+  ======================================================= */
+
+  const fetchTeachers = async () => {
+    try {
+      setLoading(true);
+
+      const response = await API.get("/school-teachers");
+
+      const responseData = response?.data;
+
+      let teacherData = [];
+
+      if (Array.isArray(responseData)) {
+        teacherData = responseData;
+      } else if (Array.isArray(responseData?.data)) {
+        teacherData = responseData.data;
+      } else if (Array.isArray(responseData?.teachers)) {
+        teacherData = responseData.teachers;
+      }
+
+      setTeachers(teacherData.map(normalizeTeacher));
+    } catch (error) {
+      console.error("Fetch teachers error:", error);
+
+      alert(
+        error?.response?.data?.message ||
+          "Unable to fetch teacher data."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* =======================================================
+     INITIAL FETCH
+  ======================================================= */
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+
+  /* =======================================================
+     INPUT CHANGE
+  ======================================================= */
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
-      setFormData(prev => ({ ...prev, [name]: checked ? 'Active' : 'Inactive' }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
-  };
 
-  const handleRemoveSkill = (skillToRemove) => {
-    setFormData(prev => ({
-      ...prev,
-      skills: prev.skills.filter(s => s !== skillToRemove)
-    }));
-  };
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked ? "Active" : "Inactive",
+      }));
 
-  const handleAddSkillKey = (e) => {
-    if (e.key === 'Enter' && tagInput.trim()) {
-      e.preventDefault();
-      if (!formData.skills.includes(tagInput.trim())) {
-        setFormData(prev => ({ ...prev, skills: [...prev.skills, tagInput.trim()] }));
-      }
-      setTagInput('');
-    }
-  };
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setFormData(prev => ({ ...prev, photo: imageUrl }));
-    }
-  };
-
-  const handleSaveTeacher = (e) => {
-    e.preventDefault();
-    if (formData.id) {
-      setTeachers(prev => prev.map(item => item.id === formData.id ? { ...formData } : item));
-      alert('Teacher details updated successfully!');
-    } else {
-      const newTeacher = {
-        ...formData,
-        id: Date.now(),
-        skillRatings: { teaching: 90, speaking: 80, communication: 85, rules: 75 }
-      };
-      setTeachers(prev => [newTeacher, ...prev]);
-      alert('New Teacher added successfully!');
-    }
-    setActiveTab('list');
-  };
-
-  const handleResetForm = () => {
-    setFormData(INITIAL_FORM_STATE);
-  };
-
-  // Actions in Table
-  const handleEdit = (teacher) => {
-    setFormData({ ...teacher });
-    setActiveTab('add_edit');
-    setActiveMenuId(null);
-  };
-
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this teacher record?')) {
-      setTeachers(prev => prev.filter(t => t.id !== id));
-    }
-    setActiveMenuId(null);
-  };
-
-  const handleStatusChange = (id, newStatus) => {
-    setTeachers(prev => prev.map(t => t.id === id ? { ...t, status: newStatus } : t));
-    setActiveMenuId(null);
-  };
-
-  const handleAddNewTeacherClick = () => {
-    handleResetForm();
-    setIsAddModalOpen(true);
-  };
-
-  // Direct toggle filter function (No dropdown)
-  const handleToggleFilter = () => {
-    if (filterMode === 'All') setFilterMode('Active');
-    else if (filterMode === 'Active') setFilterMode('Inactive');
-    else setFilterMode('All');
-    setCurrentPage(1);
-  };
-
-  // Refresh handler: resets search, filters, pagination, and dropdown menus
-  const handleRefresh = () => {
-    setSearchTerm('');
-    setFilterMode('All');
-    setCurrentPage(1);
-    setActiveMenuId(null);
-  };
-
-  // Export handler: exports table data to CSV format
-  const handleExportCSV = () => {
-    if (filteredTeachers.length === 0) {
-      alert('No data available to export.');
       return;
     }
 
-    const headers = ['ID', 'Name', 'Designation', 'Subject', 'Experience', 'Email', 'Phone', 'Status'];
-    const rows = filteredTeachers.map(t => [
-      t.id,
-      `"${t.name}"`,
-      `"${t.designation}"`,
-      `"${t.subject}"`,
-      `"${t.experience}"`,
-      `"${t.email}"`,
-      `"${t.phone}"`,
-      `"${t.status}"`
-    ]);
-
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', 'teachers_list.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  // Pagination & Filtering logic
-  const filteredTeachers = teachers.filter(t => {
-    const matchesSearch = 
-      t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.email.toLowerCase().includes(searchTerm.toLowerCase());
+  /* =======================================================
+     SKILL REMOVE
+  ======================================================= */
 
-    const matchesStatus = filterMode === 'All' || t.status.toLowerCase() === filterMode.toLowerCase();
+  const handleRemoveSkill = (skillToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      skills: prev.skills.filter(
+        (skill) => skill !== skillToRemove
+      ),
+    }));
+  };
 
-    return matchesSearch && matchesStatus;
-  });
+  /* =======================================================
+     ADD SKILL
+  ======================================================= */
 
-  const totalPages = Math.ceil(filteredTeachers.length / itemsPerPage) || 1;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentTableData = filteredTeachers.slice(startIndex, startIndex + itemsPerPage);
+  const handleAddSkillKey = (e) => {
+    if (e.key !== "Enter") return;
+
+    e.preventDefault();
+
+    const skill = tagInput.trim();
+
+    if (!skill) return;
+
+    if (
+      !formData.skills.some(
+        (item) => item.toLowerCase() === skill.toLowerCase()
+      )
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        skills: [...prev.skills, skill],
+      }));
+    }
+
+    setTagInput("");
+  };
+
+  /* =======================================================
+     IMAGE UPLOAD
+  ======================================================= */
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select a valid image.");
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Image size must be less than 10MB.");
+      return;
+    }
+
+    if (photoPreview) {
+      URL.revokeObjectURL(photoPreview);
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+
+    setSelectedPhoto(file);
+
+    setPhotoPreview(previewUrl);
+  };
+
+  /* =======================================================
+     RESET FORM
+  ======================================================= */
+
+  const handleResetForm = () => {
+    if (photoPreview) {
+      URL.revokeObjectURL(photoPreview);
+    }
+
+    setFormData({
+      ...EMPTY_FORM,
+      skills: [],
+    });
+
+    setSelectedPhoto(null);
+
+    setPhotoPreview("");
+
+    setTagInput("");
+
+    setShowPassword(false);
+  };
+
+  /* =======================================================
+     EDIT TEACHER
+  ======================================================= */
+
+  const handleEdit = (teacher) => {
+    if (photoPreview) {
+      URL.revokeObjectURL(photoPreview);
+    }
+
+    setFormData({
+      ...teacher,
+      password: "",
+      joiningDate: formatDateForInput(teacher.joiningDate),
+      dob: formatDateForInput(teacher.dob),
+      skills: Array.isArray(teacher.skills)
+        ? teacher.skills
+        : [],
+    });
+
+    setSelectedPhoto(null);
+
+    setPhotoPreview("");
+
+    setShowPassword(false);
+
+    setTagInput("");
+
+    setActiveMenuId(null);
+
+    setActiveTab("add_edit");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  /* =======================================================
+     SAVE TEACHER
+  ======================================================= */
+
+  const handleSaveTeacher = async (e) => {
+    e.preventDefault();
+
+    try {
+      setSaving(true);
+
+      const formDataToSend = new FormData();
+
+      /* -----------------------------------------------
+         TEXT FIELDS
+      ------------------------------------------------ */
+
+      formDataToSend.append(
+        "name",
+        formData.name?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "phone",
+        formData.phone?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "email",
+        formData.email?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "address",
+        formData.address?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "designation",
+        formData.designation?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "experience",
+        formData.experience?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "qualification",
+        formData.qualification?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "subject",
+        formData.subject?.trim() || ""
+      );
+
+      formDataToSend.append(
+        "gender",
+        formData.gender || ""
+      );
+
+      formDataToSend.append(
+        "bloodGroup",
+        formData.bloodGroup || ""
+      );
+
+      formDataToSend.append(
+        "status",
+        formData.status || "Active"
+      );
+
+      formDataToSend.append(
+        "bio",
+        formData.bio?.trim() || ""
+      );
+
+      /* -----------------------------------------------
+         DATES
+      ------------------------------------------------ */
+
+      formDataToSend.append(
+        "joiningDate",
+        formData.joiningDate || ""
+      );
+
+      formDataToSend.append(
+        "dob",
+        formData.dob || ""
+      );
+
+      /* -----------------------------------------------
+         SKILLS
+      ------------------------------------------------ */
+
+      formDataToSend.append(
+        "skills",
+        JSON.stringify(formData.skills || [])
+      );
+
+      /* -----------------------------------------------
+         PASSWORD
+         
+         Important:
+         On edit, empty password means:
+         keep existing password.
+      ------------------------------------------------ */
+
+      if (formData.password?.trim()) {
+        formDataToSend.append(
+          "password",
+          formData.password.trim()
+        );
+      }
+
+      /* -----------------------------------------------
+         PHOTO
+         
+         Only append when a new photo was selected.
+      ------------------------------------------------ */
+
+      if (selectedPhoto) {
+        formDataToSend.append(
+          "photo",
+          selectedPhoto
+        );
+      }
+
+      let response;
+
+      /* -----------------------------------------------
+         UPDATE
+      ------------------------------------------------ */
+
+      if (formData.id) {
+        response = await API.put(
+          `/school-teachers/${formData.id}`,
+          formDataToSend
+        );
+      }
+
+      /* -----------------------------------------------
+         CREATE
+      ------------------------------------------------ */
+
+      else {
+        response = await API.post(
+          "/school-teachers",
+          formDataToSend
+        );
+      }
+
+      if (response?.data?.success === false) {
+        throw new Error(
+          response?.data?.message ||
+            "Unable to save teacher."
+        );
+      }
+
+      alert(
+        formData.id
+          ? "Teacher updated successfully."
+          : "Teacher added successfully."
+      );
+
+      await fetchTeachers();
+
+      handleResetForm();
+
+      setActiveTab("list");
+    } catch (error) {
+      console.error("Save teacher error:", error);
+
+      alert(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Unable to save teacher."
+      );
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /* =======================================================
+     DELETE TEACHER
+  ======================================================= */
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this teacher record?"
+    );
+
+    if (!confirmed) {
+      setActiveMenuId(null);
+      return;
+    }
+
+    try {
+      setDeletingId(id);
+
+      await API.delete(
+        `/school-teachers/${id}`
+      );
+
+      alert("Teacher deleted successfully.");
+
+      setTeachers((prev) =>
+        prev.filter((teacher) => teacher.id !== id)
+      );
+
+      setActiveMenuId(null);
+
+      setCurrentPage(1);
+    } catch (error) {
+      console.error("Delete teacher error:", error);
+
+      alert(
+        error?.response?.data?.message ||
+          "Unable to delete teacher."
+      );
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  /* =======================================================
+     STATUS CHANGE
+  ======================================================= */
+
+  const handleStatusChange = async (
+    id,
+    newStatus
+  ) => {
+    try {
+      setStatusUpdatingId(id);
+
+      await API.patch(
+        `/school-teachers/${id}/status`,
+        {
+          status: newStatus,
+        }
+      );
+
+      setTeachers((prev) =>
+        prev.map((teacher) =>
+          teacher.id === id
+            ? {
+                ...teacher,
+                status: newStatus,
+              }
+            : teacher
+        )
+      );
+
+      setActiveMenuId(null);
+    } catch (error) {
+      console.error(
+        "Update teacher status error:",
+        error
+      );
+
+      alert(
+        error?.response?.data?.message ||
+          "Unable to update teacher status."
+      );
+    } finally {
+      setStatusUpdatingId(null);
+    }
+  };
+
+  /* =======================================================
+     FILTER TOGGLE
+  ======================================================= */
+
+  const handleToggleFilter = () => {
+    if (filterMode === "All") {
+      setFilterMode("Active");
+    } else if (filterMode === "Active") {
+      setFilterMode("Inactive");
+    } else {
+      setFilterMode("All");
+    }
+
+    setCurrentPage(1);
+  };
+
+  /* =======================================================
+     REFRESH
+  ======================================================= */
+
+  const handleRefresh = async () => {
+    setSearchTerm("");
+
+    setFilterMode("All");
+
+    setCurrentPage(1);
+
+    setActiveMenuId(null);
+
+    await fetchTeachers();
+  };
+
+  /* =======================================================
+     FILTERED TEACHERS
+  ======================================================= */
+
+  const filteredTeachers = useMemo(() => {
+    const search = searchTerm
+      .trim()
+      .toLowerCase();
+
+    return teachers.filter((teacher) => {
+      const matchesSearch =
+        !search ||
+        teacher.name
+          ?.toLowerCase()
+          .includes(search) ||
+        teacher.subject
+          ?.toLowerCase()
+          .includes(search) ||
+        teacher.email
+          ?.toLowerCase()
+          .includes(search) ||
+        teacher.phone
+          ?.toLowerCase()
+          .includes(search) ||
+        teacher.designation
+          ?.toLowerCase()
+          .includes(search);
+
+      const matchesStatus =
+        filterMode === "All" ||
+        teacher.status?.toLowerCase() ===
+          filterMode.toLowerCase();
+
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+    });
+  }, [
+    teachers,
+    searchTerm,
+    filterMode,
+  ]);
+
+  /* =======================================================
+     PAGINATION
+  ======================================================= */
+
+  const totalPages =
+    Math.ceil(
+      filteredTeachers.length /
+        itemsPerPage
+    ) || 1;
+
+  const startIndex =
+    (currentPage - 1) *
+    itemsPerPage;
+
+  const currentTableData =
+    filteredTeachers.slice(
+      startIndex,
+      startIndex + itemsPerPage
+    );
+
+  /* =======================================================
+     CSV EXPORT
+  ======================================================= */
+
+  const handleExportCSV = () => {
+    if (!filteredTeachers.length) {
+      alert("No data available to export.");
+      return;
+    }
+
+    const headers = [
+      "ID",
+      "Name",
+      "Designation",
+      "Subject",
+      "Experience",
+      "Email",
+      "Phone",
+      "Qualification",
+      "Gender",
+      "Status",
+    ];
+
+    const rows = filteredTeachers.map(
+      (teacher) => [
+        teacher.id || "",
+        teacher.name || "",
+        teacher.designation || "",
+        teacher.subject || "",
+        teacher.experience || "",
+        teacher.email || "",
+        teacher.phone || "",
+        teacher.qualification || "",
+        teacher.gender || "",
+        teacher.status || "",
+      ]
+    );
+
+    const escapeCSV = (value) => {
+      const stringValue = String(
+        value ?? ""
+      );
+
+      return `"${stringValue.replace(
+        /"/g,
+        '""'
+      )}"`;
+    };
+
+    const csvContent = [
+      headers.map(escapeCSV).join(","),
+      ...rows.map((row) =>
+        row.map(escapeCSV).join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob(
+      [csvContent],
+      {
+        type: "text/csv;charset=utf-8;",
+      }
+    );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      "teachers_list.csv";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
+
+  /* =======================================================
+     PREVIOUS PAGE
+  ======================================================= */
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) =>
+      Math.max(prev - 1, 1)
+    );
+  };
+
+  /* =======================================================
+     NEXT PAGE
+  ======================================================= */
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) =>
+      Math.min(
+        prev + 1,
+        totalPages
+      )
+    );
+  };
+
+  /* =======================================================
+     NEW TEACHER
+  ======================================================= */
+
+  const handleNewTeacher = () => {
+    handleResetForm();
+
+    setActiveTab("add_edit");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  /* =======================================================
+     PHOTO TO SHOW IN FORM
+  ======================================================= */
+
+  const currentPhoto =
+    photoPreview ||
+    getImageUrl(formData.photo);
+
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
     <div className="teacher-container">
-      {/* Top Header Controls */}
+
+      {/* ===================================================
+          HEADER
+      =================================================== */}
+
       <div className="teacher-header">
+
         <div className="tab-navigation">
-          <button 
-            className={`tab-btn ${activeTab === 'list' ? 'active' : ''}`}
-            onClick={() => setActiveTab('list')}
+
+          <button
+            type="button"
+            className={`tab-btn ${
+              activeTab === "list"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setActiveTab("list")
+            }
           >
             Teacher List
           </button>
-          <button 
-            className={`tab-btn ${activeTab === 'add_edit' ? 'active' : ''}`}
-            onClick={() => setActiveTab('add_edit')}
+
+          <button
+            type="button"
+            className={`tab-btn ${
+              activeTab === "add_edit"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              setActiveTab("add_edit")
+            }
           >
             Add / Edit Teacher
           </button>
+
         </div>
-        <button className="add-teacher-btn" onClick={handleAddNewTeacherClick}>
-          <FaPlus /> Add New Teacher
+
+        <button
+          type="button"
+          className="add-teacher-btn"
+          onClick={handleNewTeacher}
+        >
+          <FaPlus />
+          Add New Teacher
         </button>
+
       </div>
 
-      {/* VIEW 1: ADD / EDIT TEACHER */}
-      {activeTab === 'add_edit' && (
+      {/* ===================================================
+          ADD / EDIT
+      =================================================== */}
+
+      {activeTab === "add_edit" && (
         <div className="add-edit-layout">
-          {/* Left Column: Form Controls */}
+
+          {/* ===============================================
+              LEFT FORM
+          =============================================== */}
+
           <div className="form-column scrollable-left-pane">
-            {/* Basic Information Card */}
+
+            {/* BASIC INFORMATION */}
+
             <div className="card">
+
               <div className="card-header flex-between">
-                <FaUserCheck className="card-icon" />
-                <h3 className="card-title-right">Basic Information</h3>
+
+                <div className="card-title-wrapper">
+                  <FaUserCheck className="card-icon" />
+
+                  <h3 className="card-title-right">
+                    Basic Information
+                  </h3>
+                </div>
+
               </div>
+
               <div className="card-body">
-                <form id="teacherForm" onSubmit={handleSaveTeacher}>
-                  <div className="grid-2">
-                    <div className="form-group">
-                      <label>Full Name <span>*</span></label>
-                      <input 
-                        type="text" 
-                        name="name" 
-                        value={formData.name} 
-                        onChange={handleInputChange} 
-                        required 
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Phone <span>*</span></label>
-                      <input 
-                        type="text" 
-                        name="phone" 
-                        value={formData.phone} 
-                        onChange={handleInputChange} 
-                        required 
-                      />
-                    </div>
-                  </div>
+
+                <form
+                  id="teacherForm"
+                  onSubmit={handleSaveTeacher}
+                >
+
+                  {/* NAME + PHONE */}
 
                   <div className="grid-2">
+
                     <div className="form-group">
-                      <label>Email <span>*</span></label>
-                      <input 
-                        type="email" 
-                        name="email" 
-                        value={formData.email} 
-                        onChange={handleInputChange} 
-                        required 
+
+                      <label>
+                        Full Name
+                      </label>
+
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="Enter teacher name"
                       />
+
                     </div>
+
                     <div className="form-group">
-                      <label>Address <span>*</span></label>
-                      <input 
-                        type="text" 
-                        name="address" 
-                        value={formData.address} 
-                        onChange={handleInputChange} 
-                        required 
+
+                      <label>
+                        Phone
+                      </label>
+
+                      <input
+                        type="text"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="Enter phone number"
                       />
+
                     </div>
+
                   </div>
 
-                  <div className="grid-3">
-                    <div className="form-group">
-                      <label>Designation <span>*</span></label>
-                      <select name="designation" value={formData.designation} onChange={handleInputChange}>
-                        <option value="Math Teacher">Math Teacher</option>
-                        <option value="English Teacher">English Teacher</option>
-                        <option value="Science Teacher">Science Teacher</option>
-                        <option value="History Teacher">History Teacher</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Experience <span>*</span></label>
-                      <select name="experience" value={formData.experience} onChange={handleInputChange}>
-                        <option value="5 Years">5 Years</option>
-                        <option value="8 Years">8 Years</option>
-                        <option value="10 Years">10 Years</option>
-                        <option value="12 Years">12 Years</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Date of Joining <span>*</span></label>
-                      <input 
-                        type="date" 
-                        name="joiningDate" 
-                        value={formData.joiningDate} 
-                        onChange={handleInputChange} 
-                        required 
-                      />
-                    </div>
-                  </div>
+                  {/* EMAIL + ADDRESS */}
 
                   <div className="grid-2">
+
                     <div className="form-group">
-                      <label>Qualification <span>*</span></label>
-                      <input 
-                        type="text" 
-                        name="qualification" 
-                        value={formData.qualification} 
-                        onChange={handleInputChange} 
-                        required 
+
+                      <label>
+                        Email
+                      </label>
+
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="Enter email address"
                       />
+
                     </div>
+
                     <div className="form-group">
-                      <label>Subject Specialization <span>*</span></label>
-                      <input 
-                        type="text" 
-                        name="subject" 
-                        value={formData.subject} 
-                        onChange={handleInputChange} 
-                        required 
+
+                      <label>
+                        Address
+                      </label>
+
+                      <input
+                        type="text"
+                        name="address"
+                        value={
+                          formData.address
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="Enter address"
                       />
+
                     </div>
+
                   </div>
 
-                  <div className="grid-3">
-                    <div className="form-group">
-                      <label>Date of Birth</label>
-                      <input 
-                        type="date" 
-                        name="dob" 
-                        value={formData.dob} 
-                        onChange={handleInputChange} 
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Blood Group</label>
-                      <select name="bloodGroup" value={formData.bloodGroup} onChange={handleInputChange}>
-                        <option value="O+">O+</option>
-                        <option value="A+">A+</option>
-                        <option value="B+">B+</option>
-                        <option value="AB+">AB+</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label>Gender <span>*</span></label>
-                      <div className="radio-group">
-                        <label>
-                          <input 
-                            type="radio" 
-                            name="gender" 
-                            value="Male" 
-                            checked={formData.gender === 'Male'} 
-                            onChange={handleInputChange} 
-                          /> Male
-                        </label>
-                        <label>
-                          <input 
-                            type="radio" 
-                            name="gender" 
-                            value="Female" 
-                            checked={formData.gender === 'Female'} 
-                            onChange={handleInputChange} 
-                          /> Female
-                        </label>
+                  {/* PASSWORD */}
+
+                  <div className="grid-2">
+
+                    <div className="form-group password-field-group">
+
+                      <label>
+                        Password
+                      </label>
+
+                      <div className="password-input-wrap">
+
+                        <FaLock className="password-left-icon" />
+
+                        <input
+                          type={
+                            showPassword
+                              ? "text"
+                              : "password"
+                          }
+                          name="password"
+                          value={
+                            formData.password
+                          }
+                          onChange={
+                            handleInputChange
+                          }
+                          placeholder={
+                            formData.id
+                              ? "Enter new password or leave blank"
+                              : "Enter password"
+                          }
+                        />
+
+                        <button
+                          type="button"
+                          className="password-toggle"
+                          onClick={() =>
+                            setShowPassword(
+                              (prev) => !prev
+                            )
+                          }
+                          title={
+                            showPassword
+                              ? "Hide password"
+                              : "Show password"
+                          }
+                        >
+                          {showPassword ? (
+                            <FaEyeSlash />
+                          ) : (
+                            <FaEye />
+                          )}
+                        </button>
+
                       </div>
+
+                      <small className="field-hint">
+                        {formData.id
+                          ? "Leave blank to keep the existing password."
+                          : "Password will be securely stored."}
+                      </small>
+
                     </div>
+
+                    <div className="form-group security-note-group">
+
+                      <label>
+                        Account Security
+                      </label>
+
+                      <div className="security-note">
+
+                        <FaLock />
+
+                        <div>
+                          <strong>
+                            Private password
+                          </strong>
+
+                          <span>
+                            Used for teacher account access.
+                          </span>
+                        </div>
+
+                      </div>
+
+                    </div>
+
                   </div>
+
+                  {/* DESIGNATION EXPERIENCE JOINING */}
+
+                  <div className="grid-3">
+
+                    <div className="form-group">
+
+                      <label>
+                        Designation
+                      </label>
+
+                      <input
+                        type="text"
+                        name="designation"
+                        value={
+                          formData.designation
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="e.g. Math Teacher"
+                      />
+
+                    </div>
+
+                    <div className="form-group">
+
+                      <label>
+                        Experience
+                      </label>
+
+                      <input
+                        type="text"
+                        name="experience"
+                        value={
+                          formData.experience
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="e.g. 5 Years"
+                      />
+
+                    </div>
+
+                    <div className="form-group">
+
+                      <label>
+                        Date of Joining
+                      </label>
+
+                      <input
+                        type="date"
+                        name="joiningDate"
+                        value={
+                          formData.joiningDate
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                      />
+
+                    </div>
+
+                  </div>
+
+                  {/* QUALIFICATION + SUBJECT */}
+
+                  <div className="grid-2">
+
+                    <div className="form-group">
+
+                      <label>
+                        Qualification
+                      </label>
+
+                      <input
+                        type="text"
+                        name="qualification"
+                        value={
+                          formData.qualification
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="e.g. M.Sc, B.Ed"
+                      />
+
+                    </div>
+
+                    <div className="form-group">
+
+                      <label>
+                        Subject Specialization
+                      </label>
+
+                      <input
+                        type="text"
+                        name="subject"
+                        value={
+                          formData.subject
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                        placeholder="e.g. Mathematics"
+                      />
+
+                    </div>
+
+                  </div>
+
+                  {/* DOB + BLOOD + GENDER */}
+
+                  <div className="grid-3">
+
+                    <div className="form-group">
+
+                      <label>
+                        Date of Birth
+                      </label>
+
+                      <input
+                        type="date"
+                        name="dob"
+                        value={
+                          formData.dob
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                      />
+
+                    </div>
+
+                    <div className="form-group">
+
+                      <label>
+                        Blood Group
+                      </label>
+
+                      <select
+                        name="bloodGroup"
+                        value={
+                          formData.bloodGroup
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                      >
+                        <option value="">
+                          Select blood group
+                        </option>
+
+                        <option value="A+">
+                          A+
+                        </option>
+
+                        <option value="A-">
+                          A-
+                        </option>
+
+                        <option value="B+">
+                          B+
+                        </option>
+
+                        <option value="B-">
+                          B-
+                        </option>
+
+                        <option value="AB+">
+                          AB+
+                        </option>
+
+                        <option value="AB-">
+                          AB-
+                        </option>
+
+                        <option value="O+">
+                          O+
+                        </option>
+
+                        <option value="O-">
+                          O-
+                        </option>
+                      </select>
+
+                    </div>
+
+                    <div className="form-group">
+
+                      <label>
+                        Gender
+                      </label>
+
+                      <select
+                        name="gender"
+                        value={
+                          formData.gender
+                        }
+                        onChange={
+                          handleInputChange
+                        }
+                      >
+                        <option value="">
+                          Select gender
+                        </option>
+
+                        <option value="Male">
+                          Male
+                        </option>
+
+                        <option value="Female">
+                          Female
+                        </option>
+
+                        <option value="Other">
+                          Other
+                        </option>
+                      </select>
+
+                    </div>
+
+                  </div>
+
+                  {/* STATUS */}
 
                   <div className="form-group toggle-group">
-                    <label>Status</label>
-                    <label className="switch">
-                      <input 
-                        type="checkbox" 
-                        name="status" 
-                        checked={formData.status === 'Active'} 
-                        onChange={handleInputChange} 
-                      />
-                      <span className="slider round"></span>
+
+                    <label>
+                      Status
                     </label>
-                    <span className={`status-label ${formData.status.toLowerCase()}`}>{formData.status}</span>
+
+                    <div className="status-toggle-wrapper">
+
+                      <label className="switch">
+
+                        <input
+                          type="checkbox"
+                          name="status"
+                          checked={
+                            formData.status ===
+                            "Active"
+                          }
+                          onChange={
+                            handleInputChange
+                          }
+                        />
+
+                        <span className="slider round"></span>
+
+                      </label>
+
+                      <span
+                        className={`status-label ${
+                          formData.status?.toLowerCase()
+                        }`}
+                      >
+                        {formData.status}
+                      </span>
+
+                    </div>
+
                   </div>
+
                 </form>
+
               </div>
+
             </div>
 
-            {/* Additional Information Card */}
+            {/* =============================================
+                ADDITIONAL INFORMATION
+            ============================================== */}
+
             <div className="card">
+
               <div className="card-header flex-between">
-                <FaUserCheck className="card-icon" />
-                <h3 className="card-title-right">Additional Information</h3>
-              </div>
-              <div className="card-body">
-                <div className="form-group">
-                  <label>About / Biography</label>
-                  <textarea 
-                    rows="3" 
-                    name="bio" 
-                    value={formData.bio} 
-                    onChange={handleInputChange} 
-                  />
+
+                <div className="card-title-wrapper">
+
+                  <FaUserCheck className="card-icon" />
+
+                  <h3 className="card-title-right">
+                    Additional Information
+                  </h3>
+
                 </div>
+
+              </div>
+
+              <div className="card-body">
+
+                {/* BIO */}
+
+                <div className="form-group">
+
+                  <label>
+                    About / Biography
+                  </label>
+
+                  <textarea
+                    rows="4"
+                    name="bio"
+                    value={formData.bio}
+                    onChange={
+                      handleInputChange
+                    }
+                    placeholder="Write teacher biography..."
+                  />
+
+                </div>
+
+                {/* PHOTO */}
 
                 <div className="photo-upload-section">
-                  <label>Profile Photo</label>
+
+                  <label>
+                    Profile Photo
+                  </label>
+
                   <div className="upload-box">
-                    <img src={formData.photo} alt="Preview" className="photo-preview" />
-                    <label htmlFor="photo-upload-input" className="upload-btn">
-                      <FaUpload /> Upload Photo
+
+                    {currentPhoto ? (
+                      <img
+                        src={currentPhoto}
+                        alt="Teacher Preview"
+                        className="photo-preview"
+                      />
+                    ) : (
+                      <div className="empty-photo-preview">
+                        <FaUserCheck />
+                        <span>
+                          No photo selected
+                        </span>
+                      </div>
+                    )}
+
+                    <label
+                      htmlFor="photo-upload-input"
+                      className="upload-btn"
+                    >
+                      <FaUpload />
+                      Choose Photo
                     </label>
-                    <input 
-                      id="photo-upload-input" 
-                      type="file" 
-                      accept="image/*" 
-                      style={{ display: 'none' }} 
-                      onChange={handleImageUpload} 
+
+                    <input
+                      id="photo-upload-input"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                      style={{
+                        display: "none",
+                      }}
+                      onChange={
+                        handleImageUpload
+                      }
                     />
-                    <span className="file-info">JPG, PNG (Max 2MB)</span>
+
+                    <span className="file-info">
+                      JPG, PNG, WEBP or GIF
+                    </span>
+
+                    {selectedPhoto && (
+                      <span className="selected-file-name">
+                        {selectedPhoto.name}
+                      </span>
+                    )}
+
                   </div>
+
                 </div>
+
+                {/* SKILLS */}
 
                 <div className="form-group margin-top-15">
-                  <label>Teaching Skills</label>
+
+                  <label>
+                    Teaching Skills
+                  </label>
+
                   <div className="skills-tags-container">
-                    {formData.skills.map((skill, index) => (
-                      <span key={index} className="skill-badge">
-                        {skill} 
-                        <FaTimes onClick={() => handleRemoveSkill(skill)} className="remove-skill" />
+
+                    {formData.skills.length >
+                    0 ? (
+                      formData.skills.map(
+                        (skill, index) => (
+                          <span
+                            key={`${skill}-${index}`}
+                            className="skill-badge"
+                          >
+                            {skill}
+
+                            <FaTimes
+                              onClick={() =>
+                                handleRemoveSkill(
+                                  skill
+                                )
+                              }
+                              className="remove-skill"
+                            />
+                          </span>
+                        )
+                      )
+                    ) : (
+                      <span className="no-skills-text">
+                        No skills added yet
                       </span>
-                    ))}
+                    )}
+
                   </div>
-                  <input 
-                    type="text" 
-                    placeholder="Type skill and press Enter..." 
+
+                  <input
+                    type="text"
+                    placeholder="Type skill and press Enter..."
                     value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={handleAddSkillKey}
+                    onChange={(e) =>
+                      setTagInput(
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={
+                      handleAddSkillKey
+                    }
                     className="tag-input"
                   />
+
                 </div>
+
+                {/* FORM ACTIONS */}
 
                 <div className="form-actions">
-                  <button type="button" className="btn-reset" onClick={handleResetForm}>
+
+                  <button
+                    type="button"
+                    className="btn-reset"
+                    onClick={
+                      handleResetForm
+                    }
+                    disabled={saving}
+                  >
                     Reset
                   </button>
-                  <button type="submit" form="teacherForm" className="btn-save">
-                    <FaUserCheck /> Save Teacher
+
+                  <button
+                    type="submit"
+                    form="teacherForm"
+                    className="btn-save"
+                    disabled={saving}
+                  >
+
+                    {saving ? (
+                      <>
+                        <FaSync className="spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      <>
+                        <FaSave />
+                        {formData.id
+                          ? "Update Teacher"
+                          : "Save Teacher"}
+                      </>
+                    )}
+
                   </button>
+
                 </div>
+
               </div>
+
             </div>
+
           </div>
 
-          {/* Right Column: Live Previews */}
+          {/* ===============================================
+              RIGHT PREVIEW
+          =============================================== */}
+
           <div className="preview-column">
-            {/* Profile Preview Card */}
+
+            {/* PROFILE PREVIEW */}
+
             <div className="card">
+
               <div className="card-header flex-between">
-                <FaEye className="card-icon" />
-                <h3 className="card-title-right">Profile Preview</h3>
+
+                <div className="card-title-wrapper">
+
+                  <FaEye className="card-icon" />
+
+                  <h3 className="card-title-right">
+                    Profile Preview
+                  </h3>
+
+                </div>
+
               </div>
+
               <div className="card-body profile-preview-card">
+
                 <div className="profile-preview-flex">
-                  <img src={formData.photo} alt={formData.name} className="large-avatar" />
+
+                  {currentPhoto ? (
+                    <img
+                      src={currentPhoto}
+                      alt={
+                        formData.name ||
+                        "Teacher"
+                      }
+                      className="large-avatar"
+                    />
+                  ) : (
+                    <div className="large-avatar empty-avatar">
+                      <FaUserCheck />
+                    </div>
+                  )}
+
                   <div className="profile-info">
-                    <h2>{formData.name || 'Alex Maywel'}</h2>
-                    <p className="designation-text">{formData.designation || 'Math Teacher'}</p>
-                    
+
+                    <h2>
+                      {formData.name ||
+                        "Teacher Name"}
+                    </h2>
+
+                    <p className="designation-text">
+                      {formData.designation ||
+                        "Designation"}
+                    </p>
+
                     <ul className="info-list">
-                      <li><FaPhoneAlt /> <span>Phone</span> <strong>{formData.phone || 'N/A'}</strong></li>
-                      <li><FaEnvelope /> <span>Email</span> <strong>{formData.email || 'N/A'}</strong></li>
-                      <li><FaMapMarkerAlt /> <span>Address</span> <strong>{formData.address || 'N/A'}</strong></li>
-                      <li><FaBriefcase /> <span>Experience</span> <strong>{formData.experience || 'N/A'}</strong></li>
-                      <li><FaGraduationCap /> <span>Qualification</span> <strong>{formData.qualification || 'N/A'}</strong></li>
-                      <li><FaCalendarAlt /> <span>Date of Joining</span> <strong>{formData.joiningDate || 'N/A'}</strong></li>
+
+                      <li>
+                        <FaPhoneAlt />
+                        <span>
+                          Phone
+                        </span>
+                        <strong>
+                          {formData.phone ||
+                            "N/A"}
+                        </strong>
+                      </li>
+
+                      <li>
+                        <FaEnvelope />
+                        <span>
+                          Email
+                        </span>
+                        <strong>
+                          {formData.email ||
+                            "N/A"}
+                        </strong>
+                      </li>
+
+                      <li>
+                        <FaMapMarkerAlt />
+                        <span>
+                          Address
+                        </span>
+                        <strong>
+                          {formData.address ||
+                            "N/A"}
+                        </strong>
+                      </li>
+
+                      <li>
+                        <FaBriefcase />
+                        <span>
+                          Experience
+                        </span>
+                        <strong>
+                          {formData.experience ||
+                            "N/A"}
+                        </strong>
+                      </li>
+
+                      <li>
+                        <FaGraduationCap />
+                        <span>
+                          Qualification
+                        </span>
+                        <strong>
+                          {formData.qualification ||
+                            "N/A"}
+                        </strong>
+                      </li>
+
+                      <li>
+                        <FaCalendarAlt />
+                        <span>
+                          Joining Date
+                        </span>
+                        <strong>
+                          {formData.joiningDate
+                            ? formatDisplayDate(
+                                formData.joiningDate
+                              )
+                            : "N/A"}
+                        </strong>
+                      </li>
+
                     </ul>
 
                     <div className="social-links">
-                      <span>Contact</span>
+
+                      <span>
+                        Contact
+                      </span>
+
                       <div className="social-icons">
-                        <a href="#fb"><FaFacebookF /></a>
-                        <a href="#tw"><FaTwitter /></a>
-                        <a href="#li"><FaLinkedinIn /></a>
-                        <a href="#ig"><FaInstagram /></a>
+
+                        <a
+                          href="#facebook"
+                          onClick={(e) =>
+                            e.preventDefault()
+                          }
+                        >
+                          <FaFacebookF />
+                        </a>
+
+                        <a
+                          href="#twitter"
+                          onClick={(e) =>
+                            e.preventDefault()
+                          }
+                        >
+                          <FaTwitter />
+                        </a>
+
+                        <a
+                          href="#linkedin"
+                          onClick={(e) =>
+                            e.preventDefault()
+                          }
+                        >
+                          <FaLinkedinIn />
+                        </a>
+
+                        <a
+                          href="#instagram"
+                          onClick={(e) =>
+                            e.preventDefault()
+                          }
+                        >
+                          <FaInstagram />
+                        </a>
+
                       </div>
+
                     </div>
+
                   </div>
+
                 </div>
+
               </div>
+
             </div>
 
-            {/* Teacher Skills Preview Card */}
+            {/* SKILLS PREVIEW */}
+
             <div className="card">
+
               <div className="card-header flex-between">
-                <FaUserCheck className="card-icon" />
-                <h3 className="card-title-right">Teacher Skills Preview</h3>
+
+                <div className="card-title-wrapper">
+
+                  <FaUserCheck className="card-icon" />
+
+                  <h3 className="card-title-right">
+                    Teacher Skills Preview
+                  </h3>
+
+                </div>
+
               </div>
+
               <div className="card-body">
-                <div className="progress-item">
-                  <div className="progress-labels">
-                    <span>Teaching Skills</span>
-                    <span>95%</span>
-                  </div>
-                  <div className="progress-bar">
-                    <div className="progress-fill yellow" style={{ width: '95%' }}></div>
-                  </div>
-                </div>
 
-                <div className="progress-item">
-                  <div className="progress-labels">
-                    <span>Speaking</span>
-                    <span>85%</span>
-                  </div>
-                  <div className="progress-bar">
-                    <div className="progress-fill red" style={{ width: '85%' }}></div>
-                  </div>
-                </div>
+                {[
+                  {
+                    name: "Teaching Skills",
+                    value: 95,
+                    className: "yellow",
+                  },
+                  {
+                    name: "Speaking",
+                    value: 85,
+                    className: "red",
+                  },
+                  {
+                    name: "Communication Skill",
+                    value: 75,
+                    className: "blue",
+                  },
+                  {
+                    name: "Follow The Rules",
+                    value: 65,
+                    className: "green",
+                  },
+                ].map((skill) => (
+                  <div
+                    className="progress-item"
+                    key={skill.name}
+                  >
 
-                <div className="progress-item">
-                  <div className="progress-labels">
-                    <span>Communication Skill</span>
-                    <span>75%</span>
-                  </div>
-                  <div className="progress-bar">
-                    <div className="progress-fill blue" style={{ width: '75%' }}></div>
-                  </div>
-                </div>
+                    <div className="progress-labels">
 
-                <div className="progress-item">
-                  <div className="progress-labels">
-                    <span>Follow The Rules</span>
-                    <span>65%</span>
+                      <span>
+                        {skill.name}
+                      </span>
+
+                      <span>
+                        {skill.value}%
+                      </span>
+
+                    </div>
+
+                    <div className="progress-bar">
+
+                      <div
+                        className={`progress-fill ${skill.className}`}
+                        style={{
+                          width: `${skill.value}%`,
+                        }}
+                      />
+
+                    </div>
+
                   </div>
-                  <div className="progress-bar">
-                    <div className="progress-fill green" style={{ width: '65%' }}></div>
-                  </div>
-                </div>
+                ))}
+
               </div>
+
             </div>
+
           </div>
+
         </div>
       )}
 
-      {/* VIEW 2: TEACHER LIST TABLE */}
-      {activeTab === 'list' && (
+      {/* ===================================================
+          TEACHER LIST
+      =================================================== */}
+
+      {activeTab === "list" && (
         <div className="card table-card">
+
+          {/* TABLE HEADER */}
+
           <div className="table-top-bar">
+
             <div className="table-title">
+
               <FaUserCheck className="card-icon" />
-              <h3>All Teachers</h3>
+
+              <h3>
+                All Teachers
+              </h3>
+
+              <span className="teacher-count">
+                {filteredTeachers.length}
+              </span>
+
             </div>
+
             <div className="table-actions">
+
+              {/* SEARCH */}
+
               <div className="search-box">
+
                 <FaSearch className="search-icon" />
-                <input 
-                  type="text" 
-                  placeholder="Search teacher..." 
+
+                <input
+                  type="text"
+                  placeholder="Search teacher..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(
+                      e.target.value
+                    );
+                    setCurrentPage(1);
+                  }}
                 />
+
+                {searchTerm && (
+                  <button
+                    type="button"
+                    className="search-clear"
+                    onClick={() =>
+                      setSearchTerm("")
+                    }
+                  >
+                    <FaTimes />
+                  </button>
+                )}
+
               </div>
 
-              {/* Direct Filter Toggle Button (No dropdowns) */}
-              <button 
+              {/* FILTER */}
+
+              <button
+                type="button"
                 className={`icon-btn filter-toggle-btn ${filterMode.toLowerCase()}`}
-                onClick={handleToggleFilter}
-                title="Click to toggle filter (All -> Active -> Inactive)"
+                onClick={
+                  handleToggleFilter
+                }
+                title="All → Active → Inactive"
               >
-                <FaFilter /> Filter: <span>{filterMode}</span>
+                <FaFilter />
+
+                Filter:
+
+                <span>
+                  {filterMode}
+                </span>
+
               </button>
 
-              {/* Working Export CSV Option */}
-              <button className="icon-btn export-btn" onClick={handleExportCSV} title="Export Table Data to CSV">
-                <FaDownload /> Export
+              {/* EXPORT */}
+
+              <button
+                type="button"
+                className="icon-btn export-btn"
+                onClick={
+                  handleExportCSV
+                }
+                title="Export CSV"
+              >
+                <FaDownload />
+                Export
               </button>
 
-              {/* Working Refresh Option */}
-              <button className="icon-btn refresh-btn" onClick={handleRefresh} title="Reset Filter & Refresh Table">
-                <FaSync />
+              {/* REFRESH */}
+
+              <button
+                type="button"
+                className="icon-btn refresh-btn"
+                onClick={
+                  handleRefresh
+                }
+                title="Refresh"
+                disabled={loading}
+              >
+                <FaSync
+                  className={
+                    loading
+                      ? "spin"
+                      : ""
+                  }
+                />
               </button>
+
             </div>
+
           </div>
+
+          {/* TABLE */}
 
           <div className="responsive-table-wrapper">
-            <table className="teacher-table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Photo</th>
-                  <th>Name</th>
-                  <th>Designation</th>
-                  <th>Subject</th>
-                  <th>Experience</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentTableData.length > 0 ? (
-                  currentTableData.map((teacher, index) => (
-                    <tr key={teacher.id}>
-                      <td>{String(startIndex + index + 1).padStart(2, '0')}</td>
-                      <td>
-                        <img src={teacher.photo} alt={teacher.name} className="table-avatar" />
-                      </td>
-                      <td className="font-semibold">{teacher.name}</td>
-                      <td>{teacher.designation}</td>
-                      <td>{teacher.subject}</td>
-                      <td>{teacher.experience}</td>
-                      <td>{teacher.email}</td>
-                      <td>{teacher.phone}</td>
-                      <td>
-                        <span className={`status-badge ${teacher.status.toLowerCase()}`}>
-                          {teacher.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="action-buttons">
-                          <button className="action-btn edit-btn" title="Edit" onClick={() => handleEdit(teacher)}>
-                            <FaEdit />
-                          </button>
-                          <button className="action-btn view-btn" title="View" onClick={() => setViewModalTeacher(teacher)}>
-                            <FaEye />
-                          </button>
-                          <button className="action-btn delete-btn" title="Delete" onClick={() => handleDelete(teacher.id)}>
-                            <FaTrashAlt />
-                          </button>
 
-                          {/* Three-dots Menu Icon beside Delete button */}
-                          <div className="more-menu-container">
-                            <button 
-                              className="action-btn more-btn" 
-                              title="Change Status"
-                              onClick={() => setActiveMenuId(activeMenuId === teacher.id ? null : teacher.id)}
+            <table className="teacher-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>#</th>
+
+                  <th>
+                    Photo
+                  </th>
+
+                  <th>
+                    Name
+                  </th>
+
+                  <th>
+                    Designation
+                  </th>
+
+                  <th>
+                    Subject
+                  </th>
+
+                  <th>
+                    Experience
+                  </th>
+
+                  <th>
+                    Email
+                  </th>
+
+                  <th>
+                    Phone
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                {loading ? (
+
+                  <tr>
+
+                    <td
+                      colSpan="10"
+                      className="no-data"
+                    >
+                      <FaSync className="spin" />
+                      <span>
+                        Loading teachers...
+                      </span>
+                    </td>
+
+                  </tr>
+
+                ) : currentTableData.length >
+                  0 ? (
+
+                  currentTableData.map(
+                    (teacher, index) => (
+
+                      <tr
+                        key={teacher.id}
+                      >
+
+                        <td>
+                          {String(
+                            startIndex +
+                              index +
+                              1
+                          ).padStart(
+                            2,
+                            "0"
+                          )}
+                        </td>
+
+                        <td>
+
+                          {teacher.photo ? (
+                            <img
+                              src={getImageUrl(
+                                teacher.photo
+                              )}
+                              alt={
+                                teacher.name
+                              }
+                              className="table-avatar"
+                              onError={(e) => {
+                                e.currentTarget.style.display =
+                                  "none";
+                              }}
+                            />
+                          ) : (
+                            <div className="table-avatar empty-table-avatar">
+                              <FaUserCheck />
+                            </div>
+                          )}
+
+                        </td>
+
+                        <td className="font-semibold">
+                          {teacher.name ||
+                            "N/A"}
+                        </td>
+
+                        <td>
+                          {teacher.designation ||
+                            "N/A"}
+                        </td>
+
+                        <td>
+                          {teacher.subject ||
+                            "N/A"}
+                        </td>
+
+                        <td>
+                          {teacher.experience ||
+                            "N/A"}
+                        </td>
+
+                        <td>
+                          {teacher.email ||
+                            "N/A"}
+                        </td>
+
+                        <td>
+                          {teacher.phone ||
+                            "N/A"}
+                        </td>
+
+                        <td>
+
+                          <span
+                            className={`status-badge ${
+                              teacher.status?.toLowerCase() ||
+                              "inactive"
+                            }`}
+                          >
+                            {teacher.status ||
+                              "Inactive"}
+                          </span>
+
+                        </td>
+
+                        <td>
+
+                          <div className="action-buttons">
+
+                            {/* EDIT */}
+
+                            <button
+                              type="button"
+                              className="action-btn edit-btn"
+                              title="Edit"
+                              onClick={() =>
+                                handleEdit(
+                                  teacher
+                                )
+                              }
                             >
-                              <FaEllipsisV />
+                              <FaEdit />
                             </button>
 
-                            {/* Dropdown for Active & Inactive */}
-                            {activeMenuId === teacher.id && (
-                              <div className="status-dropdown-menu">
-                                <div className="menu-header">Change Status</div>
-                                <button 
-                                  className={`menu-option opt-active ${teacher.status === 'Active' ? 'selected' : ''}`}
-                                  onClick={() => handleStatusChange(teacher.id, 'Active')}
-                                >
-                                  <span className="status-dot green"></span> Active
-                                </button>
-                                <button 
-                                  className={`menu-option opt-inactive ${teacher.status === 'Inactive' ? 'selected' : ''}`}
-                                  onClick={() => handleStatusChange(teacher.id, 'Inactive')}
-                                >
-                                  <span className="status-dot red"></span> Inactive
-                                </button>
-                              </div>
-                            )}
+                            {/* VIEW */}
+
+                            <button
+                              type="button"
+                              className="action-btn view-btn"
+                              title="View"
+                              onClick={() =>
+                                setViewModalTeacher(
+                                  teacher
+                                )
+                              }
+                            >
+                              <FaEye />
+                            </button>
+
+                            {/* DELETE */}
+
+                            <button
+                              type="button"
+                              className="action-btn delete-btn"
+                              title="Delete"
+                              disabled={
+                                deletingId ===
+                                teacher.id
+                              }
+                              onClick={() =>
+                                handleDelete(
+                                  teacher.id
+                                )
+                              }
+                            >
+                              {deletingId ===
+                              teacher.id ? (
+                                <FaSync className="spin" />
+                              ) : (
+                                <FaTrashAlt />
+                              )}
+                            </button>
+
+                            {/* MORE */}
+
+                            <div className="more-menu-container">
+
+                              <button
+                                type="button"
+                                className="action-btn more-btn"
+                                title="Change Status"
+                                onClick={() =>
+                                  setActiveMenuId(
+                                    activeMenuId ===
+                                      teacher.id
+                                      ? null
+                                      : teacher.id
+                                  )
+                                }
+                              >
+                                <FaEllipsisV />
+                              </button>
+
+                              {activeMenuId ===
+                                teacher.id && (
+
+                                <div className="status-dropdown-menu">
+
+                                  <div className="menu-header">
+                                    Change Status
+                                  </div>
+
+                                  <button
+                                    type="button"
+                                    className={`menu-option opt-active ${
+                                      teacher.status ===
+                                      "Active"
+                                        ? "selected"
+                                        : ""
+                                    }`}
+                                    disabled={
+                                      statusUpdatingId ===
+                                      teacher.id
+                                    }
+                                    onClick={() =>
+                                      handleStatusChange(
+                                        teacher.id,
+                                        "Active"
+                                      )
+                                    }
+                                  >
+                                    <span className="status-dot green"></span>
+
+                                    Active
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    className={`menu-option opt-inactive ${
+                                      teacher.status ===
+                                      "Inactive"
+                                        ? "selected"
+                                        : ""
+                                    }`}
+                                    disabled={
+                                      statusUpdatingId ===
+                                      teacher.id
+                                    }
+                                    onClick={() =>
+                                      handleStatusChange(
+                                        teacher.id,
+                                        "Inactive"
+                                      )
+                                    }
+                                  >
+                                    <span className="status-dot red"></span>
+
+                                    Inactive
+                                  </button>
+
+                                </div>
+
+                              )}
+
+                            </div>
+
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+
+                        </td>
+
+                      </tr>
+
+                    )
+                  )
+
                 ) : (
+
                   <tr>
-                    <td colSpan="10" className="no-data">No teachers found.</td>
+
+                    <td
+                      colSpan="10"
+                      className="no-data"
+                    >
+                      <FaUserCheck />
+
+                      <span>
+                        No teachers found.
+                      </span>
+
+                    </td>
+
                   </tr>
+
                 )}
+
               </tbody>
+
             </table>
+
           </div>
 
-          {/* Pagination Controls */}
+          {/* =================================================
+              PAGINATION
+          ================================================= */}
+
           <div className="pagination-wrapper">
+
             <div className="pagination-info">
-              Showing {filteredTeachers.length > 0 ? startIndex + 1 : 0} to {Math.min(startIndex + itemsPerPage, filteredTeachers.length)} of {filteredTeachers.length} entries
+
+              Showing{" "}
+
+              {filteredTeachers.length >
+              0
+                ? startIndex + 1
+                : 0}
+
+              {" "}to{" "}
+
+              {Math.min(
+                startIndex +
+                  itemsPerPage,
+                filteredTeachers.length
+              )}
+
+              {" "}of{" "}
+
+              {filteredTeachers.length}
+
+              {" "}entries
+
             </div>
 
             <div className="pagination-controls">
-              <button 
-                className="page-nav-btn" 
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+
+              <button
+                type="button"
+                className="page-nav-btn"
+                disabled={
+                  currentPage === 1
+                }
+                onClick={
+                  handlePreviousPage
+                }
               >
                 &lt;
               </button>
 
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              {Array.from(
+                {
+                  length: totalPages,
+                },
+                (_, index) =>
+                  index + 1
+              ).map((page) => (
+
                 <button
+                  type="button"
                   key={page}
-                  className={`page-num-btn ${currentPage === page ? 'active' : ''}`}
-                  onClick={() => setCurrentPage(page)}
+                  className={`page-num-btn ${
+                    currentPage === page
+                      ? "active"
+                      : ""
+                  }`}
+                  onClick={() =>
+                    setCurrentPage(
+                      page
+                    )
+                  }
                 >
                   {page}
                 </button>
+
               ))}
 
-              <button 
-                className="page-nav-btn" 
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              <button
+                type="button"
+                className="page-nav-btn"
+                disabled={
+                  currentPage ===
+                  totalPages
+                }
+                onClick={
+                  handleNextPage
+                }
               >
                 &gt;
               </button>
 
-              <select 
+              <select
                 className="per-page-select"
                 value={itemsPerPage}
-                onChange={(e) => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }}
+                onChange={(e) => {
+                  setItemsPerPage(
+                    Number(
+                      e.target.value
+                    )
+                  );
+                  setCurrentPage(1);
+                }}
               >
-                <option value={5}>5 / page</option>
-                <option value={10}>10 / page</option>
-                <option value={20}>20 / page</option>
+                <option value={5}>
+                  5 / page
+                </option>
+
+                <option value={10}>
+                  10 / page
+                </option>
+
+                <option value={20}>
+                  20 / page
+                </option>
+
+                <option value={50}>
+                  50 / page
+                </option>
               </select>
+
             </div>
+
           </div>
+
         </div>
       )}
 
-      {/* VIEW DETAILS POPUP MODAL */}
+      {/* ===================================================
+          VIEW TEACHER MODAL
+      =================================================== */}
+
       {viewModalTeacher && (
-        <div className="modal-overlay" onClick={() => setViewModalTeacher(null)}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+
+        <div
+          className="modal-overlay"
+          onClick={() =>
+            setViewModalTeacher(null)
+          }
+        >
+
+          <div
+            className="modal-container teacher-view-modal"
+            onClick={(e) =>
+              e.stopPropagation()
+            }
+          >
+
             <div className="modal-header">
-              <h3>Teacher Details</h3>
-              <button className="modal-close" onClick={() => setViewModalTeacher(null)}><FaTimes /></button>
+
+              <h3>
+                Teacher Details
+              </h3>
+
+              <button
+                type="button"
+                className="modal-close"
+                onClick={() =>
+                  setViewModalTeacher(null)
+                }
+              >
+                <FaTimes />
+              </button>
+
             </div>
+
             <div className="modal-body flex-modal">
-              <img src={viewModalTeacher.photo} alt={viewModalTeacher.name} className="modal-avatar" />
-              <div className="modal-info">
-                <h2>{viewModalTeacher.name}</h2>
-                <p className="designation-text">{viewModalTeacher.designation}</p>
-                <hr className="divider" />
-                <ul className="info-list">
-                  <li><FaPhoneAlt /> <span>Phone:</span> {viewModalTeacher.phone}</li>
-                  <li><FaEnvelope /> <span>Email:</span> {viewModalTeacher.email}</li>
-                  <li><FaMapMarkerAlt /> <span>Address:</span> {viewModalTeacher.address}</li>
-                  <li><FaBriefcase /> <span>Experience:</span> {viewModalTeacher.experience}</li>
-                  <li><FaGraduationCap /> <span>Qualification:</span> {viewModalTeacher.qualification}</li>
-                  <li><FaCalendarAlt /> <span>Date of Joining:</span> {viewModalTeacher.joiningDate}</li>
-                </ul>
-                <div className="bio-section margin-top-15">
-                  <strong>Biography:</strong>
-                  <p>{viewModalTeacher.bio}</p>
-                </div>
+
+              <div className="modal-photo-section">
+
+                {viewModalTeacher.photo ? (
+                  <img
+                    src={getImageUrl(
+                      viewModalTeacher.photo
+                    )}
+                    alt={
+                      viewModalTeacher.name
+                    }
+                    className="modal-avatar"
+                  />
+                ) : (
+                  <div className="modal-avatar empty-modal-avatar">
+                    <FaUserCheck />
+                  </div>
+                )}
+
+                <span
+                  className={`status-badge ${
+                    viewModalTeacher.status?.toLowerCase()
+                  }`}
+                >
+                  {viewModalTeacher.status}
+                </span>
+
               </div>
+
+              <div className="modal-info">
+
+                <h2>
+                  {viewModalTeacher.name}
+                </h2>
+
+                <p className="designation-text">
+                  {
+                    viewModalTeacher.designation
+                  }
+                </p>
+
+                <hr className="divider" />
+
+                <ul className="info-list">
+
+                  <li>
+                    <FaPhoneAlt />
+                    <span>
+                      Phone
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.phone ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaEnvelope />
+                    <span>
+                      Email
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.email ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaMapMarkerAlt />
+                    <span>
+                      Address
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.address ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaBriefcase />
+                    <span>
+                      Experience
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.experience ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaGraduationCap />
+                    <span>
+                      Qualification
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.qualification ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaCalendarAlt />
+                    <span>
+                      Joining Date
+                    </span>
+                    <strong>
+                      {formatDisplayDate(
+                        viewModalTeacher.joiningDate
+                      )}
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaCalendarAlt />
+                    <span>
+                      Date of Birth
+                    </span>
+                    <strong>
+                      {formatDisplayDate(
+                        viewModalTeacher.dob
+                      )}
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaUserCheck />
+                    <span>
+                      Gender
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.gender ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                  <li>
+                    <FaUserCheck />
+                    <span>
+                      Blood Group
+                    </span>
+                    <strong>
+                      {
+                        viewModalTeacher.bloodGroup ||
+                        "N/A"
+                      }
+                    </strong>
+                  </li>
+
+                </ul>
+
+                {/* SKILLS */}
+
+                {viewModalTeacher.skills
+                  ?.length > 0 && (
+
+                  <div className="modal-skills-section">
+
+                    <strong>
+                      Teaching Skills
+                    </strong>
+
+                    <div className="skills-tags-container">
+
+                      {viewModalTeacher.skills.map(
+                        (
+                          skill,
+                          index
+                        ) => (
+                          <span
+                            key={`${skill}-${index}`}
+                            className="skill-badge"
+                          >
+                            {skill}
+                          </span>
+                        )
+                      )}
+
+                    </div>
+
+                  </div>
+
+                )}
+
+                {/* BIO */}
+
+                <div className="bio-section margin-top-15">
+
+                  <strong>
+                    Biography
+                  </strong>
+
+                  <p>
+                    {viewModalTeacher.bio ||
+                      "No biography available."}
+                  </p>
+
+                </div>
+
+              </div>
+
             </div>
+
           </div>
+
         </div>
+
       )}
 
-      {/* ADD NEW TEACHER QUICK MODAL */}
-      {isAddModalOpen && (
-        <div className="modal-overlay" onClick={() => setIsAddModalOpen(false)}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Add New Teacher Quick Form</h3>
-              <button className="modal-close" onClick={() => setIsAddModalOpen(false)}><FaTimes /></button>
-            </div>
-            <div className="modal-body">
-              <p>Switch to full editor or quick submit below:</p>
-              <div className="form-group margin-top-15">
-                <label>Teacher Full Name</label>
-                <input 
-                  type="text" 
-                  placeholder="Enter teacher name"
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                />
-              </div>
-              <div className="form-group margin-top-15">
-                <label>Email Address</label>
-                <input 
-                  type="email" 
-                  placeholder="Enter teacher email"
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                />
-              </div>
-              <div className="modal-actions margin-top-15">
-                <button className="btn-save" onClick={() => { setIsAddModalOpen(false); setActiveTab('add_edit'); }}>
-                  Open Full Editor
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
 export default TeacherList;
+

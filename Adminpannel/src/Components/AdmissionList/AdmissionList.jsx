@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   FaMagnifyingGlass,
   FaRotate,
@@ -9,7 +9,6 @@ import {
   FaDownload,
   FaPrint,
   FaXmark,
-  FaCheck,
   FaGraduationCap,
   FaUsers,
   FaCalendarDays,
@@ -23,156 +22,16 @@ import {
 } from "react-icons/fa6";
 
 import "./AdmissionList.css";
-
-const initialAdmissions = [
-  {
-    id: 1,
-    studentName: "Aarav Roul",
-    admissionNo: "NK2024001",
-    className: "Nursery",
-    gender: "Male",
-    admissionDate: "15-07-2024",
-    parentName: "Ramesh Roul",
-    contact: "+91 98765 43210",
-    email: "ramesh.roul@gmail.com",
-    status: "Active",
-    documents: "5/5",
-    session: "2024-25",
-    address: "Bhubaneswar, Odisha",
-    dob: "12-03-2020",
-  },
-  {
-    id: 2,
-    studentName: "Siya Patel",
-    admissionNo: "NK2024002",
-    className: "LKG",
-    gender: "Female",
-    admissionDate: "18-07-2024",
-    parentName: "Amit Patel",
-    contact: "+91 98765 43211",
-    email: "amit.patel@gmail.com",
-    status: "Active",
-    documents: "5/5",
-    session: "2024-25",
-    address: "Cuttack, Odisha",
-    dob: "21-06-2019",
-  },
-  {
-    id: 3,
-    studentName: "Rohan Kumar",
-    admissionNo: "NK2024003",
-    className: "UKG",
-    gender: "Male",
-    admissionDate: "20-07-2024",
-    parentName: "Suresh Kumar",
-    contact: "+91 98765 43212",
-    email: "suresh.kumar@gmail.com",
-    status: "Pending",
-    documents: "4/5",
-    session: "2024-25",
-    address: "Puri, Odisha",
-    dob: "08-01-2019",
-  },
-  {
-    id: 4,
-    studentName: "Ananya Gupta",
-    admissionNo: "NK2024004",
-    className: "Class 1",
-    gender: "Female",
-    admissionDate: "22-07-2024",
-    parentName: "Vikram Gupta",
-    contact: "+91 98765 43213",
-    email: "vikram.gupta@gmail.com",
-    status: "Active",
-    documents: "5/5",
-    session: "2024-25",
-    address: "Bhubaneswar, Odisha",
-    dob: "14-11-2018",
-  },
-  {
-    id: 5,
-    studentName: "Dev Pradhan",
-    admissionNo: "NK2024005",
-    className: "Class 2",
-    gender: "Male",
-    admissionDate: "25-07-2024",
-    parentName: "Manoj Pradhan",
-    contact: "+91 98765 43214",
-    email: "manoj.pradhan@gmail.com",
-    status: "Inactive",
-    documents: "4/5",
-    session: "2024-25",
-    address: "Kendrapara, Odisha",
-    dob: "19-08-2017",
-  },
-  {
-    id: 6,
-    studentName: "Kavya Tiwari",
-    admissionNo: "NK2024006",
-    className: "Class 3",
-    gender: "Female",
-    admissionDate: "28-07-2024",
-    parentName: "Sanjay Tiwari",
-    contact: "+91 98765 43215",
-    email: "sanjay.tiwari@gmail.com",
-    status: "Active",
-    documents: "5/5",
-    session: "2024-25",
-    address: "Cuttack, Odisha",
-    dob: "11-04-2016",
-  },
-  {
-    id: 7,
-    studentName: "Meet Sharma",
-    admissionNo: "NK2024007",
-    className: "Class 4",
-    gender: "Male",
-    admissionDate: "30-07-2024",
-    parentName: "Rajesh Sharma",
-    contact: "+91 98765 43216",
-    email: "rajesh.sharma@gmail.com",
-    status: "Active",
-    documents: "5/5",
-    session: "2024-25",
-    address: "Bhubaneswar, Odisha",
-    dob: "07-02-2015",
-  },
-  {
-    id: 8,
-    studentName: "Pihu Das",
-    admissionNo: "NK2024008",
-    className: "Class 5",
-    gender: "Female",
-    admissionDate: "01-08-2024",
-    parentName: "Kishore Das",
-    contact: "+91 98765 43217",
-    email: "kishore.das@gmail.com",
-    status: "Active",
-    documents: "5/5",
-    session: "2024-25",
-    address: "Aul, Odisha",
-    dob: "23-09-2014",
-  },
-];
-
-const emptyFormData = {
-  studentName: "",
-  admissionNo: "",
-  className: "Nursery",
-  gender: "Male",
-  admissionDate: "",
-  parentName: "",
-  contact: "",
-  email: "",
-  status: "Active",
-  documents: "5/5",
-  session: "2024-25",
-  address: "",
-  dob: "",
-};
+import API from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const AdmissionList = () => {
-  const [admissions, setAdmissions] = useState(initialAdmissions);
+  const navigate = useNavigate();
+
+  const [admissions, setAdmissions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [search, setSearch] = useState("");
   const [classFilter, setClassFilter] = useState("All Classes");
   const [sessionFilter, setSessionFilter] = useState("All Sessions");
@@ -199,27 +58,118 @@ const AdmissionList = () => {
     actions: true,
   });
 
-  const [formData, setFormData] = useState(emptyFormData);
+  const formatDate = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      const text = String(value);
+      const parts = text.split("-");
+      if (parts.length === 3 && parts[0].length === 4) {
+        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+      }
+      return text;
+    }
 
-  // Date Formatting Helpers
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const toISODate = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return date.toISOString().slice(0, 10);
+  };
+
+  const getDocumentCount = (documents) => {
+    if (!documents || typeof documents !== "object") return 0;
+    return Object.values(documents).filter(Boolean).length;
+  };
+
+  const mapAdmission = (admission, index) => {
+    const id = admission?._id || admission?.id;
+    const parentName =
+      admission?.fatherName ||
+      admission?.motherName ||
+      "Guardian";
+
+    const admissionClass = admission?.admissionClass
+      ? String(admission.admissionClass).startsWith("Class ")
+        ? String(admission.admissionClass)
+        : String(admission.admissionClass)
+      : "N/A";
+
+    return {
+      ...admission,
+      id,
+      _id: id,
+      studentName: admission?.studentName || "Unnamed Student",
+      admissionNo:
+        admission?.admissionNo ||
+        admission?.admNo ||
+        `ADM-${String(index + 1).padStart(4, "0")}`,
+      className: admissionClass,
+      gender: admission?.gender || "-",
+      admissionDate: formatDate(admission?.admissionDate),
+      parentName,
+      contact: admission?.mobile || admission?.altMobile || "",
+      email: admission?.email || "",
+      status: admission?.status || "Active",
+      documents: `${getDocumentCount(admission?.documents)}/5`,
+      session: admission?.session || "",
+      address: admission?.address || "",
+      dob: formatDate(admission?.dob),
+    };
+  };
+
+  const fetchAdmissions = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await API.get("/admissions");
+      const payload = response?.data;
+
+      const records = Array.isArray(payload)
+        ? payload
+        : Array.isArray(payload?.data)
+          ? payload.data
+          : Array.isArray(payload?.admissions)
+            ? payload.admissions
+            : [];
+
+      const mapped = records
+        .filter((item) => item?._id || item?.id)
+        .map(mapAdmission);
+
+      setAdmissions(mapped);
+      setSelectedRows([]);
+    } catch (err) {
+      console.error("Failed to fetch admissions:", err);
+      setError(
+        err?.response?.data?.message ||
+          "Unable to fetch admission data. Please check your backend server."
+      );
+      setAdmissions([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdmissions();
+  }, []);
+
   const convertDisplayDateToISO = (date) => {
     if (!date) return "";
-    const [day, month, year] = date.split("-");
-    return day && month && year ? `${year}-${month}-${day}` : "";
-  };
-
-  const formatDateForInput = (date) => {
-    if (!date) return "";
-    const [day, month, year] = date.split("-");
-    return day && month && year ? `${year}-${month}-${day}` : "";
-  };
-
-  const formatDateForDisplay = (value) => {
-    if (!value) return "";
-    const parts = value.split("-");
-    return parts.length === 3 && parts[0].length === 4
-      ? `${parts[2]}-${parts[1]}-${parts[0]}`
-      : value;
+    const parts = String(date).split("-");
+    if (parts.length === 3 && parts[2]?.length === 4) {
+      return `${parts[2]}-${parts[1]}-${parts[0]}`;
+    }
+    return toISODate(date);
   };
 
   // Reactive Filter Computation
@@ -301,13 +251,20 @@ const AdmissionList = () => {
   };
 
   const openEdit = (item) => {
-    setSelectedAdmission(item);
-    setFormData({
-      ...item,
-      admissionDate: item.admissionDate || "",
-      dob: item.dob || "",
-    });
-    setModal("edit");
+    if (!item?.id) {
+      alert("Student ID is missing.");
+      return;
+    }
+
+    setModal(null);
+    setSelectedAdmission(null);
+    navigate(`/admission/edit/${item.id}`);
+  };
+
+  const openAdd = () => {
+    setModal(null);
+    setSelectedAdmission(null);
+    navigate("/admission");
   };
 
   const openDelete = (item) => {
@@ -315,54 +272,33 @@ const AdmissionList = () => {
     setModal("delete");
   };
 
-  const openAdd = () => {
-    setFormData(emptyFormData);
-    setSelectedAdmission(null);
-    setModal("add");
-  };
-
   const closeModal = () => {
     setModal(null);
     setSelectedAdmission(null);
-    setFormData(emptyFormData);
   };
 
-  const handleInput = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const confirmDelete = async () => {
+    if (!selectedAdmission?.id) return;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.studentName.trim() || !formData.parentName.trim()) return;
+    try {
+      await API.delete(`/admissions/${selectedAdmission.id}`);
 
-    if (modal === "add") {
-      const newAdmission = {
-        ...formData,
-        id: Date.now(),
-        admissionNo:
-          formData.admissionNo ||
-          `NK${new Date().getFullYear()}${String(admissions.length + 1).padStart(3, "0")}`,
-      };
-      setAdmissions((prev) => [...prev, newAdmission]);
-      setCurrentPage(1);
-    } else if (modal === "edit" && selectedAdmission) {
       setAdmissions((prev) =>
-        prev.map((item) =>
-          item.id === selectedAdmission.id
-            ? { ...formData, id: selectedAdmission.id }
-            : item
-        )
+        prev.filter((item) => item.id !== selectedAdmission.id)
+      );
+
+      setSelectedRows((prev) =>
+        prev.filter((id) => id !== selectedAdmission.id)
+      );
+
+      closeModal();
+    } catch (err) {
+      console.error("Failed to delete admission:", err);
+      alert(
+        err?.response?.data?.message ||
+          "Failed to delete admission. Please try again."
       );
     }
-    closeModal();
-  };
-
-  const confirmDelete = () => {
-    if (!selectedAdmission) return;
-    setAdmissions((prev) => prev.filter((item) => item.id !== selectedAdmission.id));
-    setSelectedRows((prev) => prev.filter((id) => id !== selectedAdmission.id));
-    closeModal();
   };
 
   const exportCSV = () => {
@@ -441,6 +377,18 @@ const AdmissionList = () => {
         </button>
       </header>
 
+      {error && (
+        <div className="AdmissionList__errorMessage" role="alert">
+          {error}
+        </div>
+      )}
+
+      {loading && (
+        <div className="AdmissionList__loadingMessage">
+          Loading admission records...
+        </div>
+      )}
+
       {/* STAT CARDS */}
       <section className="AdmissionList__stats">
         <div className="AdmissionList__statCard AdmissionList__statCard--purple">
@@ -450,7 +398,7 @@ const AdmissionList = () => {
           <div className="AdmissionList__statContent">
             <span>Total Admissions</span>
             <div className="AdmissionList__statValue">
-              {admissions.length + 240}
+              {admissions.length}
               <small className="AdmissionList__badgeGrowth">↑ 12%</small>
             </div>
             <p>All-time recorded entries</p>
@@ -464,8 +412,17 @@ const AdmissionList = () => {
           <div className="AdmissionList__statContent">
             <span>This Month</span>
             <div className="AdmissionList__statValue">
-              32
-              <small className="AdmissionList__badgeGrowth">↑ 8%</small>
+              {admissions.filter((item) => {
+                if (!item.admissionDate) return false;
+                const [day, month, year] = item.admissionDate.split("-");
+                const date = new Date(`${year}-${month}-${day}`);
+                const now = new Date();
+                return (
+                  date.getMonth() === now.getMonth() &&
+                  date.getFullYear() === now.getFullYear()
+                );
+              }).length}
+              <small className="AdmissionList__badgeGrowth">This month</small>
             </div>
             <p>Newly enrolled students</p>
           </div>
@@ -478,7 +435,7 @@ const AdmissionList = () => {
           <div className="AdmissionList__statContent">
             <span>Boys</span>
             <div className="AdmissionList__statValue">
-              {maleCount + 124}
+              {maleCount}
               <small className="AdmissionList__neutralRatio">53%</small>
             </div>
             <p>Total male students</p>
@@ -492,7 +449,7 @@ const AdmissionList = () => {
           <div className="AdmissionList__statContent">
             <span>Girls</span>
             <div className="AdmissionList__statValue">
-              {femaleCount + 108}
+              {femaleCount}
               <small className="AdmissionList__pinkRatio">47%</small>
             </div>
             <p>Total female students</p>
@@ -524,14 +481,13 @@ const AdmissionList = () => {
           }}
         >
           <option>All Classes</option>
-          <option>Nursery</option>
-          <option>LKG</option>
-          <option>UKG</option>
-          <option>Class 1</option>
-          <option>Class 2</option>
-          <option>Class 3</option>
-          <option>Class 4</option>
-          <option>Class 5</option>
+          {[...new Set(admissions.map((item) => item.className).filter(Boolean))].map(
+            (className) => (
+              <option key={className} value={className}>
+                {className}
+              </option>
+            )
+          )}
         </select>
 
         <select
@@ -543,9 +499,13 @@ const AdmissionList = () => {
           }}
         >
           <option>All Sessions</option>
-          <option>2024-25</option>
-          <option>2025-26</option>
-          <option>2026-27</option>
+          {[...new Set(admissions.map((item) => item.session).filter(Boolean))].map(
+            (session) => (
+              <option key={session} value={session}>
+                {session}
+              </option>
+            )
+          )}
         </select>
 
         <select
@@ -558,7 +518,6 @@ const AdmissionList = () => {
         >
           <option>All Status</option>
           <option>Active</option>
-          <option>Pending</option>
           <option>Inactive</option>
         </select>
 
@@ -665,8 +624,7 @@ const AdmissionList = () => {
               type="button"
               className="AdmissionList__toolButton"
               onClick={() => {
-                setAdmissions([...initialAdmissions]);
-                setSelectedRows([]);
+                fetchAdmissions();
                 setCurrentPage(1);
               }}
             >
@@ -1000,205 +958,6 @@ const AdmissionList = () => {
                     Edit Admission
                   </button>
                 </div>
-              </>
-            )}
-
-            {(modal === "add" || modal === "edit") && (
-              <>
-                <div className="AdmissionList__modalHeader">
-                  <div>
-                    <span className="AdmissionList__modalEyebrow">Student Management</span>
-                    <h2>{modal === "add" ? "Add New Admission" : "Edit Admission"}</h2>
-                  </div>
-                  <button type="button" className="AdmissionList__closeButton" onClick={closeModal}>
-                    <FaXmark />
-                  </button>
-                </div>
-
-                <form className="AdmissionList__form" onSubmit={handleSubmit}>
-                  <div className="AdmissionList__formSectionTitle">
-                    <FaUser />
-                    <span>Student Information</span>
-                  </div>
-
-                  <div className="AdmissionList__formGrid">
-                    <div className="AdmissionList__formGroup">
-                      <label>
-                        Student Name <b>*</b>
-                      </label>
-                      <input
-                        name="studentName"
-                        value={formData.studentName}
-                        onChange={handleInput}
-                        placeholder="e.g. Aarav Roul"
-                        required
-                      />
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Admission Number</label>
-                      <input
-                        name="admissionNo"
-                        value={formData.admissionNo}
-                        onChange={handleInput}
-                        placeholder="Leave blank to auto-generate"
-                      />
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Class</label>
-                      <select
-                        name="className"
-                        value={formData.className}
-                        onChange={handleInput}
-                      >
-                        <option>Nursery</option>
-                        <option>LKG</option>
-                        <option>UKG</option>
-                        <option>Class 1</option>
-                        <option>Class 2</option>
-                        <option>Class 3</option>
-                        <option>Class 4</option>
-                        <option>Class 5</option>
-                      </select>
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Gender</label>
-                      <select name="gender" value={formData.gender} onChange={handleInput}>
-                        <option>Male</option>
-                        <option>Female</option>
-                      </select>
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Admission Date</label>
-                      <div className="AdmissionList__calendarInput">
-                        <FaCalendarDays />
-                        <input
-                          type="date"
-                          value={formatDateForInput(formData.admissionDate)}
-                          onChange={(e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              admissionDate: formatDateForDisplay(e.target.value),
-                            }))
-                          }
-                        />
-                      </div>
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Date of Birth</label>
-                      <div className="AdmissionList__calendarInput">
-                        <FaCalendarDays />
-                        <input
-                          type="date"
-                          name="dob"
-                          value={formatDateForInput(formData.dob)}
-                          onChange={(e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              dob: formatDateForDisplay(e.target.value),
-                            }))
-                          }
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="AdmissionList__formSectionTitle">
-                    <FaUserTie />
-                    <span>Parent / Guardian Information</span>
-                  </div>
-
-                  <div className="AdmissionList__formGrid">
-                    <div className="AdmissionList__formGroup">
-                      <label>
-                        Parent Name <b>*</b>
-                      </label>
-                      <input
-                        name="parentName"
-                        value={formData.parentName}
-                        onChange={handleInput}
-                        placeholder="e.g. Ramesh Roul"
-                        required
-                      />
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Contact Number</label>
-                      <input
-                        name="contact"
-                        value={formData.contact}
-                        onChange={handleInput}
-                        placeholder="+91 98765 43210"
-                      />
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Email Address</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInput}
-                        placeholder="parent@example.com"
-                      />
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Session</label>
-                      <select
-                        name="session"
-                        value={formData.session}
-                        onChange={handleInput}
-                      >
-                        <option>2024-25</option>
-                        <option>2025-26</option>
-                        <option>2026-27</option>
-                      </select>
-                    </div>
-
-                    <div className="AdmissionList__formGroup">
-                      <label>Status</label>
-                      <select
-                        name="status"
-                        value={formData.status}
-                        onChange={handleInput}
-                      >
-                        <option>Active</option>
-                        <option>Pending</option>
-                        <option>Inactive</option>
-                      </select>
-                    </div>
-
-                    <div className="AdmissionList__formGroup AdmissionList__formGroup--full">
-                      <label>Address</label>
-                      <textarea
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInput}
-                        placeholder="Enter full residential address"
-                        rows="3"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="AdmissionList__modalFooter">
-                    <button
-                      type="button"
-                      className="AdmissionList__secondaryButton"
-                      onClick={closeModal}
-                    >
-                      Cancel
-                    </button>
-                    <button type="submit" className="AdmissionList__primaryButton">
-                      <FaCheck />
-                      {modal === "add" ? "Save Admission" : "Update Admission"}
-                    </button>
-                  </div>
-                </form>
               </>
             )}
 
