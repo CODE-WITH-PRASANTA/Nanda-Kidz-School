@@ -161,8 +161,30 @@ function App() {
               ADMISSIONS
           ================================================= */}
 
+          {/* =================================================
+              ADMISSION FORM
+          ================================================= */}
+
+          {/* Add new student */}
+          <Route
+            path="admission"
+            element={<AdmissionForm />}
+          />
+
+          {/* Edit existing student */}
+          <Route
+            path="admission/edit/:id"
+            element={<AdmissionForm />}
+          />
+
+          {/* Keep old URL working */}
           <Route
             path="admissions"
+            element={<AdmissionForm />}
+          />
+
+          <Route
+            path="admissions/edit/:id"
             element={<AdmissionForm />}
           />
 
