@@ -27,7 +27,6 @@ import GalleryManagement from "./Pages/GalleryManagement/GalleryManagement";
 import ColdLead from "./Pages/ColdLead/ColdLead";
 import Order from "./Pages/Order/Order";
 
-import TeacherPost from "./Pages/TeacherPost/TeacherPost";
 import Floatingleads from "./Pages/Floatingleads/Floatingleads";
 
 // =====================================================
@@ -204,10 +203,7 @@ function App() {
           />
           <Route path="/latestnews"element={<LatestNews/>}/>
           <Route path="/shop-images"element={<ShopImg/>}/>
-          <Route
-            path="teacher-posts"
-            element={<TeacherPost />}
-          />
+        
 
           {/* =================================================
               FEES

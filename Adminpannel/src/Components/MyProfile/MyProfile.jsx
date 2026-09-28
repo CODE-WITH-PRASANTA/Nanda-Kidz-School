@@ -1,37 +1,26 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./MyProfile.css";
 
-const INITIAL_PROFILES = [
-  {
-    id: 1,
-    name: "Alex Morgan",
-    email: "alex.morgan@pureflow.com",
-    travelStyle: "Solo Backpacker",
-    baseLocation: "Kyoto, Japan",
-    bio: "Passionate photographer chasing mountain sunrises and hidden alleyways across East Asia.",
-    status: "Active",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-  },
-  {
-    id: 2,
-    name: "Sophia Chen",
-    email: "sophia.c@pureflow.com",
-    travelStyle: "Luxury Escapes",
-    baseLocation: "Zurich, Switzerland",
-    bio: "Curating high-end retreat itineraries, culinary tours, and alpine adventures.",
-    status: "Active",
-    avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-  },
-  {
-    id: 3,
-    name: "Liam O'Connor",
-    email: "liam.oc@pureflow.com",
-    travelStyle: "Roadtripper & Camping",
-    baseLocation: "Reykjavik, Iceland",
-    bio: "Van-life enthusiast mapping out rugged routes and off-grid wild spots.",
-    status: "Inactive",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
-  },
+const API_BASE_URL = "http://localhost:5000";
+const DEFAULT_AVATAR =
+  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80";
+
+const CITY_SUGGESTIONS = [
+  "Bhubaneswar, Odisha",
+  "Cuttack, Odisha",
+  "Puri, Odisha",
+  "Rourkela, Odisha",
+  "Berhampur, Odisha",
+  "Sambalpur, Odisha",
+  "Balasore, Odisha",
+  "Baripada, Odisha",
+  "Angul, Odisha",
+  "Jharsuguda, Odisha",
+  "Kolkata, West Bengal",
+  "Delhi, India",
+  "Mumbai, Maharashtra",
+  "Bengaluru, Karnataka",
+  "Hyderabad, Telangana",
 ];
 
 const TRAVEL_STYLE_SUGGESTIONS = [
@@ -45,87 +34,105 @@ const TRAVEL_STYLE_SUGGESTIONS = [
   "Culinary & Wine Tourist",
 ];
 
-const CITY_SUGGESTIONS = [
-  "Kyoto, Japan",
-  "Zurich, Switzerland",
-  "Reykjavik, Iceland",
-  "New York, USA",
-  "Bali, Indonesia",
-  "Barcelona, Spain",
-  "Cape Town, South Africa",
-  "Vancouver, Canada",
-  "Bhubaneswar, India",
-];
-
-const EMAIL_DOMAINS = [
-  "pureflow.com",
-  "gmail.com",
-  "outlook.com",
-  "yahoo.com",
-];
+const EMAIL_DOMAINS = ["pureflow.com", "gmail.com", "outlook.com", "yahoo.com"];
 
 const MyProfile = () => {
-  const [profiles, setProfiles] = useState(INITIAL_PROFILES);
-
-  // Form states
+  const [profiles, setProfiles] = useState([]);
   const [editingId, setEditingId] = useState(null);
+
+  // Form Fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [travelStyle, setTravelStyle] = useState("");
   const [baseLocation, setBaseLocation] = useState("");
   const [bio, setBio] = useState("");
-  const [avatar, setAvatar] = useState(
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"
-  );
+  const [avatarPreview, setAvatarPreview] = useState(DEFAULT_AVATAR);
+  const [avatarFile, setAvatarFile] = useState(null);
   const [notification, setNotification] = useState("");
 
-  // Delete Modal States
+  // Delete modal state
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [profileToDelete, setProfileToDelete] = useState(null);
 
-  // Dropdown States
+  // Suggestion visibility
   const [showEmailSuggestions, setShowEmailSuggestions] = useState(false);
   const [showStyleSuggestions, setShowStyleSuggestions] = useState(false);
   const [showCitySuggestions, setShowCitySuggestions] = useState(false);
 
-  // Container refs for clicking outside
   const emailRef = useRef(null);
   const styleRef = useRef(null);
   const cityRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Close suggestions on outside click
+  const formatImageUrl = (url) => {
+    if (!url) return DEFAULT_AVATAR;
+    if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("blob:")) {
+      return url;
+    }
+    return `${API_BASE_URL}${url}`;
+  };
+
+  const triggerNotification = (msg) => {
+    setNotification(msg);
+    setTimeout(() => setNotification(""), 3500);
+  };
+
+  // Broadcasts event to Topbar
+  const broadcastAvatarUpdate = (avatarUrl) => {
+    window.dispatchEvent(
+      new CustomEvent("profileAvatarUpdated", {
+        detail: { avatarUrl: formatImageUrl(avatarUrl) },
+      })
+    );
+  };
+
+  // Fetch all profiles from backend
+  const fetchProfiles = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/profiles`);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.profiles)) {
+        setProfiles(data.profiles);
+        if (data.profiles.length > 0) {
+          broadcastAvatarUpdate(data.profiles[0].avatar);
+          if (!editingId) {
+            setAvatarPreview(formatImageUrl(data.profiles[0].avatar));
+          }
+        }
+      }
+    } catch {
+      triggerNotification("Failed to load profiles from server.");
+    }
+  };
+
+  useEffect(() => {
+    fetchProfiles();
+  }, []);
+
+  // Click outside listener for dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (emailRef.current && !emailRef.current.contains(e.target)) {
-        setShowEmailSuggestions(false);
-      }
-      if (styleRef.current && !styleRef.current.contains(e.target)) {
-        setShowStyleSuggestions(false);
-      }
-      if (cityRef.current && !cityRef.current.contains(e.target)) {
-        setShowCitySuggestions(false);
-      }
+      if (emailRef.current && !emailRef.current.contains(e.target)) setShowEmailSuggestions(false);
+      if (styleRef.current && !styleRef.current.contains(e.target)) setShowStyleSuggestions(false);
+      if (cityRef.current && !cityRef.current.contains(e.target)) setShowCitySuggestions(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const triggerNotification = (msg) => {
-    setNotification(msg);
-    setTimeout(() => setNotification(""), 3200);
-  };
-
+  // Handle avatar file selection
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      setAvatar(url);
-      triggerNotification("Profile picture updated!");
+      setAvatarFile(file);
+      const localUrl = URL.createObjectURL(file);
+      setAvatarPreview(localUrl);
+      broadcastAvatarUpdate(localUrl); // Instant preview in topbar
+      triggerNotification("Profile picture selected!");
     }
   };
 
-  // Email logic & domain suggestions
+  // Email suggestions
   const handleEmailChange = (e) => {
     const val = e.target.value;
     setEmail(val);
@@ -144,22 +151,20 @@ const MyProfile = () => {
     return EMAIL_DOMAINS.map((d) => `${email}@${d}`);
   };
 
-  // Travel style suggestions
-  const filteredStyles = travelStyle.trim()
-    ? TRAVEL_STYLE_SUGGESTIONS.filter((s) =>
-        s.toLowerCase().includes(travelStyle.toLowerCase())
-      )
-    : TRAVEL_STYLE_SUGGESTIONS;
-
-  // City suggestions
   const filteredCities = baseLocation.trim()
     ? CITY_SUGGESTIONS.filter((c) =>
-        c.toLowerCase().includes(baseLocation.toLowerCase())
+        c.toLowerCase().includes(baseLocation.trim().toLowerCase())
       )
-    : CITY_SUGGESTIONS;
+    : [];
 
-  // Save / Update
-  const handleSaveProfile = (e) => {
+  const filteredStyles = travelStyle.trim()
+    ? TRAVEL_STYLE_SUGGESTIONS.filter((s) =>
+        s.toLowerCase().includes(travelStyle.trim().toLowerCase())
+      )
+    : [];
+
+  // Submit / Update
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
 
     if (!name.trim() || !email.trim()) {
@@ -167,62 +172,65 @@ const MyProfile = () => {
       return;
     }
 
-    if (editingId) {
-      setProfiles((prev) =>
-        prev.map((p) =>
-          p.id === editingId
-            ? {
-                ...p,
-                name,
-                email,
-                travelStyle: travelStyle || "Explorer",
-                baseLocation: baseLocation || "Global Citizen",
-                bio,
-                avatar,
-              }
-            : p
-        )
-      );
-      triggerNotification("Profile successfully updated!");
-    } else {
-      const newEntry = {
-        id: Date.now(),
-        name,
-        email,
-        travelStyle: travelStyle || "Solo Traveler",
-        baseLocation: baseLocation || "Not Specified",
-        bio,
-        status: "Active",
-        avatar:
-          avatar ||
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
-      };
-      setProfiles([newEntry, ...profiles]);
-      triggerNotification("New profile created successfully!");
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("travelStyle", travelStyle || "Solo Backpacker");
+    formData.append("baseLocation", baseLocation || "Bhubaneswar, Odisha");
+    formData.append("bio", bio);
+    if (avatarFile) {
+      formData.append("avatar", avatarFile);
     }
 
-    handleResetForm();
+    try {
+      const url = editingId
+        ? `${API_BASE_URL}/api/profiles/${editingId}`
+        : `${API_BASE_URL}/api/profiles`;
+      const method = editingId ? "PUT" : "POST";
+
+      const res = await fetch(url, { method, body: formData });
+      const data = await res.json();
+
+      if (data.success) {
+        triggerNotification(editingId ? "Profile updated successfully!" : "Profile saved successfully!");
+        fetchProfiles();
+        if (data.profile?.avatar) {
+          broadcastAvatarUpdate(data.profile.avatar);
+          setAvatarPreview(formatImageUrl(data.profile.avatar));
+        }
+        handleResetForm();
+      } else {
+        triggerNotification(data.message || "Failed to save profile.");
+      }
+    } catch {
+      triggerNotification("Network error. Backend not responding.");
+    }
   };
 
   const handleEdit = (profile) => {
-    setEditingId(profile.id);
+    setEditingId(profile._id);
     setName(profile.name);
     setEmail(profile.email);
     setTravelStyle(profile.travelStyle);
     setBaseLocation(profile.baseLocation);
     setBio(profile.bio || "");
-    setAvatar(profile.avatar);
+    const imgUrl = formatImageUrl(profile.avatar);
+    setAvatarPreview(imgUrl);
+    setAvatarFile(null);
+    broadcastAvatarUpdate(profile.avatar);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleToggleStatus = (id) => {
-    setProfiles((prev) =>
-      prev.map((p) =>
-        p.id === id
-          ? { ...p, status: p.status === "Active" ? "Inactive" : "Active" }
-          : p
-      )
-    );
+  const handleToggleStatus = async (id) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/profiles/${id}/status`, { method: "PATCH" });
+      const data = await res.json();
+      if (data.success) {
+        setProfiles((prev) => prev.map((p) => (p._id === id ? data.profile : p)));
+      }
+    } catch {
+      triggerNotification("Failed to update status.");
+    }
   };
 
   const initiateDelete = (profile) => {
@@ -230,19 +238,21 @@ const MyProfile = () => {
     setIsDeleteModalOpen(true);
   };
 
-  const confirmDelete = () => {
-    if (profileToDelete) {
-      setProfiles((prev) => prev.filter((p) => p.id !== profileToDelete.id));
-      triggerNotification(`Profile "${profileToDelete.name}" deleted.`);
-      if (editingId === profileToDelete.id) {
-        handleResetForm();
+  const confirmDelete = async () => {
+    if (!profileToDelete) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/profiles/${profileToDelete._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProfiles((prev) => prev.filter((p) => p._id !== profileToDelete._id));
+        triggerNotification(`Profile "${profileToDelete.name}" deleted.`);
+        if (editingId === profileToDelete._id) handleResetForm();
       }
+    } catch {
+      triggerNotification("Failed to delete profile.");
     }
-    setIsDeleteModalOpen(false);
-    setProfileToDelete(null);
-  };
-
-  const cancelDelete = () => {
     setIsDeleteModalOpen(false);
     setProfileToDelete(null);
   };
@@ -254,6 +264,7 @@ const MyProfile = () => {
     setTravelStyle("");
     setBaseLocation("");
     setBio("");
+    setAvatarFile(null);
     setShowEmailSuggestions(false);
     setShowStyleSuggestions(false);
     setShowCitySuggestions(false);
@@ -265,18 +276,8 @@ const MyProfile = () => {
       <div className="MyProfile-hero-banner">
         <div className="MyProfile-header-nav">
           <div className="MyProfile-top-pill">
-            <svg
-              className="MyProfile-pill-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
+            <svg className="MyProfile-pill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span>Account Settings</span>
           </div>
@@ -284,33 +285,20 @@ const MyProfile = () => {
       </div>
 
       <div className="MyProfile-content-wrapper">
-        {notification && (
-          <div className="MyProfile-toast">
-            <svg
-              className="MyProfile-toast-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            {notification}
-          </div>
-        )}
+        {notification && <div className="MyProfile-toast">{notification}</div>}
 
         {/* Form Card */}
         <section className="MyProfile-card MyProfile-form-card">
           <div className="MyProfile-card-header">
             <div className="MyProfile-avatar-wrapper">
               <img
-                src={avatar}
+                src={avatarPreview}
                 alt="Profile Avatar"
                 className="MyProfile-avatar-img"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = DEFAULT_AVATAR;
+                }}
               />
               <button
                 type="button"
@@ -318,18 +306,8 @@ const MyProfile = () => {
                 title="Change Photo"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  className="MyProfile-pen-icon"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                  />
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" className="MyProfile-pen-icon">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
               </button>
               <input
@@ -342,19 +320,13 @@ const MyProfile = () => {
             </div>
 
             <div className="MyProfile-title-group">
-              <h2 className="MyProfile-heading">
-                {editingId ? "Edit Profile" : "Profile Settings"}
-              </h2>
-              <p className="MyProfile-subheading">
-                Manage your personal details, travel preferences, and account
-                information
-              </p>
+              <h2 className="MyProfile-heading">{editingId ? "Edit Profile" : "Profile Settings"}</h2>
+              <p className="MyProfile-subheading">Manage personal details, preferences, and account info</p>
             </div>
           </div>
 
           <form onSubmit={handleSaveProfile} className="MyProfile-form">
             <div className="MyProfile-grid-2">
-              {/* Admin Name */}
               <div className="MyProfile-field-group">
                 <label className="MyProfile-label" htmlFor="admin-name">
                   Admin Name <span className="MyProfile-required">*</span>
@@ -370,11 +342,7 @@ const MyProfile = () => {
                 />
               </div>
 
-              {/* Email Address with Domain Autocomplete */}
-              <div
-                className="MyProfile-field-group MyProfile-autocomplete"
-                ref={emailRef}
-              >
+              <div className="MyProfile-field-group MyProfile-autocomplete" ref={emailRef}>
                 <label className="MyProfile-label" htmlFor="email-address">
                   Email Address <span className="MyProfile-required">*</span>
                 </label>
@@ -386,12 +354,11 @@ const MyProfile = () => {
                     placeholder="e.g. admin@pureflow.com"
                     value={email}
                     onChange={handleEmailChange}
-                    onFocus={() => email && setShowEmailSuggestions(true)}
+                    onFocus={() => email.length > 0 && setShowEmailSuggestions(true)}
                     required
                   />
                   <span className="MyProfile-input-hint">✉️</span>
                 </div>
-
                 {showEmailSuggestions && getEmailSuggestions().length > 0 && (
                   <ul className="MyProfile-suggestions-menu">
                     {getEmailSuggestions().map((suggestion, idx) => (
@@ -413,18 +380,9 @@ const MyProfile = () => {
             </div>
 
             <div className="MyProfile-grid-2">
-              {/* Travel Style with Suggestion Dropdown */}
-              <div
-                className="MyProfile-field-group MyProfile-autocomplete"
-                ref={styleRef}
-              >
-                <label className="MyProfile-label">
-                  Travel Style / Explorer Category
-                </label>
-                <div
-                  className="MyProfile-input-with-icon"
-                  onClick={() => setShowStyleSuggestions(true)}
-                >
+              <div className="MyProfile-field-group MyProfile-autocomplete" ref={styleRef}>
+                <label className="MyProfile-label">Travel Style / Explorer Category</label>
+                <div className="MyProfile-input-with-icon">
                   <input
                     type="text"
                     className="MyProfile-input"
@@ -432,13 +390,12 @@ const MyProfile = () => {
                     value={travelStyle}
                     onChange={(e) => {
                       setTravelStyle(e.target.value);
-                      setShowStyleSuggestions(true);
+                      setShowStyleSuggestions(e.target.value.trim().length > 0);
                     }}
-                    onFocus={() => setShowStyleSuggestions(true)}
+                    onFocus={() => setShowStyleSuggestions(travelStyle.trim().length > 0)}
                   />
                   <span className="MyProfile-input-hint dropdown-arrow">▾</span>
                 </div>
-
                 {showStyleSuggestions && filteredStyles.length > 0 && (
                   <ul className="MyProfile-suggestions-menu">
                     {filteredStyles.map((item, idx) => (
@@ -458,30 +415,22 @@ const MyProfile = () => {
                 )}
               </div>
 
-              {/* Base Location / City with Suggestion Dropdown */}
-              <div
-                className="MyProfile-field-group MyProfile-autocomplete"
-                ref={cityRef}
-              >
+              <div className="MyProfile-field-group MyProfile-autocomplete" ref={cityRef}>
                 <label className="MyProfile-label">Base Location / City</label>
-                <div
-                  className="MyProfile-input-with-icon"
-                  onClick={() => setShowCitySuggestions(true)}
-                >
+                <div className="MyProfile-input-with-icon">
                   <input
                     type="text"
                     className="MyProfile-input"
-                    placeholder="e.g. Kyoto, Japan"
+                    placeholder="Type city (e.g. bhuba...)"
                     value={baseLocation}
                     onChange={(e) => {
                       setBaseLocation(e.target.value);
-                      setShowCitySuggestions(true);
+                      setShowCitySuggestions(e.target.value.trim().length > 0);
                     }}
-                    onFocus={() => setShowCitySuggestions(true)}
+                    onFocus={() => setShowCitySuggestions(baseLocation.trim().length > 0)}
                   />
                   <span className="MyProfile-input-hint">📍</span>
                 </div>
-
                 {showCitySuggestions && filteredCities.length > 0 && (
                   <ul className="MyProfile-suggestions-menu">
                     {filteredCities.map((city, idx) => (
@@ -502,11 +451,8 @@ const MyProfile = () => {
               </div>
             </div>
 
-            {/* Traveler Bio */}
             <div className="MyProfile-field-group">
-              <label className="MyProfile-label">
-                Traveler Bio & Exploration Highlights
-              </label>
+              <label className="MyProfile-label">Traveler Bio & Exploration Highlights</label>
               <textarea
                 className="MyProfile-textarea"
                 rows={3}
@@ -516,58 +462,23 @@ const MyProfile = () => {
               />
             </div>
 
-            {/* Actions */}
             <div className="MyProfile-form-actions">
               {editingId && (
-                <button
-                  type="button"
-                  onClick={handleResetForm}
-                  className="MyProfile-btn-secondary"
-                >
+                <button type="button" onClick={handleResetForm} className="MyProfile-btn-secondary">
                   Cancel Edit
                 </button>
               )}
               <button type="submit" className="MyProfile-btn-primary">
-                <svg
-                  className="MyProfile-btn-icon"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
                 {editingId ? "Update Profile" : "Save Profile"}
               </button>
             </div>
           </form>
         </section>
 
-        {/* Details Table Card */}
+        {/* Profile Table Card */}
         <section className="MyProfile-card MyProfile-table-card">
           <div className="MyProfile-table-topbar">
-            <div className="MyProfile-table-header-left">
-              <div className="MyProfile-table-icon-badge">
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  className="MyProfile-badge-svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </div>
-              <h3 className="MyProfile-table-title">Profile Details</h3>
-            </div>
+            <h3 className="MyProfile-table-title">Profile Details</h3>
             <button
               type="button"
               className="MyProfile-btn-add"
@@ -590,49 +501,42 @@ const MyProfile = () => {
                   <th>Travel Style</th>
                   <th>Base Location</th>
                   <th>Status</th>
-                  <th style={{ textAlign: "right", paddingRight: "24px" }}>
-                    Actions
-                  </th>
+                  <th style={{ textAlign: "right", paddingRight: "24px" }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {profiles.length > 0 ? (
                   profiles.map((item, index) => (
-                    <tr key={item.id} className="MyProfile-row">
-                      <td className="MyProfile-td-num">
-                        {String(index + 1).padStart(2, "0")}
-                      </td>
+                    <tr key={item._id} className="MyProfile-row">
+                      <td className="MyProfile-td-num">{String(index + 1).padStart(2, "0")}</td>
                       <td>
                         <div className="MyProfile-user-cell">
                           <img
-                            src={item.avatar}
+                            src={formatImageUrl(item.avatar)}
                             alt={item.name}
                             className="MyProfile-cell-avatar"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = DEFAULT_AVATAR;
+                            }}
                           />
-                          <span className="MyProfile-user-name">
-                            {item.name}
-                          </span>
+                          <span className="MyProfile-user-name">{item.name}</span>
                         </div>
                       </td>
                       <td className="MyProfile-td-email">{item.email}</td>
                       <td>
-                        <span className="MyProfile-pill-tag">
-                          {item.travelStyle}
-                        </span>
+                        <span className="MyProfile-pill-tag">{item.travelStyle}</span>
                       </td>
-                      <td className="MyProfile-td-location">
-                        {item.baseLocation}
-                      </td>
+                      <td className="MyProfile-td-location">{item.baseLocation}</td>
                       <td>
                         <button
                           type="button"
-                          onClick={() => handleToggleStatus(item.id)}
+                          onClick={() => handleToggleStatus(item._id)}
                           className={`MyProfile-status-pill ${
                             item.status === "Active"
                               ? "MyProfile-status-active"
                               : "MyProfile-status-inactive"
                           }`}
-                          title="Click to toggle status"
                         >
                           <span className="MyProfile-dot" />
                           {item.status}
@@ -643,40 +547,18 @@ const MyProfile = () => {
                           <button
                             type="button"
                             className="MyProfile-icon-action-btn edit"
-                            title="Edit Profile"
                             onClick={() => handleEdit(item)}
+                            title="Edit"
                           >
-                            <svg
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                              />
-                            </svg>
+                            ✎
                           </button>
                           <button
                             type="button"
                             className="MyProfile-icon-action-btn delete"
-                            title="Delete Profile"
                             onClick={() => initiateDelete(item)}
+                            title="Delete"
                           >
-                            <svg
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
+                            🗑
                           </button>
                         </div>
                       </td>
@@ -703,73 +585,21 @@ const MyProfile = () => {
 
       {/* Delete Confirmation Modal */}
       {isDeleteModalOpen && (
-        <div className="MyProfile-modal-backdrop" onClick={cancelDelete}>
-          <div
-            className="MyProfile-modal-card"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              className="MyProfile-modal-close-btn"
-              onClick={cancelDelete}
-              aria-label="Close"
-            >
-              ✕
-            </button>
-
-            <div className="MyProfile-modal-icon-circle">
-              <svg
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                className="MyProfile-modal-icon-svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-            </div>
-
+        <div className="MyProfile-modal-backdrop" onClick={() => setIsDeleteModalOpen(false)}>
+          <div className="MyProfile-modal-card" onClick={(e) => e.stopPropagation()}>
             <h3 className="MyProfile-modal-title">Delete Profile?</h3>
             <p className="MyProfile-modal-desc">
-              Are you sure you want to permanently remove this profile? This
-              action cannot be reversed.
+              Are you sure you want to delete profile for {profileToDelete?.name}?
             </p>
-
-            {profileToDelete && (
-              <div className="MyProfile-modal-preview">
-                <img
-                  src={profileToDelete.avatar}
-                  alt={profileToDelete.name}
-                  className="MyProfile-modal-preview-avatar"
-                />
-                <div className="MyProfile-modal-preview-info">
-                  <span className="MyProfile-modal-preview-name">
-                    {profileToDelete.name}
-                  </span>
-                  <span className="MyProfile-modal-preview-email">
-                    {profileToDelete.email}
-                  </span>
-                </div>
-              </div>
-            )}
-
             <div className="MyProfile-modal-actions">
               <button
                 type="button"
                 className="MyProfile-modal-btn-cancel"
-                onClick={cancelDelete}
+                onClick={() => setIsDeleteModalOpen(false)}
               >
                 Cancel
               </button>
-              <button
-                type="button"
-                className="MyProfile-modal-btn-delete"
-                onClick={confirmDelete}
-              >
+              <button type="button" className="MyProfile-modal-btn-delete" onClick={confirmDelete}>
                 Yes, Delete
               </button>
             </div>

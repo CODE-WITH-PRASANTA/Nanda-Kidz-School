@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 // Import your logo file
-import logo from '../../assets/nanda image .png'; 
+import logo from '../../assets/nanda image .png';
 
 import {
   Home,
@@ -10,18 +10,13 @@ import {
   BookOpen,
   CalendarCheck,
   Wallet,
-  ClipboardList,
-  CalendarDays,
-  NotebookPen,
   Library,
-  Bus,
   Image as ImageIcon,
   FileText,
   Bell,
   Mail,
   Globe,
   Store,
-  Settings,
   ChevronRight,
   ChevronDown,
   Phone,
@@ -54,82 +49,66 @@ const Sidebar = ({
   };
 
   // =====================================================
-  // SIDEBAR MENU
+  // SIDEBAR MENU (REORDERED & CLEANED)
   // =====================================================
 
   const menuCategories = [
-    // =====================================================
-    // MAIN MENU
-    // =====================================================
     {
       category: 'Main Menu',
       items: [
+        // 1. Dashboard
         {
           type: 'link',
           icon: Home,
           text: 'Dashboard',
           path: '/dashboard',
         },
-      ],
-    },
-
-    // =====================================================
-    // ⭐ LATEST NEWS SECTION
-    // =====================================================
-    {
-      category: 'Updates',
-      items: [
+        // 2. Latest News
         {
           type: 'link',
           icon: Newspaper,
           text: 'Latest News',
           path: '/latestnews',
         },
-      ],
-    },
-    
-    // =====================================================
-    // ACADEMIC MANAGEMENT
-    // =====================================================
-    {
-      category: 'Academic Management',
-      items: [
+        // 3. Floating Enquiries
+        {
+          type: 'link',
+          icon: HelpCircle,
+          text: 'Floating Enquiries',
+          path: '/floating-enquiries',
+        },
+        // 4. Shop Image
+        {
+          type: 'link',
+          icon: ImageIcon,
+          text: 'Shop Image',
+          path: '/shop-images',
+        },
+        // 5. Order
+        {
+          type: 'link',
+          icon: Library,
+          text: 'Order',
+          path: '/order',
+        },
+        // 6. Blog Posting
         {
           type: 'dropdown',
-          key: 'academics',
-          icon: BookOpen,
-          text: 'Class & Subjects',
+          key: 'blog',
+          icon: FileText,
+          text: 'Blog Posting',
           subItems: [
             {
-              text: 'Class Management',
-              path: '/classes',
+              text: 'Create Post',
+              path: '/blog/post',
             },
             {
-              text: 'Subject Management',
-              path: '/subjects',
-            },
-            {
-              text: 'Schedules & Routines',
-              path: '/class-schedules',
+              text: 'Manage Posts',
+              path: '/blog/management',
             },
           ],
         },
-        {
-          type: 'link',
-          icon: CalendarCheck,
-          text: 'Attendance',
-          path: '/teacher-attendance',
-        },
-       
-      ],
-    },
-
-    // =====================================================
-    // ADMINISTRATION
-    // =====================================================
-    {
-      category: 'Administration',
-      items: [
+        // 7. Users & Staff
         {
           type: 'dropdown',
           key: 'people',
@@ -158,94 +137,33 @@ const Sidebar = ({
             },
           ],
         },
-        { type: 'link', icon: Wallet, text: 'Fees & Payments', path: '/fees-payments' },
-        { type: 'link', icon: Bus, text: 'Transport', path: '/transport' },
-       
-        { type: 'link', icon: Bus, text: 'Cold Lead', path: '/coldlead' },
-        { type: 'link', icon: Library, text: 'Order', path: '/order' },
-      ],
-    },
-
-    // =====================================================
-    // CONTENT & COMMUNICATION
-    // =====================================================
-    {
-      category: 'Content & Communication',
-      items: [
-        {
-          type: 'dropdown',
-          key: 'blog',
-          icon: FileText,
-          text: 'Blog Posting',
-          subItems: [
-            {
-              text: 'Create Post',
-              path: '/blog/post',
-            },
-            {
-              text: 'Manage Posts',
-              path: '/blog/management',
-            },
-          ],
-        },
-        { type: 'link', icon: Send, text: 'Teacher Post', path: '/teacher-posts' },
-        { type: 'link', icon: ImageIcon, text: 'Gallery Management', path: '/gallery-management' },
-        { type: 'link', icon: CalendarDays, text: 'Events', path: '/events' },
-        { type: 'link', icon: Bell, text: 'Notice Board', path: '/notice-board' },
-        { type: 'link', icon: Mail, text: 'Contact Messages', path: '/contact-messages' },
-        { type: 'link', icon: Globe, text: 'Website Manage', path: '/website-manage' },
-        { type: 'link', icon: FileText, text: 'Testimonials', path: '/testimonials' },
-      ],
-    },
-
-    // =====================================================
-    // ENQUIRIES
-    // =====================================================
-    {
-      category: 'Enquiries',
-      items: [
+        // 8. Teacher Post
         {
           type: 'link',
-          icon: HelpCircle,
-          text: 'Floating Enquiries',
-          path: '/floating-enquiries',
+          icon: Send,
+          text: 'Teacher Post',
+          path: '/teacher-posts',
         },
-      ],
-    },
-
-    // =====================================================
-    // SYSTEM & COMMERCE
-    // =====================================================
-    {
-      category: 'System & Commerce',
-      items: [
-        {
-          type: 'dropdown',
-          key: 'shop',
-          icon: Store,
-          text: 'Store & Products',
-          subItems: [
-            {
-              text: 'Shop Overview',
-              path: '/shop',
-            },
-            {
-              text: 'Add Product',
-              path: '/shop/add',
-            },
-          ],
-        },
+        // 9. Gallery Management
         {
           type: 'link',
           icon: ImageIcon,
-          text: 'Shop Image',
-          path: '/shop-images',
+          text: 'Gallery Management',
+          path: '/gallery-management',
         },
+        // 10. Testimonials
         {
           type: 'link',
-          icon: Settings,
-          text: 'Settings',
-          path: '/settings',
+          icon: FileText,
+          text: 'Testimonials',
+          path: '/testimonials',
+        },
+        // 11. Contact Messages
+        {
+          type: 'link',
+          icon: Mail,
+          text: 'Contact Messages',
+          path: '/contact-messages',
         },
       ],
     },
@@ -280,14 +198,9 @@ const Sidebar = ({
 
   return (
     <>
-      {/* =================================================
-          MOBILE OVERLAY
-      ================================================= */}
+      {/* MOBILE OVERLAY */}
       {isMobileOpen && (
-        <div
-          className="Sidebar-overlay"
-          onClick={onMobileClose}
-        />
+        <div className="Sidebar-overlay" onClick={onMobileClose} />
       )}
 
       <aside
@@ -295,9 +208,7 @@ const Sidebar = ({
           isCollapsed ? 'collapsed' : 'expanded'
         } ${isMobileOpen ? 'mobile-open' : ''}`}
       >
-        {/* =================================================
-            BRAND HEADER
-        ================================================= */}
+        {/* BRAND HEADER */}
         <div className="Sidebar-header">
           <div className="Sidebar-logoMark">
             <img src={logo} alt="Kids School Logo" className="Sidebar-logoImg" />
@@ -319,15 +230,10 @@ const Sidebar = ({
           </button>
         </div>
 
-        {/* =================================================
-            CATEGORIZED NAVIGATION
-        ================================================= */}
+        {/* NAVIGATION */}
         <nav className="Sidebar-nav">
           {menuCategories.map((catGroup, catIdx) => (
-            <div
-              key={catIdx}
-              className="Sidebar-section"
-            >
+            <div key={catIdx} className="Sidebar-section">
               {showLabels && (
                 <div className="Sidebar-categoryTitle">
                   {catGroup.category}
@@ -336,21 +242,16 @@ const Sidebar = ({
 
               <ul className="Sidebar-menu">
                 {catGroup.items.map((item, index) => {
-                  // NORMAL LINK
+                  // Normal Link
                   if (item.type === 'link') {
                     const Icon = item.icon;
 
                     return (
-                      <li
-                        key={index}
-                        className="SidebarItem"
-                      >
+                      <li key={index} className="SidebarItem">
                         <NavLink
                           to={item.path}
                           className={({ isActive }) =>
-                            `SidebarItem-link ${
-                              isActive ? 'active' : ''
-                            }`
+                            `SidebarItem-link ${isActive ? 'active' : ''}`
                           }
                           title={!showLabels ? item.text : ''}
                           onClick={onMobileClose}
@@ -376,7 +277,7 @@ const Sidebar = ({
                     );
                   }
 
-                  // DROPDOWN MENU
+                  // Dropdown Menu
                   const Icon = item.icon;
                   const isOpen = !!openDropdowns[item.key];
 
@@ -414,7 +315,7 @@ const Sidebar = ({
                         )}
                       </button>
 
-                      {/* SUB MENU */}
+                      {/* Submenu */}
                       {showLabels && isOpen && (
                         <ul className="SidebarItem-submenu">
                           {item.subItems.map((sub, subIndex) => (
@@ -442,9 +343,7 @@ const Sidebar = ({
           ))}
         </nav>
 
-        {/* =================================================
-            USER CARD
-        ================================================= */}
+        {/* USER CARD */}
         <div className="Sidebar-userCard">
           <div className="Sidebar-userTop">
             <div className="Sidebar-avatar">

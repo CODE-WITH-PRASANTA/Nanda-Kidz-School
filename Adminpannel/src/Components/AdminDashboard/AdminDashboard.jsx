@@ -528,52 +528,7 @@ const AdminDashboard = () => {
   return (
     <div className="AdminDashboard-container">
 
-      {/* =================================================
-          HEADER
-      ================================================= */}
-
-      <header className="AdminDashboard-header">
-        <div className="AdminDashboard-header-content">
-
-          <div className="AdminDashboard-header-copy">
-
-            <div className="AdminDashboard-eyebrow">
-              SCHOOL ADMINISTRATION
-            </div>
-
-            <h1 className="AdminDashboard-welcome-title">
-              Welcome back, Admin
-              <span>👋</span>
-            </h1>
-
-            <p className="AdminDashboard-welcome-subtitle">
-              Here's what's happening in your
-              school today.
-            </p>
-
-          </div>
-
-          <div className="AdminDashboard-date-badge">
-
-            <span className="AdminDashboard-date-icon">
-              <Calendar size={20} />
-            </span>
-
-            <div>
-              <span className="AdminDashboard-date-label">
-                TODAY
-              </span>
-
-              <strong>
-                {currentDate}
-              </strong>
-            </div>
-
-          </div>
-
-        </div>
-      </header>
-
+      
       {/* =================================================
           METRICS
       ================================================= */}
