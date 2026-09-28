@@ -39,7 +39,7 @@ import ClassDetails from "./Pages/ClassDetails/ClassDetails";
 import Shop from "./Pages/Shop/Shop";
 import Gallery from "./Pages/Gallery/Gallery";
 import Pricing from "./Pages/Pricing/Pricing";
-import Price from "./Pages/Price/Price"; 
+import Price from "./Pages/price/price"; 
 import TimeTable from "./Pages/TimeTable/TimeTable";
 import Teacher from "./Pages/Teacher/Teacher";
 import TeacherDetails from "./Pages/TeacherDetails/TeacherDetails";

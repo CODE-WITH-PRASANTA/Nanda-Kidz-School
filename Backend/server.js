@@ -5,31 +5,24 @@ const path = require("path");
 const connectDB = require("./config/db");
 const { upload, convertSingleToWebp, convertMultipleToWebp } = require("./middleware/upload");
 
+// Import Routes
 const inquiryRoutes = require('./routes/inquiryRoutes');
-
-const app = express();
 const subjectRoutes = require('./routes/subjectRoutes');
 const classRoutes = require('./routes/classRoutes.js');
 const galleryRoutes = require('./routes/galleryRoutes');
-
 const teacherRoutes = require("./routes/teacherRoutes");
 const shopImgRoutes = require("./routes/shopImgRoutes");
-
-
 const orderRoutes = require("./routes/orderRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const enquiryRoutes = require("./routes/enquiryRoutes");
 const blogRoutes = require("./routes/blogRoutes");
-<<<<<<< HEAD
 const contactLeadRoutes = require("./routes/contactLeadRoutes");
-
-=======
 const announcementRoutes = require("./routes/announcement.routes");
->>>>>>> e6a9952faacf66ae0bcb98eb290c8a3726e065a2
-const testimonialRoutes = require(
-  "./routes/testimonialRoutes"
-);
+const testimonialRoutes = require("./routes/testimonialRoutes");
+const admissionRoutes = require("./routes/admissionRoutes");
+const schoolTeacherRoutes = require("./routes/schoolTeacherRoutes");
 
+const app = express();
 
 // Database Connection
 connectDB();
@@ -39,16 +32,23 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 // Serve static uploaded files
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// ==================== ROOT ROUTE ==================== //
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Nanda Kidz School Backend API is running successfully!",
+  });
+});
 
 // ==================== ROUTES ==================== //
 
 // 1. Single Image Upload Route
 app.post(
   "/api/upload/single",
-  upload.single("image"), // Field name in Form Data: "image"
+  upload.single("image"),
   convertSingleToWebp,
   (req, res) => {
     if (!req.processedFile) {
@@ -63,30 +63,27 @@ app.post(
   }
 );
 
+// Mount API Routes
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/gallery', galleryRoutes);
-
 app.use("/api/teachers", teacherRoutes);
-
 app.use("/api/orders", orderRoutes);
 app.use("/api/contacts", contactRoutes);
 app.use("/api/enquiries", enquiryRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use(
-  "/api/testimonials",
-  testimonialRoutes
-);
+app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/announcements", announcementRoutes);
 app.use("/api/shop-images", shopImgRoutes);
-
 app.use("/api/contact-leads", contactLeadRoutes);
-
+app.use("/api/admissions", admissionRoutes);
+app.use("/api/school-teachers", schoolTeacherRoutes);
+app.use('/api/inquiries', inquiryRoutes);
 
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)
 app.post(
   "/api/upload/bulk",
-  upload.array("images", 15), // Field name in Form Data: "images"
+  upload.array("images", 15),
   convertMultipleToWebp,
   (req, res) => {
     if (!req.processedFiles || req.processedFiles.length === 0) {
@@ -100,7 +97,6 @@ app.post(
     });
   }
 );
-app.use('/api/inquiries', inquiryRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

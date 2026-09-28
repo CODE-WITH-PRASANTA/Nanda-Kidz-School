@@ -1,5 +1,5 @@
 import React from 'react';
-import './PriceBreadCrumb.css';
+import './priceBreadCrumb.css';
 
 // Replace with your local relative path to the cloud image asset
 import cloudImg from '../../assets/cloudimage.webp'; 

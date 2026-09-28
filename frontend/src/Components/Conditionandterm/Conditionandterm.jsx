@@ -1,6 +1,6 @@
 import React from 'react';
 import { Home, Info, Phone, Mail, MapPin } from 'lucide-react';
-import './conditionandterm.css';
+import './Conditionandterm.css';
 
 const conditionandterm = () => {
   return (
