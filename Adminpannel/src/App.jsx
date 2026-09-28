@@ -57,6 +57,7 @@ import AdmissionList from "./Components/AdmissionList/AdmissionList";
 import ContactMessages from "./Components/ContactMessages/ContactMessages";
 import LatestNews from "./Pages/LatestNews/LatestNews";
 import ShopImg from "./Pages/ShopImg/ShopImg";
+import MyProfile from "./Components/MyProfile/MyProfile";
 
 function App() {
   // =====================================================
@@ -326,6 +327,11 @@ function App() {
           <Route
             path="order"
             element={<Order />}
+          />
+
+          <Route
+            path="myprofile"
+            element={<MyProfile />}
           />
 
         </Route>

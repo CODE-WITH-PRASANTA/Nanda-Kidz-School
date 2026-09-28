@@ -8,6 +8,8 @@
   --ink: #1e1b3a;
   --muted: #8b8aa3;
   --border: #ececf3;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
 
   height: 74px;
   background: #ffffff;
@@ -17,8 +19,7 @@
   justify-content: space-between;
   padding: 0 24px;
   gap: 16px;
-  
-  /* Ensure it stays fixed/sticky relative to the document layout container */
+
   position: sticky;
   top: 0;
   z-index: 900;
@@ -158,7 +159,7 @@
   position: absolute;
   top: -3px;
   right: -3px;
-  background: #ef4444;
+  background: var(--danger);
   color: #ffffff;
   font-size: 10px;
   font-weight: 700;
@@ -178,7 +179,7 @@
 /* Shared dropdown/popup shell */
 .Topbar-popup {
   position: absolute;
-  top: 50px;
+  top: calc(100% + 10px);
   right: 0;
   width: 290px;
   background: #ffffff;
@@ -257,7 +258,7 @@
   background: #faf9fe;
 }
 
-/* ---------- Profile ---------- */
+/* ---------- Profile Menu ---------- */
 .ProfileMenu {
   position: relative;
 }
@@ -307,7 +308,7 @@
 }
 
 .ProfileMenu-dropdown {
-  width: 200px;
+  width: 210px;
   padding: 6px;
 }
 
@@ -316,7 +317,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 10px;
+  padding: 9px 12px;
   border: none;
   background: transparent;
   color: var(--ink);
@@ -324,21 +325,28 @@
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.15s ease, color 0.15s ease;
+  text-align: left;
 }
 
 .ProfileMenu-item:hover {
   background: #faf9fe;
+  color: var(--violet);
 }
 
 .ProfileMenu-item.danger {
-  color: #ef4444;
+  color: var(--danger);
+}
+
+.ProfileMenu-item.danger:hover {
+  background: var(--danger-light);
+  color: var(--danger);
 }
 
 .ProfileMenu-divider {
   height: 1px;
   background: var(--border);
-  margin: 5px 0;
+  margin: 6px 0;
 }
 
 /* ---------- Responsive Breakpoints ---------- */
@@ -397,7 +405,7 @@
   }
 
   .Topbar-visitBtn {
-    display: none; /* Hide visit website button on extra small devices to prevent overflow */
+    display: none;
   }
 
   .Topbar-pageTitle {

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu,
@@ -26,16 +27,26 @@ const notificationsData = [
 const Topbar = ({
   toggleSidebar,
   icon: PageIcon = LayoutGrid,
-  title = 'Add New Product',
-  breadcrumbs = ['Dashboard', 'Shop / Products', 'Add New Product'],
+  title = 'Dashboard',
+  breadcrumbs = ['Dashboard'],
   websiteUrl = '#',
+  userName = 'Admin',
+  profilePath = '/myprofile',
+  settingsPath = '/settings',
+  helpPath = '/help',
+  onLogout,
+  onNavigateProfile,
+  onNavigateSettings,
+  onNavigateHelp,
 }) => {
+  const navigate = useNavigate();
   const [notificationOpen, setNotificationOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
   const notificationRef = useRef(null);
   const profileRef = useRef(null);
 
+  // Close menus on click outside or Escape
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (notificationRef.current && !notificationRef.current.contains(e.target)) {
@@ -45,14 +56,69 @@ const Topbar = ({
         setProfileOpen(false);
       }
     };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setNotificationOpen(false);
+        setProfileOpen(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
+
+  const handleProfileClick = () => {
+    setProfileOpen(false);
+    if (onNavigateProfile) {
+      onNavigateProfile();
+    } else {
+      navigate(profilePath);
+    }
+  };
+
+  const handleSettingsClick = () => {
+    setProfileOpen(false);
+    if (onNavigateSettings) {
+      onNavigateSettings();
+    } else {
+      navigate(settingsPath);
+    }
+  };
+
+  const handleHelpClick = () => {
+    setProfileOpen(false);
+    if (onNavigateHelp) {
+      onNavigateHelp();
+    } else {
+      navigate(helpPath);
+    }
+  };
+
+  const handleLogout = () => {
+    setProfileOpen(false);
+    if (onLogout) {
+      onLogout();
+      return;
+    }
+    localStorage.removeItem('isAuthenticated');
+    sessionStorage.removeItem('isAuthenticated');
+    navigate('/login');
+  };
 
   return (
     <header className="Topbar">
       <div className="Topbar-left">
-        <button className="Topbar-toggleBtn" onClick={toggleSidebar} aria-label="Toggle Sidebar">
+        <button
+          className="Topbar-toggleBtn"
+          onClick={toggleSidebar}
+          aria-label="Toggle Sidebar"
+          type="button"
+        >
           <Menu size={20} />
         </button>
 
@@ -66,7 +132,11 @@ const Topbar = ({
             {breadcrumbs.map((crumb, index) => (
               <React.Fragment key={index}>
                 {index > 0 && <ChevronRight size={12} className="Topbar-breadcrumb-sep" />}
-                <span className={`Topbar-breadcrumb-item ${index === breadcrumbs.length - 1 ? 'current' : ''}`}>
+                <span
+                  className={`Topbar-breadcrumb-item ${
+                    index === breadcrumbs.length - 1 ? 'current' : ''
+                  }`}
+                >
                   {crumb}
                 </span>
               </React.Fragment>
@@ -76,16 +146,26 @@ const Topbar = ({
       </div>
 
       <div className="Topbar-right">
-        <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="Topbar-visitBtn">
+        <a
+          href={websiteUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="Topbar-visitBtn"
+        >
           <span>Visit Website</span>
           <ExternalLink size={14} />
         </a>
 
+        {/* Notifications Dropdown */}
         <div className="Notification" ref={notificationRef}>
           <button
             className="Topbar-iconBtn"
-            onClick={() => setNotificationOpen(!notificationOpen)}
+            onClick={() => {
+              setNotificationOpen((prev) => !prev);
+              setProfileOpen(false);
+            }}
             aria-label="Notifications"
+            type="button"
           >
             <Bell size={19} />
             {notificationsData.length > 0 && (
@@ -97,9 +177,9 @@ const Topbar = ({
             {notificationOpen && (
               <motion.div
                 className="Topbar-popup"
-                initial={{ opacity: 0, scale: 0.92, y: -8 }}
+                initial={{ opacity: 0, scale: 0.94, y: -6 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.92, y: -8 }}
+                exit={{ opacity: 0, scale: 0.94, y: -6 }}
                 transition={{ duration: 0.16, ease: 'easeOut' }}
               >
                 <div className="Topbar-popup-header">
@@ -125,42 +205,75 @@ const Topbar = ({
                   })}
                 </div>
                 <div className="Topbar-popup-footer">
-                  <button>View All</button>
+                  <button type="button">View All</button>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
+        {/* User Profile Dropdown */}
         <div className="ProfileMenu" ref={profileRef}>
-          <button className="ProfileMenu-trigger" onClick={() => setProfileOpen(!profileOpen)}>
+          <button
+            className="ProfileMenu-trigger"
+            onClick={() => {
+              setProfileOpen((prev) => !prev);
+              setNotificationOpen(false);
+            }}
+            aria-expanded={profileOpen}
+            aria-haspopup="true"
+            type="button"
+          >
             <div className="ProfileMenu-avatar">
               <User size={16} />
             </div>
-            <span className="ProfileMenu-name">Admin</span>
-            <ChevronDown size={15} className={`ProfileMenu-chevron ${profileOpen ? 'open' : ''}`} />
+            <span className="ProfileMenu-name">{userName}</span>
+            <ChevronDown
+              size={15}
+              className={`ProfileMenu-chevron ${profileOpen ? 'open' : ''}`}
+            />
           </button>
 
           <AnimatePresence>
             {profileOpen && (
               <motion.div
                 className="Topbar-popup ProfileMenu-dropdown"
-                initial={{ opacity: 0, scale: 0.92, y: -8 }}
+                initial={{ opacity: 0, scale: 0.94, y: -6 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.92, y: -8 }}
+                exit={{ opacity: 0, scale: 0.94, y: -6 }}
                 transition={{ duration: 0.16, ease: 'easeOut' }}
               >
-                <button className="ProfileMenu-item">
+                <button
+                  type="button"
+                  className="ProfileMenu-item"
+                  onClick={handleProfileClick}
+                >
                   <User size={16} /> My Profile
                 </button>
-                <button className="ProfileMenu-item">
+
+                <button
+                  type="button"
+                  className="ProfileMenu-item"
+                  onClick={handleSettingsClick}
+                >
                   <Settings size={16} /> Settings
                 </button>
-                <button className="ProfileMenu-item">
+
+                <button
+                  type="button"
+                  className="ProfileMenu-item"
+                  onClick={handleHelpClick}
+                >
                   <HelpCircle size={16} /> Help
                 </button>
+
                 <div className="ProfileMenu-divider" />
-                <button className="ProfileMenu-item danger">
+
+                <button
+                  type="button"
+                  className="ProfileMenu-item danger"
+                  onClick={handleLogout}
+                >
                   <LogOut size={16} /> Logout
                 </button>
               </motion.div>
