@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import "./Floating.css";
 import API from "../../api/axios";
-import logoImg from "../../assets/nanda image .png";
+import logoImg from "../../assets/nanda image .webp";
 
 import {
   X,

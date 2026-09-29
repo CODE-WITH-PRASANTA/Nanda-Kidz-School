@@ -15,7 +15,7 @@ import {
 import { IoPaperPlane } from "react-icons/io5";
 import { ArrowUp } from "lucide-react";
 
-import logoImg from "../../assets/nanda image .png";
+import logoImg from "../../assets/nanda image .webp";
 import boyOnPencil from "../../assets/pen.png";
 import girlReading from "../../assets/pencile.png";
 

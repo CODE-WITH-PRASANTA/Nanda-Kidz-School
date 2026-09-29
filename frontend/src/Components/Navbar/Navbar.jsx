@@ -14,7 +14,7 @@ import {
 // LOGO IMAGES
 // =====================================================
 
-import logoImg from "../../assets/nanda image .png";
+import logoImg from "../../assets/nanda image .webp";
 import sidebarLogoImg from "../../assets/demo-logo.avif";
 
 // =====================================================

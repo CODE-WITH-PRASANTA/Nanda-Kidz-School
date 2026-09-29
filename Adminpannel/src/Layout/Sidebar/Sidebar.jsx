@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 // Import your logo file
-import logo from '../../assets/nanda image .png';
+import logo from '../../assets/nanda image .webp';
 
 import {
   Home,

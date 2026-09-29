@@ -48,23 +48,27 @@ const AboutUs = () => {
             ></span>
 
             {/* Organic image frame */}
-            <div className="blob-border">
+           <div className="blob-border">
 
-              <div className="blob-image-container">
-                <img
-                  src={studentImg}
-                  alt="Children learning and playing at Nanda Kidz"
-                  className="student-image"
-                />
+                        <div className="blob-image-container">
 
-                <div
-                  className="blob-image-shine"
-                  aria-hidden="true"
-                ></div>
-              </div>
+                          <img
+                            src={studentImg}
+                            alt="Children learning and playing at Nanda Kidz"
+                            className="student-image"
+                            loading="eager"
+                            fetchPriority="high"
+                            decoding="async"
+                          />
 
-            </div>
+                          <div
+                            className="blob-image-shine"
+                            aria-hidden="true"
+                          ></div>
 
+                        </div>
+
+                      </div>
             {/* Experience badge */}
             <div className="about-experience-badge">
               <span
