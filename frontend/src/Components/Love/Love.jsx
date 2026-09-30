@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./Love.css";
 
-import flowerImg from "../../assets/flower-1.png";
-import bunnyImg from "../../assets/an-01.png";
+import flowerImg from "../../assets/flower-1.webp";
+import bunnyImg from "../../assets/an-01.webp";
 
 import { API } from "../../api/axios";
 

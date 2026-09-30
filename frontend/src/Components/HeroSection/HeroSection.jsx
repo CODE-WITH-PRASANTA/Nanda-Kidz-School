@@ -16,7 +16,7 @@ import child8 from "../../assets/c-8.webp";
 import child9 from "../../assets/c-9.webp";
 
 // Decorative assets
-import giraffeAsset from "../../assets/jeeraf.png";
+import giraffeAsset from "../../assets/jeeraf.webp";
 import flowerBlue from "../../assets/flower.png";
 
 const LEFT_COLUMN_IMAGES = [

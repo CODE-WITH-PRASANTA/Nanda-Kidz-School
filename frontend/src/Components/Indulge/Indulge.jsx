@@ -1,8 +1,8 @@
 import React from 'react';
 import './Indulge.css';
 
-import blueCreatureImage from '../../assets/an-01.png'; 
-import grassImage from '../../assets/grass.png';                 
+import blueCreatureImage from '../../assets/an-01.webp'; 
+import grassImage from '../../assets/grass.webp';                 
 
 // Optional background doodles if you have them as separate images
 // import doodleWaves from './assets/doodle-waves.png';

@@ -10,7 +10,7 @@ import img4 from '../../assets/course-04.jpg';
 import img5 from '../../assets/course-05.jpg';
 import img6 from '../../assets/course-06.jpg';
 
-import giraffeImg from '../../assets/jeeraf.png'; 
+import giraffeImg from '../../assets/jeeraf.webp'; 
 import authorLogo from '../../assets/avtar logo.jpeg'; 
 
 const Enroll = () => {

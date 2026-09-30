@@ -117,12 +117,12 @@ const HomeKindergarten = () => {
           {/* Action Row */}
           <div className="hk-action-row">
 
-            <a
-              href="/about"
-              className="hk-btn-primary"
-            >
-              Read More
-            </a>
+                          <a
+                href="/about"
+                className="hk-btn-primary"
+              >
+                Learn More About Nanda Kidz
+              </a>
 
             {/* Founder Profile */}
             <div className="hk-founder-badge-card">

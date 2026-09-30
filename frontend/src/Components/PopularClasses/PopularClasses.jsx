@@ -7,8 +7,8 @@ import classImg2 from "../../assets/image5.webp";
 import classImg3 from "../../assets/image6.webp";
 
 // Decorative dinosaur images
-import dinoLeftImg from "../../assets/class-shape-1.png";
-import dinoRightImg from "../../assets/class-shape-2.png";
+import dinoLeftImg from "../../assets/class-shape-1.webp";
+import dinoRightImg from "../../assets/class-shape-2.webp";
 
 const classesData = [
   {

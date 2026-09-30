@@ -4,8 +4,8 @@ import "./Contacts.css";
 import crayonIcon from "../../assets/ico-01.png";
 import paperPlaneIcon from "../../assets/ico-02.png";
 import rockingHorseIcon from "../../assets/ico-03.png";
-import beeImg from "../../assets/Animal-11.png";
-import grassImg from "../../assets/grass.png";
+import beeImg from "../../assets/Animal-11.webp";
+import grassImg from "../../assets/grass.webp";
 
 const contactCards = [
   {

@@ -4,7 +4,7 @@ import "./LearningAdventuers.css";
 import kids1Img from "../../assets/c-1.webp";
 import bubbleGirlImg from "../../assets/c-5.webp";
 import musicGirlImg from "../../assets/c-3.webp";
-import giraffeImg from "../../assets/jeeraf.png";
+import giraffeImg from "../../assets/jeeraf.webp";
 
 const activityModules = [
   {
