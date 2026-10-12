@@ -1,27 +1,12 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-// Ultimate ScrollToTop Helper Component
-const ScrollToTop = () => {
-  const { pathname, search } = useLocation();
-
-  useEffect(() => {
-    // 1. Scroll window directly to top
-    window.scrollTo(0, 0);
-
-    // 2. Clear scroll on document elements (fixes body/html lock issues)
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-
-    // 3. Reset any common scrollable app containers if they exist
-    const scrollableContainers = document.querySelectorAll(".app, main, #root");
-    scrollableContainers.forEach((container) => {
-      if (container) container.scrollTop = 0;
-    });
-  }, [pathname, search]);
-
-  return null;
-};
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 // Layout Components
 import Topbar from "./Components/Topbar/Topbar";
@@ -39,7 +24,7 @@ import ClassDetails from "./Pages/ClassDetails/ClassDetails";
 import Shop from "./Pages/Shop/Shop";
 import Gallery from "./Pages/Gallery/Gallery";
 import Pricing from "./Pages/Pricing/Pricing";
-import Price from "./Pages/price/price"; 
+import Price from "./Pages/price/price";
 import TimeTable from "./Pages/TimeTable/TimeTable";
 import Teacher from "./Pages/Teacher/Teacher";
 import TeacherDetails from "./Pages/TeacherDetails/TeacherDetails";
@@ -48,40 +33,117 @@ import ContactUs from "./Pages/ContactUs/ContactUs";
 import Termandconditions from "./Pages/Termandconditions/Termandconditions";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 
+import "./App.css";
 
-const App = () => {
+// Scroll to top on route changes
+const ScrollToTop = () => {
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    document
+      .querySelectorAll(".app, main, #root")
+      .forEach((container) => {
+        container.scrollTop = 0;
+      });
+  }, [pathname, search]);
+
+  return null;
+};
+
+// Full-screen route loader
+const RouteLoader = () => {
+  const { pathname, search } = useLocation();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+
+    const timer = window.setTimeout(() => {
+      setLoading(false);
+    }, 650);
+
+    return () => window.clearTimeout(timer);
+  }, [pathname, search]);
+
+  if (!loading) return null;
+
   return (
-    <BrowserRouter>
-      {/* Forces an automatic jump to top on any URL change */}
+    <div
+      className="route-loader-overlay"
+      role="status"
+      aria-label="Loading page"
+      aria-live="polite"
+    >
+      <div className="route-loader-content">
+        <div className="route-loader-spinner">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <h2>NANDA KIDZ</h2>
+        <p>Preparing your little world...</p>
+
+        <div className="route-loader-progress">
+          <span></span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AppRoutes = () => {
+  return (
+    <>
       <ScrollToTop />
 
-      {/* Global Header Elements */}
       <Topbar />
       <Navbar />
 
-      {/* Application Routes */}
+      <RouteLoader />
+
       <Routes>
-        {/* Home Routes (Canonical Redirects `/home` -> `/`) */}
+        {/* Home */}
         <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Navigate to="/" replace />} />
+        <Route
+          path="/home"
+          element={<Navigate to="/" replace />}
+        />
 
         {/* Core Pages */}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/classes/details" element={<ClassDetails />} />
-        <Route path="/class-details/:id" element={<ClassDetails />} />
+        <Route
+          path="/classes/details"
+          element={<ClassDetails />}
+        />
+        <Route
+          path="/class-details/:id"
+          element={<ClassDetails />}
+        />
 
-        {/* Teachers / Instructors */}
+        {/* Teachers */}
         <Route path="/teachers" element={<Teacher />} />
         <Route path="/teacher" element={<Teacher />} />
-        <Route path="/teachers/details" element={<TeacherDetails />} />
-        <Route path="/teacher-details/:id" element={<TeacherDetails />} />
+        <Route
+          path="/teachers/details"
+          element={<TeacherDetails />}
+        />
+        <Route
+          path="/teacher-details/:id"
+          element={<TeacherDetails />}
+        />
 
-        {/* Blog & News */}
+        {/* Blog */}
         <Route path="/blog" element={<Blog />} />
-       <Route path="/blog/:id" element={<BlogDetails />} />
+        <Route path="/blog/:id" element={<BlogDetails />} />
 
-        {/* Utility & Features */}
+        {/* Utility Pages */}
         <Route path="/shop" element={<Shop />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/price" element={<Price />} />
@@ -91,20 +153,41 @@ const App = () => {
         <Route path="/faq" element={<Faq />} />
         <Route path="/contact" element={<ContactUs />} />
 
-        {/* Legal & Policy Routes */}
-        <Route path="/terms-and-conditions" element={<Termandconditions />} />
-        <Route path="/termandcondition" element={<Termandconditions />} />
-        <Route path="/privacy-policy" element={<Privacypolicy />} />
-        <Route path="/privacypolicy" element={<Privacypolicy />} />
-       
+        {/* Legal Pages */}
+        <Route
+          path="/terms-and-conditions"
+          element={<Termandconditions />}
+        />
+        <Route
+          path="/termandcondition"
+          element={<Termandconditions />}
+        />
+        <Route
+          path="/privacy-policy"
+          element={<Privacypolicy />}
+        />
+        <Route
+          path="/privacypolicy"
+          element={<Privacypolicy />}
+        />
 
-        {/* 404 Fallback for Unmatched Routes */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Redirect unknown routes */}
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
       </Routes>
 
-      {/* Global Widgets & Footer */}
       <Floating />
       <Footer />
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 };

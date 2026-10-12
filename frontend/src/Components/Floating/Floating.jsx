@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useMemo } from "react";
 import "./Floating.css";
 import API from "../../api/axios";
@@ -15,7 +16,7 @@ import {
 } from "lucide-react";
 
 const Floating = ({ onClose }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -25,54 +26,49 @@ const Floating = ({ onClose }) => {
     message: "",
   });
 
-  /* =========================
-     CLOSE MODAL
-  ========================= */
+  // Close the enquiry form
   const handleClose = () => {
     setIsOpen(false);
 
-    if (onClose && typeof onClose === "function") {
+    if (typeof onClose === "function") {
       onClose();
     }
   };
 
-  /* =========================
-     ESC KEY
-  ========================= */
+  // Handle Escape and lock scrolling only while the form is open
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") {
-        handleClose();
+    if (!isOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     document.body.style.overflow = "hidden";
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
     };
-  }, []);
+  }, [isOpen]);
 
-  /* =========================
-     INPUT CHANGE
-  ========================= */
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  // Update form fields
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((previous) => ({
+      ...previous,
       [name]: value,
     }));
   };
 
-  /* =========================
-     SUBMIT
-  ========================= */
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Submit enquiry
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     if (
       !formData.name.trim() ||
@@ -88,8 +84,16 @@ const Floating = ({ onClose }) => {
 
       const response = await API.post("/enquiries", formData);
 
-      if (response.data && response.data.success) {
+      if (response.data?.success) {
         alert("Enquiry Submitted Successfully!");
+
+        setFormData({
+          name: "",
+          address: "",
+          age: "",
+          message: "",
+        });
+
         handleClose();
       } else {
         alert(response.data?.message || "Submission failed.");
@@ -106,9 +110,7 @@ const Floating = ({ onClose }) => {
     }
   };
 
-  /* =========================
-     PROGRESS
-  ========================= */
+  // Calculate required-field completion progress
   const progress = useMemo(() => {
     const required = [
       formData.name,
@@ -117,47 +119,52 @@ const Floating = ({ onClose }) => {
     ];
 
     const filled = required.filter(
-      (value) =>
-        value &&
-        value.toString().trim().length > 0
+      (value) => value && value.toString().trim().length > 0
     ).length;
 
     return Math.round((filled / required.length) * 100);
   }, [formData]);
 
+  // IMPORTANT: Display the button when the form is closed
   if (!isOpen) {
-    return null;
+    return (
+      <button
+        type="button"
+        className="floating-enquiry-trigger"
+        onClick={() => setIsOpen(true)}
+        aria-label="Open admission enquiry form"
+      >
+        <span>Admission Enquiry</span>
+      </button>
+    );
   }
 
+  // Display the form only after the button is clicked
   return (
     <div
       className="floating-modal-overlay"
       onClick={handleClose}
       role="dialog"
       aria-modal="true"
+      aria-label="Admission enquiry form"
     >
       <div
         className="floating-card"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(event) => event.stopPropagation()}
       >
-        {/* Gradient Border */}
         <div className="floating-card-glow"></div>
 
-        {/* =========================
-            CLOSE BUTTON
-        ========================= */}
+        {/* Close button */}
         <button
           type="button"
           className="floating-close-btn"
           onClick={handleClose}
-          aria-label="Close modal"
+          aria-label="Close enquiry form"
         >
           <X size={18} />
         </button>
 
-        {/* =========================
-            HEADER
-        ========================= */}
+        {/* School branding */}
         <div className="floating-header">
           <div className="floating-avatar-frame">
             <img
@@ -176,9 +183,7 @@ const Floating = ({ onClose }) => {
               <span>The Little Kingdom</span>
             </div>
 
-            <div className="brand-logo-title">
-              NANDA KIDZ
-            </div>
+            <div className="brand-logo-title">NANDA KIDZ</div>
 
             <div className="brand-subtext">
               A Play School • Since 2011
@@ -186,30 +191,21 @@ const Floating = ({ onClose }) => {
           </div>
         </div>
 
-        {/* =========================
-            INTRO
-        ========================= */}
+        {/* Introduction */}
         <div className="floating-intro">
-          <h1 className="floating-title">
-            Let's Get Started
-          </h1>
+          <h1 className="floating-title">Let's Get Started</h1>
 
           <p className="floating-subtitle">
-            We're excited to be part of your child's
-            learning journey!
+            We're excited to be part of your child's learning journey!
           </p>
         </div>
 
-        {/* =========================
-            PROGRESS
-        ========================= */}
+        {/* Form progress */}
         <div className="floating-progress-row">
           <div className="floating-progress-track">
             <div
               className="floating-progress-fill"
-              style={{
-                width: `${progress}%`,
-              }}
+              style={{ width: `${progress}%` }}
             />
           </div>
 
@@ -218,18 +214,11 @@ const Floating = ({ onClose }) => {
           </span>
         </div>
 
-        {/* =========================
-            FORM BODY
-        ========================= */}
+        {/* Enquiry form */}
         <div className="floating-scroll-body">
           <div className="floating-form-container">
-            <form
-              onSubmit={handleSubmit}
-              className="floating-form"
-            >
-              {/* ==================================================
-                  CHILD NAME
-              ================================================== */}
+            <form onSubmit={handleSubmit} className="floating-form">
+              {/* Child name */}
               <div
                 className={`fl-field fl-purple ${
                   formData.name ? "has-value" : ""
@@ -251,15 +240,11 @@ const Floating = ({ onClose }) => {
 
                 <label htmlFor="fl-name">
                   Child's Name
-                  <span className="required-star">
-                    *
-                  </span>
+                  <span className="required-star">*</span>
                 </label>
               </div>
 
-              {/* ==================================================
-                  ADDRESS
-              ================================================== */}
+              {/* Address */}
               <div
                 className={`fl-field fl-green ${
                   formData.address ? "has-value" : ""
@@ -281,16 +266,11 @@ const Floating = ({ onClose }) => {
 
                 <label htmlFor="fl-address">
                   Address
-                  <span className="required-star">
-                    *
-                  </span>
+                  <span className="required-star">*</span>
                 </label>
               </div>
 
-              {/* ==================================================
-                  CHILD AGE
-                  FIXED FLOATING SELECT
-              ================================================== */}
+              {/* Child age */}
               <div
                 className={`fl-field fl-orange fl-age-field ${
                   formData.age ? "has-value" : ""
@@ -306,40 +286,24 @@ const Floating = ({ onClose }) => {
                   value={formData.age}
                   onChange={handleChange}
                   required
-                  aria-label="Child's Age"
+                  aria-label="Child's age"
                 >
                   <option value="" disabled>
                     Select child's age
                   </option>
-
-                  <option value="2">
-                    2 Years
-                  </option>
-
-                  <option value="3">
-                    3 Years
-                  </option>
-
-                  <option value="4">
-                    4 Years
-                  </option>
-
-                  <option value="5+">
-                    5+ Years
-                  </option>
+                  <option value="2">2 Years</option>
+                  <option value="3">3 Years</option>
+                  <option value="4">4 Years</option>
+                  <option value="5+">5+ Years</option>
                 </select>
 
                 <label htmlFor="fl-age">
                   Child's Age
-                  <span className="required-star">
-                    *
-                  </span>
+                  <span className="required-star">*</span>
                 </label>
               </div>
 
-              {/* ==================================================
-                  MESSAGE
-              ================================================== */}
+              {/* Optional message */}
               <div
                 className={`fl-field fl-pink fl-textarea-field ${
                   formData.message ? "has-value" : ""
@@ -360,15 +324,11 @@ const Floating = ({ onClose }) => {
 
                 <label htmlFor="fl-message">
                   Message
-                  <span className="optional-text">
-                    (optional)
-                  </span>
+                  <span className="optional-text">(optional)</span>
                 </label>
               </div>
 
-              {/* ==================================================
-                  SUBMIT
-              ================================================== */}
+              {/* Submit button */}
               <button
                 type="submit"
                 className="submit-btn"
@@ -382,16 +342,11 @@ const Floating = ({ onClose }) => {
                     className="submit-icon submit-loading"
                   />
                 ) : (
-                  <Send
-                    size={18}
-                    className="submit-icon"
-                  />
+                  <Send size={18} className="submit-icon" />
                 )}
 
                 <span>
-                  {submitting
-                    ? "Submitting..."
-                    : "Submit Enquiry"}
+                  {submitting ? "Submitting..." : "Submit Enquiry"}
                 </span>
               </button>
             </form>

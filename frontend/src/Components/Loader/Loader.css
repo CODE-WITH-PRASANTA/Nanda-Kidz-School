@@ -1,0 +1,355 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+.Loader {
+  --loader-bg-top: #d9eeff;
+  --loader-bg-bottom: #f1f9ff;
+  --loader-ink: #1d2b53;
+  --loader-blue: #2f80ed;
+  --loader-yellow: #ffc93c;
+  --loader-green: #34c27a;
+  --loader-coral: #ff6b6b;
+  --loader-purple: #8e6cf0;
+
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Fredoka', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  color: var(--loader-ink);
+  background: linear-gradient(
+    180deg,
+    var(--loader-bg-top),
+    var(--loader-bg-bottom)
+  );
+  opacity: 1;
+  transition: opacity 0.35s ease;
+}
+
+.Loader--leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- Background decoration ---------- */
+
+.Loader__sun {
+  position: absolute;
+  top: 6%;
+  right: 8%;
+  width: clamp(60px, 12vw, 120px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--loader-yellow);
+  box-shadow: 0 0 0 clamp(8px, 2vw, 18px) rgba(255, 201, 60, 0.28);
+  animation: Loader-sun 4s ease-in-out infinite;
+}
+
+.Loader__cloud {
+  position: absolute;
+  height: clamp(24px, 5vw, 44px);
+  width: clamp(80px, 16vw, 150px);
+  border-radius: 999px;
+  background: #fff;
+  opacity: 0.9;
+}
+
+.Loader__cloud::before,
+.Loader__cloud::after {
+  content: '';
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.Loader__cloud::before {
+  width: 45%;
+  height: 160%;
+  left: 14%;
+  bottom: 30%;
+}
+
+.Loader__cloud::after {
+  width: 34%;
+  height: 130%;
+  right: 16%;
+  bottom: 30%;
+}
+
+.Loader__cloud--one {
+  top: 14%;
+  left: 6%;
+  animation: Loader-drift 7s ease-in-out infinite alternate;
+}
+
+.Loader__cloud--two {
+  bottom: 12%;
+  right: 10%;
+  transform: scale(0.8);
+  animation: Loader-drift 9s ease-in-out infinite alternate-reverse;
+}
+
+/* ---------- Main content ---------- */
+
+.Loader__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(0.6rem, 2vw, 1rem);
+}
+
+.Loader__blocks {
+  display: flex;
+  justify-content: center;
+  gap: clamp(6px, 1.8vw, 14px);
+  margin-bottom: clamp(0.5rem, 2vw, 1rem);
+}
+
+.Loader__block {
+  display: grid;
+  place-items: center;
+  width: clamp(46px, 13vw, 84px);
+  aspect-ratio: 1;
+  font-size: clamp(1.5rem, 6.5vw, 2.8rem);
+  font-weight: 700;
+  color: #fff;
+  border-radius: clamp(10px, 2.4vw, 18px);
+  box-shadow: 0 clamp(4px, 1vw, 8px) 0 rgba(29, 43, 83, 0.22);
+  animation: Loader-bounce 0.9s cubic-bezier(0.3, 0.7, 0.4, 1) infinite;
+}
+
+.Loader__block--1 {
+  background: var(--loader-blue);
+}
+
+.Loader__block--2 {
+  background: var(--loader-coral);
+}
+
+.Loader__block--3 {
+  background: var(--loader-green);
+}
+
+.Loader__block--4 {
+  background: var(--loader-purple);
+}
+
+.Loader__block--5 {
+  background: var(--loader-yellow);
+  color: var(--loader-ink);
+}
+
+/* ---------- School branding ---------- */
+
+.Loader__title {
+  margin: 0;
+  color: #17835f;
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 2px;
+}
+
+.Loader__tagline {
+  margin: 0;
+  color: #d69a31;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: clamp(2px, 0.6vw, 4px);
+}
+
+.Loader__school-type {
+  margin: 0;
+  color: var(--loader-ink);
+  font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: clamp(3px, 0.8vw, 5px);
+}
+
+.Loader__divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin: 4px 0;
+}
+
+.Loader__divider span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.Loader__divider span:nth-child(1) {
+  background: var(--loader-green);
+}
+
+.Loader__divider span:nth-child(2) {
+  background: var(--loader-yellow);
+}
+
+.Loader__divider span:nth-child(3) {
+  background: var(--loader-coral);
+}
+
+.Loader__text {
+  margin: 0;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+/* ---------- Progress bar ---------- */
+
+.Loader__progress {
+  width: min(78%, 320px);
+  height: clamp(10px, 2vw, 14px);
+  margin-top: clamp(0.4rem, 1.5vw, 0.8rem);
+  padding: 2px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 1px 3px rgba(29, 43, 83, 0.18);
+  overflow: hidden;
+}
+
+.Loader__progressBar {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--loader-blue),
+    var(--loader-green),
+    var(--loader-yellow)
+  );
+  animation-name: Loader-fill;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+/* ---------- Animations ---------- */
+
+@keyframes Loader-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  40% {
+    transform: translateY(clamp(-34px, -5vw, -18px)) rotate(-6deg);
+  }
+
+  60% {
+    transform: translateY(clamp(-34px, -5vw, -18px)) rotate(6deg);
+  }
+}
+
+@keyframes Loader-fill {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes Loader-drift {
+  from {
+    translate: -14px 0;
+  }
+
+  to {
+    translate: 22px 0;
+  }
+}
+
+@keyframes Loader-sun {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 360px) {
+  .Loader__blocks {
+    gap: 5px;
+  }
+
+  .Loader__progress {
+    width: 88%;
+  }
+
+  .Loader__title {
+    letter-spacing: 1px;
+  }
+}
+
+/* ---------- Short landscape screens ---------- */
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .Loader {
+    overflow-y: auto;
+  }
+
+  .Loader__content {
+    gap: 0.35rem;
+  }
+
+  .Loader__blocks {
+    margin-bottom: 0.2rem;
+  }
+
+  .Loader__block {
+    width: clamp(36px, 8vw, 56px);
+    font-size: 1.3rem;
+  }
+
+  .Loader__title {
+    font-size: 1.6rem;
+  }
+
+  .Loader__text {
+    display: none;
+  }
+
+  .Loader__sun,
+  .Loader__cloud {
+    display: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .Loader__block,
+  .Loader__sun,
+  .Loader__cloud {
+    animation: none;
+  }
+
+  .Loader,
+  .Loader__progressBar {
+    transition: none;
+  }
+}

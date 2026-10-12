@@ -5,15 +5,15 @@ import "./HeroSection.css";
 import bgImage from "../../assets/bg-1.jpg";
 
 // Children images
-import child1 from "../../assets/c-1.webp";
-import child2 from "../../assets/c-2.webp";
-import child3 from "../../assets/c-3.webp";
-import child4 from "../../assets/c-4.webp";
-import child5 from "../../assets/c-5.webp";
-import child6 from "../../assets/c-6.webp";
-import child7 from "../../assets/c-7.webp";
-import child8 from "../../assets/c-8.webp";
-import child9 from "../../assets/c-9.webp";
+import child1 from "../../assets/1.jpeg";
+import child2 from "../../assets/2.jpeg";
+import child3 from "../../assets/3.jpeg";
+import child4 from "../../assets/4.jpeg";
+import child5 from "../../assets/5.jpeg";
+import child6 from "../../assets/6.jpeg";
+import child7 from "../../assets/7.jpeg";
+import child8 from "../../assets/8.jpeg";
+import child9 from "../../assets/9.jpeg";
 
 // Decorative assets
 import giraffeAsset from "../../assets/jeeraf.webp";
