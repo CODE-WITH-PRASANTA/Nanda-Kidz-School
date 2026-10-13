@@ -78,8 +78,8 @@ const CoreValues = () => {
             <span className="exp-star">⭐</span>
 
             <div>
-              <strong>Nanda Kidz</strong>
-              <small>Play School • LKG • UKG</small>
+              <strong>Dr. Achman Nanda</strong>
+              <small>Founder & Director</small>
             </div>
           </div>
         </div>

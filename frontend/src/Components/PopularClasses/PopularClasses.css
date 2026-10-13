@@ -1,5 +1,12 @@
 
 /* =========================================================
+   POPULAR CLASSES - NANDA KIDZ
+   Compact Cards | Fully Responsive
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* =========================================================
    ROOT VARIABLES
 ========================================================= */
 
@@ -10,6 +17,7 @@
   --pc-gold: #ffb703;
 
   --pc-dark-purple: #230832;
+  --pc-purple: #63359a;
 
   --pc-text-gray: #666666;
   --pc-text-dark: #333333;
@@ -21,24 +29,23 @@
   --pc-section-padding-x: clamp(14px, 3vw, 32px);
 }
 
-
 /* =========================================================
    MAIN SECTION
 ========================================================= */
 
 .pc-section {
   position: relative;
+  isolation: isolate;
 
   width: 100%;
   min-width: 0;
 
   padding:
-    clamp(55px, 8vw, 105px)
+    clamp(55px, 7vw, 85px)
     var(--pc-section-padding-x)
-    clamp(75px, 9vw, 120px);
+    clamp(65px, 8vw, 100px);
 
   box-sizing: border-box;
-
   overflow: hidden;
 
   background:
@@ -59,57 +66,41 @@
     );
 
   font-family: "Poppins", sans-serif;
-
-  isolation: isolate;
 }
 
-
 /* =========================================================
-   BACKGROUND DECORATION
+   BACKGROUND DECORATIONS
 ========================================================= */
 
-.pc-section::before {
+.pc-section::before,
+.pc-section::after {
   content: "";
-
   position: absolute;
 
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pc-section::before {
   width: clamp(180px, 28vw, 340px);
   height: clamp(180px, 28vw, 340px);
 
   top: clamp(-170px, -12vw, -90px);
   right: clamp(-140px, -8vw, -50px);
 
-  border-radius: 50%;
-
-  background:
-    rgba(242, 101, 34, 0.05);
-
-  pointer-events: none;
-
-  z-index: 0;
+  background: rgba(242, 101, 34, 0.05);
 }
 
 .pc-section::after {
-  content: "";
-
-  position: absolute;
-
   width: clamp(150px, 22vw, 260px);
   height: clamp(150px, 22vw, 260px);
 
   bottom: clamp(-140px, -10vw, -70px);
   left: clamp(-120px, -8vw, -40px);
 
-  border-radius: 50%;
-
-  background:
-    rgba(255, 59, 48, 0.04);
-
-  pointer-events: none;
-
-  z-index: 0;
+  background: rgba(255, 59, 48, 0.04);
 }
-
 
 /* =========================================================
    CONTAINER
@@ -117,17 +108,14 @@
 
 .pc-container {
   position: relative;
-
   z-index: 5;
 
   width: 100%;
   max-width: 1320px;
 
   margin: 0 auto;
-
   box-sizing: border-box;
 }
-
 
 /* =========================================================
    DECORATIVE DINOSAURS
@@ -135,23 +123,18 @@
 
 .pc-dino-bg {
   position: absolute;
-
   bottom: 0;
-
   z-index: 2;
 
   height: auto;
-
   max-width: 100%;
 
   pointer-events: none;
-
   opacity: 0.95;
 
-  filter:
-    drop-shadow(
-      0 14px 18px rgba(35, 8, 50, 0.12)
-    );
+  filter: drop-shadow(
+    0 14px 18px rgba(35, 8, 50, 0.12)
+  );
 
   transition:
     transform 0.4s ease,
@@ -160,16 +143,13 @@
 
 .pc-dino-left {
   left: clamp(-35px, -1vw, -10px);
-
   width: clamp(100px, 18vw, 290px);
 }
 
 .pc-dino-right {
   right: clamp(-35px, -1vw, -10px);
-
   width: clamp(100px, 18vw, 290px);
 }
-
 
 /* =========================================================
    HEADER
@@ -179,60 +159,44 @@
   width: 100%;
   max-width: 850px;
 
-  margin:
-    0 auto
-    clamp(38px, 5vw, 55px);
+  margin: 0 auto clamp(30px, 4vw, 42px);
 
   text-align: center;
 }
 
-
 /* =========================================================
-   EYEBROW
+   ADMISSIONS BADGE
 ========================================================= */
 
 .pc-eyebrow {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 8px;
 
   max-width: 100%;
-
-  padding:
-    7px
-    clamp(12px, 1.5vw, 16px);
+  padding: 7px clamp(12px, 1.5vw, 16px);
 
   box-sizing: border-box;
 
+  border: 1px solid rgba(242, 101, 34, 0.25);
   border-radius: 50px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(242, 101, 34, 0.12),
-      rgba(255, 59, 48, 0.06)
-    );
-
-  border:
-    1px solid rgba(242, 101, 34, 0.25);
+  background: linear-gradient(
+    135deg,
+    rgba(242, 101, 34, 0.12),
+    rgba(255, 59, 48, 0.06)
+  );
 
   color: var(--pc-orange-hover);
 
   font-size: clamp(10px, 1.1vw, 12.5px);
-
   font-weight: 700;
-
   letter-spacing: 0.6px;
-
   line-height: 1.3;
-
   text-transform: uppercase;
 
-  margin-bottom: 15px;
-
+  margin-bottom: 13px;
   white-space: nowrap;
 }
 
@@ -243,13 +207,10 @@
   height: 7px;
 
   border-radius: 50%;
-
   background: var(--pc-orange);
 
-  box-shadow:
-    0 0 0 3px rgba(242, 101, 34, 0.2);
+  box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.2);
 }
-
 
 /* =========================================================
    SUBTITLE
@@ -257,17 +218,12 @@
 
 .pc-subtitle {
   display: block;
-
-  margin:
-    0 0 6px;
+  margin: 0 0 7px;
 
   font-family: "Caveat", cursive;
-
   font-size: clamp(25px, 3vw, 34px);
-
   font-weight: 600;
-
-  line-height: 1.15;
+  line-height: 1.2;
 
   color: var(--pc-orange);
 
@@ -278,11 +234,8 @@
 
 .pc-subtitle:hover {
   color: var(--pc-orange-hover);
-
-  transform:
-    translateY(-2px);
+  transform: translateY(-2px);
 }
-
 
 /* =========================================================
    MAIN TITLE
@@ -291,105 +244,79 @@
 .pc-title {
   position: relative;
 
-  margin:
-    0 0 22px;
+  margin: 0 0 18px;
 
   color: var(--pc-dark-purple);
 
-  font-size:
-    clamp(28px, 4vw, 46px);
-
+  font-size: clamp(28px, 4vw, 46px);
   font-weight: 800;
-
   line-height: 1.18;
 
-  letter-spacing:
-    clamp(-0.7px, -0.05vw, -0.3px);
-
+  letter-spacing: clamp(-0.7px, -0.05vw, -0.3px);
   text-wrap: balance;
 }
 
-
-/* =========================================================
-   TITLE LINE
-========================================================= */
-
 .pc-title::after {
   content: "";
-
   display: block;
 
-  width:
-    clamp(55px, 6vw, 72px);
-
+  width: clamp(55px, 6vw, 72px);
   height: 4px;
 
-  margin:
-    15px auto 0;
+  margin: 12px auto 0;
 
   border-radius: 10px;
 
-  background:
-    linear-gradient(
-      90deg,
-      var(--pc-orange),
-      var(--pc-red)
-    );
+  background: linear-gradient(
+    90deg,
+    var(--pc-orange),
+    var(--pc-red)
+  );
 }
 
-
 /* =========================================================
-   INTRO
+   INTRODUCTION
 ========================================================= */
 
 .pc-intro {
   width: 100%;
   max-width: 760px;
 
-  margin:
-    0 auto 10px;
+  margin: 0 auto 9px;
 
   color: var(--pc-text-gray);
 
-  font-size:
-    clamp(12.5px, 1.25vw, 14px);
-
-  line-height: 1.8;
+  font-size: clamp(12.5px, 1.25vw, 14px);
+  line-height: 1.75;
 
   text-wrap: pretty;
 }
 
 .pc-intro-secondary {
-  margin-top: 8px;
+  margin-top: 7px;
 }
 
 .pc-intro strong {
   color: var(--pc-dark-purple);
-
   font-weight: 700;
 }
 
-
 /* =========================================================
-   CARD GRID
+   CLASS GRID - FOUR CARDS
 ========================================================= */
 
 .pc-grid {
   position: relative;
-
   z-index: 6;
 
   display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-
-  gap:
-    clamp(18px, 2.3vw, 30px);
+  gap: clamp(15px, 1.6vw, 22px);
 
   width: 100%;
+  align-items: stretch;
 }
-
 
 /* =========================================================
    CLASS CARD
@@ -397,67 +324,66 @@
 
 .pc-card {
   display: flex;
-
   flex-direction: column;
 
   width: 100%;
   min-width: 0;
-  min-height: 100%;
+  min-height: 0;
+  height: 100%;
 
   overflow: hidden;
-
   box-sizing: border-box;
 
   background: var(--pc-white);
 
-  border:
-    1px solid rgba(240, 230, 216, 0.7);
+  border: 1px solid rgba(240, 230, 216, 0.8);
+  border-radius: clamp(16px, 1.6vw, 21px);
 
-  border-radius:
-    clamp(17px, 2vw, 24px);
-
-  box-shadow:
-    0 12px 34px
-    rgba(35, 8, 50, 0.08);
+  box-shadow: 0 10px 28px rgba(35, 8, 50, 0.075);
 
   transition:
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.4s ease,
-    border-color 0.4s ease;
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
 .pc-card:hover {
-  transform:
-    translateY(-10px);
+  transform: translateY(-6px);
 
-  box-shadow:
-    0 30px 60px
-    rgba(35, 8, 50, 0.16);
+  box-shadow: 0 20px 40px rgba(35, 8, 50, 0.13);
 
-  border-color:
-    rgba(242, 101, 34, 0.2);
+  border-color: rgba(242, 101, 34, 0.3);
 }
 
-
 /* =========================================================
-   IMAGE WRAPPER
+   IMAGE WRAPPER - SHORTER
 ========================================================= */
 
 .pc-image-wrapper {
   position: relative;
 
   width: 100%;
-
-  height:
-    clamp(205px, 19vw, 245px);
+  height: 175px;
 
   overflow: hidden;
+  flex-shrink: 0;
 
   background: #f6f1ec;
-
-  flex-shrink: 0;
 }
 
+.pc-image-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(35, 8, 50, 0.02) 30%,
+    rgba(35, 8, 50, 0.18) 100%
+  );
+
+  pointer-events: none;
+}
 
 /* =========================================================
    CARD IMAGE
@@ -471,392 +397,443 @@
 
   object-fit: cover;
 
-  transition:
-    transform 0.7s
-    cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pc-card:hover .pc-card-image {
-  transform:
-    scale(1.08);
+  transform: scale(1.06);
 }
 
-
 /* =========================================================
-   IMAGE OVERLAY
-========================================================= */
-
-.pc-image-wrapper::after {
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  background:
-    linear-gradient(
-      180deg,
-      transparent 50%,
-      rgba(35, 8, 50, 0.16)
-    );
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   TAG BADGE
+   CLASS TAG
 ========================================================= */
 
 .pc-tag-badge {
   position: absolute;
-
-  top:
-    clamp(10px, 1.5vw, 16px);
-
-  left:
-    clamp(10px, 1.5vw, 16px);
+  top: 10px;
+  left: 10px;
 
   z-index: 3;
 
-  max-width:
-    calc(100% - 20px);
-
-  box-sizing: border-box;
-
+  max-width: calc(100% - 60px);
   overflow: hidden;
 
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-
-  padding:
-    6px
-    clamp(10px, 1.3vw, 14px);
+  padding: 5px 10px;
+  box-sizing: border-box;
 
   border-radius: 50px;
 
-  background:
-    rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
 
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 
   color: var(--pc-dark-purple);
 
-  font-size:
-    clamp(9.5px, 1vw, 11.5px);
-
+  font-size: 9.5px;
   font-weight: 800;
+  letter-spacing: 0.2px;
+  line-height: 1.4;
 
-  letter-spacing: 0.3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-  line-height: 1.3;
-
-  box-shadow:
-    0 6px 16px
-    rgba(35, 8, 50, 0.14);
+  box-shadow: 0 5px 14px rgba(35, 8, 50, 0.12);
 }
 
 .pc-tag-badge::before {
   content: "★ ";
-
   color: var(--pc-gold);
 }
 
-
 /* =========================================================
-   PRICE BADGE
+   CLASS ICON
 ========================================================= */
 
-.pc-price-badge {
+.pc-class-icon {
   position: absolute;
-
-  right: 0;
-  bottom: 0;
+  top: 48px;
+  right: 10px;
 
   z-index: 3;
 
-  padding:
-    clamp(7px, 1vw, 10px)
-    clamp(13px, 1.8vw, 20px);
+  display: grid;
+  place-items: center;
 
-  border-top-left-radius:
-    clamp(13px, 1.5vw, 18px);
+  width: 36px;
+  height: 36px;
 
-  background:
-    linear-gradient(
-      135deg,
-      var(--pc-orange),
-      var(--pc-red)
-    );
+  box-sizing: border-box;
 
-  color: var(--pc-white);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 11px;
 
-  font-size:
-    clamp(13px, 1.5vw, 16px);
+  background: rgba(255, 255, 255, 0.94);
 
-  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(35, 8, 50, 0.12);
 
-  line-height: 1.3;
+  font-size: 19px;
 
-  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
-  box-shadow:
-    -5px -5px 15px
-    rgba(35, 8, 50, 0.12);
-
-  transition:
-    transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
-.pc-card:hover .pc-price-badge {
-  transform:
-    translateY(-2px);
+.pc-card:hover .pc-class-icon {
+  transform: rotate(-6deg) scale(1.06);
 }
-
 
 /* =========================================================
-   CARD CONTENT
+   CARD CONTENT - COMPACT
 ========================================================= */
 
 .pc-card-content {
   display: flex;
-
   flex-direction: column;
-
   flex-grow: 1;
 
   min-width: 0;
 
-  padding:
-    clamp(19px, 2.2vw, 28px)
-    clamp(17px, 2vw, 25px)
-    clamp(20px, 2vw, 25px);
+  padding: 16px 16px 18px;
 
   box-sizing: border-box;
 }
-
 
 /* =========================================================
    CARD TITLE
 ========================================================= */
 
 .pc-card-title {
-  margin:
-    0 0 10px;
+  margin: 0 0 7px;
 
   color: var(--pc-dark-purple);
 
-  font-size:
-    clamp(18px, 1.8vw, 21px);
-
+  font-size: clamp(16px, 1.3vw, 19px);
   font-weight: 700;
-
   line-height: 1.35;
 
   text-wrap: balance;
 
-  transition:
-    color 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .pc-card:hover .pc-card-title {
-  color:
-    var(--pc-orange);
+  color: var(--pc-orange);
 }
-
 
 /* =========================================================
    CARD DESCRIPTION
 ========================================================= */
 
 .pc-card-description {
-  margin:
-    0 0 20px;
+  margin: 0 0 12px;
 
-  color:
-    var(--pc-text-gray);
+  color: var(--pc-text-gray);
 
-  font-size:
-    clamp(12px, 1.2vw, 13.5px);
-
-  line-height: 1.7;
+  font-size: clamp(11.5px, 0.9vw, 12.5px);
+  line-height: 1.6;
 
   text-wrap: pretty;
 }
 
-
 /* =========================================================
-   INFORMATION BOX
+   AGE GROUP STRIP
 ========================================================= */
 
-.pc-card-info {
+.pc-age-strip {
   display: flex;
-
-  flex-direction: column;
-
-  gap:
-    clamp(9px, 1.2vw, 12px);
-
-  margin-bottom: 21px;
-
-  padding:
-    clamp(12px, 1.5vw, 16px);
-
-  border:
-    1px dashed
-    var(--pc-border-light);
-
-  border-radius:
-    clamp(11px, 1.3vw, 14px);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(242, 101, 34, 0.045),
-      rgba(255, 183, 3, 0.04)
-    );
-
-  box-sizing: border-box;
-}
-
-
-/* =========================================================
-   INFO ITEM
-========================================================= */
-
-.pc-info-item {
-  display: flex;
-
-  align-items: flex-start;
-
-  justify-content: space-between;
-
-  gap:
-    clamp(10px, 1.5vw, 15px);
+  align-items: center;
+  gap: 9px;
 
   width: 100%;
-
-  font-size:
-    clamp(11px, 1.15vw, 12.5px);
-
-  line-height: 1.45;
-}
-
-.pc-info-label {
-  flex:
-    0 1 auto;
-
-  color:
-    var(--pc-orange);
-
-  font-weight: 700;
-}
-
-.pc-info-value {
-  flex:
-    1 1 auto;
-
   min-width: 0;
 
-  color:
-    var(--pc-text-dark);
+  margin-bottom: 11px;
+  padding: 8px 10px;
 
+  box-sizing: border-box;
+
+  border: 1px solid rgba(242, 101, 34, 0.13);
+  border-radius: 11px;
+
+  background: linear-gradient(
+    135deg,
+    #fff7ef,
+    #fffdf9
+  );
+}
+
+.pc-age-icon {
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 9px;
+  background: #ffeadb;
+
+  font-size: 17px;
+}
+
+.pc-age-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.pc-age-strip .pc-info-label {
+  display: block;
+
+  color: #a95a32;
+
+  font-size: 9px;
   font-weight: 600;
+  line-height: 1.3;
+}
 
-  text-align: right;
+.pc-age-strip .pc-info-value {
+  display: block;
 
+  color: var(--pc-dark-purple);
+
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 1.4;
+
+  text-align: left;
   overflow-wrap: anywhere;
 }
 
-
 /* =========================================================
-   ACTION WRAPPER
+   TIMING & SEAT INFORMATION GRID
 ========================================================= */
 
-.pc-action-wrapper {
-  width: 100%;
+.pc-card-info {
+  display: grid;
 
-  margin-top: auto;
-}
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
 
-
-/* =========================================================
-   JOIN BUTTON
-========================================================= */
-
-.pc-btn-join {
-  position: relative;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
+  align-items: stretch;
   gap: 8px;
 
   width: 100%;
-  min-height: 44px;
+  min-width: 0;
 
-  padding:
-    11px
-    clamp(15px, 2vw, 24px);
+  margin-bottom: 14px;
+  padding: 0;
+
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* =========================================================
+   TIMING AND SEAT BOXES - COMPACT
+========================================================= */
+
+.pc-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  min-width: 0;
+  min-height: 108px;
+
+  padding: 10px;
 
   box-sizing: border-box;
 
-  overflow: hidden;
-
-  border: none;
-
-  border-radius:
-    clamp(9px, 1vw, 12px);
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--pc-orange),
-      var(--pc-red)
-    );
-
-  color:
-    var(--pc-white);
-
-  font-family:
-    "Poppins",
-    sans-serif;
-
-  font-size:
-    clamp(12.5px, 1.3vw, 14.5px);
-
-  font-weight: 700;
-
-  line-height: 1.3;
-
-  cursor: pointer;
-
-  box-shadow:
-    0 10px 24px
-    rgba(242, 101, 34, 0.28);
+  border: 1px solid transparent;
+  border-radius: 12px;
 
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
 
-.pc-btn-sparkle {
-  display: inline-block;
+.pc-timing-box {
+  border-color: rgba(242, 101, 34, 0.16);
+
+  background: linear-gradient(
+    145deg,
+    #fff1e5,
+    #fffaf5
+  );
+}
+
+.pc-seats-box {
+  border-color: rgba(99, 53, 154, 0.12);
+
+  background: linear-gradient(
+    145deg,
+    #f4edff,
+    #fbf8ff
+  );
+}
+
+.pc-timing-box:hover,
+.pc-seats-box:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 14px rgba(35, 8, 50, 0.06);
+}
+
+/* =========================================================
+   INFORMATION ICONS
+========================================================= */
+
+.pc-info-box-icon {
+  display: grid;
+  place-items: center;
 
   flex-shrink: 0;
 
-  transition:
-    transform 0.4s ease;
+  width: 29px;
+  height: 29px;
+
+  margin-bottom: 7px;
+
+  border-radius: 9px;
 }
 
+.pc-timing-box .pc-info-box-icon {
+  color: #e85b19;
+  background: #ffe0ca;
+}
+
+.pc-seats-box .pc-info-box-icon {
+  color: var(--pc-purple);
+  background: #e8dafa;
+}
+
+.pc-info-box-icon svg {
+  display: block;
+
+  width: 17px;
+  height: 17px;
+}
 
 /* =========================================================
-   BUTTON SHINE
+   INFORMATION LABELS
 ========================================================= */
+
+.pc-info-box-label {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #777080;
+
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.1px;
+}
+
+/* =========================================================
+   CLASS TIMING VALUE
+========================================================= */
+
+.pc-info-box-value {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+
+  color: #30203d;
+
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   SEAT CAPACITY
+========================================================= */
+
+.pc-seat-number {
+  display: block;
+
+  color: var(--pc-purple);
+
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.15;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-seat-number small {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #766785;
+
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* =========================================================
+   ENROLLMENT BUTTON
+========================================================= */
+
+.pc-action-wrapper {
+  width: 100%;
+  margin-top: auto;
+}
+
+.pc-btn-join {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 100%;
+  min-height: 40px;
+
+  padding: 9px 12px;
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  border: none;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    var(--pc-orange),
+    var(--pc-red)
+  );
+
+  color: var(--pc-white);
+
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(242, 101, 34, 0.24);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Button Shine */
 
 .pc-btn-join::before {
   content: "";
@@ -869,19 +846,16 @@
   width: 80%;
   height: 100%;
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.35),
-      transparent
-    );
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
 
-  transform:
-    skewX(-20deg);
+  transform: skewX(-20deg);
 
-  transition:
-    left 0.6s ease;
+  transition: left 0.6s ease;
 }
 
 .pc-btn-join:hover::before {
@@ -889,20 +863,30 @@
 }
 
 .pc-btn-join:hover {
-  transform:
-    translateY(-3px);
+  transform: translateY(-2px);
 
-  box-shadow:
-    0 16px 32px
-    rgba(217, 78, 14, 0.38);
+  box-shadow: 0 12px 25px rgba(217, 78, 14, 0.32);
+}
+
+.pc-btn-join:active {
+  transform: translateY(0);
+}
+
+.pc-btn-sparkle {
+  display: inline-block;
+  flex-shrink: 0;
+
+  transition: transform 0.4s ease;
 }
 
 .pc-btn-join:hover .pc-btn-sparkle {
-  transform:
-    rotate(20deg)
-    scale(1.2);
+  transform: rotate(20deg) scale(1.15);
 }
 
+.pc-btn-join:focus-visible {
+  outline: 3px solid rgba(242, 101, 34, 0.4);
+  outline-offset: 3px;
+}
 
 /* =========================================================
    BOTTOM CONTENT
@@ -910,51 +894,38 @@
 
 .pc-bottom-content {
   position: relative;
-
   z-index: 6;
 
   width: 100%;
   max-width: 850px;
 
-  margin:
-    clamp(45px, 6vw, 70px)
-    auto 0;
+  margin: clamp(40px, 5vw, 60px) auto 0;
 
   padding:
-    clamp(25px, 4vw, 40px)
+    clamp(24px, 3vw, 35px)
     clamp(18px, 3vw, 32px);
 
   box-sizing: border-box;
 
   text-align: center;
 
-  border:
-    1px solid
-    rgba(240, 230, 216, 0.8);
+  border: 1px solid rgba(240, 230, 216, 0.8);
+  border-radius: clamp(18px, 2vw, 24px);
 
-  border-radius:
-    clamp(18px, 2vw, 24px);
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.2)
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0.35)
+  );
 }
 
 .pc-bottom-content h2 {
-  margin:
-    0 0 14px;
+  margin: 0 0 12px;
 
-  color:
-    var(--pc-dark-purple);
+  color: var(--pc-dark-purple);
 
-  font-size:
-    clamp(21px, 2.5vw, 27px);
-
+  font-size: clamp(21px, 2.5vw, 27px);
   font-weight: 800;
-
   line-height: 1.3;
 
   text-wrap: balance;
@@ -963,71 +934,111 @@
 .pc-bottom-content p {
   max-width: 760px;
 
-  margin:
-    0 auto 10px;
+  margin: 0 auto 9px;
 
-  color:
-    var(--pc-text-gray);
+  color: var(--pc-text-gray);
 
-  font-size:
-    clamp(12px, 1.2vw, 13.5px);
-
-  line-height: 1.8;
+  font-size: clamp(12px, 1.2vw, 13.5px);
+  line-height: 1.75;
 
   text-wrap: pretty;
 }
 
+.pc-bottom-content p:last-child {
+  margin-bottom: 0;
+}
 
 /* =========================================================
-   VERY LARGE DESKTOP
-   1600px+
+   LARGE DESKTOP - 1600px+
 ========================================================= */
 
 @media (min-width: 1600px) {
-
   .pc-container {
-    max-width: 1380px;
+    max-width: 1420px;
   }
 
   .pc-grid {
-    gap: 34px;
+    gap: 25px;
   }
 
   .pc-image-wrapper {
-    height: 265px;
+    height: 190px;
   }
 
+  .pc-card-content {
+    padding: 19px;
+  }
 }
 
-
 /* =========================================================
-   LARGE DESKTOP / LAPTOP
-   1200px - 1399px
+   DESKTOP - 1200px TO 1399px
 ========================================================= */
 
-@media (max-width: 1399px) {
-
+@media (max-width: 1399px) and (min-width: 1200px) {
   .pc-container {
     max-width: 1160px;
   }
 
   .pc-grid {
-    gap: 24px;
+    gap: 17px;
   }
 
+  .pc-image-wrapper {
+    height: 160px;
+  }
+
+  .pc-card-content {
+    padding: 14px;
+  }
+
+  .pc-card-title {
+    font-size: 16px;
+  }
+
+  .pc-card-description {
+    font-size: 11px;
+  }
+
+  .pc-age-strip {
+    gap: 7px;
+    padding: 7px;
+  }
+
+  .pc-age-icon {
+    width: 29px;
+    height: 29px;
+    font-size: 15px;
+  }
+
+  .pc-age-strip .pc-info-value {
+    font-size: 10.5px;
+  }
+
+  .pc-info-box {
+    min-height: 105px;
+    padding: 9px 8px;
+  }
+
+  .pc-info-box-value {
+    font-size: 10px;
+  }
+
+  .pc-info-box-label {
+    font-size: 8px;
+  }
+
+  .pc-seat-number {
+    font-size: 24px;
+  }
 }
 
-
 /* =========================================================
-   SMALL LAPTOP
-   993px - 1199px
+   TABLETS AND SMALL LAPTOPS
 ========================================================= */
 
 @media (max-width: 1199px) {
-
   .pc-section {
-    padding-top:
-      clamp(70px, 7vw, 90px);
+    padding-top: 65px;
   }
 
   .pc-container {
@@ -1035,772 +1046,67 @@
   }
 
   .pc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 22px;
   }
 
   .pc-image-wrapper {
-    height: 225px;
+    height: 190px;
   }
 
   .pc-card-content {
-    padding:
-      21px
-      20px
-      22px;
+    padding: 17px;
+  }
+
+  .pc-card-title {
+    font-size: 18px;
+  }
+
+  .pc-card-description {
+    font-size: 12px;
+  }
+
+  .pc-info-box {
+    min-height: 105px;
+  }
+
+  .pc-info-box-value {
+    font-size: 11px;
+  }
+
+  .pc-seat-number {
+    font-size: 26px;
   }
 
   .pc-dino-left {
-    width: 180px;
+    width: 150px;
   }
 
   .pc-dino-right {
-    width: 185px;
+    width: 155px;
   }
-
 }
-
 
 /* =========================================================
    TABLET LANDSCAPE
-   769px - 992px
 ========================================================= */
 
 @media (max-width: 992px) {
-
   .pc-section {
-    padding:
-      72px
-      20px
-      95px;
-  }
-
-  .pc-container {
-    max-width: 900px;
+    padding: 60px 20px 80px;
   }
 
   .pc-header {
     max-width: 720px;
-
-    margin-bottom: 45px;
-  }
-
-  .pc-title {
-    font-size:
-      clamp(31px, 5vw, 40px);
-  }
-
-  .pc-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap: 24px;
-  }
-
-  .pc-image-wrapper {
-    height: 225px;
-  }
-
-  .pc-card-content {
-    padding:
-      22px
-      20px
-      23px;
-  }
-
-  .pc-card-title {
-    font-size: 20px;
-  }
-
-  .pc-card-description {
-    font-size: 13px;
-  }
-
-  .pc-info-item {
-    font-size: 12px;
-  }
-
-  .pc-btn-join {
-    min-height: 43px;
-  }
-
-  .pc-dino-left,
-  .pc-dino-right {
-    opacity: 0.55;
-  }
-
-  .pc-dino-left {
-    width: 135px;
-  }
-
-  .pc-dino-right {
-    width: 145px;
-  }
-
-}
-
-
-/* =========================================================
-   TABLET PORTRAIT
-   601px - 768px
-========================================================= */
-
-@media (max-width: 768px) {
-
-  .pc-section {
-    padding:
-      65px
-      18px
-      90px;
-  }
-
-  .pc-header {
-    max-width: 650px;
-
-    margin-bottom: 40px;
-  }
-
-  .pc-eyebrow {
-    font-size: 11px;
-
-    padding:
-      6px 13px;
-  }
-
-  .pc-subtitle {
-    font-size: 28px;
-  }
-
-  .pc-title {
-    font-size: 34px;
-
-    line-height: 1.23;
-  }
-
-  .pc-intro {
-    font-size: 13px;
-
-    line-height: 1.75;
-  }
-
-  .pc-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap: 20px;
-  }
-
-  .pc-image-wrapper {
-    height:
-      clamp(205px, 31vw, 230px);
-  }
-
-  .pc-card-content {
-    padding:
-      20px
-      18px
-      21px;
-  }
-
-  .pc-card-title {
-    font-size: 19px;
-  }
-
-  .pc-card-description {
-    font-size: 12.5px;
-  }
-
-  .pc-card-info {
-    padding: 13px;
-  }
-
-  .pc-info-item {
-    gap: 10px;
-
-    font-size: 11.5px;
-  }
-
-  .pc-price-badge {
-    font-size: 14px;
-  }
-
-  .pc-dino-left {
-    width: 105px;
-  }
-
-  .pc-dino-right {
-    width: 115px;
-  }
-
-}
-
-
-/* =========================================================
-   LARGE MOBILE
-   481px - 600px
-========================================================= */
-
-@media (max-width: 600px) {
-
-  .pc-section {
-    padding:
-      58px
-      15px
-      82px;
-  }
-
-  .pc-header {
-    margin-bottom: 36px;
-  }
-
-  .pc-eyebrow {
-    margin-bottom: 13px;
-
-    font-size: 10px;
-
-    letter-spacing: 0.45px;
-  }
-
-  .pc-eyebrow-dot {
-    width: 6px;
-    height: 6px;
-  }
-
-  .pc-subtitle {
-    font-size: 26px;
-  }
-
-  .pc-title {
-    margin-bottom: 19px;
-
-    font-size:
-      clamp(28px, 7vw, 32px);
-
-    line-height: 1.22;
-  }
-
-  .pc-title::after {
-    width: 58px;
-    height: 3px;
-
-    margin-top: 12px;
-  }
-
-  .pc-intro {
-    font-size: 12.5px;
-
-    line-height: 1.75;
-  }
-
-  .pc-grid {
-    grid-template-columns: 1fr;
-
-    width: 100%;
-    max-width: 450px;
-
-    margin: 0 auto;
-
-    gap: 20px;
-  }
-
-  .pc-card {
-    border-radius: 20px;
-  }
-
-  .pc-image-wrapper {
-    height:
-      clamp(220px, 58vw, 275px);
-  }
-
-  .pc-card-content {
-    padding:
-      21px
-      19px
-      23px;
-  }
-
-  .pc-card-title {
-    font-size: 20px;
-  }
-
-  .pc-card-description {
-    font-size: 13px;
-
-    line-height: 1.75;
-  }
-
-  .pc-card-info {
-    gap: 10px;
-
-    padding: 14px;
-
-    margin-bottom: 20px;
-  }
-
-  .pc-info-item {
-    font-size: 12px;
-  }
-
-  .pc-price-badge {
-    padding:
-      8px
-      15px;
-
-    font-size: 14px;
-
-    border-top-left-radius: 15px;
-  }
-
-  .pc-btn-join {
-    min-height: 43px;
-
-    font-size: 13px;
-  }
-
-  .pc-bottom-content {
-    margin-top: 45px;
-
-    padding:
-      27px
-      20px;
-
-    border-radius: 19px;
-  }
-
-  .pc-bottom-content h2 {
-    font-size: 22px;
-  }
-
-  .pc-bottom-content p {
-    font-size: 12.5px;
-
-    line-height: 1.75;
-  }
-
-  .pc-dino-left {
-    width: 85px;
-
-    left: -22px;
-
-    opacity: 0.4;
-  }
-
-  .pc-dino-right {
-    width: 95px;
-
-    right: -22px;
-
-    opacity: 0.4;
-  }
-
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-   381px - 480px
-========================================================= */
-
-@media (max-width: 480px) {
-
-  .pc-section {
-    padding:
-      52px
-      13px
-      75px;
-  }
-
-  .pc-header {
-    margin-bottom: 32px;
-  }
-
-  .pc-eyebrow {
-    max-width: calc(100% - 20px);
-
-    padding:
-      6px
-      11px;
-
-    font-size: 9.5px;
-  }
-
-  .pc-subtitle {
-    font-size: 24px;
-  }
-
-  .pc-title {
-    font-size:
-      clamp(25px, 7.5vw, 29px);
-
-    letter-spacing: -0.3px;
-  }
-
-  .pc-intro {
-    font-size: 12px;
-  }
-
-  .pc-grid {
-    gap: 18px;
-  }
-
-  .pc-card {
-    border-radius: 18px;
-  }
-
-  .pc-image-wrapper {
-    height:
-      clamp(205px, 58vw, 235px);
-  }
-
-  .pc-tag-badge {
-    top: 10px;
-    left: 10px;
-
-    padding:
-      5px
-      10px;
-
-    font-size: 9.5px;
-  }
-
-  .pc-price-badge {
-    padding:
-      7px
-      13px;
-
-    font-size: 13px;
-  }
-
-  .pc-card-content {
-    padding:
-      19px
-      16px
-      20px;
-  }
-
-  .pc-card-title {
-    font-size: 19px;
-  }
-
-  .pc-card-description {
-    font-size: 12.5px;
-  }
-
-  .pc-card-info {
-    padding:
-      12px;
-  }
-
-  .pc-info-item {
-    font-size: 11.5px;
-  }
-
-  .pc-btn-join {
-    min-height: 41px;
-
-    font-size: 12.5px;
-
-    border-radius: 10px;
-  }
-
-  .pc-bottom-content {
-    padding:
-      24px
-      16px;
-  }
-
-  .pc-bottom-content h2 {
-    font-size: 20px;
-  }
-
-  .pc-bottom-content p {
-    font-size: 12px;
-  }
-
-  .pc-dino-left {
-    width: 70px;
-
-    left: -20px;
-  }
-
-  .pc-dino-right {
-    width: 78px;
-
-    right: -20px;
-  }
-
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   320px - 380px
-========================================================= */
-
-@media (max-width: 380px) {
-
-  .pc-section {
-    padding:
-      45px
-      10px
-      68px;
-  }
-
-  .pc-header {
-    margin-bottom: 29px;
-  }
-
-  .pc-eyebrow {
-    padding:
-      5px
-      9px;
-
-    font-size: 8.5px;
-
-    gap: 6px;
-  }
-
-  .pc-eyebrow-dot {
-    width: 5px;
-    height: 5px;
-  }
-
-  .pc-subtitle {
-    font-size: 22px;
-  }
-
-  .pc-title {
-    font-size: 24px;
-
-    line-height: 1.25;
-  }
-
-  .pc-title::after {
-    width: 50px;
-
-    margin-top: 10px;
-  }
-
-  .pc-intro {
-    font-size: 11.5px;
-
-    line-height: 1.7;
-  }
-
-  .pc-grid {
-    gap: 16px;
-  }
-
-  .pc-card {
-    border-radius: 16px;
-  }
-
-  .pc-image-wrapper {
-    height: 200px;
-  }
-
-  .pc-tag-badge {
-    top: 8px;
-    left: 8px;
-
-    padding:
-      5px
-      9px;
-
-    font-size: 9px;
-  }
-
-  .pc-price-badge {
-    padding:
-      7px
-      11px;
-
-    font-size: 12px;
-
-    border-top-left-radius: 12px;
-  }
-
-  .pc-card-content {
-    padding:
-      17px
-      14px
-      18px;
-  }
-
-  .pc-card-title {
-    margin-bottom: 9px;
-
-    font-size: 18px;
-  }
-
-  .pc-card-description {
-    margin-bottom: 17px;
-
-    font-size: 11.8px;
-
-    line-height: 1.7;
-  }
-
-  .pc-card-info {
-    gap: 9px;
-
-    padding:
-      11px;
-
-    margin-bottom: 17px;
-
-    border-radius: 11px;
-  }
-
-  .pc-info-item {
-    gap: 7px;
-
-    font-size: 10.5px;
-
-    line-height: 1.4;
-  }
-
-  .pc-btn-join {
-    min-height: 39px;
-
-    padding:
-      8px
-      12px;
-
-    font-size: 11.5px;
-
-    border-radius: 9px;
-  }
-
-  .pc-bottom-content {
-    margin-top: 35px;
-
-    padding:
-      21px
-      13px;
-
-    border-radius: 16px;
-  }
-
-  .pc-bottom-content h2 {
-    font-size: 18px;
-  }
-
-  .pc-bottom-content p {
-    font-size: 11.5px;
-
-    line-height: 1.7;
-  }
-
-  .pc-dino-left {
-    width: 60px;
-
-    left: -18px;
-
-    opacity: 0.3;
-  }
-
-  .pc-dino-right {
-    width: 68px;
-
-    right: -18px;
-
-    opacity: 0.3;
-  }
-
-}
-
-
-/* =========================================================
-   EXTRA SMALL DEVICES
-   280px - 319px
-========================================================= */
-
-@media (max-width: 319px) {
-
-  .pc-section {
-    padding:
-      38px
-      8px
-      60px;
-  }
-
-  .pc-eyebrow {
-    font-size: 8px;
-
-    letter-spacing: 0.2px;
-  }
-
-  .pc-subtitle {
-    font-size: 20px;
-  }
-
-  .pc-title {
-    font-size: 22px;
-  }
-
-  .pc-intro {
-    font-size: 10.5px;
-  }
-
-  .pc-image-wrapper {
-    height: 180px;
-  }
-
-  .pc-card-content {
-    padding:
-      15px
-      12px
-      16px;
-  }
-
-  .pc-card-title {
-    font-size: 17px;
-  }
-
-  .pc-card-description {
-    font-size: 11px;
-  }
-
-  .pc-info-item {
-    font-size: 9.8px;
-  }
-
-  .pc-btn-join {
-    font-size: 11px;
-  }
-
-  .pc-bottom-content h2 {
-    font-size: 17px;
-  }
-
-  .pc-bottom-content p {
-    font-size: 10.5px;
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE LANDSCAPE
-========================================================= */
-
-@media (max-width: 900px) and (orientation: landscape) {
-
-  .pc-section {
-    padding:
-      45px
-      20px
-      75px;
-  }
-
-  .pc-header {
     margin-bottom: 35px;
   }
 
-  .pc-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+  .pc-title {
+    font-size: clamp(30px, 4.5vw, 38px);
+  }
 
+  .pc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 
@@ -1809,39 +1115,747 @@
   }
 
   .pc-card-content {
-    padding:
-      18px
-      17px
-      20px;
+    padding: 17px;
+  }
+
+  .pc-card-title {
+    font-size: 19px;
+  }
+
+  .pc-card-description {
+    font-size: 12px;
+  }
+
+  .pc-dino-left,
+  .pc-dino-right {
+    opacity: 0.55;
   }
 
   .pc-dino-left {
-    width: 100px;
+    width: 120px;
   }
 
   .pc-dino-right {
-    width: 110px;
+    width: 130px;
   }
-
 }
 
+/* =========================================================
+   TABLET PORTRAIT
+========================================================= */
+
+@media (max-width: 768px) {
+  .pc-section {
+    padding: 55px 18px 75px;
+  }
+
+  .pc-header {
+    margin-bottom: 32px;
+  }
+
+  .pc-eyebrow {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+
+  .pc-subtitle {
+    font-size: 27px;
+  }
+
+  .pc-title {
+    font-size: 32px;
+    line-height: 1.23;
+  }
+
+  .pc-intro {
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  .pc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .pc-image-wrapper {
+    height: 175px;
+  }
+
+  .pc-card-content {
+    padding: 15px;
+  }
+
+  .pc-card-title {
+    font-size: 17px;
+  }
+
+  .pc-card-description {
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+
+  .pc-age-strip {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .pc-age-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .pc-age-strip .pc-info-value {
+    font-size: 11px;
+  }
+
+  .pc-card-info {
+    gap: 7px;
+  }
+
+  .pc-info-box {
+    min-height: 103px;
+    padding: 9px;
+  }
+
+  .pc-info-box-icon {
+    width: 27px;
+    height: 27px;
+    margin-bottom: 7px;
+  }
+
+  .pc-info-box-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pc-info-box-label {
+    font-size: 8.5px;
+  }
+
+  .pc-info-box-value {
+    font-size: 10px;
+  }
+
+  .pc-seat-number {
+    font-size: 24px;
+  }
+
+  .pc-btn-join {
+    min-height: 39px;
+    font-size: 11.5px;
+  }
+
+  .pc-dino-left {
+    width: 95px;
+  }
+
+  .pc-dino-right {
+    width: 105px;
+  }
+}
+
+/* =========================================================
+   MOBILE - UP TO 600px
+========================================================= */
+
+@media (max-width: 600px) {
+  .pc-section {
+    padding: 48px 15px 70px;
+  }
+
+  .pc-header {
+    margin-bottom: 28px;
+  }
+
+  .pc-eyebrow {
+    margin-bottom: 12px;
+    font-size: 9.5px;
+    letter-spacing: 0.4px;
+  }
+
+  .pc-eyebrow-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .pc-subtitle {
+    font-size: 25px;
+  }
+
+  .pc-title {
+    margin-bottom: 16px;
+    font-size: clamp(27px, 7vw, 32px);
+    line-height: 1.22;
+  }
+
+  .pc-title::after {
+    width: 55px;
+    height: 3px;
+    margin-top: 11px;
+  }
+
+  .pc-intro {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .pc-grid {
+    grid-template-columns: minmax(0, 1fr);
+
+    width: 100%;
+    max-width: 430px;
+
+    margin: 0 auto;
+    gap: 18px;
+  }
+
+  .pc-card {
+    border-radius: 17px;
+  }
+
+  .pc-image-wrapper {
+    height: 200px;
+  }
+
+  .pc-tag-badge {
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    font-size: 9.5px;
+  }
+
+  .pc-class-icon {
+    top: 48px;
+    right: 10px;
+
+    width: 36px;
+    height: 36px;
+
+    font-size: 19px;
+  }
+
+  .pc-card-content {
+    padding: 16px 16px 17px;
+  }
+
+  .pc-card-title {
+    margin-bottom: 7px;
+    font-size: 19px;
+  }
+
+  .pc-card-description {
+    margin-bottom: 12px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .pc-age-strip {
+    gap: 9px;
+    padding: 9px 10px;
+    margin-bottom: 11px;
+  }
+
+  .pc-age-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pc-age-strip .pc-info-label {
+    font-size: 9px;
+  }
+
+  .pc-age-strip .pc-info-value {
+    font-size: 12px;
+  }
+
+  .pc-card-info {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .pc-info-box {
+    min-height: 108px;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .pc-info-box-icon {
+    width: 29px;
+    height: 29px;
+    margin-bottom: 7px;
+  }
+
+  .pc-info-box-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .pc-info-box-label {
+    font-size: 9px;
+  }
+
+  .pc-info-box-value {
+    font-size: 11px;
+  }
+
+  .pc-seat-number {
+    font-size: 26px;
+  }
+
+  .pc-seat-number small {
+    font-size: 9px;
+  }
+
+  .pc-btn-join {
+    min-height: 40px;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .pc-bottom-content {
+    margin-top: 36px;
+    padding: 24px 18px;
+    border-radius: 17px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 21px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .pc-dino-left {
+    width: 78px;
+    left: -20px;
+    opacity: 0.4;
+  }
+
+  .pc-dino-right {
+    width: 86px;
+    right: -20px;
+    opacity: 0.4;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE - UP TO 480px
+========================================================= */
+
+@media (max-width: 480px) {
+  .pc-section {
+    padding: 44px 13px 64px;
+  }
+
+  .pc-header {
+    margin-bottom: 25px;
+  }
+
+  .pc-eyebrow {
+    max-width: calc(100% - 20px);
+    padding: 5px 10px;
+    font-size: 9px;
+  }
+
+  .pc-subtitle {
+    font-size: 23px;
+  }
+
+  .pc-title {
+    font-size: clamp(25px, 7.5vw, 29px);
+    letter-spacing: -0.3px;
+  }
+
+  .pc-intro {
+    font-size: 11.8px;
+  }
+
+  .pc-grid {
+    gap: 16px;
+  }
+
+  .pc-image-wrapper {
+    height: 190px;
+  }
+
+  .pc-card-content {
+    padding: 15px 14px 16px;
+  }
+
+  .pc-card-title {
+    font-size: 18px;
+  }
+
+  .pc-card-description {
+    font-size: 11.8px;
+  }
+
+  .pc-age-strip {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .pc-age-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+  .pc-age-strip .pc-info-value {
+    font-size: 11.5px;
+  }
+
+  .pc-card-info {
+    gap: 7px;
+  }
+
+  .pc-info-box {
+    min-height: 103px;
+    padding: 9px;
+  }
+
+  .pc-info-box-label {
+    font-size: 8.5px;
+  }
+
+  .pc-info-box-value {
+    font-size: 10.5px;
+  }
+
+  .pc-seat-number {
+    font-size: 24px;
+  }
+
+  .pc-seat-number small {
+    font-size: 8.5px;
+  }
+
+  .pc-btn-join {
+    min-height: 39px;
+    font-size: 11.5px;
+  }
+
+  .pc-bottom-content {
+    margin-top: 32px;
+    padding: 22px 15px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 19px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 11.5px;
+  }
+
+  .pc-dino-left {
+    width: 66px;
+    left: -19px;
+  }
+
+  .pc-dino-right {
+    width: 73px;
+    right: -19px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES - UP TO 380px
+========================================================= */
+
+@media (max-width: 380px) {
+  .pc-section {
+    padding: 38px 10px 58px;
+  }
+
+  .pc-header {
+    margin-bottom: 22px;
+  }
+
+  .pc-eyebrow {
+    padding: 5px 9px;
+    font-size: 8.5px;
+    gap: 6px;
+  }
+
+  .pc-subtitle {
+    font-size: 21px;
+  }
+
+  .pc-title {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+
+  .pc-title::after {
+    width: 48px;
+    margin-top: 9px;
+  }
+
+  .pc-intro {
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .pc-grid {
+    gap: 15px;
+  }
+
+  .pc-image-wrapper {
+    height: 175px;
+  }
+
+  .pc-class-icon {
+    top: 42px;
+    right: 8px;
+
+    width: 33px;
+    height: 33px;
+
+    font-size: 17px;
+  }
+
+  .pc-card-content {
+    padding: 14px 12px 15px;
+  }
+
+  .pc-card-title {
+    font-size: 17px;
+  }
+
+  .pc-card-description {
+    margin-bottom: 10px;
+    font-size: 11.2px;
+    line-height: 1.6;
+  }
+
+  .pc-age-strip {
+    gap: 7px;
+    padding: 7px 8px;
+    margin-bottom: 10px;
+  }
+
+  .pc-age-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+  }
+
+  .pc-age-strip .pc-info-label {
+    font-size: 8.5px;
+  }
+
+  .pc-age-strip .pc-info-value {
+    font-size: 10.5px;
+  }
+
+  .pc-card-info {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .pc-info-box {
+    min-height: 100px;
+    padding: 8px;
+    border-radius: 11px;
+  }
+
+  .pc-info-box-icon {
+    width: 26px;
+    height: 26px;
+    margin-bottom: 6px;
+  }
+
+  .pc-info-box-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .pc-info-box-label {
+    margin-bottom: 4px;
+    font-size: 8px;
+  }
+
+  .pc-info-box-value {
+    font-size: 9.5px;
+    line-height: 1.45;
+  }
+
+  .pc-seat-number {
+    font-size: 22px;
+  }
+
+  .pc-seat-number small {
+    font-size: 8px;
+  }
+
+  .pc-btn-join {
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 11px;
+    border-radius: 9px;
+  }
+
+  .pc-bottom-content {
+    margin-top: 28px;
+    padding: 19px 12px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 18px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .pc-dino-left {
+    width: 55px;
+    left: -17px;
+    opacity: 0.3;
+  }
+
+  .pc-dino-right {
+    width: 62px;
+    right: -17px;
+    opacity: 0.3;
+  }
+}
+
+/* =========================================================
+   EXTRA SMALL DEVICES - BELOW 320px
+========================================================= */
+
+@media (max-width: 319px) {
+  .pc-section {
+    padding: 32px 8px 50px;
+  }
+
+  .pc-subtitle {
+    font-size: 19px;
+  }
+
+  .pc-title {
+    font-size: 21px;
+  }
+
+  .pc-intro {
+    font-size: 10px;
+  }
+
+  .pc-image-wrapper {
+    height: 160px;
+  }
+
+  .pc-card-content {
+    padding: 12px 10px 13px;
+  }
+
+  .pc-card-title {
+    font-size: 16px;
+  }
+
+  .pc-card-description {
+    font-size: 10.5px;
+  }
+
+  .pc-age-strip {
+    gap: 6px;
+    padding: 7px;
+  }
+
+  .pc-age-icon {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+  }
+
+  .pc-age-strip .pc-info-value {
+    font-size: 10px;
+  }
+
+  .pc-card-info {
+    gap: 5px;
+  }
+
+  .pc-info-box {
+    min-height: 94px;
+    padding: 7px;
+  }
+
+  .pc-info-box-label {
+    font-size: 7.5px;
+  }
+
+  .pc-info-box-value {
+    font-size: 9px;
+  }
+
+  .pc-seat-number {
+    font-size: 20px;
+  }
+
+  .pc-seat-number small {
+    font-size: 7.5px;
+  }
+
+  .pc-btn-join {
+    min-height: 36px;
+    font-size: 10.5px;
+  }
+
+  .pc-bottom-content h2 {
+    font-size: 16px;
+  }
+
+  .pc-bottom-content p {
+    font-size: 10px;
+  }
+}
+
+/* =========================================================
+   MOBILE LANDSCAPE
+========================================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .pc-section {
+    padding: 40px 20px 65px;
+  }
+
+  .pc-header {
+    margin-bottom: 28px;
+  }
+
+  .pc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .pc-image-wrapper {
+    height: 170px;
+  }
+
+  .pc-card-content {
+    padding: 15px;
+  }
+}
 
 /* =========================================================
    TOUCH DEVICES
-   Disable desktop hover movement on touch screens
 ========================================================= */
 
 @media (hover: none) and (pointer: coarse) {
-
   .pc-card:hover {
     transform: none;
 
-    box-shadow:
-      0 12px 34px
-      rgba(35, 8, 50, 0.08);
+    box-shadow: 0 10px 28px rgba(35, 8, 50, 0.075);
 
-    border-color:
-      rgba(240, 230, 216, 0.7);
+    border-color: rgba(240, 230, 216, 0.8);
   }
 
   .pc-card:hover .pc-card-image {
@@ -1849,20 +1863,22 @@
   }
 
   .pc-card:hover .pc-card-title {
-    color:
-      var(--pc-dark-purple);
+    color: var(--pc-dark-purple);
   }
 
-  .pc-card:hover .pc-price-badge {
+  .pc-card:hover .pc-class-icon {
     transform: none;
+  }
+
+  .pc-timing-box:hover,
+  .pc-seats-box:hover {
+    transform: none;
+    box-shadow: none;
   }
 
   .pc-btn-join:hover {
     transform: none;
-
-    box-shadow:
-      0 10px 24px
-      rgba(242, 101, 34, 0.28);
+    box-shadow: 0 8px 20px rgba(242, 101, 34, 0.24);
   }
 
   .pc-btn-join:hover::before {
@@ -1875,69 +1891,54 @@
 
   .pc-subtitle:hover {
     transform: none;
-
-    color:
-      var(--pc-orange);
+    color: var(--pc-orange);
   }
-
 }
-
-
-/* =========================================================
-   FOCUS ACCESSIBILITY
-========================================================= */
-
-.pc-btn-join:focus-visible {
-  outline:
-    3px solid
-    rgba(242, 101, 34, 0.35);
-
-  outline-offset: 3px;
-}
-
 
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   .pc-card,
   .pc-card-image,
   .pc-btn-join,
-  .pc-price-badge,
   .pc-subtitle,
   .pc-btn-sparkle,
   .pc-btn-join::before,
-  .pc-dino-bg {
+  .pc-dino-bg,
+  .pc-class-icon,
+  .pc-info-box {
     transition: none !important;
+    animation: none !important;
   }
 
+  .pc-card:hover,
+  .pc-btn-join:hover,
+  .pc-timing-box:hover,
+  .pc-seats-box:hover {
+    transform: none;
+  }
 }
-
 
 /* =========================================================
    FORCED COLORS / HIGH CONTRAST
 ========================================================= */
 
 @media (forced-colors: active) {
-
   .pc-card,
   .pc-bottom-content,
-  .pc-card-info {
-    border:
-      1px solid CanvasText;
+  .pc-age-strip,
+  .pc-info-box {
+    border: 1px solid CanvasText;
   }
 
   .pc-btn-join {
-    border:
-      1px solid CanvasText;
+    border: 1px solid ButtonText;
   }
 
   .pc-tag-badge,
-  .pc-price-badge {
-    border:
-      1px solid CanvasText;
+  .pc-class-icon {
+    border: 1px solid CanvasText;
   }
-
 }

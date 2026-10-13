@@ -15,6 +15,7 @@ import Testimonial from '../../Components/Testimonial/Testimonial';
 import LatestNews from '../../Components/LatestNews/LatestNews';
 import AboutContact from '../../Components/AboutContact/AboutContact';
 import News from '../../Components/News/News';
+import Activites from '../../Components/Activites/Activites';
 // import ActivityHomePage from '../../Components/ActivityHomePage/ActivityHomePage';
 
 const Home = () => {
@@ -181,6 +182,8 @@ const Home = () => {
 
         {/* Core Values */}
         <CoreValues />
+
+        <Activites />
 
         {/* Teachers */}
         <OurTeachers />

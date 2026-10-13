@@ -50,8 +50,8 @@ const Navbar = () => {
     { title: "Shop", path: "/shop" },
     { title: "Blog", path: "/blog" },
     { title: "Gallery", path: "/gallery" },
-    { title: "Pricing", path: "/pricing" },
-    { title: "Time Table", path: "/time-table" },
+   
+   
     { title: "FAQ", path: "/faq" },
     { title: "Teacher", path: "/teacher" },
     { title: "Contact Us", path: "/contact" },

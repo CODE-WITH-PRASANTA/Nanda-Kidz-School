@@ -57,6 +57,7 @@ import ContactMessages from "./Components/ContactMessages/ContactMessages";
 import LatestNews from "./Pages/LatestNews/LatestNews";
 import ShopImg from "./Pages/ShopImg/ShopImg";
 import MyProfile from "./Components/MyProfile/MyProfile";
+import Activites from "./Components/Activites/Activites";
 
 function App() {
   // =====================================================
@@ -302,6 +303,8 @@ function App() {
             path="gallery-management"
             element={<GalleryManagement />}
           />
+
+          <Route path="/activites" element={<Activites />} />
 
           {/* =================================================
               FLOATING ENQUIRIES

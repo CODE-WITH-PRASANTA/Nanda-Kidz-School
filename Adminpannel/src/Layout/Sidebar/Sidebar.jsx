@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 // Import your logo file
-import logo from '../../assets/nanda image .webp';
+import logo from '../../assets/nanda image .png';
 
 import {
   Home,
@@ -150,6 +150,13 @@ const Sidebar = ({
           icon: ImageIcon,
           text: 'Gallery Management',
           path: '/gallery-management',
+        },
+
+         {
+          type: 'link',
+          icon: ImageIcon,
+          text: 'Activites',
+          path: '/activites',
         },
         // 10. Testimonials
         {
