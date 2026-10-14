@@ -1,26 +1,16 @@
 import React from 'react';
 import './AboutBreadCrumb.css';
-
-// Replace with your local relative path to the cloud image asset
-import cloudImg from '../../assets/cloudimage.webp'; 
+import bgImage from '../../assets/contact.webp'; // Adjust path according to your src/assets structure
 
 const AboutBreadCrumb = () => {
   return (
-    <div className="about-breadcrumb-wrapper">
-      {/* Centered Text Content */}
-      <div className="breadcrumb-content">
-        <h1 className="breadcrumb-title">About</h1>
-        <div className="breadcrumb-nav">
-          <span className="nav-item">Home</span>
-          <span className="nav-separator">›</span>
-          <span className="nav-item active">About</span>
-        </div>
-      </div>
-
-      {/* Infinite Moving Cloud Track */}
-      <div className="cloud-animated-track">
-        <img src={cloudImg} alt="Cloud Layer 1" className="cloud-image" />
-        <img src={cloudImg} alt="Cloud Layer 2" className="cloud-image" />
+    <div 
+      className="AboutBreadCrumb" 
+      style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(${bgImage})` }}
+    >
+      <div className="AboutBreadCrumb-container">
+        <h1 className="AboutBreadCrumb-title">About </h1>
+        <p className="AboutBreadCrumb-subtitle">Nanda kidz's The Little KingDom</p>
       </div>
     </div>
   );

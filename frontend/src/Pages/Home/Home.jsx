@@ -208,7 +208,7 @@ const Home = () => {
         <HomeQualityEducation />
 
         {/* Programs */}
-        <HomeOurPrograms />
+       
 
        
 

@@ -1,5 +1,5 @@
 
-/* Main Banner Container */
+/* Main Wrapper */
 .ShopBreadcrumb {
   width: 100%;
   min-height: 380px;
@@ -15,7 +15,7 @@
   padding: 40px 20px;
 }
 
-/* Inner Layout Wrapper */
+/* Inner Container */
 .ShopBreadcrumb-container {
   display: flex;
   flex-direction: column;
@@ -24,11 +24,11 @@
   z-index: 2;
 }
 
-/* Chalk-style / Playful Title */
+/* Chalk / Playful Title Text */
 .ShopBreadcrumb-title {
   color: #ffffff;
   font-family: 'Fredoka One', 'Comic Sans MS', cursive, sans-serif;
-  font-size: 5.5rem;
+  font-size: 5rem;
   font-weight: 400;
   margin: 0;
   line-height: 1.1;
@@ -50,14 +50,14 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive Breakpoints */
+/* Responsive Styles for Tablets and Mobile */
 @media (max-width: 992px) {
   .ShopBreadcrumb {
     min-height: 320px;
   }
 
   .ShopBreadcrumb-title {
-    font-size: 4.2rem;
+    font-size: 4rem;
   }
 
   .ShopBreadcrumb-subtitle {
