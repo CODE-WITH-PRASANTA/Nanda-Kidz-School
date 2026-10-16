@@ -37,7 +37,7 @@ const LEFT_COLUMN_IMAGES = [
   },
   {
     src: child9,
-    alt: "Girl enjoying bubbles and outdoor play",
+    alt: "A Happy Place for Little Hearts to Play, Learn, Grow, and Shine!",
     heightClass: "img-child9",
   },
 ];
