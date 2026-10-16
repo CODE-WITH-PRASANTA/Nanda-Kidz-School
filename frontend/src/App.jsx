@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
@@ -12,7 +11,7 @@ import {
 import Topbar from "./Components/Topbar/Topbar";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
-import Floating from "./Components/Floating/Floating";
+import FloatingIcons from "./Components/FloatingIcons/FloatingIcons";
 
 // Page Components
 import Home from "./Pages/Home/Home";
@@ -110,34 +109,19 @@ const AppRoutes = () => {
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />
-        <Route
-          path="/home"
-          element={<Navigate to="/" replace />}
-        />
+        <Route path="/home" element={<Navigate to="/" replace />} />
 
         {/* Core Pages */}
         <Route path="/about" element={<About />} />
         <Route path="/courses" element={<Courses />} />
-        <Route
-          path="/classes/details"
-          element={<ClassDetails />}
-        />
-        <Route
-          path="/class-details/:id"
-          element={<ClassDetails />}
-        />
+        <Route path="/classes/details" element={<ClassDetails />} />
+        <Route path="/class-details/:id" element={<ClassDetails />} />
 
         {/* Teachers */}
         <Route path="/teachers" element={<Teacher />} />
         <Route path="/teacher" element={<Teacher />} />
-        <Route
-          path="/teachers/details"
-          element={<TeacherDetails />}
-        />
-        <Route
-          path="/teacher-details/:id"
-          element={<TeacherDetails />}
-        />
+        <Route path="/teachers/details" element={<TeacherDetails />} />
+        <Route path="/teacher-details/:id" element={<TeacherDetails />} />
 
         {/* Blog */}
         <Route path="/blog" element={<Blog />} />
@@ -154,31 +138,18 @@ const AppRoutes = () => {
         <Route path="/contact" element={<ContactUs />} />
 
         {/* Legal Pages */}
-        <Route
-          path="/terms-and-conditions"
-          element={<Termandconditions />}
-        />
-        <Route
-          path="/termandcondition"
-          element={<Termandconditions />}
-        />
-        <Route
-          path="/privacy-policy"
-          element={<Privacypolicy />}
-        />
-        <Route
-          path="/privacypolicy"
-          element={<Privacypolicy />}
-        />
+        <Route path="/terms-and-conditions" element={<Termandconditions />} />
+        <Route path="/termandcondition" element={<Termandconditions />} />
+        <Route path="/privacy-policy" element={<Privacypolicy />} />
+        <Route path="/privacypolicy" element={<Privacypolicy />} />
 
         {/* Redirect unknown routes */}
-        <Route
-          path="*"
-          element={<Navigate to="/" replace />}
-        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <Floating />
+      {/* Floating Action Buttons */}
+      <FloatingIcons />
+
       <Footer />
     </>
   );

@@ -18,7 +18,7 @@ const Pricing = () => {
     "best play school for kids in bhubaneswar",
     "best kids school in bhubaneswar",
     "top best nursery school in bhubaneswar",
-    "play school near khandagiri bhubaneswar",
+    "play school near Kalinga Nagar bhubaneswar",
     "Nanda Kidz",
     "Nanda Kidz The Little Kingdom A Play School",
     "Best play school in Kalinganagar",
@@ -43,7 +43,7 @@ const Pricing = () => {
       "Bhubaneswar",
       "Kalinganagar",
       "Kalinga Vihar",
-      "Khandagiri",
+      "Kalinga Nagar",
     ],
     knowsAbout: [
       "Preschool education",

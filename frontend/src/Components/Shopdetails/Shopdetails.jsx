@@ -739,7 +739,7 @@ const Shopdetails = () => {
           </span>
 
           <h1 className="Shopdetails-title">
-            play school near khandagiri, bhubaneswar
+            play school near Kalinga Nagar, bhubaneswar
           </h1>
 
           <div className="Shopdetails-title-line"></div>

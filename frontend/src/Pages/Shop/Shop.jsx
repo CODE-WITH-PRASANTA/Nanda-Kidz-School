@@ -10,19 +10,19 @@ const Shop = () => {
       <Helmet>
         {/* Page Title */}
         <title>
-          Play School Near Khandagiri, Bhubaneswar | Nanda Kidz
+          Play School Near Kalinga Nagar, Bhubaneswar | Nanda Kidz
         </title>
 
         {/* Meta Description */}
         <meta
           name="description"
-          content="Explore Nanda Kidz – The Little Kingdom, a play school near Khandagiri, Bhubaneswar where children learn through creative activities, play, discovery and joyful experiences."
+          content="Explore Nanda Kidz – The Little Kingdom, a play school near Kalinga Nagar, Bhubaneswar where children learn through creative activities, play, discovery and joyful experiences."
         />
 
         {/* SEO Keywords */}
         <meta
           name="keywords"
-          content="play school near khandagiri, bhubaneswar, best play school in bhubaneswar, Nanda Kidz, Nanda Kidz The Little Kingdom A Play School, best play school for kids in bhubaneswar, best kids school in bhubaneswar, nursery school in bhubaneswar, play school in Kalinganagar"
+          content="play school near Kalinga Nagar, bhubaneswar, best play school in bhubaneswar, Nanda Kidz, Nanda Kidz The Little Kingdom A Play School, best play school for kids in bhubaneswar, best kids school in bhubaneswar, nursery school in bhubaneswar, play school in Kalinganagar"
         />
 
         {/* Search Engine Instructions */}
@@ -57,7 +57,7 @@ const Shop = () => {
         {/* Open Graph */}
         <meta
           property="og:title"
-          content="Play School Near Khandagiri, Bhubaneswar | Nanda Kidz"
+          content="Play School Near Kalinga Nagar, Bhubaneswar | Nanda Kidz"
         />
 
         <meta
@@ -88,12 +88,12 @@ const Shop = () => {
 
         <meta
           name="twitter:title"
-          content="Play School Near Khandagiri, Bhubaneswar | Nanda Kidz"
+          content="Play School Near Kalinga Nagar, Bhubaneswar | Nanda Kidz"
         />
 
         <meta
           name="twitter:description"
-          content="Discover Nanda Kidz – The Little Kingdom, a caring play school near Khandagiri, Bhubaneswar focused on joyful early learning."
+          content="Discover Nanda Kidz – The Little Kingdom, a caring play school near Kalinga Nagar, Bhubaneswar focused on joyful early learning."
         />
 
         {/* Mobile Browser Theme */}
@@ -109,7 +109,7 @@ const Shop = () => {
             "@type": "Preschool",
             name: "Nanda Kidz – The Little Kingdom",
             description:
-              "A child-friendly play school near Khandagiri, Bhubaneswar focused on joyful, activity-based early learning.",
+              "A child-friendly play school near Kalinga Nagar, Bhubaneswar focused on joyful, activity-based early learning.",
             telephone: "+91 9438013349",
             address: {
               "@type": "PostalAddress",
@@ -121,7 +121,7 @@ const Shop = () => {
               addressCountry: "IN",
             },
             areaServed: [
-              "Khandagiri",
+              "Kalinga Nagar",
               "Kalinga Vihar",
               "Kalinganagar",
               "Bhubaneswar",

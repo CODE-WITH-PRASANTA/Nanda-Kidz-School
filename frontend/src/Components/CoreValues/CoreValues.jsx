@@ -8,36 +8,36 @@ import shapeSun from "../../assets/value-shape-1.png";
 import shapePencil from "../../assets/value-shape-2.png";
 
 const CoreValues = () => {
-  const valuesData = [
+  const highlightsData = [
     {
       id: "01",
-      title: "Learning Through Play",
+      title: "Autism & Child Development",
       description:
-        "Children learn naturally when they can explore, experiment, ask questions, and enjoy what they are doing. Our activities encourage curiosity, creativity, communication, and independent thinking.",
+        "Her specialized expertise ensures that every child, whether neurotypical or with special needs, receives attentive, individualized psychological and developmental care.",
       colorClass: "core-values__number--blue",
-      tag: "Happy Learning",
+      tag: "Specialized Care",
     },
     {
       id: "02",
-      title: "Safe & Caring Environment",
+      title: "20+ Years in Social Work",
       description:
-        "Every child deserves to feel comfortable and cared for. We create a clean, welcoming space where children can learn confidently with the guidance and attention of caring educators.",
+        "Rooted in decades of dedication to social work and women's studies, creating a compassionate, secure, and nurturing second home for children and mothers alike.",
       colorClass: "core-values__number--yellow",
-      tag: "Child First",
+      tag: "Safe & Nurturing",
     },
     {
       id: "03",
-      title: "Growing With Confidence",
+      title: "Understanding Over Teaching",
       description:
-        "From classroom activities to creative play, children get opportunities to express themselves, work with others, solve little problems, and build confidence at their own pace.",
+        "Guided by the core philosophy: 'We don't teach children, we understand them.' Our holistic curriculum respects every child's unique emotional and learning pace.",
       colorClass: "core-values__number--pink",
-      tag: "Overall Growth",
+      tag: "Child Psychology",
     },
   ];
 
   return (
     <section className="core-values">
-      {/* Decorative Shapes */}
+      {/* Decorative Floating Shapes */}
       <img
         src={shapeSun}
         alt=""
@@ -61,7 +61,7 @@ const CoreValues = () => {
 
       <div className="core-values__container">
         {/* -------------------------------------------------
-            LEFT IMAGE
+            LEFT: FOUNDER IMAGE & PROFILE CARD
         ------------------------------------------------- */}
         <div className="core-values__image-wrapper">
           <div className="core-values__image-backdrop"></div>
@@ -69,80 +69,69 @@ const CoreValues = () => {
           <div className="core-values__main-image-frame">
             <img
               src={mainImg}
-              alt="Dr. Achman Nanda at Nanda Kidz"
+              alt="Dr. Achman Nanda - Founder and Child Psychologist at Nanda Kidz"
               className="core-values__main-image"
             />
           </div>
 
           <div className="core-values__experience-card">
-            <span className="exp-star">⭐</span>
-
+            <span className="exp-star">👑</span>
             <div>
               <strong>Dr. Achman Nanda</strong>
-              <small>Founder & Director</small>
+              <small>Founder | Child Psychologist | Visionary</small>
             </div>
           </div>
         </div>
 
         {/* -------------------------------------------------
-            RIGHT CONTENT
+            RIGHT: EDITORIAL & VISION CONTENT
         ------------------------------------------------- */}
         <div className="core-values__content">
           <div className="core-values__badge">
             <span className="core-values__subtitle">
-              Why Parents Choose Nanda Kidz
+              A Play School Since 2011
             </span>
           </div>
 
           <h1 className="core-values__title">
-            Play School Near Khandagiri, Bhubaneswar{" "}
+            The Brain Behind{" "}
             <span className="text-highlight">
-              Where Little Minds Grow
+              Nanda Kidz – The Little Kingdom
             </span>
           </h1>
 
           <p className="core-values__intro-text">
-            Looking for a{" "}
-            <strong>play school near Khandagiri, Bhubaneswar</strong>{" "}
-            where your child can enjoy learning from the very beginning?
-            Nanda Kidz creates a friendly and engaging environment where
-            children can learn through play, stories, activities, music,
-            creativity, and everyday experiences.
+            <strong>Nanda Kidz – The Little Kingdom</strong> is not just a play
+            school. It is a mother's vision, a psychologist's mission, and an
+            academician's lifelong dream brought to life by{" "}
+            <strong>Dr. Achman Nanda</strong>. Holding a{" "}
+            <strong>Ph.D. in Child Psychology</strong> with over{" "}
+            <strong>35 years of experience since 1991</strong>, she has
+            dedicated her career to one guiding truth:{" "}
+            <em>"Every child deserves to be understood."</em>
           </p>
 
           <p className="core-values__intro-text core-values__intro-text--second">
-            We focus on the little things that matter during the early
-            years — helping children become comfortable in a classroom,
-            make friends, communicate freely, and discover the joy of
-            learning. This is what makes Nanda Kidz a trusted choice for
-            parents searching for the{" "}
-            <strong>best play school in Bhubaneswar</strong>.
+            After leading the prestigious <strong>Bachpan Group of Schools, New Delhi</strong> as Director,
+            she returned to her roots to build a sanctuary where learning feels
+            like play, school feels like a kingdom, and children thrive under
+            psychologist-guided care.
           </p>
 
           {/* -------------------------------------------------
-              CORE VALUES
+              KEY HIGHLIGHTS / PILLARS
           ------------------------------------------------- */}
           <div className="core-values__list">
-            {valuesData.map((item) => (
-              <div
-                key={item.id}
-                className="core-values__item"
-              >
-                <div
-                  className={`core-values__number ${item.colorClass}`}
-                >
+            {highlightsData.map((item) => (
+              <div key={item.id} className="core-values__item">
+                <div className={`core-values__number ${item.colorClass}`}>
                   {item.id}
                 </div>
 
                 <div className="core-values__item-text">
                   <div className="core-values__header-row">
-                    <h2 className="core-values__item-title">
-                      {item.title}
-                    </h2>
-
-                    <span className="core-values__pill-tag">
-                      {item.tag}
-                    </span>
+                    <h2 className="core-values__item-title">{item.title}</h2>
+                    <span className="core-values__pill-tag">{item.tag}</span>
                   </div>
 
                   <p className="core-values__item-description">
@@ -153,11 +142,12 @@ const CoreValues = () => {
             ))}
           </div>
 
-          {/* Small closing message */}
+          {/* Bottom Callout / Motto */}
           <div className="core-values__closing-note">
-            <span>🌱</span>
+            <span>✨</span>
             <p>
-              A gentle beginning today can build a confident tomorrow.
+              Single-handedly guiding academics, counseling, and social
+              initiatives — <strong>Welcome to her Kingdom, where your child is the royalty.</strong>
             </p>
           </div>
         </div>

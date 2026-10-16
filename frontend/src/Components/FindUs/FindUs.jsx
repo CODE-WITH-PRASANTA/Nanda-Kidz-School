@@ -13,7 +13,7 @@ const FindUs = () => {
     {
       title: "Nearby Neighborhoods",
       content:
-        "Our location is convenient for families travelling from Khandagiri, Patrapada, Ghatikia and Kalinga Vihar. Parents can use the map below to check the route from their area.",
+        "Our location is convenient for families travelling from Kalinga Nagar, Patrapada, Ghatikia and Kalinga Vihar. Parents can use the map below to check the route from their area.",
     },
     {
       title: "Admissions & Enquiries",
@@ -24,7 +24,7 @@ const FindUs = () => {
 
   const nearbyAreas = [
     {
-      name: "Khandagiri",
+      name: "Kalinga Nagar",
       icon: "🌈",
     },
     {

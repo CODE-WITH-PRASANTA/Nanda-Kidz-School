@@ -25,9 +25,9 @@ const faqData = [
   },
   {
     id: 4,
-    question: "Is there a play school near Khandagiri, Bhubaneswar?",
+    question: "Is there a play school near Kalinga Nagar, Bhubaneswar?",
     answer:
-      "Nanda Kidz is located in Kalinganagar, Bhubaneswar and is convenient for families looking for a play school near Khandagiri, Bhubaneswar. Parents are welcome to connect with the school to learn more about admissions, location and available programs.",
+      "Nanda Kidz is located in Kalinganagar, Bhubaneswar and is convenient for families looking for a play school near Kalinga Nagar, Bhubaneswar. Parents are welcome to connect with the school to learn more about admissions, location and available programs.",
   },
   {
     id: 5,
@@ -72,7 +72,7 @@ const FaqSection = () => {
             id="faq-main-title"
             className="FaqSection-title"
           >
-            play school near khandagiri, bhubaneswar
+            play school near Kalinga Nagar, bhubaneswar
           </h1>
 
           <p className="FaqSection-intro">

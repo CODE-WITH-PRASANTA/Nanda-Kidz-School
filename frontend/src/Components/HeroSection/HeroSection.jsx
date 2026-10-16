@@ -22,22 +22,22 @@ import flowerBlue from "../../assets/flower.png";
 const LEFT_COLUMN_IMAGES = [
   {
     src: child7,
-    
+    alt: "Safe Rides for Little Humans",
     heightClass: "img-child7",
   },
   {
     src: child1,
-    
+    alt: "Our Little Kingdom",
     heightClass: "img-child1",
   },
   {
     src: child3,
-   
+    alt: "Let's make learning fun",
     heightClass: "img-child3",
   },
   {
     src: child9,
-    
+    alt: "Girl enjoying bubbles and outdoor play",
     heightClass: "img-child9",
   },
 ];
@@ -45,22 +45,22 @@ const LEFT_COLUMN_IMAGES = [
 const RIGHT_COLUMN_IMAGES = [
   {
     src: child8,
-  
+    alt: "Attractive classrooms",
     heightClass: "img-child8",
   },
   {
     src: child2,
-    
+    alt: "Ample space for little scholars",
     heightClass: "img-child2",
   },
   {
     src: child5,
-    
+    alt: "Splash and Play",
     heightClass: "img-child5",
   },
   {
     src: child6,
-    
+    alt: "Horse Riding",
     heightClass: "img-child6",
   },
 ];
@@ -309,7 +309,7 @@ const HeroSection = () => {
           {renderCard(
             {
               src: child4,
-              alt: "Girl enjoying a playful learning activity at Nanda Kidz",
+              alt: "“Little Skaters, Big Dreams — Rolling Towards a Bright Future!”",
               heightClass: "img-child4",
             },
             LEFT_COLUMN_IMAGES.length

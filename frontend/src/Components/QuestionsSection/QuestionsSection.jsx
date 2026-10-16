@@ -68,7 +68,7 @@ const QuestionsSection = () => {
             <strong> best play school in bhubaneswar with fees</strong>,
             looking for a{" "}
             <strong>
-              play school near khandagiri, bhubaneswar
+              play school near Kalinga Nagar, bhubaneswar
             </strong>,
             or simply wondering
             <strong> which school is best for my child?</strong>,

@@ -205,7 +205,7 @@ const LatestNews = () => {
           <div className="latest-news-seo-line"></div>
 
           <h2>
-            Choosing a Play School Near Khandagiri, Bhubaneswar
+            Choosing a Play School Near Kalinga Nagar, Bhubaneswar
           </h2>
 
           <p>
@@ -237,7 +237,7 @@ const LatestNews = () => {
 
           <p>
             Located for families searching for a{" "}
-            <strong>play school near Khandagiri, Bhubaneswar</strong>,
+            <strong>play school near Kalinga Nagar, Bhubaneswar</strong>,
             Nanda Kidz aims to make the early years of education happy,
             comfortable, and full of discovery.
           </p>

@@ -52,7 +52,7 @@ const Blog = () => {
 
         <meta
           name="keywords"
-          content="which school is best for my child, best play school in bhubaneswar, best play school for kids in bhubaneswar, Nanda Kidz, Nanda Kidz The Little Kingdom A Play School, best kids school in bhubaneswar, top best nursery school in bhubaneswar, play school near khandagiri bhubaneswar, play school fees in bhubaneswar, Best play school in Kalinganagar"
+          content="which school is best for my child, best play school in bhubaneswar, best play school for kids in bhubaneswar, Nanda Kidz, Nanda Kidz The Little Kingdom A Play School, best kids school in bhubaneswar, top best nursery school in bhubaneswar, play school near Kalinga Nagar bhubaneswar, play school fees in bhubaneswar, Best play school in Kalinganagar"
         />
 
         <meta

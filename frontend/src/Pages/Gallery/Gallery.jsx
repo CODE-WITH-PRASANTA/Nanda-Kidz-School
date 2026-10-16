@@ -29,7 +29,7 @@ const Gallery = () => {
       "Bhubaneswar",
       "Kalinganagar",
       "Kalinga Vihar",
-      "Khandagiri",
+      "Kalinga Nagar",
     ],
   };
 
@@ -51,7 +51,7 @@ const Gallery = () => {
 
         <meta
           name="keywords"
-          content="best kids school in bhubaneswar, best play school in bhubaneswar, best play school for kids in bhubaneswar, Nanda Kidz, Nanda Kidz The Little Kingdom A Play School, top best nursery school in bhubaneswar, play school near khandagiri bhubaneswar, play school fees in bhubaneswar, Best play school in Kalinganagar"
+          content="best kids school in bhubaneswar, best play school in bhubaneswar, best play school for kids in bhubaneswar, Nanda Kidz, Nanda Kidz The Little Kingdom A Play School, top best nursery school in bhubaneswar, play school near Kalinga Nagar bhubaneswar, play school fees in bhubaneswar, Best play school in Kalinganagar"
         />
 
         <meta

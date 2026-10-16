@@ -7,13 +7,13 @@ import QuestionsSection from "../../Components/QuestionsSection/QuestionsSection
 
 const Faq = () => {
   const pageTitle =
-    "Play School Near Khandagiri, Bhubaneswar | FAQs | Nanda Kidz";
+    "Play School Near Kalinga Nagar, Bhubaneswar | FAQs | Nanda Kidz";
 
   const pageDescription =
     "Find answers to common parent questions about Nanda Kidz, including admission age, play school fees in Bhubaneswar, transport, safety, LKG admission and choosing the right play school for your child.";
 
   const pageKeywords = [
-    "play school near khandagiri, bhubaneswar",
+    "play school near Kalinga Nagar, bhubaneswar",
     "best play school in bhubaneswar",
     "best kids school in bhubaneswar",
     "top best nursery school in bhubaneswar",
@@ -51,11 +51,11 @@ const Faq = () => {
       },
       {
         "@type": "Question",
-        name: "Is Nanda Kidz near Khandagiri, Bhubaneswar?",
+        name: "Is Nanda Kidz near Kalinga Nagar, Bhubaneswar?",
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "Nanda Kidz – The Little Kingdom is located in Kalinganagar, Bhubaneswar and is convenient for families looking for a play school near Khandagiri, Bhubaneswar.",
+            "Nanda Kidz – The Little Kingdom is located in Kalinganagar, Bhubaneswar and is convenient for families looking for a play school near Kalinga Nagar, Bhubaneswar.",
         },
       },
       {
@@ -98,7 +98,7 @@ const Faq = () => {
       "Bhubaneswar",
       "Kalinganagar",
       "Kalinga Vihar",
-      "Khandagiri",
+      "Kalinga Nagar",
     ],
     knowsAbout: [
       "Preschool education",
