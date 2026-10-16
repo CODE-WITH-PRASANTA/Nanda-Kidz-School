@@ -22,22 +22,22 @@ import flowerBlue from "../../assets/flower.png";
 const LEFT_COLUMN_IMAGES = [
   {
     src: child7,
-    alt: "Children enjoying time together at Nanda Kidz",
+    
     heightClass: "img-child7",
   },
   {
     src: child1,
-    alt: "Children learning in the classroom",
+    
     heightClass: "img-child1",
   },
   {
     src: child3,
-    alt: "Child enjoying a creative drawing activity",
+   
     heightClass: "img-child3",
   },
   {
     src: child9,
-    alt: "Girl enjoying bubbles and outdoor play",
+    
     heightClass: "img-child9",
   },
 ];
@@ -45,22 +45,22 @@ const LEFT_COLUMN_IMAGES = [
 const RIGHT_COLUMN_IMAGES = [
   {
     src: child8,
-    alt: "Children learning with a tablet",
+  
     heightClass: "img-child8",
   },
   {
     src: child2,
-    alt: "Girl enjoying a musical activity",
+    
     heightClass: "img-child2",
   },
   {
     src: child5,
-    alt: "Happy child at Nanda Kidz",
+    
     heightClass: "img-child5",
   },
   {
     src: child6,
-    alt: "Children enjoying music and creative activities",
+    
     heightClass: "img-child6",
   },
 ];
