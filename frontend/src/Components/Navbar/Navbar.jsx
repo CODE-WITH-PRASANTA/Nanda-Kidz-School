@@ -50,6 +50,7 @@ const Navbar = () => {
     { title: "Shop", path: "/shop" },
     { title: "Blog", path: "/blog" },
     { title: "Gallery", path: "/gallery" },
+    { title: "Video", path: "/video" },
    
    
     { title: "FAQ", path: "/faq" },

@@ -33,6 +33,7 @@ import Termandconditions from "./Pages/Termandconditions/Termandconditions";
 import Privacypolicy from "./Pages/Privacypolicy/Privacypolicy";
 
 import "./App.css";
+import Video from "./Pages/Video/Video";
 
 // Scroll to top on route changes
 const ScrollToTop = () => {
@@ -136,6 +137,7 @@ const AppRoutes = () => {
         <Route path="/time-table" element={<TimeTable />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/video" element={<Video/>} />
 
         {/* Legal Pages */}
         <Route path="/terms-and-conditions" element={<Termandconditions />} />
