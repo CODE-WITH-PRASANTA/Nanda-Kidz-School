@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import axios from "axios";
+import API, { IMG_URL } from "../../api/axios"; // adjust path to your axios file
 import "./VideoManagement.css";
 
-const API_BASE = "http://localhost:5000"; // Adjust port if needed
+/* ====================================================================
+   CONFIG
+==================================================================== */
 const MAX_VIDEO_MB = 100;
 const MAX_THUMB_MB = 5;
 const VIDEO_EXT = ["mp4", "mov", "avi", "webm"];
@@ -10,7 +14,61 @@ const THUMB_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const PER_PAGE_LIST = 4;
 const PER_PAGE_GRID = 8;
 
-/* Helpers */
+/* ====================================================================
+   API SERVICE (uses your shared axios instance)
+==================================================================== */
+// Pull a readable message out of any axios error
+const getErrorMessage = (err, fallback = "Something went wrong") => {
+  if (axios.isCancel(err)) return null;
+  if (err.response) {
+    return err.response.data?.message || err.response.data?.error || `${fallback} (${err.response.status})`;
+  }
+  if (err.code === "ECONNABORTED") return "Request timed out. Please try again.";
+  if (err.request) return "Cannot reach the server. Check that the backend is running.";
+  return err.message || fallback;
+};
+
+// Make sure every video always has `_id`
+const normalize = (v) => ({ ...v, _id: v._id || v.id });
+
+const videoApi = {
+  getAll: async (signal) => {
+    const { data } = await API.get("/videos", { signal });
+    if (data && data.success === false) throw new Error(data.message || "Failed to load videos");
+    const list = Array.isArray(data) ? data : data.data || [];
+    return list.map(normalize);
+  },
+
+  create: async (formData, { onProgress, signal } = {}) => {
+    const { data } = await API.post("/videos", formData, {
+      signal,
+      timeout: 0, // no timeout for large uploads
+      maxBodyLength: Infinity,
+      maxContentLength: Infinity,
+      onUploadProgress: (e) => {
+        if (onProgress && e.total) onProgress(Math.round((e.loaded * 100) / e.total));
+      },
+    });
+    if (data && data.success === false) throw new Error(data.message || "Failed to upload video");
+    return normalize(data.data);
+  },
+
+  update: async (id, formData, { signal } = {}) => {
+    const { data } = await API.put(`/videos/${id}`, formData, { signal, timeout: 60000 });
+    if (data && data.success === false) throw new Error(data.message || "Failed to update video");
+    return normalize(data.data);
+  },
+
+  remove: async (id, { signal } = {}) => {
+    const { data } = await API.delete(`/videos/${id}`, { signal });
+    if (data && data.success === false) throw new Error(data.message || "Failed to delete video");
+    return true;
+  },
+};
+
+/* ====================================================================
+   HELPERS
+==================================================================== */
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
 
 const fmtDuration = (sec) => {
@@ -83,7 +141,9 @@ const readVideoMeta = (url) =>
     video.src = url;
   });
 
-/* Icons */
+/* ====================================================================
+   ICONS
+==================================================================== */
 const ICONS = {
   play: <polygon points="6 4 20 12 6 20 6 4" fill="currentColor" />,
   playCircle: (
@@ -249,24 +309,31 @@ const Icon = ({ name, size = 18, className = "" }) => (
 
 const getFullUrl = (path) => {
   if (!path) return "";
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("blob:")) return path;
-  return `${API_BASE}${path}`;
+  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("blob:") || path.startsWith("data:"))
+    return path;
+  return `${IMG_URL}${path.startsWith("/") ? "" : "/"}${path}`;
 };
 
+/* ====================================================================
+   SMALL COMPONENTS
+==================================================================== */
 const Thumb = ({ video, withDuration = true }) => {
   const [imgOk, setImgOk] = useState(true);
   const hue = (hashOf(video._id || video.id) * 47) % 360;
   const thumbUrl = getFullUrl(video.thumbnailUrl || video.thumbnail);
   const videoUrl = getFullUrl(video.videoUrl || video.src);
 
+  // reset error flag when the thumbnail source changes (e.g. after edit)
+  useEffect(() => {
+    setImgOk(true);
+  }, [thumbUrl]);
+
   return (
     <span className="VideoManagement__thumb" style={{ "--vmg-hue": hue }}>
       {thumbUrl && imgOk ? (
         <img src={thumbUrl} alt="" loading="lazy" onError={() => setImgOk(false)} />
       ) : (
-        videoUrl && (
-          <video src={`${videoUrl}#t=0.8`} muted playsInline preload="metadata" tabIndex={-1} />
-        )
+        videoUrl && <video src={`${videoUrl}#t=0.8`} muted playsInline preload="metadata" tabIndex={-1} />
       )}
       {withDuration && <span className="VideoManagement__thumbTime">{fmtDuration(video.duration)}</span>}
     </span>
@@ -332,7 +399,12 @@ const Toasts = ({ items, onDismiss }) =>
         <div key={t.id} className={`VideoManagement__toast VideoManagement__toast--${t.type}`}>
           <Icon name={t.type === "error" ? "alert" : t.type === "info" ? "info" : "check"} size={18} />
           <span className="VideoManagement__toastText">{t.text}</span>
-          <button type="button" className="VideoManagement__toastClose" onClick={() => onDismiss(t.id)} aria-label="Dismiss">
+          <button
+            type="button"
+            className="VideoManagement__toastClose"
+            onClick={() => onDismiss(t.id)}
+            aria-label="Dismiss"
+          >
             <Icon name="x" size={14} />
           </button>
         </div>
@@ -383,7 +455,9 @@ const DropZone = ({ accept, onFile, disabled, children, className = "" }) => {
   );
 };
 
-/* Modals */
+/* ====================================================================
+   MODALS
+==================================================================== */
 const ViewModal = ({ video, onClose, onEdit }) => (
   <Modal onClose={onClose} className="VideoManagement__modal--view" label={`Preview ${video.title}`}>
     <ModalHead icon="playCircle" title={video.title} subtitle="Video preview" onClose={onClose} />
@@ -432,7 +506,7 @@ const ViewModal = ({ video, onClose, onEdit }) => (
   </Modal>
 );
 
-const EditModal = ({ video, onClose, onSave, onError }) => {
+const EditModal = ({ video, onClose, onSave, onError, saving }) => {
   const [title, setTitle] = useState(video.title);
   const [category, setCategory] = useState(video.category);
   const [status, setStatus] = useState(video.status);
@@ -449,6 +523,7 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
 
   const submit = (e) => {
     e.preventDefault();
+    if (saving) return;
     const next = {};
     if (!title.trim()) next.title = "Video title is required";
     if (!category.trim()) next.category = "Category is required";
@@ -464,7 +539,7 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
   };
 
   return (
-    <Modal onClose={onClose} className="VideoManagement__modal--edit" label="Edit video">
+    <Modal onClose={saving ? () => {} : onClose} className="VideoManagement__modal--edit" label="Edit video">
       <ModalHead icon="edit" title="Edit video" subtitle="Update video details" onClose={onClose} />
       <form className="VideoManagement__editForm" onSubmit={submit} noValidate>
         <div className="VideoManagement__field">
@@ -478,6 +553,7 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
             onChange={(e) => setTitle(e.target.value)}
             maxLength={80}
             placeholder="Enter video title"
+            disabled={saving}
           />
           {errors.title && <span className="VideoManagement__error">{errors.title}</span>}
         </div>
@@ -493,6 +569,7 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
             onChange={(e) => setCategory(e.target.value)}
             maxLength={30}
             placeholder="Type your own category"
+            disabled={saving}
           />
           {errors.category && <span className="VideoManagement__error">{errors.category}</span>}
         </div>
@@ -506,6 +583,7 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
                 type="button"
                 role="radio"
                 aria-checked={status === s}
+                disabled={saving}
                 className={`VideoManagement__segmentBtn${status === s ? " VideoManagement__segmentBtn--active" : ""}`}
                 onClick={() => setStatus(s)}
               >
@@ -522,7 +600,12 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
             <span className="VideoManagement__editThumbPreview">
               <Thumb video={{ ...video, thumbnailUrl: thumb ? thumb.url : video.thumbnailUrl }} withDuration={false} />
             </span>
-            <DropZone accept={THUMB_TYPES.join(",")} onFile={pickThumb} className="VideoManagement__drop--compact">
+            <DropZone
+              accept={THUMB_TYPES.join(",")}
+              onFile={pickThumb}
+              disabled={saving}
+              className="VideoManagement__drop--compact"
+            >
               <Icon name="image" size={20} />
               <span className="VideoManagement__dropText">{thumb ? thumb.file.name : "Replace thumbnail"}</span>
               <span className="VideoManagement__dropHint">JPG, PNG, WEBP (Max {MAX_THUMB_MB}MB)</span>
@@ -531,11 +614,16 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
         </div>
 
         <div className="VideoManagement__modalFoot">
-          <button type="button" className="VideoManagement__btn VideoManagement__btn--ghost" onClick={onClose}>
+          <button
+            type="button"
+            className="VideoManagement__btn VideoManagement__btn--ghost"
+            onClick={onClose}
+            disabled={saving}
+          >
             Cancel
           </button>
-          <button type="submit" className="VideoManagement__btn VideoManagement__btn--primary">
-            <Icon name="check" size={16} /> Save changes
+          <button type="submit" className="VideoManagement__btn VideoManagement__btn--primary" disabled={saving}>
+            <Icon name="check" size={16} /> {saving ? "Saving..." : "Save changes"}
           </button>
         </div>
       </form>
@@ -543,8 +631,8 @@ const EditModal = ({ video, onClose, onSave, onError }) => {
   );
 };
 
-const DeleteModal = ({ video, onClose, onConfirm }) => (
-  <Modal onClose={onClose} className="VideoManagement__modal--delete" label="Delete video">
+const DeleteModal = ({ video, onClose, onConfirm, deleting }) => (
+  <Modal onClose={deleting ? () => {} : onClose} className="VideoManagement__modal--delete" label="Delete video">
     <div className="VideoManagement__deleteBody">
       <span className="VideoManagement__deleteIcon">
         <Icon name="trash" size={28} />
@@ -562,11 +650,21 @@ const DeleteModal = ({ video, onClose, onConfirm }) => (
       </div>
     </div>
     <div className="VideoManagement__modalFoot VideoManagement__modalFoot--center">
-      <button type="button" className="VideoManagement__btn VideoManagement__btn--ghost" onClick={onClose}>
+      <button
+        type="button"
+        className="VideoManagement__btn VideoManagement__btn--ghost"
+        onClick={onClose}
+        disabled={deleting}
+      >
         Cancel
       </button>
-      <button type="button" className="VideoManagement__btn VideoManagement__btn--danger" onClick={onConfirm}>
-        <Icon name="trash" size={16} /> Yes, delete
+      <button
+        type="button"
+        className="VideoManagement__btn VideoManagement__btn--danger"
+        onClick={onConfirm}
+        disabled={deleting}
+      >
+        <Icon name="trash" size={16} /> {deleting ? "Deleting..." : "Yes, delete"}
       </button>
     </div>
   </Modal>
@@ -590,6 +688,7 @@ const getPages = (current, total) => {
 const VideoManagement = () => {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
   /* Form */
   const [title, setTitle] = useState("");
@@ -599,6 +698,10 @@ const VideoManagement = () => {
   const [thumbFile, setThumbFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [progress, setProgress] = useState(null);
+
+  /* Request state */
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   /* Controls */
   const [query, setQuery] = useState("");
@@ -611,7 +714,15 @@ const VideoManagement = () => {
   const [modal, setModal] = useState(null);
   const [toasts, setToasts] = useState([]);
 
+  /* Refs (cleanup safety) */
+  const uploadAbortRef = useRef(null);
+  const videoFileRef = useRef(null);
+  const thumbFileRef = useRef(null);
+  videoFileRef.current = videoFile;
+  thumbFileRef.current = thumbFile;
+
   const notify = useCallback((text, type = "success") => {
+    if (!text) return;
     const id = `${Date.now()}-${Math.random()}`;
     setToasts((list) => [...list, { id, text, type }]);
     setTimeout(() => setToasts((list) => list.filter((t) => t.id !== id)), 3600);
@@ -619,32 +730,44 @@ const VideoManagement = () => {
 
   const dismissToast = (id) => setToasts((list) => list.filter((t) => t.id !== id));
 
-  // Fetch videos from backend
-  const fetchVideos = useCallback(async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(`${API_BASE}/api/videos`);
-      const result = await res.json();
-      if (result.success) {
-        setVideos(result.data);
-      } else {
-        notify(result.message || "Failed to load videos", "error");
+  /* Fetch videos */
+  const fetchVideos = useCallback(
+    async (signal) => {
+      try {
+        setLoading(true);
+        setLoadError("");
+        const list = await videoApi.getAll(signal);
+        setVideos(list);
+      } catch (err) {
+        const msg = getErrorMessage(err, "Failed to load videos");
+        if (msg) {
+          setLoadError(msg);
+          notify(msg, "error");
+        }
+      } finally {
+        if (!signal || !signal.aborted) setLoading(false);
       }
-    } catch (err) {
-      notify("Failed to connect to backend server.", "error");
-    } finally {
-      setLoading(false);
-    }
-  }, [notify]);
+    },
+    [notify]
+  );
 
   useEffect(() => {
-    fetchVideos();
+    const controller = new AbortController();
+    fetchVideos(controller.signal);
+    return () => controller.abort();
   }, [fetchVideos]);
 
-  const categories = useMemo(
-    () => [...new Set(videos.map((v) => v.category))].filter(Boolean).sort(),
-    [videos]
+  /* Cleanup on unmount: abort running upload + free blob URLs */
+  useEffect(
+    () => () => {
+      uploadAbortRef.current?.abort();
+      if (videoFileRef.current) URL.revokeObjectURL(videoFileRef.current.url);
+      if (thumbFileRef.current) URL.revokeObjectURL(thumbFileRef.current.url);
+    },
+    []
   );
+
+  const categories = useMemo(() => [...new Set(videos.map((v) => v.category))].filter(Boolean).sort(), [videos]);
 
   const stats = useMemo(() => {
     const published = videos.filter((v) => v.status === "published").length;
@@ -660,7 +783,7 @@ const VideoManagement = () => {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return videos
-      .filter((v) => (q ? v.title.toLowerCase().includes(q) : true))
+      .filter((v) => (q ? (v.title || "").toLowerCase().includes(q) : true))
       .filter((v) => (catFilter === "all" ? true : v.category === catFilter))
       .filter((v) => (statusFilter === "all" ? true : v.status === statusFilter))
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -710,8 +833,8 @@ const VideoManagement = () => {
     setThumbFile({ file, url: URL.createObjectURL(file) });
   };
 
-  /* Upload to Backend */
-  const handleUpload = (e) => {
+  /* CREATE (upload with progress) */
+  const handleUpload = async (e) => {
     e.preventDefault();
     if (progress !== null) return;
 
@@ -728,96 +851,72 @@ const VideoManagement = () => {
     formData.append("status", publish ? "published" : "draft");
     formData.append("duration", Math.round(videoFile.duration || 0));
     formData.append("video", videoFile.file);
-    if (thumbFile) {
-      formData.append("thumbnail", thumbFile.file);
-    }
+    if (thumbFile) formData.append("thumbnail", thumbFile.file);
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", `${API_BASE}/api/videos`);
-
-    xhr.upload.onprogress = (evt) => {
-      if (evt.lengthComputable) {
-        const percent = Math.round((evt.loaded / evt.total) * 100);
-        setProgress(percent);
-      }
-    };
-
-    xhr.onload = () => {
-      setProgress(null);
-      if (xhr.status >= 200 && xhr.status < 300) {
-        const res = JSON.parse(xhr.responseText);
-        setVideos((prev) => [res.data, ...prev]);
-        setTitle("");
-        setCategory("");
-        setPublish(true);
-        setVideoFile(null);
-        setThumbFile(null);
-        setErrors({});
-        notify(`“${res.data.title}” uploaded successfully`);
-      } else {
-        try {
-          const errRes = JSON.parse(xhr.responseText);
-          notify(errRes.message || "Failed to upload video", "error");
-        } catch {
-          notify("Failed to upload video", "error");
-        }
-      }
-    };
-
-    xhr.onerror = () => {
-      setProgress(null);
-      notify("Network error occurred during upload", "error");
-    };
-
+    const controller = new AbortController();
+    uploadAbortRef.current = controller;
     setProgress(0);
-    xhr.send(formData);
-  };
 
-  /* Edit Backend Action */
-  const saveEdit = async (changes) => {
     try {
-      const formData = new FormData();
-      formData.append("title", changes.title);
-      formData.append("category", changes.category);
-      formData.append("status", changes.status);
-      if (changes.thumbFile) {
-        formData.append("thumbnail", changes.thumbFile);
-      }
-
-      const res = await fetch(`${API_BASE}/api/videos/${modal.id}`, {
-        method: "PUT",
-        body: formData,
+      const created = await videoApi.create(formData, {
+        signal: controller.signal,
+        onProgress: setProgress,
       });
 
-      const result = await res.json();
-      if (result.success) {
-        setVideos((list) => list.map((v) => (v._id === modal.id ? result.data : v)));
-        setModal(null);
-        notify("Video updated successfully");
-      } else {
-        notify(result.message || "Error updating video", "error");
-      }
-    } catch {
-      notify("Server error updating video", "error");
+      setVideos((prev) => [created, ...prev]);
+      if (videoFile) URL.revokeObjectURL(videoFile.url);
+      if (thumbFile) URL.revokeObjectURL(thumbFile.url);
+      setTitle("");
+      setCategory("");
+      setPublish(true);
+      setVideoFile(null);
+      setThumbFile(null);
+      setErrors({});
+      setPage(1);
+      notify(`“${created.title}” uploaded successfully`);
+    } catch (err) {
+      notify(getErrorMessage(err, "Failed to upload video"), "error");
+    } finally {
+      uploadAbortRef.current = null;
+      setProgress(null);
     }
   };
 
-  /* Delete Backend Action */
-  const confirmDelete = async () => {
+  /* UPDATE */
+  const saveEdit = async (changes) => {
+    if (!modal || saving) return;
+    const formData = new FormData();
+    formData.append("title", changes.title);
+    formData.append("category", changes.category);
+    formData.append("status", changes.status);
+    if (changes.thumbFile) formData.append("thumbnail", changes.thumbFile);
+
     try {
-      const res = await fetch(`${API_BASE}/api/videos/${modal.id}`, {
-        method: "DELETE",
-      });
-      const result = await res.json();
-      if (result.success) {
-        setVideos((list) => list.filter((v) => v._id !== modal.id));
-        setModal(null);
-        notify("Video deleted successfully", "error");
-      } else {
-        notify(result.message || "Could not delete video", "error");
-      }
-    } catch {
-      notify("Server error deleting video", "error");
+      setSaving(true);
+      const updated = await videoApi.update(modal.id, formData);
+      setVideos((list) => list.map((v) => (v._id === modal.id ? { ...v, ...updated } : v)));
+      setModal(null);
+      notify("Video updated successfully");
+    } catch (err) {
+      notify(getErrorMessage(err, "Error updating video"), "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  /* DELETE */
+  const confirmDelete = async () => {
+    if (!modal || deleting) return;
+    try {
+      setDeleting(true);
+      await videoApi.remove(modal.id);
+      setVideos((list) => list.filter((v) => v._id !== modal.id));
+      setModal(null);
+      notify("Video deleted successfully");
+    } catch (err) {
+      notify(getErrorMessage(err, "Could not delete video"), "error");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -1013,7 +1112,9 @@ const VideoManagement = () => {
                     <>
                       <Icon name="cloud" size={34} className="VideoManagement__dropIcon" />
                       <span className="VideoManagement__dropText">Click to upload or drag and drop</span>
-                      <span className="VideoManagement__dropHint">Supports: MP4, MOV, AVI, WebM (Max {MAX_VIDEO_MB}MB)</span>
+                      <span className="VideoManagement__dropHint">
+                        Supports: MP4, MOV, AVI, WebM (Max {MAX_VIDEO_MB}MB)
+                      </span>
                     </>
                   )}
                 </DropZone>
@@ -1053,8 +1154,14 @@ const VideoManagement = () => {
                     </div>
                   ) : (
                     <>
-                      <Icon name="image" size={30} className="VideoManagement__dropIcon VideoManagement__dropIcon--muted" />
-                      <span className="VideoManagement__dropText VideoManagement__dropText--dark">Upload thumbnail image</span>
+                      <Icon
+                        name="image"
+                        size={30}
+                        className="VideoManagement__dropIcon VideoManagement__dropIcon--muted"
+                      />
+                      <span className="VideoManagement__dropText VideoManagement__dropText--dark">
+                        Upload thumbnail image
+                      </span>
                       <span className="VideoManagement__dropHint">JPG, PNG, WEBP (Max {MAX_THUMB_MB}MB)</span>
                     </>
                   )}
@@ -1067,7 +1174,7 @@ const VideoManagement = () => {
                   {uploading && <span className="VideoManagement__uploadFill" style={{ width: `${progress}%` }} />}
                   <span className="VideoManagement__uploadLabel">
                     <Icon name="cloud" size={20} />
-                    {uploading ? `Uploading ${progress}%` : "Upload Video"}
+                    {uploading ? (progress >= 100 ? "Processing..." : `Uploading ${progress}%`) : "Upload Video"}
                   </span>
                 </button>
               </div>
@@ -1111,7 +1218,9 @@ const VideoManagement = () => {
               >
                 <option value="all">All Categories</option>
                 {categories.map((c) => (
-                  <option key={c} value={c}>{c}</option>
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
                 ))}
               </select>
 
@@ -1156,6 +1265,21 @@ const VideoManagement = () => {
           {loading ? (
             <div className="VideoManagement__empty">
               <p className="VideoManagement__emptyText">Loading videos...</p>
+            </div>
+          ) : loadError && videos.length === 0 ? (
+            <div className="VideoManagement__empty">
+              <span className="VideoManagement__emptyIcon">
+                <Icon name="alert" size={28} />
+              </span>
+              <h3 className="VideoManagement__emptyTitle">Could not load videos</h3>
+              <p className="VideoManagement__emptyText">{loadError}</p>
+              <button
+                type="button"
+                className="VideoManagement__btn VideoManagement__btn--primary"
+                onClick={() => fetchVideos()}
+              >
+                Try again
+              </button>
             </div>
           ) : filtered.length === 0 ? (
             <div className="VideoManagement__empty">
@@ -1270,7 +1394,11 @@ const VideoManagement = () => {
       </div>
 
       {modal && activeVideo && modal.type === "view" && (
-        <ViewModal video={activeVideo} onClose={closeModal} onEdit={() => setModal({ type: "edit", id: activeVideo._id })} />
+        <ViewModal
+          video={activeVideo}
+          onClose={closeModal}
+          onEdit={() => setModal({ type: "edit", id: activeVideo._id })}
+        />
       )}
       {modal && activeVideo && modal.type === "edit" && (
         <EditModal
@@ -1278,10 +1406,11 @@ const VideoManagement = () => {
           onClose={closeModal}
           onSave={saveEdit}
           onError={(msg) => notify(msg, "error")}
+          saving={saving}
         />
       )}
       {modal && activeVideo && modal.type === "delete" && (
-        <DeleteModal video={activeVideo} onClose={closeModal} onConfirm={confirmDelete} />
+        <DeleteModal video={activeVideo} onClose={closeModal} onConfirm={confirmDelete} deleting={deleting} />
       )}
 
       <Toasts items={toasts} onDismiss={dismissToast} />
