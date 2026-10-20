@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const activitySchema = new mongoose.Schema(
@@ -15,13 +14,6 @@ const activitySchema = new mongoose.Schema(
       required: [true, "Activity category is required"],
       trim: true,
       maxlength: 50,
-    },
-
-    description: {
-      type: String,
-      required: [true, "Activity description is required"],
-      trim: true,
-      maxlength: 240,
     },
 
     images: {
