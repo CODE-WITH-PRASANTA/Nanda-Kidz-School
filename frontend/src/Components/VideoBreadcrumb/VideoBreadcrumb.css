@@ -1,0 +1,97 @@
+/* Base Styles */
+.VideoBreadcrumb-container {
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Parallax effect for desktop */
+}
+
+.VideoBreadcrumb-content {
+  text-align: center;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  transform: translateY(-20px); 
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.VideoBreadcrumb-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  letter-spacing: 1px;
+}
+
+.VideoBreadcrumb-breadcrumbs {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.VideoBreadcrumb-breadcrumb-home {
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease; 
+}
+
+.VideoBreadcrumb-breadcrumb-home:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.VideoBreadcrumb-breadcrumb-separator {
+  color: #888888;
+  font-weight: 400;
+}
+
+.VideoBreadcrumb-breadcrumb-current {
+  color: #db593e; 
+}
+
+/* =========================================================
+   RESPONSIVE QUERIES
+   ========================================================= */
+
+/* 1. Mobile view (Optimized specifically for in-app mobile browsers) */
+@media screen and (max-width: 767px) {
+  .VideoBreadcrumb-container {
+    height: 40vh;
+    min-height: 280px; 
+    background-attachment: scroll; /* Smooth scrolling without lag on mobile */
+  }
+
+  .VideoBreadcrumb-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .VideoBreadcrumb-breadcrumbs {
+    font-size: 0.95rem;
+  }
+}
+
+/* 2. Tablet view */
+@media screen and (min-width: 834px) and (max-width: 1366px) {
+  .VideoBreadcrumb-container {
+    height: 45vh;
+    min-height: 380px;
+  }
+
+  .VideoBreadcrumb-title {
+    font-size: 4.5rem; 
+  }
+
+  .VideoBreadcrumb-breadcrumbs {
+    font-size: 1.25rem;
+  }
+}

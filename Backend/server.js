@@ -3,13 +3,20 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const connectDB = require("./config/db");
-const { upload, convertSingleToWebp, convertMultipleToWebp } = require("./middleware/upload");
+
+// Middlewares
+const {
+  upload,
+  convertSingleToWebp,
+  convertMultipleToWebp,
+  handleUploadError,
+} = require("./middleware/upload");
 
 // Import Routes
-const inquiryRoutes = require('./routes/inquiryRoutes');
-const subjectRoutes = require('./routes/subjectRoutes');
-const classRoutes = require('./routes/classRoutes.js');
-const galleryRoutes = require('./routes/galleryRoutes');
+const inquiryRoutes = require("./routes/inquiryRoutes");
+const subjectRoutes = require("./routes/subjectRoutes");
+const classRoutes = require("./routes/classRoutes.js");
+const galleryRoutes = require("./routes/galleryRoutes");
 const shopImgRoutes = require("./routes/shopImgRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const contactRoutes = require("./routes/contactRoutes");
@@ -22,19 +29,19 @@ const admissionRoutes = require("./routes/admissionRoutes");
 const schoolTeacherRoutes = require("./routes/schoolTeacherRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const activityRoutes = require("./routes/activityRoutes");
-
+const videoRoutes = require("./routes/videoRoutes");
 
 const app = express();
 
 // Database Connection
 connectDB();
 
-// Middlewares
+// Global Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static uploaded files
+// Serve static uploaded files (Images & Videos)
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ==================== ROOT ROUTE ==================== //
@@ -45,7 +52,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// ==================== ROUTES ==================== //
+// ==================== IMAGE UPLOAD ROUTES ==================== //
 
 // 1. Single Image Upload Route
 app.post(
@@ -54,7 +61,10 @@ app.post(
   convertSingleToWebp,
   (req, res) => {
     if (!req.processedFile) {
-      return res.status(400).json({ message: "Please upload an image file." });
+      return res.status(400).json({
+        success: false,
+        message: "Please upload an image file.",
+      });
     }
 
     res.status(200).json({
@@ -65,24 +75,6 @@ app.post(
   }
 );
 
-// Mount API Routes
-app.use('/api/subjects', subjectRoutes);
-app.use('/api/classes', classRoutes);
-app.use('/api/gallery', galleryRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/contacts", contactRoutes);
-app.use("/api/enquiries", enquiryRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/testimonials", testimonialRoutes);
-app.use("/api/announcements", announcementRoutes);
-app.use("/api/shop-images", shopImgRoutes);
-app.use("/api/contact-leads", contactLeadRoutes);
-app.use("/api/admissions", admissionRoutes);
-app.use("/api/school-teachers", schoolTeacherRoutes);
-app.use('/api/inquiries', inquiryRoutes);
-app.use("/api/profiles", profileRoutes);
-app.use("/api/activities", activityRoutes);
-
 // 2. Bulk/Multiple Image Upload Route (Up to 15 files)
 app.post(
   "/api/upload/bulk",
@@ -90,7 +82,10 @@ app.post(
   convertMultipleToWebp,
   (req, res) => {
     if (!req.processedFiles || req.processedFiles.length === 0) {
-      return res.status(400).json({ message: "Please select at least one image file." });
+      return res.status(400).json({
+        success: false,
+        message: "Please select at least one image file.",
+      });
     }
 
     res.status(200).json({
@@ -101,9 +96,34 @@ app.post(
   }
 );
 
+// ==================== MOUNT API ROUTES ==================== //
+app.use("/api/subjects", subjectRoutes);
+app.use("/api/classes", classRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/contacts", contactRoutes);
+app.use("/api/enquiries", enquiryRoutes);
+app.use("/api/blogs", blogRoutes);
+app.use("/api/testimonials", testimonialRoutes);
+app.use("/api/announcements", announcementRoutes);
+app.use("/api/shop-images", shopImgRoutes);
+app.use("/api/contact-leads", contactLeadRoutes);
+app.use("/api/admissions", admissionRoutes);
+app.use("/api/school-teachers", schoolTeacherRoutes);
+app.use("/api/inquiries", inquiryRoutes);
+app.use("/api/profiles", profileRoutes);
+app.use("/api/activities", activityRoutes);
+app.use("/api/videos", videoRoutes);
+
+// Multer Upload Error Handler (Catches file size & limit errors cleanly)
+if (typeof handleUploadError === "function") {
+  app.use(handleUploadError);
+}
+
 // Global Error Handler
 app.use((err, req, res, next) => {
-  res.status(500).json({
+  console.error("SERVER ERROR:", err);
+  res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal Server Error",
   });

@@ -1,4 +1,3 @@
-
 const path = require("path");
 const Activity = require("../models/Activity");
 const {
@@ -80,18 +79,14 @@ exports.createActivity = async (req, res) => {
   const newImagePaths = getNewImagePaths(req);
 
   try {
-    const { title, category, description, status } = req.body;
+    const { title, category, status } = req.body;
 
-    if (
-      !title?.trim() ||
-      !category?.trim() ||
-      !description?.trim()
-    ) {
+    if (!title?.trim() || !category?.trim()) {
       deleteImageFiles(newImagePaths);
 
       return res.status(400).json({
         success: false,
-        message: "Title, category and description are required.",
+        message: "Title and category are required.",
       });
     }
 
@@ -116,7 +111,6 @@ exports.createActivity = async (req, res) => {
     const activity = await Activity.create({
       title: title.trim(),
       category: category.trim(),
-      description: description.trim(),
       status: status || "Active",
       images: newImagePaths,
     });
@@ -157,18 +151,14 @@ exports.updateActivity = async (req, res) => {
       });
     }
 
-    const { title, category, description, status } = req.body;
+    const { title, category, status } = req.body;
 
-    if (
-      !title?.trim() ||
-      !category?.trim() ||
-      !description?.trim()
-    ) {
+    if (!title?.trim() || !category?.trim()) {
       deleteImageFiles(newImagePaths);
 
       return res.status(400).json({
         success: false,
-        message: "Title, category and description are required.",
+        message: "Title and category are required.",
       });
     }
 
@@ -207,9 +197,9 @@ exports.updateActivity = async (req, res) => {
     const previousImages = activity.images || [];
     const retainedImages = [
       ...new Set(
-        existingImages.filter((imagePath) =>
-          typeof imagePath === "string" &&
-          previousImages.includes(imagePath)
+        existingImages.filter(
+          (imagePath) =>
+            typeof imagePath === "string" && previousImages.includes(imagePath)
         )
       ),
     ];
@@ -227,7 +217,6 @@ exports.updateActivity = async (req, res) => {
 
     activity.title = title.trim();
     activity.category = category.trim();
-    activity.description = description.trim();
     activity.status = status || activity.status;
     activity.images = finalImages;
 

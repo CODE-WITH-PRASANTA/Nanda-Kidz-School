@@ -1,4 +1,3 @@
-
 import React, {
   useCallback,
   useEffect,
@@ -6,7 +5,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Editor } from "@tinymce/tinymce-react";
 import {
   Image as ImageIcon,
   CloudUpload,
@@ -33,8 +31,6 @@ const getServerOrigin = () => {
     import.meta.env.VITE_API_URL ||
     "http://localhost:5000";
 
-  // Axios base URL may end with /api. Uploaded images are served
-  // from the backend origin, not from the API route.
   return baseURL
     .replace(/\/api\/?$/i, "")
     .replace(/\/+$/, "");
@@ -91,14 +87,6 @@ const createImageItem = (path, activityId, index) => ({
   isLocal: false,
 });
 
-const getPlainText = (html = "") => {
-  const element = document.createElement("div");
-  element.innerHTML = html;
-  return (element.textContent || element.innerText || "")
-    .replace(/\u00a0/g, " ")
-    .trim();
-};
-
 const Activites = () => {
   const [activities, setActivities] = useState([]);
   const [search, setSearch] = useState("");
@@ -114,7 +102,6 @@ const Activites = () => {
   const [form, setForm] = useState({
     title: "",
     category: "",
-    description: "",
     status: "Active",
     images: [],
   });
@@ -129,7 +116,6 @@ const Activites = () => {
     try {
       const response = await API.get("/activities");
 
-      // Supports { data: [...] } and a direct array response.
       const records = Array.isArray(response.data)
         ? response.data
         : response.data?.data;
@@ -153,7 +139,7 @@ const Activites = () => {
     fetchActivities();
   }, [fetchActivities]);
 
-  // Filter table records by title, category, description, or status.
+  // Filter table records by title, category, or status
   const filteredActivities = useMemo(() => {
     const query = search.trim().toLowerCase();
 
@@ -163,7 +149,6 @@ const Activites = () => {
       [
         activity.title,
         activity.category,
-        activity.description,
         activity.status,
       ].some((value) =>
         String(value || "").toLowerCase().includes(query)
@@ -189,16 +174,6 @@ const Activites = () => {
     setForm((previous) => ({
       ...previous,
       [name]: value,
-    }));
-
-    setFormError("");
-    setNotice("");
-  };
-
-  const updateDescription = (content) => {
-    setForm((previous) => ({
-      ...previous,
-      description: content,
     }));
 
     setFormError("");
@@ -250,7 +225,6 @@ const Activites = () => {
       };
     });
 
-    // Allows selecting the same file again later.
     event.target.value = "";
   };
 
@@ -263,8 +237,6 @@ const Activites = () => {
 
     if (!droppedFiles.length) return;
 
-    // Process dropped files directly instead of assigning files
-    // to the input, which can fail in some browsers.
     handleImageFiles({
       target: {
         files: droppedFiles,
@@ -304,7 +276,6 @@ const Activites = () => {
     setForm({
       title: "",
       category: "",
-      description: "",
       status: "Active",
       images: [],
     });
@@ -323,22 +294,9 @@ const Activites = () => {
     setFormError("");
     setNotice("");
 
-    if (
-      !form.title.trim() ||
-      !form.category.trim() ||
-      !getPlainText(form.description)
-    ) {
-      setFormError(
-        "Please complete the title, category, and description."
-      );
-      return;
-    }
-
-    if (
-      form.images.length < 1 ||
-      form.images.length > MAX_IMAGES
-    ) {
-      setFormError("Please select between 1 and 10 images.");
+    // None of the fields are mandatory; only validate max image limit
+    if (form.images.length > MAX_IMAGES) {
+      setFormError(`You can upload a maximum of ${MAX_IMAGES} images.`);
       return;
     }
 
@@ -346,16 +304,12 @@ const Activites = () => {
 
     formData.append("title", form.title.trim());
     formData.append("category", form.category.trim());
-
-    // Preserve TinyMCE HTML formatting.
-    formData.append("description", form.description);
     formData.append("status", form.status);
 
     const existingImages = form.images
       .filter((image) => !image.isLocal && image.path)
       .map((image) => image.path);
 
-    // Your backend must support this field when updating images.
     formData.append(
       "existingImages",
       JSON.stringify(existingImages)
@@ -402,7 +356,6 @@ const Activites = () => {
     setForm({
       title: activity.title || "",
       category: activity.category || "",
-      description: activity.description || "",
       status: activity.status || "Active",
       images: (activity.images || []).map((path, index) =>
         createImageItem(path, activity._id, index)
@@ -419,7 +372,7 @@ const Activites = () => {
   const handleDelete = async (activity) => {
     if (
       !window.confirm(
-        `Are you sure you want to delete "${activity.title}"?`
+        `Are you sure you want to delete "${activity.title || "this activity"}"?`
       )
     ) {
       return;
@@ -461,15 +414,16 @@ const Activites = () => {
                 {editingId ? "Edit Activity" : "Add New Activity"}
               </h1>
               <p>
-                Add activity details and upload multiple images
+                Add activity details and upload images
               </p>
             </div>
           </div>
 
           <form className="activites-form" onSubmit={handleSubmit}>
+            {/* TITLE */}
             <div className="activites-field">
               <label htmlFor="activites-title">
-                Activity Title <span>*</span>
+                Activity Title
               </label>
 
               <input
@@ -480,14 +434,13 @@ const Activites = () => {
                 onChange={updateForm}
                 placeholder="Enter activity title"
                 maxLength={100}
-                required
               />
             </div>
 
-            {/* CATEGORY: its own full-width row */}
+            {/* CATEGORY */}
             <div className="activites-field activites-category-field">
               <label htmlFor="activites-category">
-                Category <span>*</span>
+                Category
               </label>
 
               <input
@@ -497,73 +450,14 @@ const Activites = () => {
                 onChange={updateForm}
                 placeholder="Enter activity category"
                 maxLength={50}
-                required
               />
-            </div>
-
-            {/* DESCRIPTION: separate full-width row */}
-            <div className="activites-field activites-description-field">
-              <label htmlFor="activites-description">
-                Description <span>*</span>
-              </label>
-
-              <div className="activites-tinymce-wrapper">
-                <Editor
-                  id="activites-description"
-                  apiKey={
-                    import.meta.env.VITE_TINYMCE_API_KEY ||
-                    "8hswbe7bfeeneui9eb9gjgsym8ku30nx5gwre9808ajdzniu"
-                  }
-                  value={form.description}
-                  onEditorChange={updateDescription}
-                  init={{
-                    height: 280,
-                    menubar: "edit view insert format tools table",
-                    plugins: [
-                      "advlist",
-                      "autolink",
-                      "lists",
-                      "link",
-                      "charmap",
-                      "preview",
-                      "anchor",
-                      "searchreplace",
-                      "visualblocks",
-                      "code",
-                      "fullscreen",
-                      "insertdatetime",
-                      "media",
-                      "table",
-                      "help",
-                      "wordcount",
-                    ],
-                    toolbar:
-                      "undo redo | blocks | bold italic underline | " +
-                      "forecolor backcolor | alignleft aligncenter " +
-                      "alignright alignjustify | bullist numlist | " +
-                      "outdent indent | link table | removeformat | code",
-                    toolbar_mode: "sliding",
-                    branding: false,
-                    promotion: false,
-                    resize: true,
-                    statusbar: true,
-                    placeholder:
-                      "Write a detailed description of this activity...",
-                    content_style:
-                      "body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.7; color: #334155; padding: 8px; }",
-                  }}
-                />
-              </div>
-              <small className="activites-field-hint">
-                Use the toolbar to format text, add lists, links, and tables.
-              </small>
             </div>
 
             {/* IMAGE UPLOAD */}
             <div className="activites-field">
               <div className="activites-upload-label">
                 <label htmlFor="activites-images">
-                  Images <span>*</span>
+                  Images
                 </label>
                 <small>
                   {form.images.length}/{MAX_IMAGES} selected
@@ -591,7 +485,7 @@ const Activites = () => {
                 <strong>Click to upload images</strong>
                 <span>or drag and drop</span>
                 <small>
-                  JPG, PNG, WebP · Maximum 10 images · 5 MB each
+                  JPG, PNG, WebP · Up to 10 images · 5 MB each
                 </small>
               </button>
 
@@ -624,9 +518,10 @@ const Activites = () => {
               )}
             </div>
 
+            {/* STATUS */}
             <div className="activites-field activites-status-field">
               <label htmlFor="activites-status">
-                Status <span>*</span>
+                Status
               </label>
 
               <select
@@ -748,7 +643,7 @@ const Activites = () => {
                             {activity.images?.[0] ? (
                               <img
                                 src={imageUrl(activity.images[0])}
-                                alt={activity.title}
+                                alt={activity.title || "Activity"}
                                 loading="lazy"
                                 onError={(event) => {
                                   event.currentTarget.style.display = "none";
@@ -761,17 +656,21 @@ const Activites = () => {
                         </td>
 
                         <td className="activites-table-title">
-                          {activity.title}
+                          {activity.title || "—"}
                         </td>
 
                         <td>
-                          <span
-                            className={`activites-category-badge ${categoryClass(
-                              activity.category
-                            )}`}
-                          >
-                            {activity.category}
-                          </span>
+                          {activity.category ? (
+                            <span
+                              className={`activites-category-badge ${categoryClass(
+                                activity.category
+                              )}`}
+                            >
+                              {activity.category}
+                            </span>
+                          ) : (
+                            <span className="activites-muted-dash">—</span>
+                          )}
                         </td>
 
                         <td>
@@ -800,7 +699,7 @@ const Activites = () => {
                               className="activites-edit-button"
                               onClick={() => handleEdit(activity)}
                               title="Edit activity"
-                              aria-label={`Edit ${activity.title}`}
+                              aria-label={`Edit ${activity.title || "activity"}`}
                             >
                               <Pencil size={16} />
                             </button>
@@ -810,7 +709,7 @@ const Activites = () => {
                               className="activites-delete-button"
                               onClick={() => handleDelete(activity)}
                               title="Delete activity"
-                              aria-label={`Delete ${activity.title}`}
+                              aria-label={`Delete ${activity.title || "activity"}`}
                               disabled={deletingId === activity._id}
                             >
                               {deletingId === activity._id ? (

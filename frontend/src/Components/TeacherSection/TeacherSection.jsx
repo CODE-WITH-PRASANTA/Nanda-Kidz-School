@@ -215,7 +215,7 @@ const TeacherSection = () => {
 
             <p>
               For families searching for a{" "}
-              <strong>play school near Khandagiri, Bhubaneswar</strong>
+              <strong>play school near Kalinga Nagar, Bhubaneswar</strong>
               or a{" "}
               <strong>best play school in Kalinganagar</strong>
               , we believe meeting the teaching team can help parents
@@ -231,7 +231,7 @@ const TeacherSection = () => {
             <h3>Easy to reach from</h3>
 
             <div className="TeacherSection-location-list">
-              <span>Khandagiri</span>
+              <span>Kalinga Nagar</span>
               <span>Patrapada</span>
               <span>Ghatikia</span>
               <span>Kalinga Vihar</span>

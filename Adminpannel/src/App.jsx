@@ -58,6 +58,7 @@ import LatestNews from "./Pages/LatestNews/LatestNews";
 import ShopImg from "./Pages/ShopImg/ShopImg";
 import MyProfile from "./Components/MyProfile/MyProfile";
 import Activites from "./Components/Activites/Activites";
+import VideoManagement from "./Pages/VideoManagement/VideoManagement";
 
 function App() {
   // =====================================================
@@ -302,6 +303,12 @@ function App() {
           <Route
             path="gallery-management"
             element={<GalleryManagement />}
+          />
+
+
+          <Route
+            path="video-management"
+            element={<VideoManagement/>}
           />
 
           <Route path="/activites" element={<Activites />} />

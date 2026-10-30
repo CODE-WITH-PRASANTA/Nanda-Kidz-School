@@ -91,7 +91,7 @@ const HomeKindergarten = () => {
 
           <p className="hk-text-description">
             Our goal is simple — to make the early learning journey enjoyable
-            and meaningful. At <strong>Nanda Kidz Best Play</strong>, children
+            and meaningful. At <strong>Nanda Kidz The Best Play school in Kalinga Bihar</strong>, children
             get opportunities to learn through stories, activities, games,
             creative work, and everyday interactions in a safe and supportive
             atmosphere.

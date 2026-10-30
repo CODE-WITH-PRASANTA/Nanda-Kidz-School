@@ -16,7 +16,7 @@ const TimeTable = () => {
     "best kids school in bhubaneswar",
     "best play school in bhubaneswar",
     "best play school for kids in bhubaneswar",
-    "play school near khandagiri bhubaneswar",
+    "play school near Kalinga Nagar bhubaneswar",
     "best play school in Kalinganagar",
     "nursery school in bhubaneswar",
     "play school timetable in bhubaneswar",
@@ -45,7 +45,7 @@ const TimeTable = () => {
       "Bhubaneswar",
       "Kalinganagar",
       "Kalinga Vihar",
-      "Khandagiri",
+      "Kalinga Nagar",
     ],
 
     knowsAbout: [

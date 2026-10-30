@@ -12,6 +12,7 @@ import {
   Wallet,
   Library,
   Image as ImageIcon,
+  Video,
   FileText,
   Bell,
   Mail,
@@ -151,21 +152,28 @@ const Sidebar = ({
           text: 'Gallery Management',
           path: '/gallery-management',
         },
-
-         {
+        // 10. Video Management
+        {
           type: 'link',
-          icon: ImageIcon,
-          text: 'Activites',
+          icon: Video,
+          text: 'Video Management',
+          path: '/video-management',
+        },
+        // 11. Activities
+        {
+          type: 'link',
+          icon: CalendarCheck,
+          text: 'Activities',
           path: '/activites',
         },
-        // 10. Testimonials
+        // 12. Testimonials
         {
           type: 'link',
           icon: FileText,
           text: 'Testimonials',
           path: '/testimonials',
         },
-        // 11. Contact Messages
+        // 13. Contact Messages
         {
           type: 'link',
           icon: Mail,

@@ -41,7 +41,7 @@ const contactCards = [
 ];
 
 const nearbyAreas = [
-  "Khandagiri",
+  "kKlinga Nagar",
   "Patrapada",
   "Ghatikia",
   "Kalinga Vihar",
@@ -79,7 +79,7 @@ const Contacts = () => {
           </span>
 
           <h1 id="contacts-main-title">
-            play school near khandagiri, bhubaneswar
+            play school near Kalinga Nagar, bhubaneswar
           </h1>
 
           <p className="contacts-intro">
@@ -158,7 +158,7 @@ const Contacts = () => {
               Nanda Kidz is located at Kalinga Vihar, Kalinganagar,
               Bhubaneswar. Families looking for a
               <strong>
-                {" "}play school near khandagiri, bhubaneswar
+                {" "}play school near Kalinga Nagar, bhubaneswar
               </strong>
               or a
               <strong>
